@@ -1,0 +1,27 @@
+* Metody numeryczne — strona tytułowa i rozdziały
+
+Rozpakuj paczkę i otwórz plik =index.html= w przeglądarce.
+Wszystkie cztery rozdziały otwierają się ze spisu treści.
+Odsyłacze „Spis treści” oraz poprzedni/następny rozdział pozwalają poruszać się po notatkach.
+
+Aby umieścić notatki na swojej stronie, prześlij wszystkie pliki HTML do tego
+samego katalogu. Nazwy plików pozostaw bez zmian.
+
+* Edycja strony tytułowej
+
+Otwórz =index.org= w Emacsie. Zmień tytuły, opisy lub odsyłacze na liście
+rozdziałów. Eksport do =index.html=: =C-c C-e h h=.
+Strona tytułowa ma style zapisane w tym samym pliku i nie wymaga dodatkowych
+arkuszy CSS ani JavaScriptu.
+
+* Zawartość paczki
+
+- =index.html= — gotowa strona tytułowa ze spisem treści.
+- =index.org= — jej źródło Org-mode.
+- Cztery pliki HTML rozdziałów — dostępne wersje notatek, z dodaną nawigacją.
+- =02-arytmetyka-komputerowa-poglebienie.html= — rozwinięcie zagadnień, do którego
+  prowadzą odsyłacze z drugiego rozdziału.
+
+Rozdziały 1 i 2 pochodzą z plików HTML. Rozdziały 3 i 4 pochodzą z najnowszych
+dostępnych samodzielnych podglądów HTML. Treści rozdziałów nie redagowano;
+dodano wyłącznie odsyłacze do spisu treści i do sąsiednich rozdziałów.

@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="pl" data-mode="reading">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Arytmetyka komputerowa: od notacji naukowej do IEEE 754, precyzji i błędu. Przykłady w Julii oraz tryby czytania i badania.">
+<title>Arytmetyka komputerowa · Pogłębienie · Metody numeryczne</title>
+<style>:root{--paper:#faf9f5;--ink:#25322e;--muted:#65716b;--line:#d8ded5;--green:#196551;--blue:#305a82;--amber:#935d21;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-padding-top:100px;scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--paper);font:17px/1.75 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--green);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}button{font:inherit;cursor:pointer}a,button{-webkit-tap-highlight-color:transparent}:focus-visible{outline:3px solid var(--amber);outline-offset:4px}button:disabled{opacity:.5}.skip{position:absolute;top:-100px;left:20px;background:white;padding:10px;z-index:10}.skip:focus{top:10px}.topbar{position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line);background:rgba(250,249,245,.98)}.bar-inner{max-width:1040px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:13px 28px}.brand{font-size:13px;color:var(--muted);text-decoration:none}.mode{display:flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:7px;flex-shrink:0}.mode button{border:0;background:none;border-radius:4px;padding:5px 13px;font-size:13px;color:var(--ink)}.mode button[aria-pressed=true]{background:var(--ink);color:white}main{max-width:820px;margin:auto;padding:58px 28px 64px}header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:30px}.eyebrow{font:11px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin:0 0 18px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;line-height:1.22;letter-spacing:-.015em}h1{font-size:clamp(36px,5.5vw,52px);margin:0 0 18px}h2{font-size:30px;margin:0 0 23px}h3{font-size:23px;margin:30px 0 18px}.lead{font-size:20px;line-height:1.6;margin-bottom:18px}.back-link{font-size:14px;margin:18px 0 0}.toc{display:flex;flex-wrap:wrap;gap:7px 20px;margin-top:25px;font-size:13px}.toc a{text-decoration:none;color:var(--muted)}.toc a:hover{text-decoration:underline}.level2{margin-top:52px;padding-top:30px;border-top:1px solid var(--line)}.level2:first-of-type{margin-top:38px}.section-number{font:11px/1.5 var(--mono);color:var(--green);letter-spacing:.08em;margin:0 0 10px}p{margin:0 0 18px}strong{font-weight:650}code{font:.86em/1.5 var(--mono);padding:.12em .24em;background:#efefe8;border-radius:3px}pre{padding:18px 20px;margin:20px 0;background:#efefe8;border:1px solid var(--line);border-radius:5px;overflow-x:auto;font:13px/1.8 var(--mono);tab-size:4}pre code{font:inherit;background:none;padding:0}.table-wrap{overflow:auto;margin:24px 0}table{width:100%;border-collapse:collapse;text-align:left;font-size:14px;line-height:1.65}th,td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12px;color:var(--muted);font-weight:600}th:first-child,td:first-child{padding-left:0}th:last-child,td:last-child{padding-right:0}math{font-size:1.08em}math[display=block]{display:block;overflow-x:auto;padding:16px 10px;margin:20px 0;background:#fffdfa;border:1px solid var(--line);border-radius:5px}ol,ul{padding-left:24px}li{padding-left:4px;margin:9px 0}.study-label,.uwaga_badawcza,.study-intro{display:none}.thought{margin:22px 0}.thought>:last-child{margin-bottom:0}.thought{--tone:#5b6760;--tint:#f0f2ed}.thought.rozroznienie{--tone:#196551;--tint:#eef4ed}.thought.sprawdzenie{--tone:#305a82;--tint:#edf2f9}.thought.uogolnienie{--tone:#935d21;--tint:#faf2e5}[data-mode=research] .thought{border:1px solid color-mix(in srgb,var(--tone) 35%,white);border-left:3px solid var(--tone);padding:19px 21px;background:var(--tint);border-radius:5px}[data-mode=research] .study-label{display:block;margin:0 0 14px;font:600 12px/1.5 system-ui,sans-serif;color:var(--tone);letter-spacing:.04em;text-transform:uppercase}[data-mode=research] .uwaga_badawcza{display:block;font-size:13px;line-height:1.65;border-top:1px solid color-mix(in srgb,var(--tone) 30%,white);padding-top:12px;margin-top:16px;color:var(--tone)}[data-mode=research] .uwaga_badawcza p{margin-bottom:0}[data-mode=research] .study-intro{display:block;margin:26px 0;padding:18px 21px;border:1px solid var(--line);border-radius:5px;background:#f0f3ec;font-size:14px}.study-intro p:last-child{margin:0}.study-intro ul{margin-bottom:0}.study-intro li{margin:5px 0}.notation-figure{margin:28px 0;padding:24px;border:1px solid var(--line);border-radius:6px;background:#fffdfa}.notation-value{font:25px/1.5 Georgia,serif;text-align:center;margin-bottom:24px}.bit-fields{display:grid;grid-template-columns:.55fr 1.35fr 1.7fr;gap:8px}.bit-fields>div{border-top:3px solid var(--green);background:#f0f4ed;text-align:center;padding:12px 7px}.bit-fields>div:nth-child(2){border-color:var(--amber);background:#faf1e3}.bit-fields>div:nth-child(3){border-color:var(--blue);background:#edf2f9}.bit-fields strong{display:block;font:15px/1.8 var(--mono);white-space:nowrap}.bit-fields span{display:block;font-size:11px;color:var(--muted)}figcaption{font-size:13px;line-height:1.65;color:var(--muted);margin-top:18px}.footer{max-width:820px;margin:auto;padding:0 28px 40px;font-size:12px;color:var(--muted)}.footer p{margin:0}.goal{border-left:3px solid var(--green);padding-left:18px;margin:25px 0;font-size:15px}.goal small{display:block;font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}.goal p{margin:0}noscript p{font-size:14px;border-left:2px solid var(--amber);padding-left:16px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@media(max-width:620px){body{font-size:16px}main{padding:35px 19px 48px}.bar-inner{padding:10px 15px;gap:10px}.brand{font-size:11px;max-width:125px}.mode button{padding:6px 10px;font-size:12px}.lead{font-size:18px}h2{font-size:27px}h3{font-size:22px}.level2{margin-top:38px;padding-top:26px}.thought{margin:20px 0}[data-mode=research] .thought{padding:15px 13px}pre{font-size:12px;padding:14px}table{font-size:13px;min-width:560px}math[display=block]{font-size:1em;padding:15px 8px}.notation-figure{padding:18px 12px}.bit-fields{grid-template-columns:1fr}.bit-fields>div{display:flex;justify-content:space-between;gap:8px;align-items:center;text-align:left;padding:8px 12px}.notation-value{font-size:23px}.footer{padding:0 19px 30px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:white;color:black;font-size:11pt;line-height:1.5}.topbar,.toc,.skip,.back-link{display:none}main{max-width:none;padding:0}header{padding-bottom:15px}h1{font-size:30pt}h2{font-size:22pt}h3{font-size:16pt}.level2{margin-top:25px;padding-top:20px}pre{white-space:pre-wrap;overflow:visible;font-size:8.5pt}table{min-width:0;font-size:9pt}.thought{break-inside:auto}.study-label{break-after:avoid}math[display=block]{overflow:visible}.notation-figure{break-inside:avoid}.table-wrap{overflow:visible}a{color:inherit}p,li{orphans:3;widows:3}.footer{padding:25px 0 0;max-width:none}}
+</style><style>
+.course-navigation { max-width: 820px; margin: 0 auto; padding: 20px 28px 32px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 24px; font: 13px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.course-navigation a { color: #196551; text-underline-offset: 4px; }
+.course-navigation a:focus-visible { outline: 3px solid #935d21; outline-offset: 4px; }
+.course-navigation--top { border-bottom: 1px solid #d8ded5; margin-bottom: 20px; padding-top: 15px; padding-bottom: 15px; }
+@media(max-width:600px) { .course-navigation { padding-right: 19px; padding-left: 19px; font-size: 12px; } }
+</style>
+</head>
+<body>
+<nav class="course-navigation course-navigation--top" aria-label="Nawigacja notatek"><a href="index.html">← Spis treści</a><a href="02-arytmetyka-komputerowa.html">← Arytmetyka komputerowa</a></nav><a class="skip" href="#tresc">Przejdź do treści</a>
+<div class="topbar"><div class="bar-inner">
+<a class="brand" href="02-arytmetyka-komputerowa.html">Metody numeryczne / 02</a>
+<div class="mode" role="group" aria-label="Tryb pracy z tekstem">
+<button type="button" data-set-mode="reading" aria-pressed="true">Czytanie</button>
+<button type="button" data-set-mode="research" aria-pressed="false">Badanie</button>
+</div></div></div>
+<main id="tresc"><header>
+<p class="eyebrow">Rozdział 02 · Pogłębienie</p>
+<h1>Arytmetyka komputerowa</h1>
+<p class="lead">Od notacji naukowej do reprezentacji liczb i błędu programu.</p>
+<p class="back-link"><a href="02-arytmetyka-komputerowa.html">Wróć do wprowadzenia i ilustracji interaktywnych</a></p>
+<nav class="toc" aria-label="Treść rozdziału"><a href="#notacja">Notacja</a><a href="#typ-format">Typ i format</a><a href="#dokladny-zapis">Dokładny zapis</a><a href="#normalne-subnormalne">Zakres</a><a href="#epsilon">Epsilon</a><a href="#precyzja-dokladnosc">Dokładność</a><a href="#dzialania-subnormalne">Subnormalne</a><a href="#czas-obliczen">Czas</a><a href="#model-zaokraglania">Model</a></nav>
+</header>
+<aside class="study-intro" aria-label="Jak korzystać z trybu badania">
+<p><strong>Badamy sposób dochodzenia do twierdzeń.</strong> Obramowania obejmują całe fragmenty o określonej funkcji:</p>
+<ul><li><strong>Rozróżnienie pojęć</strong> — ustalamy znaczenia i granice stosowania nazw.</li>
+<li><strong>Teza</strong> — formułujemy zdanie, którego zasadność rozpatrzymy.</li>
+<li><strong>Sprawdzenie</strong> — wykonujemy obliczenie i zestawiamy wynik z przewidywaniem.</li>
+<li><strong>Uogólnienie</strong> — podajemy wspólną regułę, jej założenia i podstawę.</li></ul>
+<p>Zgodny wynik wspiera tezę w badanym przypadku. Nie dowodzi sam przez się twierdzenia ogólnego. Kontrprzykład wystarcza do obalenia tezy o wszystkich przypadkach.</p>
+</aside>
+<noscript><p>Tekst i wzory są dostępne bez JavaScriptu. Przełączenie na tryb badania wymaga jego włączenia.</p></noscript>
+<section id="arytmetyka" class="level1">
+<p>Przekładając model matematyczny na program, wybieramy sposób zapisu
+liczb i wykonywania działań. Ustalamy osobno <strong>zakres
+wartości</strong>, <strong>precyzję typu</strong>, <strong>dokładność
+wyniku</strong> i <strong>czas obliczeń</strong>.</p>
+<p>Punktem wyjścia jest znana notacja naukowa: część znacząca razy
+potęga podstawy. Binarne formaty IEEE 754 zachowują tę strukturę dla
+liczb normalnych, lecz ograniczają liczbę bitów znaczących i zakres
+wykładnika. Stąd skończony zbiór dostępnych wartości i konieczność
+zaokrąglania.</p>
+<p>Przykłady wykonujemy głównie w <code class="verbatim">Float64</code>,
+domyślnym typie zwykłych literałów zmiennoprzecinkowych w Julii. <code class="verbatim">Float16</code> służy także do oglądania krótkich
+zapisów bitowych. Najpierw przewidujemy wynik, potem wykonujemy kod i
+określamy zakres wniosku.</p>
+<section id="notacja" class="level2">
+<p class="section-number">01</p><h2>Od notacji naukowej do zapisu binarnego</h2>
+<div class="teza thought" id="teza-1">
+<p class="study-label">Teza</p><p>Tę samą niezerową liczbę można zapisać z różnymi częściami znaczącymi
+i wykładnikami. Normalizacja wybiera jedną postać dla danej
+podstawy.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-1">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>100.0 == 10e1 == 1e2 # --&gt; true
+0.5 == 5e-1         # --&gt; true
+12.5 == 1.25e1      # --&gt; true
+12.5 == (1 + 1/2 + 1/16) * 2.0^3 # --&gt; true
+</code></pre>
+<p>W ostatnim przykładzie ta sama liczba ma zapisy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>,</mo><mn>5</mn><mo>=</mo><mn>1</mn><mo>,</mo><mn>25</mn><mo>⋅</mo><msup><mn>10</mn><mn>1</mn></msup><mo>=</mo><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>1001</mn><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msub><mo>⋅</mo><msup><mn>2</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">12{,}5=1{,}25\cdot10^1=(1{,}1001)_2\cdot2^3</annotation></semantics></math>.
+Indeks 2 wskazuje zapis binarny; jego cyfry po przecinku mają wagi
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>,</mo><msup><mn>2</mn><mrow><mo>−</mo><mn>2</mn></mrow></msup><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">2^{-1},2^{-2},\ldots</annotation></semantics></math>.</p>
+</div>
+<div class="rozroznienie thought" id="rozroznienie-1">
+<p class="study-label">Rozróżnienie pojęć</p><p>W zapisie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mi>m</mi><msup><mi>β</mi><mi>e</mi></msup></mrow><annotation encoding="application/x-tex">\pm m\beta^e</annotation></semantics></math>
+<strong>część znacząca</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>
+określa cyfry liczby, a <strong>wykładnik</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+— ich skalę. Zapis niezerowej liczby jest znormalizowany, gdy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>m</mi><mo>&lt;</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">1\leq m&lt;\beta</annotation></semantics></math>.
+Dla podstawy 10 pierwsza cyfra jest niezerowa; dla podstawy 2 musi być
+jedynką.</p>
+<p>W kodzie <code class="verbatim">1.25e1</code> litera <code class="verbatim">e</code> oznacza potęgę 10. Komputer zapisuje wartość
+tego literału binarnie; zapis dziesiętny w kodzie nie określa podstawy
+wewnętrznej reprezentacji.</p>
+</div>
+<div class="uogolnienie thought" id="uogolnienie-1">
+<p class="study-label">Uogólnienie</p><p>Normalna liczba w rozpatrywanym formacie binarnym ma postać
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>s</mi></msup><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><msub><mi>b</mi><mn>1</mn></msub><mi>…</mi><msub><mi>b</mi><mrow><mi>p</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msub><mspace width="0.167em"></mspace><msup><mn>2</mn><mi>e</mi></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">x=(-1)^s(1{,}b_1\ldots b_{p-1})_2\,2^e.</annotation></semantics></math>
+Bit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+określa znak,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+— liczbę bitów znaczących, a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+— wykładnik. Ograniczenie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+określa odstępy między wartościami; ograniczenie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+— ich zakres. Dla bardzo małych wartości stosujemy zapis subnormalny,
+omówiony dalej. Wartości specjalne również wymagają osobnych reguł.</p>
+<div class="uwaga_badawcza">
+<p>Podstawą uogólnienia jest reguła zapisu pozycyjnego. Równości z
+przykładu ją ilustrują; same nie dowodzą jej dla wszystkich liczb.</p>
+</div>
+</div>
+</section>
+<section id="typ-format" class="level2">
+<p class="section-number">02</p><h2>Typ, format i pola bitowe</h2>
+<div class="sprawdzenie thought" id="sprawdzenie-2">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>typeof(1.0)            # --&gt; Float64
+typeof(1.0f0)          # --&gt; Float32
+typeof(Float16(1.0))   # --&gt; Float16
+sizeof(1.0)            # --&gt; 8: bajty
+length(bitstring(1.0)) # --&gt; 64: bity
+</code></pre>
+</div>
+<div class="rozroznienie thought" id="rozroznienie-2">
+<p class="study-label">Rozróżnienie pojęć</p><p><strong>Typ</strong> określa rodzaj wartości w języku programowania i
+uczestniczy w wyborze metod wykonujących działania. <strong>Format
+reprezentacji</strong> określa układ bitów i sposób odczytania z nich
+wartości. <code class="verbatim">Float64</code> jest typem Julii; <code class="verbatim">binary64</code> — formatem IEEE 754 używanym do zapisu
+jego wartości.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tabela; w razie potrzeby przewiń w poziomie"><table>
+<thead>
+<tr class="header">
+<th>Typ Julii</th>
+<th>Format IEEE 754</th>
+<th>Znak</th>
+<th>Pole wykładnika</th>
+<th>Pole ułamkowe</th>
+<th>Precyzja
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code class="verbatim">Float64</code></td>
+<td>binary64</td>
+<td>1</td>
+<td>11</td>
+<td>52</td>
+<td>53</td>
+</tr>
+<tr class="even">
+<td><code class="verbatim">Float32</code></td>
+<td>binary32</td>
+<td>1</td>
+<td>8</td>
+<td>23</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td><code class="verbatim">Float16</code></td>
+<td>binary16</td>
+<td>1</td>
+<td>5</td>
+<td>10</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+</div><p>Liczby w czterech ostatnich kolumnach oznaczają liczbę bitów. Dla
+liczby normalnej początkowa jedynka części znaczącej jest domyślna. Pole
+ułamkowe przechowuje więc o jeden bit mniej, niż wynosi precyzja.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-3">
+<p class="study-label">Sprawdzenie</p><p>Odczytajmy zapis
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>=</mo><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>01</mn><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msub><mo>⋅</mo><msup><mn>2</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">5=(1{,}01)_2\cdot2^2</annotation></semantics></math>
+w <code class="verbatim">Float64</code>:</p>
+<pre class="julia" data-eval="no"><code>b = bitstring(5.0)
+b[1]          # --&gt; '0': znak
+b[2:12]       # --&gt; "10000000001": zakodowany wykładnik
+b[13:16]      # --&gt; "0100": początek pola ułamkowego
+E = parse(Int, b[2:12]; base=2) # --&gt; 1025
+e = E - 1023                    # --&gt; 2
+(-1)^0 * (1 + 2.0^(-2)) * 2.0^e == 5.0 # --&gt; true
+</code></pre>
+<p>W <code class="verbatim">binary64</code> dla liczb normalnych pole
+wykładnika zapisuje
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mi>e</mi><mo>+</mo><mn>1023</mn></mrow><annotation encoding="application/x-tex">E=e+1023</annotation></semantics></math>.
+Odróżniamy zakodowane
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+od wykładnika
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+w notacji naukowej.</p>
+</div>
+<figure class="notation-figure" aria-label="Związek notacji naukowej z polami formatu binary64">
+<div class="notation-value">5 = (1,01)<sub>2</sub> · 2<sup>2</sup></div>
+<div class="bit-fields"><div><strong>0</strong><span>znak · 1 bit</span></div><div><strong>10000000001</strong><span>E = 1025 · 11 bitów</span></div><div><strong>0100…0000</strong><span>część ułamkowa · 52 bity</span></div></div>
+<figcaption>Początkowej jedynki z zapisu 1,01 nie przechowujemy. Wykładnik odczytujemy jako e = E − 1023 = 2.</figcaption>
+</figure>
+
+</section>
+<section id="dokladny-zapis" class="level2">
+<p class="section-number">03</p><h2>Które liczby zapisujemy dokładnie?</h2>
+<div class="teza thought" id="teza-2">
+<p class="study-label">Teza</p><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">1/2</annotation></semantics></math>
+i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">3/8</annotation></semantics></math>
+można zapisać w <code class="verbatim">Float64</code> dokładnie, a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">1/10</annotation></semantics></math>
+wymaga zaokrąglenia. Sprawdzimy wartości zapisane w pamięci, nie tylko
+ich wygląd na ekranie.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-4">
+<p class="study-label">Sprawdzenie</p><p>Operator <code class="verbatim">//</code> tworzy dokładny ułamek.
+<code class="verbatim">rationalize(BigInt, x; tol=0)</code> odczytuje
+dokładny ułamek równy skończonej wartości zmiennoprzecinkowej <code class="verbatim">x</code>.</p>
+<pre class="julia" data-eval="no"><code>rationalize(BigInt, 0.5; tol=0) == 1//2     # --&gt; true
+rationalize(BigInt, 0.375; tol=0) == 3//8   # --&gt; true
+rationalize(BigInt, 0.1; tol=0) == 1//10    # --&gt; false
+rationalize(BigInt, 0.1; tol=0)
+# --&gt; 3602879701896397//36028797018963968
+</code></pre>
+<p>Mamy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>5</mn><mo>=</mo><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">0{,}5=(0{,}1)_2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>375</mn><mo>=</mo><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>011</mn><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">0{,}375=(0{,}011)_2</annotation></semantics></math>,
+lecz
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>1</mn><mo>=</mo><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>000110011</mn><mi>…</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">0{,}1=(0{,}000110011\ldots)_2</annotation></semantics></math>.
+Krótki wydruk <code class="verbatim">0.1</code> nie oznacza, że zapisana
+wartość jest dokładnie równa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">1/10</annotation></semantics></math>.</p>
+</div>
+<div class="uogolnienie thought" id="uogolnienie-2">
+<p class="study-label">Uogólnienie</p><p>Ułamek wymierny w postaci nieskracalnej ma skończony zapis binarny
+wtedy i tylko wtedy, gdy jego dodatni mianownik jest potęgą 2, włącznie
+z
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>0</mn></msup><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^0=1</annotation></semantics></math>.
+Skończony zapis jest bowiem sumą skończenie wielu potęg dwójki;
+odwrotnie, iloraz liczby całkowitej i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>k</mi></msup><annotation encoding="application/x-tex">2^k</annotation></semantics></math>
+otrzymujemy przez przesunięcie przecinka w zapisie binarnym tej
+liczby.</p>
+<p>W konkretnym typie potrzebne są jeszcze wystarczająca precyzja i
+zakres. Są to liczby postaci
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>/</mi><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">m/2^k</annotation></semantics></math>,
+gdzie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>
+jest całkowite, a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+całkowite i nieujemne.</p>
+<div class="uwaga_badawcza">
+<p>To twierdzenie o całej klasie ułamków. Podano uzasadnienie obu
+kierunków; trzy wcześniejsze testy nie zastępują tego uzasadnienia.</p>
+</div>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-5">
+<p class="study-label">Sprawdzenie</p><p>Nawet całkowita liczba
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>53</mn></msup><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{53}+1</annotation></semantics></math>
+wymaga w <code class="verbatim">Float64</code> zaokrąglenia:</p>
+<pre class="julia" data-eval="no"><code>n = big(2)^53 + 1
+x = Float64(n)
+rationalize(BigInt, x; tol=0) == n # --&gt; false
+x == 2.0^53                      # --&gt; true
+</code></pre>
+<p>Liczba leży w zakresie typu, lecz jej dokładny zapis wymaga 54 bitów
+znaczących. Skończony zapis binarny nie wystarcza do reprezentowalności
+w każdym typie.</p>
+</div>
+</section>
+<section id="normalne-subnormalne" class="level2">
+<p class="section-number">04</p><h2>Liczby normalne, subnormalne i wartości specjalne</h2>
+<p>Przyjmujemy zaokrąglanie do najbliższej wartości z rozstrzyganiem
+remisów do parzystej. Zachowujemy liczby subnormalne i nie używamy <code class="verbatim">@fastmath</code>. Poniższe ustawienie dotyczy bieżącego
+wątku:</p>
+<pre class="julia" data-eval="no"><code>set_zero_subnormals(false)
+get_zero_subnormals() # --&gt; false
+</code></pre>
+<div class="teza thought" id="teza-3">
+<p class="study-label">Teza</p><p>Najmniejsza dodatnia liczba normalna nie jest najmniejszą dodatnią
+liczbą reprezentowalną.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-6">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>a = floatmin(Float64) # --&gt; 2.2250738585072014e-308
+b = prevfloat(a)      # --&gt; 2.225073858507201e-308
+d = nextfloat(0.0)    # --&gt; 5.0e-324
+0 &lt; d &lt; b &lt; a        # --&gt; true
+issubnormal(a)        # --&gt; false
+issubnormal(b)        # --&gt; true
+issubnormal(d)        # --&gt; true
+issubnormal(0.0)      # --&gt; false
+bitstring(a)[2:12]    # --&gt; "00000000001"
+bitstring(b)[2:12]    # --&gt; "00000000000"
+bitstring(d)[2:12]    # --&gt; "00000000000"
+b - prevfloat(b) == d # --&gt; true
+a - b == d           # --&gt; true
+</code></pre>
+<p><code class="verbatim">a</code> jest dokładnie równe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mo>−</mo><mn>1022</mn></mrow></msup><annotation encoding="application/x-tex">2^{-1022}</annotation></semantics></math>,
+a <code class="verbatim">d</code> —
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mo>−</mo><mn>1074</mn></mrow></msup><annotation encoding="application/x-tex">2^{-1074}</annotation></semantics></math>.
+Wydruk <code class="verbatim">5.0e-324</code> jest skróconym zapisem
+dziesiętnym tej drugiej wartości.</p>
+</div>
+<div class="rozroznienie thought" id="rozroznienie-3">
+<p class="study-label">Rozróżnienie pojęć</p><p><strong>Liczby subnormalne</strong> to niezerowe wartości typu <code class="verbatim">T</code> o module mniejszym niż <code class="verbatim">floatmin(T)</code>. Wypełniają część odstępu między
+zerem a najmniejszą dodatnią liczbą normalną. Mają stały odstęp
+bezwzględny; przy zbliżaniu do zera maleje liczba efektywnych bitów
+znaczących.</p>
+<p>W <code class="verbatim">binary64</code> dla pola ułamkowego
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msub><mi>b</mi><mn>1</mn></msub><mi>…</mi><msub><mi>b</mi><mn>52</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">f=(0{,}b_1\ldots b_{52})_2</annotation></semantics></math>:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tabela; w razie potrzeby przewiń w poziomie"><table>
+<thead>
+<tr class="header">
+<th>Pole wykładnika
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math></th>
+<th>Pole ułamkowe</th>
+<th>Znaczenie zapisu</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>E</mi><mo>≤</mo><mn>2046</mn></mrow><annotation encoding="application/x-tex">1\leq E\leq2046</annotation></semantics></math></td>
+<td>dowolne</td>
+<td>normalna:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>s</mi></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>f</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mn>2</mn><mrow><mi>E</mi><mo>−</mo><mn>1023</mn></mrow></msup></mrow><annotation encoding="application/x-tex">(-1)^s(1+f)2^{E-1023}</annotation></semantics></math></td>
+</tr>
+<tr class="even">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">E=0</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">f&gt;0</annotation></semantics></math></td>
+<td>subnormalna:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>s</mi></msup><mi>f</mi><msup><mn>2</mn><mrow><mo>−</mo><mn>1022</mn></mrow></msup></mrow><annotation encoding="application/x-tex">(-1)^s f2^{-1022}</annotation></semantics></math></td>
+</tr>
+<tr class="odd">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">E=0</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">f=0</annotation></semantics></math></td>
+<td>zero ze znakiem</td>
+</tr>
+<tr class="even">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mn>2047</mn></mrow><annotation encoding="application/x-tex">E=2047</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">f=0</annotation></semantics></math></td>
+<td>nieskończoność ze znakiem</td>
+</tr>
+<tr class="odd">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mn>2047</mn></mrow><annotation encoding="application/x-tex">E=2047</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">f&gt;0</annotation></semantics></math></td>
+<td><code class="verbatim">NaN</code>, wartość „nie jest liczbą”</td>
+</tr>
+</tbody>
+</table>
+</div><p>W liczbie subnormalnej początkowy bit części znaczącej jest zerem, a
+wykładnik pozostaje równy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1022</mn></mrow><annotation encoding="application/x-tex">-1022</annotation></semantics></math>.
+To odstępstwo od normalizacji umożliwia stopniowe zejście do zera.</p>
+</div>
+<section id="bity-float16" class="level3">
+<h3>Krótszy zapis: porównanie z Float16</h3>
+<p>Spacje wstawiamy funkcją pomocniczą; samo <code class="verbatim">bitstring</code> ich nie dodaje.</p>
+<pre class="julia" data-eval="no"><code>function pola16(x::Float16)
+    b = bitstring(x)
+    return b[1:1] * " " * b[2:6] * " " * b[7:16]
+end
+a16 = floatmin(Float16)
+b16 = prevfloat(a16)
+d16 = nextfloat(Float16(0))
+pola16(floatmax(Float16)) # --&gt; "0 11110 1111111111"
+pola16(a16)               # --&gt; "0 00001 0000000000"
+pola16(b16)               # --&gt; "0 00000 1111111111"
+pola16(d16)               # --&gt; "0 00000 0000000001"
+pola16(Float16(Inf))      # --&gt; "0 11111 0000000000"
+Float64(a16)              # --&gt; 6.103515625e-5
+Float64(d16)              # --&gt; 5.960464477539063e-8
+
+x1 = reinterpret(Float16, 0x7fff)
+x2 = reinterpret(Float16, 0x7ffe)
+x3 = reinterpret(Float16, 0x7fdf)
+(isnan(x1), isnan(x2), isnan(x3)) # --&gt; (true, true, true)
+</code></pre>
+<p><code class="verbatim">reinterpret</code> odczytuje te same 16 bitów
+jako wartość typu <code class="verbatim">Float16</code>; nie jest
+konwersją wartości całkowitej do liczby zmiennoprzecinkowej. W każdym z
+trzech zapisów pole wykładnika ma same jedynki, a pole ułamkowe jest
+niezerowe. Dlatego wszystkie oznaczają <code class="verbatim">NaN</code>.</p>
+<p>W <code class="verbatim">binary16</code> liczba normalna ma wykładnik
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mi>E</mi><mo>−</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">e=E-15</annotation></semantics></math>.
+Dla subnormalnych
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mo>−</mo><mn>14</mn></mrow><annotation encoding="application/x-tex">e=-14</annotation></semantics></math>
+i niejawny bit jest zerem. Zatem ostatni bit <code class="verbatim">d16</code> daje
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mo>−</mo><mn>10</mn></mrow></msup><mo>⋅</mo><msup><mn>2</mn><mrow><mo>−</mo><mn>14</mn></mrow></msup><mo>=</mo><msup><mn>2</mn><mrow><mo>−</mo><mn>24</mn></mrow></msup></mrow><annotation encoding="application/x-tex">2^{-10}\cdot2^{-14}=2^{-24}</annotation></semantics></math>.</p>
+<pre class="julia" data-eval="no"><code>for T in (Float64, Float32, Float16)
+    println((typ=T, normalna_min=floatmin(T),
+             dodatnia_min=nextfloat(zero(T)), skonczona_max=floatmax(T)))
+end
+typemin(Float64)       # --&gt; -Inf
+typemax(Float64)       # --&gt; Inf
+floatmax(Float64)*2.0  # --&gt; Inf
+0.0/0.0               # --&gt; NaN
+NaN == NaN            # --&gt; false
+isnan(NaN)            # --&gt; true
+</code></pre>
+<p><code class="verbatim">typemin</code> i <code class="verbatim">typemax</code> nie wyznaczają granic skończonych
+wartości zmiennoprzecinkowych. Wartość <code class="verbatim">NaN</code>
+rozpoznajemy przez <code class="verbatim">isnan</code>.</p>
+</section>
+</section>
+<section id="epsilon" class="level2">
+<p class="section-number">05</p><h2>Epsilon maszynowy i odstęp lokalny</h2>
+<div class="teza thought" id="teza-4">
+<p class="study-label">Teza</p><p>Odstęp między sąsiednimi wartościami <code class="verbatim">Float64</code> nie jest stały na całej osi.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-7">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>nextfloat(1.0)                   # --&gt; 1.0000000000000002
+nextfloat(1.0) - 1.0             # --&gt; 2.220446049250313e-16
+nextfloat(1.0) - 1.0 == eps(Float64) # --&gt; true
+eps(2.0) == 2*eps(Float64)        # --&gt; true
+eps(3.0) == eps(2.0)              # --&gt; true
+eps(4.0) == 4*eps(Float64)        # --&gt; true
+nextfloat(0.0) &lt; eps(Float64)     # --&gt; true
+</code></pre>
+</div>
+<div class="rozroznienie thought" id="rozroznienie-4">
+<p class="study-label">Rozróżnienie pojęć</p><p><code class="verbatim">eps(T)</code>, <strong>epsilon
+maszynowy</strong>, jest odstępem od 1 do następnej większej liczby typu
+<code class="verbatim">T</code>. <code class="verbatim">eps(x)</code>
+opisuje lokalną jednostkę ostatniego miejsca (ang. <em>unit in the last
+place</em>, ulp). Dla pokazanych dodatnich wartości jest odstępem do
+następnego większego sąsiada.</p>
+<p>Precyzja typu pozostaje stała, choć zmienia się <strong>rozdzielczość
+bezwzględna</strong>, czyli odstęp między sąsiednimi wartościami.</p>
+</div>
+<div class="uogolnienie thought" id="uogolnienie-3">
+<p class="study-label">Uogólnienie</p><p>W przedziale liczb normalnych
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><msup><mn>2</mn><mi>e</mi></msup><mo>,</mo><msup><mn>2</mn><mrow><mi>e</mi><mo>+</mo><mn>1</mn></mrow></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[2^e,2^{e+1})</annotation></semantics></math>
+wartości mają postać
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>j</mi><msup><mn>2</mn><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><msup><mn>2</mn><mi>e</mi></msup></mrow><annotation encoding="application/x-tex">(1+j2^{1-p})2^e</annotation></semantics></math>.
+Zwiększenie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
+o 1 zwiększa wartość o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>e</mi><mo>−</mo><mi>p</mi><mo>+</mo><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">2^{e-p+1}</annotation></semantics></math>.
+Dlatego w następnym takim przedziale odstęp jest dwukrotnie większy.
+Przy 1 otrzymujemy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>eps</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>T</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\operatorname{eps}(T)=2^{1-p}</annotation></semantics></math>.</p>
+<div class="uwaga_badawcza">
+<p>Wspólna reguła wynika z budowy części znaczącej. Obserwacja odstępów
+przy 1, 2 i 4 wskazuje tę zależność; wzór uzasadnia ją dla całych
+przedziałów.</p>
+</div>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-8">
+<p class="study-label">Sprawdzenie</p><p>Przy zerze odstęp przestaje maleć:</p>
+<pre class="julia" data-eval="no"><code>n = floatmin(Float64)
+d = nextfloat(0.0)
+eps(d) == d            # --&gt; true
+eps(prevfloat(n)) == d # --&gt; true
+eps(n) == d            # --&gt; true
+eps(0.0) == d          # --&gt; true
+eps(2.0*n) == 2.0*d    # --&gt; true
+</code></pre>
+<p><code class="verbatim">eps(x)</code> działa także dla subnormalnych i
+zera. Sama stała <code class="verbatim">eps(T)</code> nie opisuje jednak
+błędów zaokrąglania w całym zakresie typu.</p>
+</div>
+</section>
+<section id="precyzja-dokladnosc" class="level2">
+<p class="section-number">06</p><h2>Precyzja typu a dokładność wyniku</h2>
+<div class="teza thought" id="teza-5">
+<p class="study-label">Teza</p><p>Dwa wyniki tego samego typu mogą mieć różne błędy względem tej samej
+wartości dokładnej.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-9">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>q = 3//10
+x = 0.1 + 0.2 # --&gt; 0.30000000000000004
+y = 0.3
+typeof(x) == typeof(y)                  # --&gt; true
+precision(x) == precision(y) == 53      # --&gt; true
+ex = abs(rationalize(BigInt, x; tol=0) - q)
+ey = abs(rationalize(BigInt, y; tol=0) - q)
+0 &lt; ey &lt; ex                            # --&gt; true
+</code></pre>
+</div>
+<div class="rozroznienie thought" id="rozroznienie-5">
+<p class="study-label">Rozróżnienie pojęć</p><p><strong>Precyzja typu</strong> oznacza tu liczbę bitów znaczących
+przewidzianą przez jego format dla liczb normalnych. <strong>Dokładność
+wyniku</strong> oceniamy przez błąd względem wartości dokładnej
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">b</mi><mi mathvariant="normal">s</mi></mrow></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">|</mo><mover><mi>w</mi><mo accent="true">̂</mo></mover><mo>−</mo><mi>w</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>E</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">l</mi></mrow></msub><mo>=</mo><mfrac><mrow><mo stretchy="true" form="prefix">|</mo><mover><mi>w</mi><mo accent="true">̂</mo></mover><mo>−</mo><mi>w</mi><mo stretchy="true" form="postfix">|</mo></mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>w</mi><mo stretchy="true" form="postfix">|</mo></mrow></mfrac><mspace width="1.0em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mi>w</mi><mo>≠</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">E_{\mathrm{abs}}=|\widehat w-w|,\qquad
+E_{\mathrm{rel}}=\frac{|\widehat w-w|}{|w|}\quad(w\ne0).</annotation></semantics></math>
+Błąd bezwzględny jest odległością na osi; względny odnosi tę odległość
+do wielkości
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">|</mo><mi>w</mi><mo stretchy="true" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">|w|</annotation></semantics></math>.
+Dla
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">w=0</annotation></semantics></math>
+błąd względny nie jest określony.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-10">
+<p class="study-label">Sprawdzenie</p><p>Zwiększenie precyzji po utracie informacji nie odzyskuje danych:</p>
+<pre class="julia" data-eval="no"><code>q = 1//10
+a = Float16(q)
+b = Float64(q)
+c = Float64(a)
+precision(a) # --&gt; 11
+precision(b) # --&gt; 53
+precision(c) # --&gt; 53
+c            # --&gt; 0.0999755859375
+ea = abs(rationalize(BigInt, a; tol=0) - q)
+eb = abs(rationalize(BigInt, b; tol=0) - q)
+ec = abs(rationalize(BigInt, c; tol=0) - q)
+eb &lt; ea  # --&gt; true
+ec == ea # --&gt; true
+</code></pre>
+<p>Konwersja z <code class="verbatim">Float16</code> do <code class="verbatim">Float64</code> zachowała dokładnie wcześniejszą wartość
+i jej błąd względem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">1/10</annotation></semantics></math>.</p>
+</div>
+<div class="rozroznienie thought" id="rozroznienie-6">
+<p class="study-label">Rozróżnienie pojęć</p><p><code class="verbatim">precision(x)</code> nie liczy poprawnych cyfr
+wyniku ani efektywnych bitów liczby subnormalnej:</p>
+<pre class="julia" data-eval="no"><code>precision(nextfloat(0.0)) # --&gt; 53
+precision(Float64)       # --&gt; 53
+d16 = nextfloat(Float16(0))
+precision(d16)           # --&gt; 11
+bitstring(d16)           # --&gt; "0000000000000001"
+bitstring(floatmin(Float16)/Float16(2)) # --&gt; "0000001000000000"
+</code></pre>
+<p>W ostatnich dwóch zapisach efektywne pozycje znaczące liczymy od
+pierwszej jedynki do końca pola ułamkowego: jest ich odpowiednio 1 i 10.
+Nie jest to liczba jedynek ani miara błędu wyniku.</p>
+</div>
+<section id="odejmowanie" class="level3">
+<h3>Odejmowanie: gdzie utraciliśmy informację?</h3>
+<div class="sprawdzenie thought" id="sprawdzenie-11">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>a = 1.0
+b = 1.0000000000000001
+a == b # --&gt; true
+a - b  # --&gt; 0.0
+</code></pre>
+<p>Dokładne liczby dziesiętne różnią się o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mo>−</mo><mn>16</mn></mrow></msup><annotation encoding="application/x-tex">10^{-16}</annotation></semantics></math>,
+ale oba literały zapisują się jako 1. Samo odejmowanie zapisanych
+wartości jest dokładne.</p>
+<p>To samo zjawisko łatwiej obejrzeć w <code class="verbatim">Float16</code>:</p>
+<pre class="julia" data-eval="no"><code>Float16(1.001) - Float16(1.0014) # --&gt; Float16(0.0)
+bitstring(Float16(1.001))       # --&gt; "0011110000000001"
+bitstring(Float16(1.0014))      # --&gt; "0011110000000001"
+Float16(1.001) == Float16(1.0014) # --&gt; true
+Float64(Float16(1.001))         # --&gt; 1.0009765625
+Float16(1.001 - 1.0014) == Float16(0) # --&gt; false
+
+w = 1001//1000 - 5007//5000     # --&gt; -1//2500
+wynik = Float16(1001//1000) - Float16(5007//5000)
+blad_abs = abs(rationalize(BigInt, wynik; tol=0) - w) # --&gt; 1//2500
+blad_rel = blad_abs / abs(w)    # --&gt; 1//1, czyli 100%
+</code></pre>
+</div>
+<div class="uogolnienie thought" id="uogolnienie-4">
+<p class="study-label">Uogólnienie</p><p>Odróżniamy <strong>zaokrąglenie danych</strong> od
+<strong>zaokrąglenia wyniku działania</strong>. Dla bliskich liczb małe
+błędy danych mogą stanowić dużą część ich różnicy. Jeżeli dane
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>,</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a,b</annotation></semantics></math>
+zastąpimy przez
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>+</mo><mi>α</mi><mo>,</mo><mi>b</mi><mo>+</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">a+\alpha,b+\beta</annotation></semantics></math>,
+dokładna różnica zmieni się o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>−</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">\alpha-\beta</annotation></semantics></math>.
+Jej błąd względny wynosi więc
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>α</mi><mo>−</mo><mi>β</mi><mo stretchy="true" form="postfix">|</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">|</mo><mi>a</mi><mo>−</mo><mi>b</mi><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">|\alpha-\beta|/|a-b|</annotation></semantics></math>,
+o ile
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>≠</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a\ne b</annotation></semantics></math>.</p>
+<p>Większa precyzja użyta dopiero po odejmowaniu nie usuwa
+wcześniejszego błędu. Różnica wyników <code class="verbatim">Float16</code> i <code class="verbatim">Float64</code>
+również nie jest z definicji błędem względem wartości dokładnej.</p>
+</div>
+</section>
+</section>
+<section id="dzialania-subnormalne" class="level2">
+<p class="section-number">07</p><h2>Działania na liczbach subnormalnych</h2>
+<div class="teza thought" id="teza-6">
+<p class="study-label">Teza</p><p>Argument subnormalny nie wymusza ani błędu zaokrąglenia, ani wyniku
+subnormalnego.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-12">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>n = floatmin(Float64)
+d = nextfloat(0.0)
+b = prevfloat(n)
+d + d == nextfloat(d) # --&gt; true: dokładny wynik subnormalny
+n - b == d           # --&gt; true: dokładny wynik subnormalny
+b + d == n           # --&gt; true: dokładny wynik normalny
+d * 2.0^52 == n      # --&gt; true: dokładny wynik normalny
+issubnormal(n/2.0)    # --&gt; true
+</code></pre>
+<p>Wyniki są reprezentowalne dokładnie. Zejście poniżej <code class="verbatim">floatmin</code> nie oznacza automatycznie zaokrąglenia
+do zera. Zachowanie mniejszych wartości nazywamy <strong>stopniowym
+niedomiarem</strong> (ang. <em>gradual underflow</em>).</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-13">
+<p class="study-label">Sprawdzenie</p><p>Dokładny wynik może też leżeć między sąsiadami:</p>
+<pre class="julia" data-eval="no"><code>d = nextfloat(0.0)
+d/2.0 == 0.0          # --&gt; true
+(3.0*d)/2.0 == 2.0*d  # --&gt; true
+bitstring(d)[end-3:end]     # --&gt; "0001"
+bitstring(2.0*d)[end-3:end] # --&gt; "0010"
+
+w = rationalize(BigInt, d; tol=0)/2
+w == big(1)//(big(2)^1075)  # --&gt; true
+wynik = d/2.0
+blad_abs = abs(rationalize(BigInt, wynik; tol=0) - w)
+blad_abs == w             # --&gt; true
+blad_rel = blad_abs/abs(w) # --&gt; 1//1, czyli 100%
+Float64(blad_abs) == 0.0   # --&gt; true
+</code></pre>
+<p>Dokładna połowa <code class="verbatim">d</code> leży między zerem a
+<code class="verbatim">d</code>; połowa <code class="verbatim">3*d</code> — między <code class="verbatim">d</code> a
+<code class="verbatim">2*d</code>. Przy remisie wybieramy sąsiada z
+zerowym ostatnim bitem. W pierwszym dzieleniu błąd względny wynosi 100%,
+w drugim
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">1/3</annotation></semantics></math>.
+Oba błędy bezwzględne wynoszą
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mo>−</mo><mn>1075</mn></mrow></msup><annotation encoding="application/x-tex">2^{-1075}</annotation></semantics></math>.</p>
+<p>Ta dodatnia wielkość nie jest reprezentowalna w <code class="verbatim">Float64</code>. Konwersja błędu do tego typu daje zero,
+dlatego do jego obliczenia użyliśmy dokładnego ułamka.</p>
+</div>
+</section>
+<section id="inne-typy" class="level2">
+<p class="section-number">08</p><h2>Liczby całkowite i większa precyzja</h2>
+<div class="rozroznienie thought" id="rozroznienie-7">
+<p class="study-label">Rozróżnienie pojęć</p><p>Zapis literału całkowitego w systemie dziesiętnym, binarnym lub
+szesnastkowym odróżniamy od typu i reprezentacji wartości w pamięci. Dla
+literałów szesnastkowych liczba zapisanych cyfr wpływa na wybór
+typu:</p>
+<pre class="julia" data-eval="no"><code>0xff == 0b11111111 # --&gt; true
+typeof(0xff)      # --&gt; UInt8
+typeof(0x0ff)     # --&gt; UInt16
+sizeof(0xff)      # --&gt; 1
+sizeof(0x0ff)     # --&gt; 2
+</code></pre>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-14">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>typemax(Int64) + 1 == typemin(Int64) # --&gt; true
+typemin(Int64) - 1 == typemax(Int64) # --&gt; true
+BigInt(typemax(Int64)) + 1 &gt; typemax(Int64) # --&gt; true
+</code></pre>
+<p>Zwykłe dodawanie i odejmowanie w typie całkowitym o ustalonej liczbie
+bitów zawijają wynik po przekroczeniu zakresu. <code class="verbatim">BigInt</code> zwiększa rozmiar zapisu w miarę potrzeby,
+w granicach dostępnej pamięci.</p>
+</div>
+<div class="sprawdzenie thought" id="sprawdzenie-15">
+<p class="study-label">Sprawdzenie</p><p><code class="verbatim">BigFloat</code> pozwala dobrać większą, lecz
+nadal skończoną precyzję:</p>
+<pre class="julia" data-eval="no"><code>setprecision(BigFloat, 256) do
+    a = BigFloat(0.1)
+    b = parse(BigFloat, "0.1")
+    q = big(1)//big(10)
+    ea = abs(rationalize(BigInt, a; tol=0) - q)
+    eb = abs(rationalize(BigInt, b; tol=0) - q)
+    eb &lt; ea # --&gt; true
+end
+</code></pre>
+<p><code class="verbatim">BigFloat(0.1)</code> przejmuje wcześniejsze
+przybliżenie <code class="verbatim">Float64</code>. <code class="verbatim">parse</code> odczytuje tekst od razu z wybraną
+precyzją. Żaden z tych zapisów binarnych nie jest jednak dokładnie równy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">1/10</annotation></semantics></math>.</p>
+</div>
+</section>
+<section id="czas-obliczen" class="level2">
+<p class="section-number">09</p><h2>Czas obliczeń, precyzja i dokładność</h2>
+<p>Model matematyczny to suma 10 000 składników równych
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">1/10</annotation></semantics></math>,
+czyli 1000. Model obliczeniowy polega na dodawaniu kolejnych składników
+do sumy częściowej.</p>
+<div class="sprawdzenie thought" id="sprawdzenie-16">
+<p class="study-label">Sprawdzenie</p><pre class="julia" data-eval="no"><code>function suma_kolejna(dane)
+    s = zero(eltype(dane))
+    for x in dane
+        s = s + x
+    end
+    return s
+end
+
+for T in (Float64, Float32, Float16)
+    dane = fill(T(1//10), 10_000)
+    suma_kolejna(dane) # pierwszy przebieg: kompilacja dla danego typu
+    pomiary = [@timed(suma_kolejna(dane)) for _ in 1:5]
+    wynik = pomiary[1].value
+    czas = minimum(p.time for p in pomiary)
+    blad = abs(rationalize(BigInt, wynik; tol=0) - 1000)
+    println((typ=T, bity=precision(T), czas_s=czas,
+             wynik=wynik, blad_abs=blad))
+end
+</code></pre>
+<p>Mierzymy całe sumowanie bez tworzenia danych i obliczania błędu. Pięć
+powtórzeń daje orientacyjne porównanie na własnym komputerze. Zapisz
+typ, wynik, błąd i czas. Które różnice utrzymują się po powtórzeniu
+pomiaru?</p>
+<div class="uwaga_badawcza">
+<p>Pomiar rozstrzyga porównanie dla tego programu, danych i sprzętu. Nie
+ustala uniwersalnej kolejności szybkości typów.</p>
+</div>
+</div>
+<div class="rozroznienie thought" id="rozroznienie-8">
+<p class="study-label">Rozróżnienie pojęć</p><div class="table-wrap" tabindex="0" role="region" aria-label="Tabela; w razie potrzeby przewiń w poziomie"><table>
+<thead>
+<tr class="header">
+<th>Cecha</th>
+<th>Sposób ustalenia</th>
+<th>Główne uwarunkowania</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Czas wykonania</td>
+<td>pomiar programu</td>
+<td>sprzęt, implementacja, dane, warunki pomiaru</td>
+</tr>
+<tr class="even">
+<td>Precyzja typu</td>
+<td><code class="verbatim">precision(T)</code></td>
+<td>liczba bitów znaczących określona przez format</td>
+</tr>
+<tr class="odd">
+<td>Dokładność wyniku</td>
+<td>błąd względem 1000</td>
+<td>zapis danych i przebieg obliczeń</td>
+</tr>
+</tbody>
+</table>
+</div><p>Gdy procesor nie obsługuje działań <code class="verbatim">Float16</code> bezpośrednio, Julia może realizować je
+przez <code class="verbatim">Float32</code>, z dodatkowymi konwersjami.
+Może to wydłużyć obliczenie mimo mniejszego rozmiaru danych. Na sprzęcie
+obsługującym <code class="verbatim">Float16</code> stosowane są
+instrukcje natywne. Dlatego czas ustalamy pomiarem.</p>
+</div>
+</section>
+<section id="model-zaokraglania" class="level2">
+<p class="section-number">10</p><h2>Model zaokrąglania</h2>
+<div class="sprawdzenie thought" id="sprawdzenie-17">
+<p class="study-label">Sprawdzenie</p><p>Najpierw dwa remisy w <code class="verbatim">Float64</code>:</p>
+<pre class="julia" data-eval="no"><code>a = 1.0
+b = nextfloat(a)
+d = eps(Float64)/2.0
+a + d == a            # --&gt; true
+b + d == nextfloat(b) # --&gt; true
+bitstring(a)[end-3:end]            # --&gt; "0000"
+bitstring(b)[end-3:end]            # --&gt; "0001"
+bitstring(nextfloat(b))[end-3:end] # --&gt; "0010"
+
+round(1.0625; sigdigits=4, base=2) # --&gt; 1.0
+round(1.1875; sigdigits=4, base=2) # --&gt; 1.25
+typeof(round(1.0625; sigdigits=4, base=2)) # --&gt; Float64
+</code></pre>
+<p>Przy remisie wybieramy zerowy ostatni zachowany bit: raz mniejszego,
+raz większego sąsiada. <code class="verbatim">round</code> w dwóch
+ostatnich przykładach ogranicza liczbę bitów znaczących, ale nie
+odtwarza granic wykładnika innego formatu.</p>
+</div>
+<section id="zbior-wartosci" class="level3">
+<h3>Zbiór wartości i wybór sąsiada</h3>
+<div class="uogolnienie thought" id="uogolnienie-5">
+<p class="study-label">Uogólnienie</p><p>Rozpatrujemy typ <code class="verbatim">T</code> o formacie binarnym
+z precyzją
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+i wykładnikami liczb normalnych od
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>e</mi><mo>min</mo></msub><annotation encoding="application/x-tex">e_{\min}</annotation></semantics></math>
+do
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>e</mi><mo>max</mo></msub><annotation encoding="application/x-tex">e_{\max}</annotation></semantics></math>.
+Oznaczamy:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><msup><mn>2</mn><msub><mi>e</mi><mo>min</mo></msub></msup><mo>=</mo><mo>floatmin</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>T</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><mi>η</mi><mo>=</mo><msup><mn>2</mn><mrow><msub><mi>e</mi><mo>min</mo></msub><mo>−</mo><mi>p</mi><mo>+</mo><mn>1</mn></mrow></msup><mo>=</mo><mo>nextfloat</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>zero</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>T</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\nu=2^{e_{\min}}=\operatorname{floatmin}(T),\qquad
+\eta=2^{e_{\min}-p+1}=\operatorname{nextfloat}(\operatorname{zero}(T)).</annotation></semantics></math>
+Skończone wartości to zero oraz:</p>
+<ul>
+<li>normalne:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>j</mi><msup><mn>2</mn><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><msup><mn>2</mn><mi>e</mi></msup></mrow><annotation encoding="application/x-tex">\pm(1+j2^{1-p})2^e</annotation></semantics></math>,
+gdzie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>…</mi><mo>,</mo><msup><mn>2</mn><mrow><mi>p</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">j=0,\ldots,2^{p-1}-1</annotation></semantics></math>
+i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><msub><mi>e</mi><mo>min</mo></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>e</mi><mo>max</mo></msub></mrow><annotation encoding="application/x-tex">e=e_{\min},\ldots,e_{\max}</annotation></semantics></math>;</li>
+<li>subnormalne:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mi>k</mi><mi>η</mi></mrow><annotation encoding="application/x-tex">\pm k\eta</annotation></semantics></math>,
+gdzie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><msup><mn>2</mn><mrow><mi>p</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1,\ldots,2^{p-1}-1</annotation></semantics></math>.</li>
+</ul>
+<p>W <code class="verbatim">Float64</code> mamy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>53</mn></mrow><annotation encoding="application/x-tex">p=53</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mo>min</mo></msub><mo>=</mo><mo>−</mo><mn>1022</mn></mrow><annotation encoding="application/x-tex">e_{\min}=-1022</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mo>max</mo></msub><mo>=</mo><mn>1023</mn></mrow><annotation encoding="application/x-tex">e_{\max}=1023</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><msup><mn>2</mn><mrow><mo>−</mo><mn>1022</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\nu=2^{-1022}</annotation></semantics></math>
+i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>=</mo><msup><mn>2</mn><mrow><mo>−</mo><mn>1074</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\eta=2^{-1074}</annotation></semantics></math>.
+W <code class="verbatim">Float16</code>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>11</mn></mrow><annotation encoding="application/x-tex">p=11</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mo>min</mo></msub><mo>=</mo><mo>−</mo><mn>14</mn></mrow><annotation encoding="application/x-tex">e_{\min}=-14</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><msup><mn>2</mn><mrow><mo>−</mo><mn>14</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\nu=2^{-14}</annotation></semantics></math>
+i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>=</mo><msup><mn>2</mn><mrow><mo>−</mo><mn>24</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\eta=2^{-24}</annotation></semantics></math>.</p>
+<p>Przez
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>fl</mo><mi>T</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\operatorname{fl}_T(x)</annotation></semantics></math>
+oznaczamy zaokrąglenie dokładnej wartości
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+do najbliższego punktu tego zbioru. Przy remisie wybieramy parzysty
+ostatni bit. Dla wartości reprezentowalnej
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>fl</mo><mi>T</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\operatorname{fl}_T(x)=x</annotation></semantics></math>.</p>
+<p>Zakładamy zachowanie subnormalnych i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mi>M</mi><mo>=</mo><mo>floatmax</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>T</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">|x|\leq M=\operatorname{floatmax}(T)</annotation></semantics></math>.
+Pomijamy znak zera, przepełnienie, nieskończoności i <code class="verbatim">NaN</code>.</p>
+<div class="uwaga_badawcza">
+<p>To wspólny model wcześniejszych przykładów, oparty na regułach
+formatu i zaokrąglania. Jego zakres został określony jawnie.</p>
+</div>
+</div>
+<p>Geometrycznie wartości tworzą punkty na osi. Dla małego modelu z
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">p=4</annotation></semantics></math>
+i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mo>min</mo></msub><mo>=</mo><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">e_{\min}=-2</annotation></semantics></math>
+otrzymujemy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">\nu=1/4</annotation></semantics></math>
+i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">\eta=1/32</annotation></semantics></math>:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Tabela; w razie potrzeby przewiń w poziomie"><table>
+<thead>
+<tr class="header">
+<th>Przedział dodatnich wartości</th>
+<th>Rodzaj</th>
+<th>Odstęp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[1,2)</annotation></semantics></math></td>
+<td>normalne</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">1/8</annotation></semantics></math></td>
+</tr>
+<tr class="even">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mi>/</mi><mn>2</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[1/2,1)</annotation></semantics></math></td>
+<td>normalne</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>16</mn></mrow><annotation encoding="application/x-tex">1/16</annotation></semantics></math></td>
+</tr>
+<tr class="odd">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[1/4,1/2)</annotation></semantics></math></td>
+<td>normalne</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">1/32</annotation></semantics></math></td>
+</tr>
+<tr class="even">
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0,1/4)</annotation></semantics></math></td>
+<td>subnormalne</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">1/32</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table>
+</div></section>
+<section id="granice-bledu" class="level3">
+<h3>Dwa ograniczenia błędu jednego zaokrąglenia</h3>
+<div class="uogolnienie thought" id="uogolnienie-6">
+<p class="study-label">Uogólnienie</p><p>Błąd zaokrąglenia do najbliższego sąsiada nie przekracza połowy
+odstępu. Stąd, zależnie od <strong>dokładnej wartości</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>:</p>
+<ol>
+<li><p>Dla
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>≤</mo><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">\nu\leq|x|\leq M</annotation></semantics></math>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>fl</mo><mi>T</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>δ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="1.0em"></mspace><mrow><mo stretchy="true" form="prefix">|</mo><mi>δ</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mi>u</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>u</mi><mo>=</mo><msup><mn>2</mn><mrow><mo>−</mo><mi>p</mi></mrow></msup><mo>=</mo><mfrac><mrow><mo>eps</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>T</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mn>2</mn></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\operatorname{fl}_T(x)=x(1+\delta),\quad |\delta|\leq u,
+  \qquad u=2^{-p}=\frac{\operatorname{eps}(T)}2.</annotation></semantics></math>
+W przedziale
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><msup><mn>2</mn><mi>e</mi></msup><mo>,</mo><msup><mn>2</mn><mrow><mi>e</mi><mo>+</mo><mn>1</mn></mrow></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[2^e,2^{e+1})</annotation></semantics></math>
+połowa odstępu wynosi
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>e</mi><mo>−</mo><mi>p</mi></mrow></msup><annotation encoding="application/x-tex">2^{e-p}</annotation></semantics></math>.
+Podzielenie jej przez
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>≥</mo><msup><mn>2</mn><mi>e</mi></msup></mrow><annotation encoding="application/x-tex">|x|\geq2^e</annotation></semantics></math>
+daje ograniczenie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mo>−</mo><mi>p</mi></mrow></msup><annotation encoding="application/x-tex">2^{-p}</annotation></semantics></math>.</p></li>
+<li><p>Dla
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>&lt;</mo><mi>ν</mi></mrow><annotation encoding="application/x-tex">|x|&lt;\nu</annotation></semantics></math>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>fl</mo><mi>T</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>x</mi><mo>+</mo><mi>Δ</mi><mo>,</mo><mspace width="1.0em"></mspace><mrow><mo stretchy="true" form="prefix">|</mo><mi>Δ</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mfrac><mi>η</mi><mn>2</mn></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\operatorname{fl}_T(x)=x+\Delta,\quad |\Delta|\leq\frac\eta2.</annotation></semantics></math>
+Odstęp jest stały i równy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math>.
+Dla
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x\ne0</annotation></semantics></math>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo stretchy="true" form="prefix">|</mo><msub><mo>fl</mo><mi>T</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow></mfrac><mo>≤</mo><mfrac><mi>η</mi><mrow><mn>2</mn><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\frac{|\operatorname{fl}_T(x)-x|}{|x|}\leq\frac{\eta}{2|x|}.</annotation></semantics></math>
+Ograniczenie względne przez
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+nie obowiązuje tu ogólnie: dla
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>η</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">x=\eta/2</annotation></semantics></math>
+wynik jest zerowy, a błąd względny wynosi 1.</p></li>
+</ol>
+<p>Oba przypadki obejmuje mniej ostre oszacowanie:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mo>fl</mo><mi>T</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mi>u</mi><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>+</mo><mfrac><mi>η</mi><mn>2</mn></mfrac><mo>,</mo><mspace width="2.0em"></mspace><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mi>M</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">|\operatorname{fl}_T(x)-x|\leq u|x|+\frac\eta2,\qquad |x|\leq M.</annotation></semantics></math>
+Oszacowania zapisano w arytmetyce rzeczywistej. Dodatnie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\eta/2</annotation></semantics></math>
+nie jest reprezentowalne w <code class="verbatim">T</code>; obliczenie
+tej wielkości w <code class="verbatim">T</code> daje zero.</p>
+<div class="uwaga_badawcza">
+<p>Uogólnienie ma uzasadnienie geometryczne: odległość od najbliższego
+punktu nie przekracza połowy odstępu. Testy przy 1 i przy zerze pokazują
+dwa przypadki, lecz nie stanowią dowodu oszacowań.</p>
+</div>
+</div>
+</section>
+<section id="od-dzialania-do-programu" class="level3">
+<h3>Od działania do programu</h3>
+<div class="uogolnienie thought" id="uogolnienie-7">
+<p class="study-label">Uogólnienie</p><p>Dla zapisanych argumentów
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>,</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a,b</annotation></semantics></math>
+tego samego typu model podstawowego działania ma postać
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>z</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mo>fl</mo><mi>T</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>∘</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><mo>∘</mo><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mo>+</mo><mo>,</mo><mo>−</mo><mo>,</mo><mo>×</mo><mo>,</mo><mi>/</mi><mo stretchy="false" form="postfix">}</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\widehat z=\operatorname{fl}_T(a\circ b),\qquad
+\circ\in\{+,-,\times,/\}.</annotation></semantics></math> Dzielnik musi
+być niezerowy, a dokładny wynik mieścić się w przyjętym zakresie.
+Zakładamy pojedyncze zaokrąglenie dokładnego wyniku do typu <code class="verbatim">T</code>. Najpierw rozpatrujemy dokładne działanie na
+zapisanych danych, potem jego zaokrąglenie.</p>
+<p>Jeżeli same dane były przybliżeniami, błąd końcowy obejmuje również
+skutki ich zapisu. W sumowaniu
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">s_0=0</annotation></semantics></math>
+i
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mo>fl</mo><mi>T</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>s</mi><mi>k</mi></msub><mo>+</mo><msub><mi>a</mi><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">s_{k+1}=\operatorname{fl}_T(s_k+a_{k+1})</annotation></semantics></math>
+błąd może powstawać w wielu krokach. Oszacowanie jednego zaokrąglenia
+nie jest oszacowaniem błędu całego programu.</p>
+</div>
+<p>Wybór typu jest częścią budowy modelu obliczeniowego. Precyzja i
+zakres określają dostępne wartości, model zaokrąglania służy analizie
+dokładności, a czas wykonania ustalamy pomiarem programu.</p>
+</section>
+</section>
+<section id="cwiczenie" class="level2">
+<p class="section-number">11</p><h2>Sprawdź i określ zakres wniosku</h2>
+<ol>
+<li>Przewidź wynik <code class="verbatim">1.0 + eps(Float64)/4</code>.
+Wykonaj obliczenie. Czy dodatni przyrost musi zmienić zapisaną
+wartość?</li>
+<li>Zastąp 1 przez <code class="verbatim">nextfloat(1.0)</code>, a
+przyrost przez <code class="verbatim">eps(Float64)/2</code>. Sprawdź
+wynik i wskaż bit rozstrzygający remis.</li>
+<li>Zapisz wspólną regułę. Podaj jej założenia i uzasadnij ją położeniem
+punktów na osi. Oddziel wynik testu od twierdzenia o wszystkich
+przypadkach spełniających te założenia.</li>
+</ol>
+</section>
+<section id="zrodla" class="level2">
+<p class="section-number">12</p><h2>Źródła do dalszego sprawdzania</h2>
+<ul>
+<li><a href="https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/">Julia:
+typy liczbowe, literały i zaokrąglanie</a>.</li>
+<li><a href="https://docs.julialang.org/en/v1/base/numbers/">Julia:
+operacje na liczbach i precyzja</a>.</li>
+<li><a href="https://docs.oracle.com/cd/E19059-01/stud.10/819-0499/ncg_math.html">Oracle:
+pola formatów IEEE i liczby subnormalne</a>.</li>
+</ul>
+</section>
+</section>
+
+<div class="goal"><small>Cel wykładu</small><p>Znaleźć rozwiązanie problemu zdefiniowanego modelem matematycznym za pomocą modelu obliczeniowego w postaci programu komputerowego.</p></div>
+<p class="back-link"><a href="02-arytmetyka-komputerowa.html#program">Wróć do ćwiczenia programistycznego</a></p>
+</main>
+<footer class="footer"><p>Metody numeryczne · Na podstawie numerical_new2.org · 16 października 2026</p></footer>
+<p id="mode-status" class="sr-only" aria-live="polite"></p>
+<script>'use strict';
+(() => {
+  const buttons = document.querySelectorAll('[data-set-mode]');
+  const status = document.getElementById('mode-status');
+  function setMode(mode, announce = true) {
+    if (!['reading', 'research'].includes(mode)) return;
+    document.documentElement.dataset.mode = mode;
+    for (const button of buttons) {
+      button.setAttribute('aria-pressed', String(button.dataset.setMode === mode));
+    }
+    if (announce) status.textContent = mode === 'research'
+      ? 'Tryb badania. Widoczne są oznaczenia bloków i uwagi o zakresie wniosków.'
+      : 'Tryb czytania. Oznaczenia toku pracy są ukryte.';
+  }
+  for (const button of buttons) button.addEventListener('click', () => setMode(button.dataset.setMode));
+  if (new URLSearchParams(location.search).get('tryb') === 'badanie') setMode('research', false);
+})();
+</script><nav class="course-navigation" aria-label="Powrót do notatek"><a href="index.html">Spis treści</a><a href="02-arytmetyka-komputerowa.html">Arytmetyka komputerowa →</a></nav>
+</body></html>

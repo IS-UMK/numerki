@@ -1,0 +1,146 @@
+#+TITLE: Metody numeryczne — notatki do wykładu
+#+AUTHOR: Michał Pierzchalski
+#+LANGUAGE: pl
+#+EXPORT_FILE_NAME: index.html
+#+OPTIONS: toc:nil num:nil title:nil author:nil date:nil html-preamble:nil html-postamble:nil html-style:nil html-scripts:nil
+#+HTML_DOCTYPE: html5
+#+STARTUP: overview hideblocks indent
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
+#+HTML_HEAD: <meta name="description" content="Notatki Michała Pierzchalskiego do wykładu z metod numerycznych. Spis treści czterech rozdziałów.">
+#+HTML_HEAD: <style>
+#+HTML_HEAD: :root {
+#+HTML_HEAD:   --paper: #faf9f5;
+#+HTML_HEAD:   --ink: #25322e;
+#+HTML_HEAD:   --muted: #65716b;
+#+HTML_HEAD:   --line: #d8ded5;
+#+HTML_HEAD:   --green: #196551;
+#+HTML_HEAD:   --pale: #eef3eb;
+#+HTML_HEAD:   --amber: #935d21;
+#+HTML_HEAD:   --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+#+HTML_HEAD: }
+#+HTML_HEAD: * { box-sizing: border-box; }
+#+HTML_HEAD: html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+#+HTML_HEAD: body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; }
+#+HTML_HEAD: a { color: var(--green); text-underline-offset: 4px; }
+#+HTML_HEAD: a:hover { text-decoration-thickness: 2px; }
+#+HTML_HEAD: :focus-visible { outline: 3px solid var(--amber); outline-offset: 5px; border-radius: 2px; }
+#+HTML_HEAD: .skip { position: absolute; top: -100px; left: 20px; z-index: 10; padding: 10px 16px; background: white; }
+#+HTML_HEAD: .skip:focus { top: 10px; }
+#+HTML_HEAD: .topbar { border-bottom: 1px solid var(--line); }
+#+HTML_HEAD: .bar-inner { max-width: 1040px; margin: auto; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+#+HTML_HEAD: .bar-inner p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+#+HTML_HEAD: .bar-inner a { color: var(--green); font-size: 12px; white-space: nowrap; text-decoration: none; }
+#+HTML_HEAD: .bar-inner a:hover { text-decoration: underline; }
+#+HTML_HEAD: main#tresc { width: min(100%, 820px); margin: auto; padding: 59px 28px 32px; }
+#+HTML_HEAD: .cover { margin: 0 0 34px; padding: 0 0 31px; border-bottom: 1px solid var(--line); }
+#+HTML_HEAD: .eyebrow { margin: 0 0 16px; color: var(--green); font: 11px/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+#+HTML_HEAD: h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; letter-spacing: -.025em; }
+#+HTML_HEAD: .cover h1 { font-size: clamp(38px, 6vw, 60px); line-height: 1.13; margin: 0 0 13px; }
+#+HTML_HEAD: .subtitle { margin: 0 0 24px; font: 25px/1.4 Georgia, "Times New Roman", serif; }
+#+HTML_HEAD: .author { margin: 0; font-size: 15px; }
+#+HTML_HEAD: .introduction { max-width: 650px; color: var(--muted); font-size: 16px; line-height: 1.75; margin: 20px 0 0; }
+#+HTML_HEAD: #tresc nav h2, #tresc nav h1 { margin: 0 0 17px; font: 400 29px/1.3 Georgia, "Times New Roman", serif; letter-spacing: -.015em; }
+#+HTML_HEAD: #tresc nav ol { margin: 0; padding: 0; list-style: none; counter-reset: chapters; }
+#+HTML_HEAD: #tresc nav li { counter-increment: chapters; position: relative; margin: 0; padding: 23px 41px 22px 54px; border-top: 1px solid var(--line); }
+#+HTML_HEAD: #tresc nav li:last-child { border-bottom: 1px solid var(--line); }
+#+HTML_HEAD: #tresc nav li::before { content: counter(chapters, decimal-leading-zero); position: absolute; top: 27px; left: 3px; font: 13px/1.5 var(--mono); color: var(--green); }
+#+HTML_HEAD: #tresc nav li::after { content: "→"; position: absolute; top: 25px; right: 4px; color: var(--green); font: 21px/1.3 system-ui, sans-serif; pointer-events: none; }
+#+HTML_HEAD: #tresc nav li > p { margin: 0; }
+#+HTML_HEAD: #tresc nav li a { color: var(--ink); text-decoration: none; font: 400 24px/1.35 Georgia, "Times New Roman", serif; letter-spacing: -.01em; }
+#+HTML_HEAD: #tresc nav li a::after { content: ""; position: absolute; inset: 0; }
+#+HTML_HEAD: #tresc nav li:hover, #tresc nav li:focus-within { background: var(--pale); }
+#+HTML_HEAD: #tresc nav li:hover a, #tresc nav li:focus-within a { color: var(--green); }
+#+HTML_HEAD: #tresc nav li a:focus-visible { outline: none; }
+#+HTML_HEAD: #tresc nav li a:focus-visible::after { outline: 3px solid var(--amber); outline-offset: 3px; }
+#+HTML_HEAD: .chapter_description { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+#+HTML_HEAD: .chapter_description p { margin: 0; }
+#+HTML_HEAD: .page-footer { margin-top: 23px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+#+HTML_HEAD: .page-footer p { margin: 0; }
+#+HTML_HEAD: .page-footer a { text-decoration: none; }
+#+HTML_HEAD: .page-footer a:hover { text-decoration: underline; }
+#+HTML_HEAD: @media (max-width: 600px) {
+#+HTML_HEAD:   .bar-inner { padding: 13px 20px; gap: 12px; }
+#+HTML_HEAD:   .bar-inner p { max-width: 230px; font-size: 11px; }
+#+HTML_HEAD:   main#tresc { padding: 36px 20px 25px; }
+#+HTML_HEAD:   .cover { margin-bottom: 28px; padding-bottom: 25px; }
+#+HTML_HEAD:   .cover h1 { font-size: clamp(34px, 8.6vw, 48px); }
+#+HTML_HEAD:   .subtitle { font-size: 23px; margin-bottom: 20px; }
+#+HTML_HEAD:   .introduction { font-size: 15px; }
+#+HTML_HEAD:   #tresc nav h2, #tresc nav h1 { font-size: 27px; }
+#+HTML_HEAD:   #tresc nav li { padding: 20px 27px 20px 40px; }
+#+HTML_HEAD:   #tresc nav li::before { top: 24px; left: 0; font-size: 12px; }
+#+HTML_HEAD:   #tresc nav li::after { top: 22px; right: 0; font-size: 20px; }
+#+HTML_HEAD:   #tresc nav li a { font-size: 22px; }
+#+HTML_HEAD:   .chapter_description { font-size: 13px; }
+#+HTML_HEAD: }
+#+HTML_HEAD: @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+#+HTML_HEAD: @media print {
+#+HTML_HEAD:   body { background: white; color: black; font-size: 11pt; }
+#+HTML_HEAD:   .topbar, .skip { display: none; }
+#+HTML_HEAD:   main#tresc { padding: 0; max-width: none; }
+#+HTML_HEAD:   .cover h1 { font-size: 36pt; }
+#+HTML_HEAD:   #tresc nav li { break-inside: avoid; }
+#+HTML_HEAD:   #tresc nav li:hover { background: none; }
+#+HTML_HEAD:   #tresc nav li a { font-size: 17pt; }
+#+HTML_HEAD:   .chapter_description, .introduction { font-size: 10pt; }
+#+HTML_HEAD:   a { color: inherit; }
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+
+# Stronę eksportuj do HTML: C-c C-e h h.
+# Pliki HTML rozdziałów powinny znajdować się obok pliku index.html.
+# Opisy i odsyłacze rozdziałów edytuj na poniższej liście Org-mode.
+
+#+begin_export html
+<a class="skip" href="#spis-tresci">Przejdź do spisu treści</a>
+<div class="topbar">
+  <div class="bar-inner">
+    <p>Uniwersytet Mikołaja Kopernika w Toruniu</p>
+    <a href="#spis-tresci">Spis treści <span aria-hidden="true">↓</span></a>
+  </div>
+</div>
+<main id="tresc">
+  <header class="cover">
+    <p class="eyebrow">Materiały dydaktyczne</p>
+    <h1>Metody numeryczne</h1>
+    <p class="subtitle">Notatki do wykładu</p>
+    <p class="author">Michał Pierzchalski</p>
+    <p class="introduction">Od modelu matematycznego do metody obliczeniowej i programu.
+    Wybierz rozdział, aby przejść do notatek.</p>
+  </header>
+  <nav aria-label="Rozdziały notatek">
+    <h2 id="spis-tresci">Spis treści</h2>
+#+end_export
+
+1. [[file:01-cel-i-mapa-problemow.html][Cel i mapa problemów]]
+
+   #+begin_chapter_description
+   Model matematyczny, metoda obliczeniowa i program.
+   #+end_chapter_description
+
+2. [[file:02-arytmetyka-komputerowa.html][Arytmetyka komputerowa]]
+
+   #+begin_chapter_description
+   Reprezentacja liczb, zaokrąglanie i błędy obliczeń.
+   #+end_chapter_description
+
+3. [[file:03-pierwiastki-rownan.html][Pierwiastki równań]]
+
+   #+begin_chapter_description
+   Bisekcja, metoda Newtona, metoda siecznych i iteracje funkcyjne.
+   #+end_chapter_description
+
+4. [[file:04-uklady-rownan-nieliniowych.html][Układy równań nieliniowych]]
+
+   #+begin_chapter_description
+   Metoda Newtona dla wielu niewiadomych i macierz Jacobiego.
+   #+end_chapter_description
+
+#+begin_export html
+  </nav>
+  <footer class="page-footer">
+    <p>Każdy tytuł prowadzi do osobnego rozdziału. Powrót do tej strony:
+    „Spis treści” w nawigacji rozdziału.</p>
+  </footer>
+</main>
+#+end_export
