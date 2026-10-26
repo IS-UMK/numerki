@@ -1,4 +1,4 @@
-#+TITLE: Metody numeryczne — notatki do wykładu
+#+TITLE: Metody numeryczne
 #+AUTHOR: Michał Pierzchalski
 #+LANGUAGE: pl
 #+EXPORT_FILE_NAME: index.html
@@ -6,7 +6,7 @@
 #+HTML_DOCTYPE: html5
 #+STARTUP: overview hideblocks indent
 #+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
-#+HTML_HEAD: <meta name="description" content="Notatki Michała Pierzchalskiego do wykładu z metod numerycznych. Spis treści czterech rozdziałów.">
+#+HTML_HEAD: <meta name="description" content="Notatki do zajęć laboratoryjnych z metod numerycznych.">
 #+HTML_HEAD: <style>
 #+HTML_HEAD: :root {
 #+HTML_HEAD:   --paper: #faf9f5;
@@ -103,10 +103,9 @@
   <header class="cover">
     <p class="eyebrow">Materiały dydaktyczne</p>
     <h1>Metody numeryczne</h1>
-    <p class="subtitle">Notatki do wykładu</p>
+    <p class="subtitle">Notatki do zajęć laboratoryjnych</p>
     <p class="author">Michał Pierzchalski</p>
-    <p class="introduction">Od modelu matematycznego do metody obliczeniowej i programu.
-    Wybierz rozdział, aby przejść do notatek.</p>
+    <p class="introduction">Od modelu matematycznego do metody obliczeniowej i programu.</p>
   </header>
   <nav aria-label="Rozdziały notatek">
     <h2 id="spis-tresci">Spis treści</h2>

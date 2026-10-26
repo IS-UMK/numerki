@@ -1,20 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
+<!-- 2026-10-26 pon 16:29 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Metody numeryczne</title>
+<meta name="generator" content="Org Mode" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Notatki Michała Pierzchalskiego do wykładu z metod numerycznych. Spis treści czterech rozdziałów.">
-<meta name="author" content="Michał Pierzchalski">
-<title>Metody numeryczne — notatki do wykładu</title>
-<style>:root {
-  --paper: #faf9f5;
-  --ink: #25322e;
-  --muted: #65716b;
-  --line: #d8ded5;
-  --green: #196551;
-  --pale: #eef3eb;
-  --amber: #935d21;
-  --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+<meta name="description" content="Notatki do zajęć laboratoryjnych z metod numerycznych.">
+<style>
+:root {
+--paper: #faf9f5;
+--ink: #25322e;
+--muted: #65716b;
+--line: #d8ded5;
+--green: #196551;
+--pale: #eef3eb;
+--amber: #935d21;
+--mono: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
@@ -57,34 +60,36 @@ h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; lette
 .page-footer a { text-decoration: none; }
 .page-footer a:hover { text-decoration: underline; }
 @media (max-width: 600px) {
-  .bar-inner { padding: 13px 20px; gap: 12px; }
-  .bar-inner p { max-width: 230px; font-size: 11px; }
-  main#tresc { padding: 36px 20px 25px; }
-  .cover { margin-bottom: 28px; padding-bottom: 25px; }
-  .cover h1 { font-size: clamp(34px, 8.6vw, 48px); }
-  .subtitle { font-size: 23px; margin-bottom: 20px; }
-  .introduction { font-size: 15px; }
-  #tresc nav h2, #tresc nav h1 { font-size: 27px; }
-  #tresc nav li { padding: 20px 27px 20px 40px; }
-  #tresc nav li::before { top: 24px; left: 0; font-size: 12px; }
-  #tresc nav li::after { top: 22px; right: 0; font-size: 20px; }
-  #tresc nav li a { font-size: 22px; }
-  .chapter_description { font-size: 13px; }
+.bar-inner { padding: 13px 20px; gap: 12px; }
+.bar-inner p { max-width: 230px; font-size: 11px; }
+main#tresc { padding: 36px 20px 25px; }
+.cover { margin-bottom: 28px; padding-bottom: 25px; }
+.cover h1 { font-size: clamp(34px, 8.6vw, 48px); }
+.subtitle { font-size: 23px; margin-bottom: 20px; }
+.introduction { font-size: 15px; }
+#tresc nav h2, #tresc nav h1 { font-size: 27px; }
+#tresc nav li { padding: 20px 27px 20px 40px; }
+#tresc nav li::before { top: 24px; left: 0; font-size: 12px; }
+#tresc nav li::after { top: 22px; right: 0; font-size: 20px; }
+#tresc nav li a { font-size: 22px; }
+.chapter_description { font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 @media print {
-  body { background: white; color: black; font-size: 11pt; }
-  .topbar, .skip { display: none; }
-  main#tresc { padding: 0; max-width: none; }
-  .cover h1 { font-size: 36pt; }
-  #tresc nav li { break-inside: avoid; }
-  #tresc nav li:hover { background: none; }
-  #tresc nav li a { font-size: 17pt; }
-  .chapter_description, .introduction { font-size: 10pt; }
-  a { color: inherit; }
-}</style>
+body { background: white; color: black; font-size: 11pt; }
+.topbar, .skip { display: none; }
+main#tresc { padding: 0; max-width: none; }
+.cover h1 { font-size: 36pt; }
+#tresc nav li { break-inside: avoid; }
+#tresc nav li:hover { background: none; }
+#tresc nav li a { font-size: 17pt; }
+.chapter_description, .introduction { font-size: 10pt; }
+a { color: inherit; }
+}
+</style>
 </head>
 <body>
+<div id="content" class="content">
 <a class="skip" href="#spis-tresci">Przejdź do spisu treści</a>
 <div class="topbar">
   <div class="bar-inner">
@@ -96,37 +101,65 @@ h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; lette
   <header class="cover">
     <p class="eyebrow">Materiały dydaktyczne</p>
     <h1>Metody numeryczne</h1>
-    <p class="subtitle">Notatki do wykładu</p>
+    <p class="subtitle">Notatki do zajęć laboratoryjnych</p>
     <p class="author">Michał Pierzchalski</p>
-    <p class="introduction">Od modelu matematycznego do metody obliczeniowej i programu.
-    Wybierz rozdział, aby przejść do notatek.</p>
+    <p class="introduction">Od modelu matematycznego do metody obliczeniowej i programu.</p>
   </header>
   <nav aria-label="Rozdziały notatek">
     <h2 id="spis-tresci">Spis treści</h2>
 
-<ol>
-<li><p><a href="01-cel-i-mapa-problemow.html">Cel i mapa problemów</a></p>
-<div class="chapter_description">
-<p>Model matematyczny, metoda obliczeniowa i program.</p>
+<ol class="org-ol">
+<li><p>
+<a href="01-cel-i-mapa-problemow.html">Cel i mapa problemów</a>
+</p>
+
+<div class="chapter_description" id="org48ecafe">
+<p>
+Model matematyczny, metoda obliczeniowa i program.
+</p>
+
 </div></li>
-<li><p><a href="02-arytmetyka-komputerowa.html">Arytmetyka komputerowa</a></p>
-<div class="chapter_description">
-<p>Reprezentacja liczb, zaokrąglanie i błędy obliczeń.</p>
+
+<li><p>
+<a href="02-arytmetyka-komputerowa.html">Arytmetyka komputerowa</a>
+</p>
+
+<div class="chapter_description" id="org3af5cee">
+<p>
+Reprezentacja liczb, zaokrąglanie i błędy obliczeń.
+</p>
+
 </div></li>
-<li><p><a href="03-pierwiastki-rownan.html">Pierwiastki równań</a></p>
-<div class="chapter_description">
-<p>Bisekcja, metoda Newtona, metoda siecznych i iteracje funkcyjne.</p>
+
+<li><p>
+<a href="03-pierwiastki-rownan.html">Pierwiastki równań</a>
+</p>
+
+<div class="chapter_description" id="org5aa1f6b">
+<p>
+Bisekcja, metoda Newtona, metoda siecznych i iteracje funkcyjne.
+</p>
+
 </div></li>
-<li><p><a href="04-uklady-rownan-nieliniowych.html">Układy równań nieliniowych</a></p>
-<div class="chapter_description">
-<p>Metoda Newtona dla wielu niewiadomych i macierz Jacobiego.</p>
+
+<li><p>
+<a href="04-uklady-rownan-nieliniowych.html">Układy równań nieliniowych</a>
+</p>
+
+<div class="chapter_description" id="org3362c52">
+<p>
+Metoda Newtona dla wielu niewiadomych i macierz Jacobiego.
+</p>
+
 </div></li>
 </ol>
+
   </nav>
   <footer class="page-footer">
     <p>Każdy tytuł prowadzi do osobnego rozdziału. Powrót do tej strony:
     „Spis treści” w nawigacji rozdziału.</p>
   </footer>
 </main>
+</div>
 </body>
 </html>
