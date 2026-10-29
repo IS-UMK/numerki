@@ -1,0 +1,148 @@
+#+TITLE: Metoda równego podziału — propozycja wzorca
+#+LANGUAGE: pl
+#+DATE: 2026-10-28
+#+OPTIONS: toc:nil num:nil author:nil date:nil creator:nil timestamp:nil
+#+OPTIONS: html-style:nil html-scripts:nil html-preamble:nil html-postamble:nil
+#+OPTIONS: H:6 ^:{} html5-fancy:t tex:t
+#+HTML_DOCTYPE: html5
+#+STARTUP: overview hideblocks indent
+#+PROPERTY: header-args :eval never-export :exports code
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
+#+HTML_HEAD: <meta name="numerical-chapter" content="03 · propozycja">
+#+HTML_HEAD: <link rel="stylesheet" href="../rozdzial-03-org/oprawa/wyklad.css">
+#+HTML_HEAD: <link rel="stylesheet" href="../rozdzial-03-org/oprawa/widoki.css">
+#+HTML_HEAD: <script src="../rozdzial-03-org/oprawa/widoki.js"></script>
+#+HTML_HEAD: <script defer src="../rozdzial-03-org/oprawa/ilustracje.js"></script>
+#+HTML_MATHJAX: path:../rozdzial-03-org/oprawa/tex-svg.js align:center tagside:right font:TeX
+
+*Status: trzy dopracowania zatwierdzone przez autora 2026-10-29 i wdrożone.*
+Wariant przygotowano na podstawie sekcji bisekcji z rozdziału 3.
+Zatwierdzone zmiany P-01, P-02 i P-03 wprowadzono do
+[[file:../index.org::#pierwiastki-bisekcja][źródła rozdziału]]. Ten plik zachowuje osobny zapis ocenionego fragmentu.
+Zakres zmian i wyniki sprawdzeń opisuje [[file:bisekcja-przeglad.org][przegląd fragmentu]].
+Ilustracja i jej dwa przykłady pochodzą z obecnej oprawy.
+
+* Metoda równego podziału
+:PROPERTIES:
+:CUSTOM_ID: bisekcja
+:END:
+
+Rozważamy funkcję \(f(x)=x^2-2\) i szukamy jej dodatniego pierwiastka.
+Zaczynamy od przedziału \([a_0,b_0]=[1,2]\). Jego środek wynosi \(c_0=1.5\), a
+\(f(c_0)=0.25\). Przeciwne znaki pozostają w punktach \(1\) i \(1.5\), więc dalej
+badamy \([1,1.5]\).
+
+#+attr_html: :id uogolnienie-1
+#+begin_uogolnienie
+Przedział \([a_0,b_0]\) jest przedziałem początkowym. Po \(n\) podziałach
+mamy przedział \([a_n,b_n]\), którego środek oznaczamy przez \(c_n\):
+
+\begin{equation*}
+c_n=\frac{a_n+b_n}{2}.
+\end{equation*}
+
+Jeśli \(f(c_n)=0\), znaleźliśmy pierwiastek. W przeciwnym razie zachowujemy tę połowę
+przedziału, na której końcach wartości funkcji mają przeciwne znaki. Metodę nazywamy
+także *bisekcją*.
+
+#+attr_html: :id orgd8b029c
+#+begin_uwaga
+Uogólniamy operację z przykładu: dzielimy przedział i zachowujemy zmianę znaku. Powód,
+dla którego wolno odrzucić drugą połowę, podaje twierdzenie.
+#+end_uwaga
+#+end_uogolnienie
+
+#+INCLUDE: "../rozdzial-03-org/oprawa/ilustracje.org::*Bisekcja" :only-contents t
+
+#+attr_html: :id wlasnosci-1
+#+begin_wlasnosci
+Szukamy warunków, które pozwolą zachować pierwiastek przy każdym podziale. Funkcja
+\(x^2-2\) jest ciągła na \([1,2]\), a jej wartości na końcach mają przeciwne znaki.
+Dodatkowo jest tam ściśle rosnąca, ponieważ \(f'(x)=2x>0\). Ciągłość i zmiana znaku
+posłużą do uzasadnienia zbieżności; ścisła monotoniczność — jednoznaczności.
+#+end_wlasnosci
+
+#+attr_html: :id twierdzenie-1
+#+begin_twierdzenie
+*Gwarancja bisekcji.* Jeśli \(f\) jest ciągła na \([a_0,b_0]\) i \(f(a_0)f(b_0) < 0\),
+metoda albo trafia dokładnie w pierwiastek po skończonej liczbie kroków, albo środki
+kolejnych zachowanych przedziałów \(c_n\) spełniają \(|c_n-r|\to0\) dla pewnego
+pierwiastka \(r\). Oznacza to, że dla dowolnej dodatniej tolerancji od pewnego kroku
+wszystkie kolejne przybliżenia różnią się od \(r\) o mniej niż tę tolerancję. Ponadto
+
+\begin{equation*}
+|c_n-r|\leq\frac{b_n-a_n}{2} =\frac{b_0-a_0}{2^{n+1}}.
+\end{equation*}
+
+Każdy podział zmniejsza o połowę *oszacowanie błędu*. Jeżeli funkcja jest dodatkowo
+ściśle monotoniczna, pierwiastek w tym przedziale jest jedyny. Bez tego założenia
+bisekcja również zbiega, lecz początkowy przedział może zawierać kilka pierwiastków.
+
+#+attr_html: :id org19cf4db
+#+begin_zrodlo
+Dowód: D. Levy,
+[[https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=8][/Methods
+for Solving Nonlinear Problems/, §2.3, tw. 2.7 wraz z poprzedzającym dowodem, s. 8–9]].
+Jednoznaczność przy ścisłej monotoniczności uzasadniamy poniżej.
+#+end_zrodlo
+
+*Idea uzasadnienia.* Ciągłość i przeciwne znaki zapewniają istnienie pierwiastka
+w każdej zachowanej połowie. Przedziały są zagnieżdżone, a ich długości dążą do zera;
+ich wspólny punkt jest pierwiastkiem. Ścisła monotoniczność wyklucza dwa różne miejsca
+zerowe. Nie jest potrzebna do samej zbieżności.
+#+end_twierdzenie
+
+#+attr_html: :id wnioskowanie-1
+#+begin_wnioskowanie
+Dla \(x^2-2\) na \([1,2]\) wykazaliśmy założenia twierdzenia. Zatem bisekcja zbiega do
+jedynego pierwiastka w tym przedziale, czyli \(\sqrt2\).
+
+Jeżeli chcemy uzyskać przybliżenie z błędem nieprzekraczającym \(\tau_x>0\),
+możemy zakończyć obliczenia, gdy
+
+\begin{equation*}
+\frac{b_n-a_n}{2}\leq\tau_x,
+\end{equation*}
+
+i zwrócić środek *tego samego przedziału*, czyli \(c_n=(a_n+b_n)/2\).
+Dla \([a_0,b_0]=[1,2]\) oraz \(\tau_x=10^{-3}\) oszacowanie daje
+\(2^{-10}=0.0009765625 < 10^{-3}\). Wystarczy więc dziewięć podziałów
+przedziału, po których obliczamy \(c_9\). Licząc od \(c_0\), jest to dziesiąty
+środek. Jest to gwarancja z oszacowania; wcześniejsze trafienie w pierwiastek
+pozwoliłoby zakończyć obliczenia wcześniej.
+
+Pełną funkcję z tolerancją i przyczyną zakończenia opracowujemy w zadaniu
+[[file:../index.org::#pierwiastki-program][Od metody do programu]]. Poniższy kod sprawdza pierwszy krok. Oszacowanie
+pochodzi z twierdzenia dla arytmetyki dokładnej; ograniczenia =Float64=
+omawiamy w przywołanej części.
+#+end_wnioskowanie
+
+#+attr_html: :id sprawdzenie-2
+#+begin_sprawdzenie
+#+begin_src julia
+f(x) = x^2 - 2
+a, b = 1.0, 2.0
+c = (a + b) / 2
+c, f(c), (b - a) / 2        # (1.5, 0.25, 0.5)
+signbit(f(a)) != signbit(f(c))  # true: zachowujemy [a, c]
+#+end_src
+
+Dla \(c_0=1.5\) oszacowanie błędu wynosi \(0.5\). W zachowanym przedziale
+\([1,1.5]\) obliczymy nowy środek \(c_1=1.25\); jego błąd nie przekracza
+\(0.25\). Każde oszacowanie dotyczy środka przedziału, z którego je wyznaczono.
+#+end_sprawdzenie
+
+#+attr_html: :id wyjasnianie-1
+#+begin_wyjasnianie
+*Dlaczego sama zmiana znaku nie wystarcza?* Wybierz w animacji \(f(x)=1/x\) na
+\([-1,1.5]\). Przedziały zwężają się wokół zera, ale funkcja \(1/x\) nie ma
+pierwiastka. W zerze jest nieokreślona, więc nie spełnia założenia ciągłości. Zbieżność
+przedziałów nie oznacza tutaj rozwiązania równania.
+
+#+attr_html: :id org5522a3d
+#+begin_uwaga
+Wyjaśniamy pozorny sukces: program lokalizuje zmianę znaku przy nieciągłości. Nie
+wywodzimy braku pierwiastka z niespełnienia założenia; uzasadnia go własność funkcji
+\(1/x\).
+#+end_uwaga
+#+end_wyjasnianie

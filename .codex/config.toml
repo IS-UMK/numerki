@@ -1,0 +1,10 @@
+# Konfiguracja projektu: materiały do metod numerycznych.
+# Dokumentacja ustawień sprawdzona 2026-10-28:
+# https://learn.chatgpt.com/docs/config-file/config-basic
+# Model i poziom rozumowania są dziedziczone z ustawień użytkownika.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false

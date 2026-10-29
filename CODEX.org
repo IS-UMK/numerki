@@ -1,0 +1,295 @@
+#+TITLE: Praca lokalna z Codexem — metody numeryczne
+#+LANGUAGE: pl
+#+DATE: 2026-10-29
+#+OPTIONS: toc:2 num:nil
+#+STARTUP: overview
+
+* Szybki start
+
+W aplikacji ChatGPT wybierz tryb Codex i otwórz ten katalog jako projekt
+albo uruchom w terminalu:
+
+#+begin_src sh :eval never
+cd /home/michal/Lectures/metody_numeryczne_1/numerki
+codex --strict-config
+#+end_src
+
+Codex automatycznie odczytuje [[file:AGENTS.md][AGENTS.md]]. Po zmianie instrukcji
+rozpocznij nową sesję, żeby zostały wczytane od początku. Ten przewodnik
+jest dokumentacją projektu; nie zastępuje pliku instrukcji.
+
+Przykładowe pierwsze polecenie:
+
+#+begin_example
+Przeczytaj AGENTS.md i CODEX.org. Sprawdź stan projektu oraz uruchom
+python3 narzedzia/sprawdz_projekt.py. Przedstaw wynik i techniczne problemy
+do rozwiązania. Na tym etapie nie zmieniaj materiałów dydaktycznych.
+#+end_example
+
+Praca lokalna oznacza pracę na plikach tego katalogu. Korzystanie z modeli
+OpenAI nadal wymaga połączenia z usługą i zalogowania w Codexie.
+
+Można też pozostać w rozmowie ChatGPT i, przy dostępnym terminalu lokalnym,
+przekazać konkretne zadanie osobnemu uruchomieniu =codex exec=.
+Rozmowa ChatGPT, odczyt plików oraz uruchomienie Codexa są odrębnymi
+czynnościami. Sam dostęp do plików projektu nie oznacza uruchomienia Codexa.
+
+* Podział pracy
+
+OpenAI opisuje Codexa jako narzędzie do pracy technicznej i pokazuje
+przepływy obejmujące analizę repozytorium, naprawę błędu, implementację,
+testy i przegląd zmian. Poniższy podział jest zastosowaniem tych wskazówek
+do tego projektu, a nie narzuconym przez OpenAI podziałem pracy dydaktycznej.
+
+| Obszar | Rola Codexa w projekcie |
+|--------+------------------------|
+| Pliki i struktura | Wyszukiwanie, wyjaśnianie zależności, przegląd zmian. |
+| Org-mode i HTML | Naprawa eksportu, odsyłaczy, kotwic i nawigacji. |
+| Wygląd i demonstracje | Poprawki CSS/JavaScript oraz implementacja zamówionej funkcji. |
+| Narzędzia pomocnicze | Skrypty, powtarzalne sprawdzanie i diagnoza błędów. |
+| Kod obliczeniowy | Implementacja wskazanej metody i testy względem uzgodnionego wyniku. |
+| Treść matematyczna | Zmiany na wyraźne polecenie; zgłaszanie wątpliwości z lokalizacją. |
+| Program kursu i wywód | Decyzje autora; Codex wdraża uzgodnione zmiany w plikach. |
+
+Każde zadanie powinno wskazywać cel, zakres plików, ograniczenia i sposób
+sprawdzenia wyniku. Poprawny test programu nie zastępuje dowodu twierdzenia.
+
+* Mapa projektu
+
+| Plik lub grupa | Przeznaczenie |
+|----------------+---------------|
+| =index.org= → =index.html= | Jedno źródło i jedna strona całego kursu: rozdziały oraz dodatek. |
+| =oprawa/scalone/book.css= i =book.js= | Aktywne style, przełącznik widoków i demonstracje kursu. |
+| =oprawa/scalone/przekierowania.json= | Dawne adresy HTML i kotwice prowadzące do wspólnej strony. |
+| Dawne pliki rozdziałów Org | Krótkie wskazówki do właściwych części =index.org=, bez kopii treści. |
+| Dawne pliki rozdziałów HTML | Dziewięć przekierowań, odtwarzanych przy eksporcie kursu. |
+| Zachowane starsze zasoby =oprawa/= i obu pakietów | Tylko zależności historycznych podglądów i wzorce testów; nieużywane oprawy usunięto. |
+| =scenariusz-prowadzacego.org= → HTML o tej samej nazwie | Osobne wytyczne prowadzącego. |
+| =przeglady/= | Historyczne przeglądy i oceniane propozycje. |
+| =CZYTAJ.org= w katalogu głównym | Aktualna mapa projektu i polecenia pracy. |
+| =CZYTAJ.org= w dawnych pakietach | Aktualna mapa zachowanych zasobów oraz historyczne instrukcje. |
+| =AGENTS.md= | Trwałe instrukcje odczytywane przez Codexa. |
+| =WARSZTAT-NOTATEK.org= | Ustalenia, korekty, plan rozbudowy i materiał do przyszłego skilla. |
+| =.codex/config.toml= | Aktywne ustawienia lokalnego projektu. |
+| =codex-config.example.toml= | Szablon ustawień, niewczytywany automatycznie. |
+| =.gitignore= | Wyłączenie plików roboczych, pamięci podręcznej i lokalnych poświadczeń z Git. |
+| =narzedzia/eksportuj_org.py= | Odtworzenie strony kursu i przekierowań. |
+| =narzedzia/sprawdz_projekt.py= | Kontrola HTML, kotwic, zależności i próbnego eksportu. |
+| =narzedzia/sprawdz_oprawe.cjs= | Porównanie obliczeń i SVG demonstracji przed scaleniem i po nim. |
+| =narzedzia/sprawdz_nawigacje.cjs= | Logika pojedynczych rozdziałów, kotwic i historii na obiektach Node. |
+
+** Edycja i odtwarzanie strony kursu
+
+Treść, wzory, tabele, kod Julii, podpisy i kontrolki ilustracji edytuj
+w =index.org=. Nagłówki pierwszego poziomu wyznaczają rozdziały, a niższe
+podrozdziały. Dodatek ma wyłączoną numerację. Nowe rozdziały dodawaj przed
+nim; numerację wyprowadza eksporter z bieżącej hierarchii. Zachowuj
+=CUSTOM_ID= przy przenoszeniu fragmentów, aby odsyłacze pozostały trwałe.
+Kafelki na stronie tytułowej powstają z nagłówków pierwszego poziomu.
+Ich krótki opis zapisz we właściwości =CHAPTER_DESCRIPTION= rozdziału;
+tytuł, numer, kolejność i odsyłacz wynikają z automatycznego spisu.
+Na początku HTML widać okładkę i kafelki. Po wybraniu kafelka JavaScript
+pokazuje tylko wskazany rozdział, z powrotem do spisu i przejściem do
+poprzedniego/następnego. Kotwica w adresie określa rozdział lub jego fragment;
+można ją zapisać i otworzyć bezpośrednio. Przycisk Wstecz wraca do poprzedniego
+widoku. Ilustracje zachowują stan, a odtwarzanie opuszczonego rozdziału
+zostaje zatrzymane. Druk obejmuje aktualnie wybrany rozdział.
+Bez JavaScriptu dostępny jest cały dokument wraz ze zwykłymi odsyłaczami.
+Zakres przyszłych tematów zapisano w =WARSZTAT-NOTATEK.org=.
+
+Po zmianie źródła odtwórz stronę:
+
+#+begin_src sh :eval never
+python3 narzedzia/eksportuj_org.py
+#+end_src
+
+Skrypt korzysta ze standardowego eksportera Org w Emacsie i Pandoca.
+Nie wykonuje bloków kodu. Pandoc przekształca LaTeX w natywne MathML,
+więc wzory w =index.html= nie wymagają MathJax, sieci ani JavaScriptu.
+JavaScript obsługuje widoki oraz demonstracje. Zwykły eksport =C-c C-e h h=
+stanowi etap pośredni: do aktualizacji strony stosuj powyższe polecenie,
+które utrwala też kotwice i odtwarza przekierowania.
+
+Wynik zastępuje istniejący HTML po udanym eksporcie, składzie wzorów
+i sprawdzeniu celów przekierowań. Dziewięć dawnych adresów zachowano:
+z rozpoznaną kotwicą prowadzą do odpowiedniego fragmentu, a bez niej do
+rozdziału. Przy wyłączonym JavaScripcie dostępny jest widoczny odsyłacz.
+Nie edytuj tych HTML ręcznie; ich źródłem jest mapa przekierowań.
+
+Wygląd i działanie demonstracji zmieniaj w =oprawa/scalone/book.css=
+i =book.js=. Ich style, wyszukiwanie kontrolek oraz identyfikatory SVG
+są przypisane do rozdziałów. Po porządkach w dawnych oprawach pozostają
+tylko zależności podglądów w =przeglady/= i wzorce testów: dwa modele
+=oprawa/01-numerics.js= i =02-numerics.js=, zasoby podglądów bisekcji
+w =rozdzial-03-org/oprawa/= oraz =rozdzial-04-05-org/oprawa/newton-3d.js=.
+Nie są już źródłem treści kursu. Ich usunięcie wymaga wcześniejszego
+sprawdzenia i dostosowania odpowiednich podglądów lub testów.
+
+Pełną kopię materiałów sprzed scalenia zapisano poza katalogiem strony;
+jej lokalizację i wyniki porównań podaje wpis W-04 w warsztacie.
+
+Osobne dokumenty można eksportować przez podanie ich ścieżki, np.:
+
+#+begin_src sh :eval never
+python3 narzedzia/eksportuj_org.py scenariusz-prowadzacego.org
+#+end_src
+
+* Sprawdzanie zmian
+
+Wymagane są Python 3.9 lub nowszy, Emacs z Org-mode i eksporterem HTML
+oraz Pandoc do składu wzorów kursu. Nie trzeba instalować bibliotek Pythona.
+W katalogu projektu uruchom:
+
+#+begin_src sh :eval never
+python3 narzedzia/sprawdz_projekt.py
+git diff --check
+#+end_src
+
+Kontrola sprawdza istniejące HTML, powtórzone identyfikatory, lokalne odsyłacze,
+kotwice i zasoby. Następnie eksportuje Org na tymczasowej kopii projektu
+z zachowaniem zależności oraz sprawdza wynik. Nie nadpisuje stron projektu.
+Pomija pomocnicze Org w =oprawa=, katalogi narzędziowe oraz pliki blokad,
+autozapisu i kopie zapasowe Emacsa. Bloki kodu, konfiguracja użytkownika
+Emacsa i ustawienia lokalne plików nie są wykonywane podczas eksportu.
+Błąd eksportu, zależności lub odsyłacza powoduje niezerowy kod zakończenia.
+
+Po zmianach JavaScriptu potrzebny jest także Node.js:
+
+#+begin_src sh :eval never
+node narzedzia/sprawdz_oprawe.cjs
+node narzedzia/sprawdz_nawigacje.cjs
+#+end_src
+
+Test oprawy porównuje obliczenia, stany iteracji i generowane SVG z zachowanymi
+modułami sprzed scalenia. Test nawigacji sprawdza wybór rozdziałów, kotwice,
+fokus i kolejne zmiany adresu na ręcznych obiektach Node. Żaden z tych testów
+nie uruchamia przeglądarki. Bloki Julii wymagają
+osobnego sprawdzenia odpowiedniego do zmienianej metody.
+
+Przy zmianie wyglądu lub działania obejrzyj HTML i sprawdź zmienione funkcje
+w przeglądarce, także przy wąskim oknie. Kontrole automatyczne nie oceniają
+wyglądu, obsługi kontrolek ani poprawności matematycznej. Podczas scalenia
+podgląd lokalnego HTML był zablokowany; oględziny pozostają niewykonane.
+Scenariusz prowadzącego korzysta z MathJax z sieci, więc jego wzory mogą
+wymagać połączenia z internetem.
+
+* Ustawienia projektu
+
+Aktywny plik =.codex/config.toml= ustawia możliwość zapisu w projekcie,
+pytanie o zgodę w razie potrzeby i wyłącza dostęp sieciowy poleceń
+wykonywanych w tym trybie. Nie wyłącza połączenia samego Codexa z modelem
+ani nie określa zasad dostępu wszystkich innych narzędzi.
+
+| Klucz | Wartość | Znaczenie |
+|-------+---------+-----------|
+| =approval_policy= | =on-request= | Przy pracy interaktywnej Codex pyta o zgodę w razie potrzeby. |
+| =sandbox_mode= | =workspace-write= | Polecenia mogą zapisywać w obszarze projektu i dozwolonych katalogach tymczasowych; wybrane katalogi konfiguracyjne pozostają chronione. |
+| =sandbox_workspace_write.network_access= | =false= | Sieć poleceń jest domyślnie wyłączona; szerszy dostęp wymaga odpowiedniej zgody. |
+
+Codex wczytuje ustawienia projektu po uznaniu go za zaufany; ten katalog
+ma już taki wpis w konfiguracji użytkownika. Ustawienia organizacji
+i parametry uruchomienia mogą mieć pierwszeństwo. Model i poziom
+rozumowania są dziedziczone z konfiguracji użytkownika; konfiguracja
+projektu ich nie zmienia.
+
+[[file:codex-config.example.toml][Szablon konfiguracji]] pozostaje wzorcem do porównania lub
+ponownego przygotowania pliku aktywnego. Sam plik =.example= nie jest
+wczytywany przez Codexa.
+
+** Próba bez edycji projektu
+
+Do sprawdzenia uruchomienia można użyć:
+
+#+begin_src sh :eval never
+codex exec --strict-config --ephemeral --sandbox read-only -c approval_policy=never "Przeczytaj AGENTS.md, CODEX.org i .codex/config.toml. Krótko opisz zasady pracy. Nie zmieniaj plików i nie wykonuj scalenia."
+#+end_src
+
+Parametry tej jednorazowej próby ograniczają dostęp do odczytu i wyłączają
+możliwość uzyskania dodatkowych zgód wewnątrz zadania. Nie zmieniają
+domyślnych ustawień projektu. =--strict-config= zgłasza nierozpoznane pola
+konfiguracji, a =--ephemeral= pomija trwały zapis historii tego zadania;
+nie jest obietnicą braku wszystkich zapisów technicznych programu.
+
+Wersja polecenia sprawdzona lokalnie: Codex CLI 0.164.0. W ustawieniach
+globalnych znajduje się historyczna flaga =features.js_repl = false=;
+program oznacza tę funkcję jako wycofaną (=removed=). Ten wpis nie należy
+do konfiguracji projektu i nie został zmieniony podczas jej przygotowania.
+
+** Wynik kontroli z 28 października 2026 r.
+
+| Element | Potwierdzony stan |
+|---------+-------------------|
+| Codex CLI | 0.164.0; użyte polecenia i opcje są obsługiwane. |
+| Logowanie | Aktywne logowanie przez konto ChatGPT. |
+| Zaufanie do projektu | Katalog projektu jest oznaczony jako =trusted=. |
+| Konfiguracja projektu | Aktywny plik zgodny ze sprawdzonym szablonem i aktualną dokumentacją OpenAI. |
+| Model próby | =gpt-5.6-sol=, poziom rozumowania =ultra=; wartości dziedziczone, niezmieniane podczas kontroli. |
+| Osobne zadanie Codexa | Próba =--strict-config --ephemeral --sandbox read-only= zakończyła się kodem 0. |
+| Instrukcje projektu | Codex odczytał =AGENTS.md=, =CODEX.org= i =.codex/config.toml= oraz rozpoznał źródła rozdziałów 3–5. |
+| Kontekst domyślnego uruchomienia | Diagnostyka =codex debug prompt-input= potwierdziła obecność ustawień projektu i instrukcji =AGENTS.md=. |
+| Eksport i zależności | Eksport 9 dokumentów Org, kontrola 15 stron HTML po eksporcie i lokalnych odsyłaczy zakończyły się bez błędów. |
+
+W próbie zadania wystąpiły nieblokujące ostrzeżenia o ikonach wtyczki
+i lokalnym indeksie historii. Zadanie mimo nich zakończyło się poprawnie;
+diagnostyka kontekstu zakończyła się bez ostrzeżeń. Nie zmieniano instalacji
+wtyczek, globalnych preferencji ani materiałów dydaktycznych. Kontrola
+nie obejmowała scalenia źródeł ani publikacji strony.
+
+* Wypracowanie skilla tworzenia notatek
+
+Drugim celem projektu jest przygotowanie umiejętności tworzenia podobnych
+materiałów. [[file:WARSZTAT-NOTATEK.org][WARSZTAT-NOTATEK.org]] gromadzi zakres przyszłego skilla,
+zasady dydaktyczne, uzasadnienia decyzji, kandydatów na wzorce i kryteria
+oceny. Przy istotnych korektach dopisujemy tam wnioski przydatne w dalszej
+pracy. Zatwierdzone wzorce wybiera autor.
+
+Aktualna konfiguracja umożliwia pracę nad projektem. Warsztat dokumentuje
+proces, z którego powstanie skill po sprawdzeniu go na przykładach.
+Sam skill nie został jeszcze utworzony. Scalenie źródeł wykonano na
+polecenie autora; jego przebieg i ograniczenia zapisano we wpisie W-04.
+
+* Przykładowe zlecenia
+
+** Naprawa odsyłaczy
+
+#+begin_example
+Sprawdź lokalne odsyłacze i nawigację rozdziałów. Napraw znalezione błędy
+techniczne, zachowując treść i wzory. Jeśli strona ma źródło Org, popraw
+źródło i odtwórz tylko jej HTML. Uruchom kontrolę projektu i podaj wynik.
+#+end_example
+
+** Zmiana wyglądu
+
+#+begin_example
+Popraw czytelność spisu treści na telefonie w oprawa/scalone/book.css.
+Zachowaj tytuły, opisy, kolejność i adresy rozdziałów. Sprawdź
+odsyłacze i obejrzyj wynik przy szerokości 390 oraz 1280 pikseli.
+#+end_example
+
+** Implementacja demonstracji
+
+#+begin_example
+Zaimplementuj opisaną przeze mnie demonstrację we wskazanym rozdziale.
+Zachowaj podaną metodę, notację i kryterium zakończenia. Sprawdź działanie
+na uzgodnionych danych i przypadkach brzegowych. Jeśli opis matematyczny
+nie ustala potrzebnej decyzji, wskaż brak przed wyborem algorytmu.
+#+end_example
+
+** Przegląd przed zatwierdzeniem
+
+#+begin_example
+Przejrzyj bieżące zmiany bez modyfikowania plików. Szukaj usterek eksportu,
+niedziałających odsyłaczy, zmian treści wykraczających poza zlecenie
+i błędów w kodzie demonstracji. Podaj lokalizacje i wynik kontroli projektu.
+#+end_example
+
+* Źródła OpenAI
+
+Sprawdzone 28 października 2026 r.:
+
+- [[https://developers.openai.com/training][OpenAI Training]] — Codex do pracy technicznej.
+- [[https://learn.chatgpt.com/docs/prompting][Prompting]] — zakres zlecenia, naprawy, testy i lokalny przegląd zmian.
+- [[https://learn.chatgpt.com/docs/agent-configuration/agents-md][Custom instructions with AGENTS.md]] — trwałe instrukcje projektu.
+- [[https://learn.chatgpt.com/docs/config-file/config-basic][Config basics]] — ustawienia projektu i zaufanie do katalogu.
+- [[https://learn.chatgpt.com/docs/config-file/config-reference][Configuration Reference]] — dostępne klucze ustawień.
+- [[https://learn.chatgpt.com/docs/non-interactive-mode][Non-interactive mode]] — uruchamianie osobnych zadań przez =codex exec=.

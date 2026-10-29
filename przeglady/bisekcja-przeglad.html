@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl" xml:lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Przegląd bisekcji — kandydat na wzorzec notatek</title>
+<meta name="author" content="Michał Pierzchalski" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-tex',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="../rozdzial-03-org/oprawa/tex-svg.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Przegląd bisekcji — kandydat na wzorzec notatek</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Spis tre&#x015b;ci</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgeeb2be6">Wynik i zakres przeglądu</a></li>
+<li><a href="#orgb4d0324">Co warto zachować</a></li>
+<li><a href="#orgd1deb0c">Trzy zatwierdzone dopracowania</a>
+<ul>
+<li><a href="#org34c972b">P-01. Uzasadnienie matematyczne widoczne w obu widokach</a></li>
+<li><a href="#orgdbd088e">P-02. Oszacowanie przypisane do konkretnego środka</a></li>
+<li><a href="#org08a9b38">P-03. Zastosowanie oszacowania przed uruchomieniem programu</a></li>
+</ul>
+</li>
+<li><a href="#org698ec4e">Weryfikacja matematyki i kodu</a>
+<ul>
+<li><a href="#org8f7cf4c">Twierdzenie i rachunek</a></li>
+<li><a href="#orgc253cde">Rzeczywiście uruchomione sprawdzenia</a></li>
+<li><a href="#org3d75425">Ograniczenie przed ponownym użyciem mechanizmu ilustracji</a></li>
+</ul>
+</li>
+<li><a href="#org209272f">Eksport i zakres sprawdzenia HTML</a></li>
+<li><a href="#org93b69ca">Akceptacja autora i materiał do skilla</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgeeb2be6" class="outline-2">
+<h2 id="orgeeb2be6">Wynik i zakres przeglądu</h2>
+<div class="outline-text-2" id="text-orgeeb2be6">
+<p>
+Sekcja bisekcji jest dobrym kandydatem na wzorzec. Przegląd nie wykazał
+błędu w jej twierdzeniu, przykładzie ani obliczeniach dwóch obecnych
+wariantów animacji. Proponujemy trzy dopracowania związku między
+uzasadnieniem, przybliżeniem i warunkiem zakończenia.
+</p>
+
+<p>
+Status aktualny: P-01, P-02 i P-03 <code>zatwierdzone przez autora 2026-10-29</code>
+i wdrożone do źródła rozdziału. Akceptacja dotyczy tych trzech dopracowań.
+Poniższy opis zachowuje rozpoznanie i porównanie z przeglądu z 2026-10-28.
+</p>
+
+<ul class="org-ul">
+<li>Źródło: <a href="../index.html#pierwiastki-bisekcja">Metoda równego podziału</a>, linie 82–181 w źródle sprzed scalenia.</li>
+<li>Powiązane wymagania programu: <a href="../index.html#pierwiastki-program">Od metody do programu</a>, linie 717–795 w źródle sprzed scalenia.</li>
+<li>Podstawa dydaktyczna: <a href="../scenariusz-prowadzacego.html">scenariusz prowadzącego</a>, część o bisekcji, linie 182–233.</li>
+<li><a href="bisekcja-propozycja.html">Proponowany fragment Org</a> i <a href="bisekcja-propozycja.html">jego eksport HTML</a>.</li>
+</ul>
+
+<p>
+W dniu pierwotnego przeglądu rozdział, jego HTML i oprawa pozostały bez zmian.
+Po akceptacji autora 2026-10-29 trzy dopracowania wprowadzono do źródła
+rozdziału; osobny plik zachowuje oceniony wariant fragmentu i korzysta
+z istniejących zasobów rozdziału 3. Numery linii w tym raporcie odnoszą się
+do źródła w stanie z dnia pierwotnego przeglądu, 2026-10-28.
+</p>
+
+<p>
+SHA-256 całego źródła rozdziału przed przeglądem:
+<code>c5a42273681f8336cd797ccc3aa27295ccbfd6eee861567e08365d693c9b1666</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb4d0324" class="outline-2">
+<h2 id="orgb4d0324">Co warto zachować</h2>
+<div class="outline-text-2" id="text-orgb4d0324">
+<ul class="org-ul">
+<li>Przejście od konkretnego podziału przedziału do ogólnej reguły.</li>
+<li>Wyjaśnienie celu badania własności przed sformułowaniem twierdzenia.</li>
+<li>Rozdzielenie ciągłości i zmiany znaku od dodatkowej monotoniczności.</li>
+<li>Wniosek o przykładzie przed jego sprawdzeniem w programie.</li>
+<li>Sformułowanie „oszacowanie błędu”. Rzeczywisty błąd nie musi maleć
+w każdym kroku tak jak gwarantowana górna granica.</li>
+<li>Przykład \(1/x\), w którym brak pierwiastka wynika z własności funkcji,
+a nie z samego niespełnienia założenia twierdzenia.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd1deb0c" class="outline-2">
+<h2 id="orgd1deb0c">Trzy zatwierdzone dopracowania</h2>
+<div class="outline-text-2" id="text-orgd1deb0c">
+</div>
+<div id="outline-container-org34c972b" class="outline-3">
+<h3 id="org34c972b">P-01. Uzasadnienie matematyczne widoczne w obu widokach</h3>
+<div class="outline-text-3" id="text-org34c972b">
+<p>
+W źródle, w liniach 142–147, idea uzasadnienia bisekcji i jedyności jest
+w bloku <code>uwaga</code>. Reguła w <code>oprawa/widoki.css</code>, linie 78–79, ukrywa ten blok
+w domyślnym widoku Czytanie. Jednocześnie czytelnik widzi zapowiedź,
+że jednoznaczność zostanie uzasadniona poniżej.
+</p>
+
+<p>
+Propozycja: zachować tę samą treść uzasadnienia w bloku twierdzenia,
+poza <code>uwaga</code>, z oznaczeniem „Idea uzasadnienia”. Komentarze o wykonywanej
+czynności myślowej mogą nadal pozostawać w <code>uwaga</code>.
+</p>
+
+<p>
+Powód: wybrany widok powinien udostępniać przesłanki i uzasadnienia
+potrzebne do zrozumienia wniosków. Zmiana nie wymaga modyfikacji CSS.
+Status: <code>zatwierdzone przez autora 2026-10-29, wdrożone</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgdbd088e" class="outline-3">
+<h3 id="orgdbd088e">P-02. Oszacowanie przypisane do konkretnego środka</h3>
+<div class="outline-text-3" id="text-orgdbd088e">
+<p>
+Przed zmianą, linie 165–166:
+</p>
+
+<blockquote>
+<p>
+Pierwsze oszacowanie błędu wynosi \(0.5\). W kolejnym przedziale będzie
+wynosiło \(0.25\), niezależnie od tego, gdzie leży pierwiastek.
+</p>
+</blockquote>
+
+<p>
+Propozycja:
+</p>
+
+<blockquote>
+<p>
+Dla \(c_0=1.5\) oszacowanie błędu wynosi \(0.5\). W zachowanym przedziale
+\([1,1.5]\) obliczymy nowy środek \(c_1=1.25\); jego błąd nie przekracza
+\(0.25\). Każde oszacowanie dotyczy środka przedziału, z którego je wyznaczono.
+</p>
+</blockquote>
+
+<p>
+Powód: poprzedni środek staje się końcem nowego przedziału. Mniejsza
+połowa długości nowego przedziału nie jest automatycznie oszacowaniem
+błędu poprzedniego przybliżenia. W propozycji doprecyzowano też, że
+\(c_0\) jest środkiem przedziału początkowego, a \(c_n\) — przedziału
+po \(n\) podziałach. Status: <code>zatwierdzone przez autora 2026-10-29, wdrożone</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org08a9b38" class="outline-3">
+<h3 id="org08a9b38">P-03. Zastosowanie oszacowania przed uruchomieniem programu</h3>
+<div class="outline-text-3" id="text-org08a9b38">
+<p>
+Obecny wniosek, linie 152–153, przewiduje zbieżność. Następujący po nim
+kod sprawdza pierwszy krok. Scenariusz prowadzącego wskazuje również
+wykorzystanie oszacowania do doboru liczby podziałów lub warunku stopu.
+</p>
+
+<p>
+Propozycja: przed kodem dodać warunek
+</p>
+
+\begin{equation*}
+\frac{b_n-a_n}{2}\leq\tau_x
+\end{equation*}
+
+<p>
+i zaznaczyć, że zwracamy środek właśnie tego przedziału. Dla \([1,2]\)
+i \(\tau_x=10^{-3}\) wystarczy dziewięć podziałów oraz obliczenie \(c_9\),
+bo \(2^{-10}=0.0009765625 < 10^{-3}\). Jest to dziesiąty środek,
+licząc od \(c_0\).
+</p>
+
+<p>
+Pozostawiamy pełną implementację jako zadanie dla studenta w części
+„Od metody do programu”; dodajemy do niej odsyłacz. Gwarancję z twierdzenia
+odróżniamy od ograniczeń arytmetyki <code>Float64</code> omawianych w tamtej części.
+Status: <code>zatwierdzone przez autora 2026-10-29, wdrożone</code>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org698ec4e" class="outline-2">
+<h2 id="org698ec4e">Weryfikacja matematyki i kodu</h2>
+<div class="outline-text-2" id="text-org698ec4e">
+</div>
+<div id="outline-container-org8f7cf4c" class="outline-3">
+<h3 id="org8f7cf4c">Twierdzenie i rachunek</h3>
+<div class="outline-text-3" id="text-org8f7cf4c">
+<p>
+Założenia, indeksowanie od \(n=0\) i oszacowanie
+</p>
+
+\begin{equation*}
+|c_n-r|\leq\frac{b_n-a_n}{2}=\frac{b_0-a_0}{2^{n+1}}
+\end{equation*}
+
+<p>
+są zgodne z <a href="https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=9">D. Levy, Methods for Solving Nonlinear Problems, §2.3,
+tw. 2.7 i poprzedzające uzasadnienie, s. 8–9</a>. Źródło odczytano tekstowo;
+narzędzie obrazu strony PDF zgłosiło błąd pamięci podręcznej. Zbieżność
+w twierdzeniu dotyczy arytmetyki dokładnej. Monotoniczność zapewnia
+jedyność, nie jest warunkiem samej zbieżności bisekcji.
+</p>
+
+<p>
+Dla obecnego przykładu rzeczywisty błąd rośnie z około \(0.0857864\)
+dla \(c_0=1.5\) do około \(0.1642136\) dla \(c_1=1.25\).
+Oszacowanie maleje jednocześnie z \(0.5\) do \(0.25\). Potwierdza to
+potrzebę zachowania precyzyjnego słowa „oszacowanie”.
+</p>
+</div>
+</div>
+<div id="outline-container-orgc253cde" class="outline-3">
+<h3 id="orgc253cde">Rzeczywiście uruchomione sprawdzenia</h3>
+<div class="outline-text-3" id="text-orgc253cde">
+<ul class="org-ul">
+<li>Julia 1.11.7 wykonała definicję \(f(x)=x^2-2\) i istniejący blok pierwszego
+kroku. Wynik: <code>(1.5, 0.25, 0.5)</code> oraz <code>true</code> przy wyborze przedziału
+<code>[a,c]</code>. Blok z samej sekcji wymaga wcześniejszej definicji <code>f</code>;
+w samodzielnej propozycji tę definicję podano jawnie.</li>
+<li>Kod Julii z osobnej propozycji także uruchomiono. Potwierdzono pierwszy
+krok oraz dobór granicy \(2^{-10}\) dla \(\tau_x=10^{-3}\). Niezależne
+sprawdzenie na ułamkach dało \([a_9,b_9]=[181/128,725/512]\) oraz
+\(c_9=1449/1024=1.4150390625\); błąd mieści się w podanej granicy.</li>
+<li>Node 24.10.0 uruchomił funkcje obliczeniowe i generowanie SVG ilustracji.
+Sprawdzono 20 klatek, odpowiadających 10 krokom dla \(x^2-2\), oraz
+18 klatek, odpowiadających 9 krokom dla \(1/x\). Połowienie i znaki
+były poprawne, a wygenerowane SVG nie zawierały <code>NaN</code> ani <code>Infinity</code>.</li>
+<li>Wariant \(1/x\) poprawnie pokazuje etykietę „Połowa długości” zamiast
+„Oszacowanie błędu”. Ostatni środek wynosi \(0.0009765625\), a jego
+residuum \(1024\). Zwężenie przedziału nie rozwiązuje tego równania.</li>
+<li>Animacja kończy się po ustalonej liczbie klatek. Nie jest pełnym
+programem bisekcji kończącym obliczenia po osiągnięciu zadanej tolerancji.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3d75425" class="outline-3">
+<h3 id="org3d75425">Ograniczenie przed ponownym użyciem mechanizmu ilustracji</h3>
+<div class="outline-text-3" id="text-org3d75425">
+<p>
+Dodatkowy test kontrolny \(f(x)=x\) na \([-1,1]\) trafia od razu
+w pierwiastek. Funkcja <code>trace</code> kończy obliczenia, lecz kolejna dostępna
+klatka nadal opisuje wybór połowy z przeciwnymi znakami. Problem dotyczy
+komunikatu dla tego dodatkowego przypadku; obecne dwa przykłady nie
+osiągają go.
+</p>
+
+<p>
+Przed wykorzystaniem mechanizmu z dowolnymi nowymi funkcjami warto dodać
+osobny stan znalezienia pierwiastka. W tym przeglądzie nie zmieniano
+skryptu ani danych ilustracji. Sama ilustracja nie jest jeszcze wzorcem
+ogólnej, niezawodnej implementacji bisekcji.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org209272f" class="outline-2">
+<h2 id="org209272f">Eksport i zakres sprawdzenia HTML</h2>
+<div class="outline-text-2" id="text-org209272f">
+<p>
+Wykonano eksport obu nowych plików Org do HTML. Kontrola projektu
+sprawdziła lokalne zasoby, zależności i odsyłacze. W samodzielnej propozycji
+potwierdzono obecność jednej ilustracji bisekcji, unikalność kotwic
+oraz umieszczenie idei uzasadnienia w twierdzeniu, poza ukrywanym blokiem
+<code>uwaga</code>. Osobna propozycja korzysta z lokalnego MathJax oraz istniejących
+stylów i skryptów.
+</p>
+
+<p>
+Otwarcie lokalnego HTML w narzędziu przeglądarki zablokowały zabezpieczenia
+podglądu. Nie wykonano zatem pełnej kontroli wizualnej, składu wzorów
+w działającej przeglądarce, kliknięć kontrolek ani widoku przy wąskim
+oknie. Kontrola kodu i eksportu nie zastępuje tych czynności.
+</p>
+</div>
+</div>
+<div id="outline-container-org93b69ca" class="outline-2">
+<h2 id="org93b69ca">Akceptacja autora i materiał do skilla</h2>
+<div class="outline-text-2" id="text-org93b69ca">
+<p>
+Autor zatwierdził P-01, P-02 i P-03 dnia 2026-10-29. Wdrożono widoczną
+ideę uzasadnienia, przypisanie granicy błędu do konkretnego środka
+oraz warunek zakończenia z przykładem liczby podziałów. Zachowano
+założenia i treść twierdzenia, kotwice oraz dane i mechanizm ilustracji.
+Przyjęty fragment służy jako wzorzec tych trzech rozwiązań redakcyjnych;
+nie oznacza to akceptacji wszystkich kandydatów ani dowolnych nowych
+zastosowań mechanizmu bisekcji.
+</p>
+
+<p>
+Z zaakceptowanych dopracowań wynikają wskazówki do przyszłego skilla:
+</p>
+
+<ul class="org-ul">
+<li>Uzasadnienia potrzebne do odczytania wniosku powinny być dostępne
+w każdym podstawowym widoku notatek.</li>
+<li>Oszacowanie i warunek zakończenia należy wiązać z tym przybliżeniem,
+dla którego zostały wyprowadzone.</li>
+<li>Trzeba wskazywać, czy kod jest demonstracją jednego kroku, zadaniem
+dla studenta, czy gotową implementacją metody.</li>
+</ul>
+
+<p>
+Wyniki sprawdzeń w częściach powyżej dotyczą pierwotnego przeglądu.
+Po wdrożeniu 2026-10-29 ponowiono eksport i kontrolę projektu: 13 istniejących
+stron, 198 lokalnych odwołań; po próbnym eksporcie 12 Org — 18 stron
+i 263 odwołania, bez błędów. Julia potwierdziła pierwszy krok i dobór liczby
+podziałów. Node sprawdził 38 klatek dwóch przykładów: obliczenia i geometria
+pozostały identyczne, a etykiety liczb używają kropki. Kontrola struktury
+potwierdziła widoczność idei uzasadnienia poza <code>uwaga</code> i zachowanie kotwic.
+<code>git diff --check</code> nie zgłosił błędów. Ograniczenie kontroli w działającej
+przeglądarce pozostaje aktualne.
+</p>
+
+<p>
+Zgodnie z dodatkowym poleceniem autora zapis dziesiętny z kropką wprowadzono
+także w pozostałych materiałach, podpisach i formatach wyników ilustracji.
+Przecinki rozdzielające argumenty, współrzędne i elementy przedziałów zachowano.
+Zakres oraz wyniki sprawdzeń zapisano w <code>WARSZTAT-NOTATEK.org</code>.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Data: 2026-10-28</p>
+<p class="author">Autor: Michał Pierzchalski</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

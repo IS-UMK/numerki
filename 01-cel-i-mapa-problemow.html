@@ -1,269 +1,87 @@
 <!doctype html>
-<html lang="pl" data-mode="reading">
+<html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <meta name="description" content="Od modelu matematycznego do programu w Julii. Pierwszy rozdział analizy numerycznej z trybem badania rozumowań i sterowaną animacją SVG.">
-  <title>Cel i mapa problemów · Analiza numeryczna</title>
-  <style>
-    :root{--paper:#faf9f5;--ink:#25322e;--muted:#65716b;--line:#d8ded5;--green:#196551;--pale:#eaf2e9;--amber:#935d21;--amber-pale:#faf0dd;--blue:#305a82;--blue-pale:#edf2f9;--red:#924435;--red-pale:#f9eeea;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
-    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.75 system-ui,-apple-system,"Segoe UI",sans-serif}button,select,input{font:inherit}button,select{color:inherit}button,a,summary,input,select{-webkit-tap-highlight-color:transparent}a{color:var(--green);text-underline-offset:4px}a:hover{color:var(--ink)}button{cursor:pointer}button:disabled{cursor:default;opacity:.42}:focus-visible{outline:3px solid var(--amber);outline-offset:4px;border-radius:3px}.skip{position:absolute;left:16px;top:-100px;z-index:5;background:white;padding:8px 16px}.skip:focus{top:10px}.topbar{position:sticky;top:0;z-index:3;border-bottom:1px solid var(--line);background:rgba(250,249,245,.97)}.topbar-inner{max-width:1100px;margin:auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-size:14px;letter-spacing:.03em;color:var(--muted);text-decoration:none}.mode{display:flex;border:1px solid var(--line);border-radius:7px;padding:3px;gap:3px}.mode button{border:0;background:none;padding:5px 13px;border-radius:4px;font-size:13px;line-height:1.6}.mode button[aria-pressed="true"]{background:var(--ink);color:#fff}main{max-width:780px;margin:auto;padding:64px 28px 72px}header{padding-bottom:35px;border-bottom:1px solid var(--line)}.eyebrow{font:11px/1.5 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 19px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;line-height:1.15;letter-spacing:-.02em}h1{font-size:clamp(38px,6vw,58px);max-width:650px;margin:0 0 24px}h2{font-size:32px;margin:0 0 24px}h3{font-size:23px;margin:26px 0 14px}.lead{font-size:20px;line-height:1.65;max-width:650px}.goal{border-left:3px solid var(--green);padding:2px 0 2px 22px;margin:28px 0 25px}.goal p{margin:0}.goal small{display:block;color:var(--green);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}.toc{display:flex;gap:7px 22px;flex-wrap:wrap;font-size:13px;margin-top:26px}.toc a{color:var(--muted);text-decoration:none}.toc a:hover{text-decoration:underline}section{margin-top:54px}.section-number{display:block;font:11px/1.5 var(--mono);color:var(--green);letter-spacing:.1em;margin-bottom:10px}p{margin:0 0 18px}strong{font-weight:650}small,.small{font-size:13px;line-height:1.65}.muted{color:var(--muted)}var{font-family:Georgia,serif}code{font: .87em/1.5 var(--mono);background:#f0f0e9;padding:.12em .25em;border-radius:3px}.equation{margin:22px 0;padding:18px 22px;border:1px solid var(--line);border-radius:6px;overflow-x:auto;text-align:center;background:#fffdfa;font-size:19px}.equation math{font-size:1.15em}.equation .small{display:block;margin-top:10px;color:var(--muted)}.mathline{display:block;margin:6px 0}.definitions{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}.definition{padding:17px 0;border-top:1px solid var(--line)}.definition p{font-size:15px;margin:8px 0 0}.definition h3{font-size:20px;margin:0}.table-scroll{overflow-x:auto;margin:24px 0}table{border-collapse:collapse;text-align:left;width:100%;font-size:14px;line-height:1.6}th,td{vertical-align:top;border-bottom:1px solid var(--line);padding:12px 11px}th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}th:first-child,td:first-child{padding-left:0}th:last-child,td:last-child{padding-right:0}td:first-child{width:28%}.note{border-left:2px solid var(--line);padding:2px 0 2px 18px;margin:25px 0;font-size:15px}.note p:last-child{margin-bottom:0}ol,ul{padding-left:23px}li{padding-left:5px;margin:10px 0}.study-only{display:none}.analysis{display:none}.marked{background:none;color:inherit}.argument{margin:22px 0}.argument>p{margin-bottom:10px}.argument[data-kind="explanation"]{--mark-bg:var(--amber-pale);--mark-ink:var(--amber)}.argument[data-kind="inference"],.argument[data-kind="proof"]{--mark-bg:var(--pale);--mark-ink:var(--green)}.argument[data-kind="checking"]{--mark-bg:var(--blue-pale);--mark-ink:var(--blue)}.argument[data-kind="fallacy"]{--mark-bg:var(--red-pale);--mark-ink:var(--red)}[data-mode="research"] .study-only{display:block}[data-mode="research"] .analysis{display:block}[data-mode="research"] .marked{background:var(--mark-bg);box-shadow:0 2px 0 var(--mark-bg);border-bottom:1px solid var(--mark-ink);-webkit-box-decoration-break:clone;box-decoration-break:clone}.analysis{font-size:14px;line-height:1.7;border-left:2px solid var(--mark-ink);padding:0 0 0 16px;margin:12px 0 24px}.analysis summary{font-size:12px;color:var(--mark-ink);cursor:pointer;font-weight:650}.analysis[open] summary{margin-bottom:12px}.analysis p{margin:8px 0}.analysis dl{margin:10px 0}.analysis dt{font-weight:650;margin:10px 0 2px}.analysis dd{margin:0}.analysis .direction{font:12px/1.7 var(--mono);color:var(--muted);padding-top:8px}.study-intro{background:var(--pale);padding:19px 23px;border-radius:6px;font-size:14px;margin-top:28px}.study-intro p{margin:0 0 10px}.study-intro p:last-child{margin:0}.wide{width:calc(100% + 160px);margin-left:-80px}.lab{border:1px solid var(--line);border-radius:9px;background:#fffefa;overflow:hidden;margin-top:30px;margin-bottom:26px}.lab-head{padding:22px 24px 16px;border-bottom:1px solid var(--line)}.lab-head h3{margin:0 0 6px;font-size:24px}.lab-head p{margin:0;font-size:13px;color:var(--muted)}.lab-controls{display:flex;align-items:end;gap:15px 23px;flex-wrap:wrap;padding:18px 24px 5px}.field-label{display:block;font-size:11px;letter-spacing:.04em;color:var(--muted);margin-bottom:5px}select{padding:7px 27px 7px 9px;background:white;border:1px solid var(--line);border-radius:5px;font-size:14px}.fixed-data{margin:0 0 7px;font:12px/1.6 var(--mono);color:var(--muted)}.lab-layout{display:grid;grid-template-columns:1.45fr 1fr;align-items:center;gap:4px;padding:8px 24px 10px 12px}.plot{min-width:0}.plot svg{display:block;width:100%;height:auto}.plot text{font:12px system-ui,sans-serif;fill:var(--muted)}.plot .axis-label{font-family:Georgia,serif;font-size:17px;fill:var(--ink)}.readout{padding:12px 8px 12px 18px;border-left:1px solid var(--line)}.step-title{font:11px/1.6 var(--mono);color:var(--green);letter-spacing:.06em;text-transform:uppercase;margin:0 0 15px}.state{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0 0 19px;font-size:14px}.state dt{color:var(--muted)}.state dd{margin:0;font:15px/1.7 var(--mono);font-variant-numeric:tabular-nums}.calculation{border-top:1px solid var(--line);padding-top:13px;font-size:13px;line-height:1.75}.calculation p{margin:0 0 8px}.calculation .numbers{font:12px/1.8 var(--mono);display:block}.status-tag{color:var(--amber);font-size:12px;min-height:20px}.legend{display:flex;flex-wrap:wrap;gap:7px 16px;padding:0 24px 17px;font-size:11px;color:var(--muted)}.legend span{display:inline-flex;align-items:center;gap:6px}.swatch{width:20px;height:0;border-top:2px solid var(--green);display:inline-block}.swatch.arrow{border-color:var(--amber)}.swatch.exact{border-color:#6c7e91;border-top-style:dashed}.swatch.field{border-color:#c4cdc4}.transport{border-top:1px solid var(--line);padding:17px 24px;background:#f5f6f0}.transport-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.transport button{border:1px solid var(--line);background:white;padding:7px 12px;border-radius:5px;font-size:13px}.transport .primary{background:var(--green);border-color:var(--green);color:white;min-width:100px}.transport .end-label{margin-left:auto;color:var(--muted);font:12px var(--mono)}.range-row{display:flex;align-items:center;gap:14px;margin-top:15px}.range-row label{font-size:12px;color:var(--muted)}input[type="range"]{accent-color:var(--green);width:100%;min-width:60px}.transport .hint{font-size:11px;color:var(--muted);margin:10px 0 0}.lab figcaption{padding:15px 24px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}.test-prompt{background:var(--amber-pale);padding:18px 21px;border-radius:5px;margin:23px 0;font-size:15px}.test-prompt p{margin:0 0 9px}.test-prompt p:last-child{margin:0}.disclosure{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin:25px 0;font-size:15px}.disclosure summary{cursor:pointer;font-size:14px;font-weight:600}.disclosure[open] summary{margin-bottom:15px}.disclosure p:last-child{margin-bottom:0}.false-claim{border-left:3px solid var(--red);padding:3px 0 3px 20px;margin:24px 0}.false-claim .label{font:11px/1.5 var(--mono);color:var(--red);text-transform:uppercase;letter-spacing:.05em}.false-claim blockquote{margin:8px 0;font-family:Georgia,serif;font-size:20px;line-height:1.5}.assignment{padding:21px 24px;background:var(--pale);border-radius:6px}.assignment h3{margin:0 0 13px}.assignment ol{margin-bottom:0}.next{margin-top:42px;padding-top:25px;border-top:1px solid var(--line);font-size:15px}.footer{max-width:780px;margin:0 auto;padding:0 28px 45px;font-size:12px;color:var(--muted)}.editorial{margin:0;font-size:12px}.editorial summary{font-size:12px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}noscript p{padding:16px;background:var(--amber-pale);font-size:14px}figure{margin:24px 0}.math-inline{white-space:nowrap}.badge{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:3px 7px;border-radius:4px;display:inline-block;margin-bottom:22px}.formula-note{font-size:13px;color:var(--muted);margin-top:-9px}
-    [hidden]{display:none!important}
-    @media(max-width:1000px){.wide{width:100%;margin-left:0}.lab-layout{grid-template-columns:1.3fr 1fr}.readout{padding-left:15px}.topbar-inner{padding:12px 22px}}
-    @media(max-width:620px){body{font-size:16px}main{padding:36px 20px 50px}.topbar-inner{padding:10px 16px;gap:8px}.brand{font-size:12px}.mode button{font-size:12px;padding:5px 9px}.lead{font-size:18px}.definitions{grid-template-columns:1fr;gap:0}h2{font-size:28px}.lab-layout{grid-template-columns:1fr;padding:8px 15px 15px}.readout{border-left:0;border-top:1px solid var(--line);padding:17px 8px 0}.state{grid-template-columns:auto 1fr auto 1fr;gap:5px 10px}.state dd{font-size:13px}.lab-controls,.lab-head{padding-left:18px;padding-right:18px}.legend,.transport,.lab figcaption{padding-left:18px;padding-right:18px}.transport .end-label{margin-left:0}.lab-head h3{font-size:22px}.equation{font-size:16px;padding:15px 10px}th,td{padding:10px 8px}.table-scroll table{min-width:570px}.footer{padding-left:20px;padding-right:20px}.assignment{padding:19px}.toc{gap:7px 17px}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-    @media print{body{background:white;color:black;font-size:11pt;line-height:1.55}.topbar,.toc,.skip,.transport,.lab-controls,.editorial,.badge{display:none}main{padding:0;max-width:none}header{padding-bottom:15px}h1{font-size:32pt}h2{font-size:22pt}section{margin-top:28px}.wide{width:100%;margin-left:0}.lab{break-inside:avoid}.lab-layout{grid-template-columns:1.25fr 1fr}.readout{border-left:1px solid #aaa;border-top:0}.marked{print-color-adjust:exact}.analysis{break-inside:avoid}a{color:inherit}p,li{orphans:3;widows:3}.footer{margin-top:20px;padding:0;max-width:none}.study-only table{font-size:9pt}}
-  </style>
-<style>
-.course-navigation { max-width: 820px; margin: 0 auto; padding: 20px 28px 32px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 24px; font: 13px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; }
-.course-navigation a { color: #196551; text-underline-offset: 4px; }
-.course-navigation a:focus-visible { outline: 3px solid #935d21; outline-offset: 4px; }
-.course-navigation--top { border-bottom: 1px solid #d8ded5; margin-bottom: 20px; padding-top: 15px; padding-bottom: 15px; }
-@media(max-width:600px) { .course-navigation { padding-right: 19px; padding-left: 19px; font-size: 12px; } }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rozdział w scalonych notatkach — Metody numeryczne</title>
+<link rel="canonical" href="index.html#cel-i-mapa-problemow">
+<script>
+"use strict";
+const przeniesienie = {"strona": "index.html", "rozdzial": "cel-i-mapa-problemow", "kotwice": {"numerics": "cel-i-mapa-problemow", "interface": "cel-i-mapa-problemow", "reading-mode": "cel-i-mapa-problemow", "research-mode": "cel-i-mapa-problemow", "tresc": "cel-i-mapa-problemow", "model": "cel-model", "heading-model": "cel-model", "text-model": "text-cel-model", "mapa": "cel-mapa", "heading-mapa": "cel-mapa", "text-mapa": "text-cel-mapa", "krok": "cel-krok", "heading-krok": "cel-krok", "text-krok": "text-cel-krok", "laboratorium": "cel-laboratorium", "lab-title": "cel-lab-title", "mu-select": "cel-mu-select", "h-select": "cel-h-select", "phase-plot": "cel-phase-plot", "plot-title": "cel-plot-title", "plot-description": "cel-plot-description", "step-arrow": "cel-step-arrow", "field-arrow": "cel-field-arrow", "plot-clip": "cel-plot-clip", "grid-lines": "cel-grid-lines", "field-lines": "cel-field-lines", "axis-ticks": "cel-axis-ticks", "exact-circle": "cel-exact-circle", "trajectory": "cel-trajectory", "trajectory-dots": "cel-trajectory-dots", "next-step": "cel-next-step", "next-point": "cel-next-point", "current-point": "cel-current-point", "point-label": "cel-point-label", "step-title": "cel-step-title", "value-time": "cel-value-time", "value-x": "cel-value-x", "value-y": "cel-value-y", "value-error": "cel-value-error", "calc-heading": "cel-calc-heading", "calc-x": "cel-calc-x", "calc-y": "cel-calc-y", "next-state": "cel-next-state", "reference-context": "cel-reference-context", "run-status": "cel-run-status", "exact-legend": "cel-exact-legend", "play-button": "cel-play-button", "prev-button": "cel-prev-button", "next-button": "cel-next-button", "reset-button": "cel-reset-button", "frame-label": "cel-frame-label", "step-slider": "cel-step-slider", "step-announcement": "cel-step-announcement", "kontrola": "cel-kontrola", "heading-kontrola": "cel-kontrola", "text-kontrola": "text-cel-kontrola", "gwarancje": "cel-gwarancje", "heading-gwarancje": "cel-gwarancje", "text-gwarancje": "text-cel-gwarancje", "zadanie": "cel-zadanie", "heading-zadanie": "cel-zadanie", "text-zadanie": "text-cel-zadanie", "slownik": "cel-slownik", "heading-slownik": "cel-slownik", "text-slownik": "text-cel-slownik"}};
+let staraKotwica = location.hash.slice(1);
+try { staraKotwica = decodeURIComponent(staraKotwica); } catch (_) {}
+const cel = Object.prototype.hasOwnProperty.call(przeniesienie.kotwice, staraKotwica)
+  ? przeniesienie.kotwice[staraKotwica] : przeniesienie.rozdzial;
+location.replace(przeniesienie.strona + "#" + encodeURIComponent(cel));
+</script>
 </head>
 <body>
-  <a class="skip" href="#tresc">Przejdź do treści</a>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="index.html">← Spis treści <span aria-hidden="true">/ 01</span></a>
-      <div class="mode" role="group" aria-label="Tryb pracy z tekstem">
-        <button id="reading-mode" type="button" aria-pressed="true">Czytanie</button>
-        <button id="research-mode" type="button" aria-pressed="false">Badanie</button>
-      </div>
-    </div>
-  </div>
-  <main id="tresc">
-    <header>
-      <p class="eyebrow">Rozdział 01 · Problem, model, program</p>
-      <h1>Cel i mapa problemów</h1>
-      <p class="lead">Na zajęciach będziemy formułować problemy matematyczne, dobierać metody ich rozwiązania i implementować je w języku Julia.</p>
-      <div class="goal"><small>Cel całego wykładu</small><p><strong>Znaleźć rozwiązanie problemu zdefiniowanego modelem matematycznym za pomocą modelu obliczeniowego w postaci programu komputerowego.</strong></p></div>
-      <div class="table-scroll"><table><thead><tr><th>Poziom</th><th>Pytanie</th></tr></thead><tbody><tr><td>Model matematyczny</td><td>Co jest dane i co należy wyznaczyć?</td></tr><tr><td>Model obliczeniowy</td><td>Jakimi krokami wyznaczymy przybliżenie?</td></tr><tr><td>Program</td><td>Jak wykonać te kroki i sprawdzić otrzymany wynik?</td></tr></tbody></table></div>
-      <nav class="toc" aria-label="W tym rozdziale"><a href="#model">Problem</a><a href="#mapa">Mapa metod</a><a href="#krok">Algorytm</a><a href="#kontrola">Ocena wyniku</a><a href="#zadanie">Program</a></nav>
-    </header>
-    <noscript><p>Tekst i wzory są dostępne bez JavaScriptu. Przełączanie trybów oraz sterowanie ilustracją wymagają jego włączenia.</p></noscript>
-    <aside class="study-only study-intro" aria-label="Jak czytać oznaczenia rozumowań"><p><strong>Tryb badania.</strong> Etykiety wyjaśniają, co jest dane, czego szukamy i co uzasadnia wniosek. <var>R</var> oznacza rację, <var>N</var> — następstwo. Implikacja <strong>R → N</strong> wyraża wynikanie przy wskazanych założeniach. Zapis <strong>~&gt;</strong> pokazuje kierunek rozumowania lub poszukiwania. Definicje i obserwacje odróżniamy od rozumowań.</p></aside>
-
-    <section id="model">
-      <span class="section-number">01 / PROBLEM MATEMATYCZNY</span>
-      <h2>Wspólny przykład: układ van der Pola</h2>
-      <p>Do tego układu będziemy wracać, aby powiązać poszczególne metody z jednym problemem:</p>
-      <div class="equation"><math display="block" aria-label="Pochodna x równa się y. Pochodna y równa się mu razy jeden minus x kwadrat razy y minus x."><mtable columnalign="right center left" rowspacing=".5em"><mtr><mtd><mover><mi>x</mi><mo>˙</mo></mover></mtd><mtd><mo>=</mo></mtd><mtd><mi>y</mi></mtd></mtr><mtr><mtd><mover><mi>y</mi><mo>˙</mo></mover></mtd><mtd><mo>=</mo></mtd><mtd><mi>μ</mi><mo>(</mo><mn>1</mn><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup><mo>)</mo><mi>y</mi><mo>−</mo><mi>x</mi></mtd></mtr></mtable></math><span class="small">μ ≥ 0 jest parametrem. Kropka oznacza pochodną względem czasu <var>t</var>.</span></div>
-      <p>Przyjmujemy <var>z</var>(<var>t</var>) = (<var>x</var>(<var>t</var>), <var>y</var>(<var>t</var>)) i zapisujemy układ jako <strong>ż = F<sub>μ</sub>(z)</strong>, gdzie <var>F</var><sub>μ</sub>(<var>x</var>, <var>y</var>) = (<var>y</var>, μ(1 − <var>x</var>²)<var>y</var> − <var>x</var>).</p>
-      <p><strong>Dane:</strong> parametr μ, stan początkowy <var>z</var><sub>0</sub> oraz przedział [0, <var>T</var>]. <strong>Szukane:</strong> przybliżenia rozwiązania w wybranych chwilach. W tym wprowadzeniu zakładamy istnienie i jednoznaczność rozwiązania na rozpatrywanym przedziale.</p>
-      <div class="definitions"><div class="definition"><h3>Algebraicznie</h3><p>Rozwiązaniem jest funkcja <var>z</var> spełniająca równania i warunek <var>z</var>(0) = <var>z</var><sub>0</sub>. Zapis <var>t</var> ↦ <var>z</var>(<var>t</var>) oznacza przyporządkowanie chwili <var>t</var> wartości rozwiązania.</p></div><div class="definition"><h3>Geometrycznie</h3><p>Parę (<var>x</var>, <var>y</var>) przedstawiamy jako punkt na płaszczyźnie. Kolejne punkty pokazują, jak zmieniają się obie składowe rozwiązania.</p></div></div>
-    </section>
-
-    <section id="mapa">
-      <span class="section-number">02 / MAPA METOD</span>
-      <h2>Jak dzielimy problem?</h2>
-      <p>Badanie tego samego modelu prowadzi do kilku zadań obliczeniowych. W każdym rozdziale ustalimy dane, niewiadome, metodę i sposób kontroli wyniku.</p>
-      <div class="table-scroll"><table><thead><tr><th>Zadanie</th><th>Postać matematyczna</th><th>Metody i pojęcia</th></tr></thead><tbody>
-        <tr><td>Wyznaczyć stan stały</td><td><var>F</var><sub>μ</sub>(<var>z</var><sub>*</sub>) = 0</td><td>Równania nieliniowe; metoda Newtona.</td></tr>
-        <tr><td>Obliczyć poprawkę Newtona</td><td><var>J</var><sub>F</sub>(<var>z</var><sub>k</sub>) Δ<var>z</var> = −<var>F</var>(<var>z</var><sub>k</sub>)</td><td>Pochodne, macierz Jacobiego, układy liniowe.</td></tr>
-        <tr><td>Przybliżyć wartości między węzłami</td><td>Dane wartości w wybranych punktach</td><td>Interpolacja.</td></tr>
-        <tr><td>Przybliżyć całkę</td><td>∫<sub>a</sub><sup>b</sup> <var>g</var>(<var>t</var>) d<var>t</var></td><td>Kwadratury: prostokąty, trapezy, metoda Simpsona.</td></tr>
-        <tr><td>Wyznaczyć kolejne wartości rozwiązania</td><td>ż = <var>F</var><sub>μ</sub>(<var>z</var>), <var>z</var>(0) = <var>z</var><sub>0</sub></td><td>Metody Eulera i Rungego–Kutty.</td></tr>
-        <tr><td>Ocenić wiarygodność obliczeń</td><td>Dokładność danych i wyniku</td><td>Arytmetyka komputerowa, błąd, uwarunkowanie i zbieżność.</td></tr>
-      </tbody></table></div>
-      <p class="small muted">Układ van der Pola łączy części kursu. Poszczególne metody będziemy również poznawać na prostszych przykładach.</p>
-    </section>
-
-    <section id="krok">
-      <span class="section-number">03 / MODEL OBLICZENIOWY</span>
-      <h2>Jeden krok algorytmu</h2>
-      <p>Jako zapowiedź dalszych metod przyjmijmy <strong>jawny schemat Eulera</strong>. Dla kroku <var>h</var> &gt; 0 obliczamy:</p>
-      <div class="equation"><math display="block" aria-label="z n plus jeden równa się z n plus h razy F mu od z n"><mrow><msub><mi>z</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>z</mi><mi>n</mi></msub><mo>+</mo><mi>h</mi><msub><mi>F</mi><mi>μ</mi></msub><mo>(</mo><msub><mi>z</mi><mi>n</mi></msub><mo>)</mo></mrow></math><span class="small"><var>t</var><sub>n</sub> = <var>nh</var>; <var>z</var><sub>n</sub> przybliża wartość <var>z</var>(<var>t</var><sub>n</sub>).</span></div>
-      <p><strong>Algebraicznie:</strong> obliczamy <var>F</var><sub>μ</sub>(<var>z</var><sub>n</sub>), mnożymy przez <var>h</var> i dodajemy do <var>z</var><sub>n</sub>. <strong>Geometrycznie:</strong> od punktu <var>z</var><sub>n</sub> przechodzimy do <var>z</var><sub>n+1</sub>. Strzałka przedstawia wektor przemieszczenia <var>z</var><sub>n+1</sub> − <var>z</var><sub>n</sub> = <var>hF</var><sub>μ</sub>(<var>z</var><sub>n</sub>).</p>
-      <div class="argument" data-kind="inference"><p><span class="marked">Dla μ = 1, <var>z</var><sub>0</sub> = (2, 0) i <var>h</var> = 0,05 mamy <var>F</var><sub>1</sub>(2, 0) = (0, −2). Pierwszy krok daje więc <var>z</var><sub>1</sub> = (2, −0,1).</span></p><details class="analysis"><summary>Wnioskowanie · przewidujemy wynik kroku</summary><p><strong>R:</strong> dane i schemat Eulera. <strong>N:</strong> pierwszy wynik to (2, −0,1). Podstawienie danych uzasadnia R → N. Wynik dotyczy tego kroku algorytmu; nie jest dokładnym rozwiązaniem równania różniczkowego w chwili 0,05.</p><p class="direction">Przesłanka ~&gt; konkluzja: R ~&gt; N<br>Punkt wyjścia ~&gt; cel: R ~&gt; N</p></details></div>
-      <figure class="lab wide" id="laboratorium" aria-labelledby="lab-title">
-        <div class="lab-head"><h3 id="lab-title">Zobacz, skąd bierze się kolejny punkt</h3><p>Wybierz krok. Przesuwaj suwak lub uruchom odtwarzanie. Zmiana danych wraca do początku.</p></div>
-        <div class="lab-controls">
-          <label><span class="field-label">Parametr modelu μ</span><select id="mu-select"><option value="1">1 · przykład podstawowy</option><option value="0">0 · przykład kontrolny</option></select></label>
-          <label><span class="field-label">Krok obliczeń h</span><select id="h-select"><option value="0.1">0,10</option><option value="0.05" selected>0,05</option><option value="0.025">0,025</option></select></label>
-          <p class="fixed-data">z₀ = (2; 0)<br>0 ≤ t ≤ 6</p>
-        </div>
-        <div class="lab-layout">
-          <div class="plot">
-            <svg id="phase-plot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 440" role="img" aria-labelledby="plot-title plot-description">
-              <title id="plot-title">Płaszczyzna fazowa i kroki metody Eulera</title>
-              <desc id="plot-description">Pozioma oś x, pionowa y. Zielone punkty i odcinki oznaczają przybliżenia Eulera. Pomarańczowa strzałka pokazuje następny krok. Stan początkowy to (2, 0); pierwszy krok prowadzi do (2, −0,1).</desc>
-              <defs><marker id="step-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7,3.5 L0,7" fill="#935d21"/></marker><marker id="field-arrow" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L4,2 L0,4" fill="#c4cdc4"/></marker><clipPath id="plot-clip"><rect x="52" y="18" width="376" height="376"/></clipPath></defs>
-              <g id="grid-lines" stroke="#eef0e9" stroke-width="1"></g>
-              <g id="field-lines" clip-path="url(#plot-clip)" stroke="#c4cdc4" stroke-width="1" fill="none"></g>
-              <line x1="52" y1="206" x2="435" y2="206" stroke="#a9b6aa"/><line x1="240" y1="394" x2="240" y2="12" stroke="#a9b6aa"/>
-              <g id="axis-ticks"></g><text class="axis-label" x="446" y="211">x</text><text class="axis-label" x="247" y="15">y</text>
-              <g clip-path="url(#plot-clip)"><circle id="exact-circle" cx="240" cy="206" r="107.428571" fill="none" stroke="#6c7e91" stroke-width="1.5" stroke-dasharray="6 5" visibility="hidden"/><path id="trajectory" d="M347.428571,206" fill="none" stroke="#196551" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><g id="trajectory-dots" fill="#196551"></g><line id="next-step" x1="347.428571" y1="206" x2="347.428571" y2="211.371429" stroke="#935d21" stroke-width="2.5" marker-end="url(#step-arrow)"/><circle id="next-point" cx="347.428571" cy="211.371429" r="3.5" fill="#fffefa" stroke="#935d21" stroke-width="1.5"/><circle id="current-point" cx="347.428571" cy="206" r="5" fill="#196551" stroke="#fffefa" stroke-width="2"/></g>
-              <circle cx="240" cy="206" r="3.5" fill="#fffefa" stroke="#65716b" stroke-width="1.4"/><text x="248" y="246">równowaga</text><text id="point-label" x="357" y="196" fill="#196551">z₀</text><text x="240" y="427" text-anchor="middle">Stan układu (x, y) — czas nie jest osią wykresu</text>
-            </svg>
-          </div>
-          <div class="readout" aria-label="Dane bieżącego kroku">
-            <p class="step-title" id="step-title">Krok 0 / 120</p>
-            <dl class="state"><dt>t<sub>n</sub></dt><dd id="value-time">0,000</dd><dt>x<sub>n</sub></dt><dd id="value-x">2,00000</dd><dt>y<sub>n</sub></dt><dd id="value-y">0,00000</dd><dt>e<sub>n</sub></dt><dd id="value-error">—</dd></dl>
-            <div class="calculation"><p><strong id="calc-heading">Następny krok</strong><span class="numbers" id="calc-x">x₁ = 2,00000 + 0,05 · 0,00000</span><span class="numbers" id="calc-y">y₁ = 0,00000 + 0,05 · (−2,00000)</span></p><p id="next-state">z₁ ≈ (2,00000; −0,10000)</p><p class="small muted" id="reference-context">Błąd eₙ obliczamy dla μ = 0, gdy znamy rozwiązanie dokładne.</p><p class="status-tag" id="run-status">Zatrzymano · wybierz „Krok +”.</p></div>
-          </div>
-        </div>
-        <div class="legend" aria-label="Legenda wykresu"><span><i class="swatch" aria-hidden="true"></i>obliczone przybliżenia</span><span><i class="swatch arrow" aria-hidden="true"></i>następny krok hF</span><span><i class="swatch field" aria-hidden="true"></i>kierunek pola</span><span id="exact-legend" hidden><i class="swatch exact" aria-hidden="true"></i>rozwiązanie dokładne dla μ = 0</span></div>
-        <div class="transport">
-          <div class="transport-row"><button class="primary" id="play-button" type="button" aria-pressed="false">Odtwórz</button><button id="prev-button" type="button" disabled aria-label="Poprzedni krok">Krok −</button><button id="next-button" type="button" aria-label="Następny krok">Krok +</button><button id="reset-button" type="button">Od początku</button><span class="end-label" id="frame-label">0 / 120</span></div>
-          <div class="range-row"><label for="step-slider">Iteracja n</label><input id="step-slider" type="range" min="0" max="120" step="1" value="0" aria-valuetext="Krok 0, czas 0"></div>
-          <p class="hint">Odtwarzanie: 6 kroków obliczeń na sekundę. Suwak wybiera numer kroku; chwila tₙ jest podana w panelu.</p>
-          <p class="sr-only" id="step-announcement" role="status" aria-live="polite" aria-atomic="true"></p>
-        </div>
-        <figcaption>Zielona łamana łączy obliczone przybliżenia. Pomarańczowa strzałka przedstawia wektor następnego kroku <var>hF</var><sub>μ</sub>(<var>z</var><sub>n</sub>). Szare strzałki mają jednakową długość i pokazują tylko kierunek pola. Wartości w panelu są zaokrąglone.</figcaption>
-      </figure>
-      <p class="small muted">Tutaj kolejny krok przesuwa czas o <var>h</var>. W metodzie Newtona kolejne iteracje poprawiają przybliżenie pierwiastka tego samego równania. Iteracyjność oznacza powtarzanie kroku obliczeń; rola tego kroku zależy od zadania.</p>
-    </section>
-
-    <section id="kontrola">
-      <span class="section-number">04 / OCENA WYNIKU</span>
-      <h2>Przewidzieć, sprawdzić, wyjaśnić</h2>
-      <p>W pierwszym kroku ilustracji <var>x</var><sub>1</sub> = <var>x</var><sub>0</sub> = 2, natomiast druga współrzędna się zmienia. Dlaczego pierwsza pozostała bez zmiany?</p>
-      <div class="argument" data-kind="explanation"><p><span class="marked">Wyjaśnienia szukamy we wzorze <var>x</var><sub>n+1</sub> = <var>x</var><sub>n</sub> + <var>hy</var><sub>n</sub>. Ponieważ <var>y</var><sub>0</sub> = 0, przyrost pierwszej współrzędnej wynosi zero. Ten wynik jest zgodny ze schematem Eulera.</span></p><details class="analysis"><summary>Wyjaśnianie · od wyniku do racji</summary><p><strong>N — punkt wyjścia:</strong> pierwsza współrzędna nie zmieniła się. <strong>R — poszukiwana racja:</strong> program wykonał aktualizację <var>x</var><sub>1</sub> = <var>x</var><sub>0</sub> + <var>hy</var><sub>0</sub> przy <var>y</var><sub>0</sub> = 0. Z R wynika N. Samo N nie dowodzi R: program pomijający aktualizację <var>x</var> dałby ten sam wynik. Wyjaśnienie wymaga więc sprawdzenia, jak wykonano krok.</p><p class="direction">Przesłanka ~&gt; konkluzja: N ~&gt; R<br>Punkt wyjścia ~&gt; cel: N ~&gt; R</p></details></div>
-      <p><strong>Poprawność implementacji i dokładność metody to odrębne kwestie.</strong> Zgodność pierwszego kroku ze wzorem sprawdza fragment programu. Błąd przybliżenia oceniamy przez porównanie z rozwiązaniem dokładnym lub przez odpowiednie oszacowanie.</p>
-      <details class="disclosure"><summary>Prosty przypadek do oceny błędu</summary><p>Dla μ = 0 i <var>z</var><sub>0</sub> = (2, 0) znamy rozwiązanie <var>z</var>(<var>t</var>) = (2 cos <var>t</var>, −2 sin <var>t</var>). Wybierz μ = 0 w ilustracji. Błąd <var>e</var><sub>n</sub> oznacza odległość obliczonego punktu od dokładnego punktu w tej samej chwili:</p><div class="equation"><math display="block" aria-label="e n równa się normie euklidesowej różnicy z n i z od t n"><mrow><msub><mi>e</mi><mi>n</mi></msub><mo>=</mo><msub><mrow><mo>‖</mo><msub><mi>z</mi><mi>n</mi></msub><mo>−</mo><mi>z</mi><mo>(</mo><msub><mi>t</mi><mi>n</mi></msub><mo>)</mo><mo>‖</mo></mrow><mn>2</mn></msub></mrow></math></div><p>Porównaj wyniki dla <var>h</var> = 0,10 i <var>h</var> = 0,05 w chwili <var>T</var> = 6. Mniejszy błąd w tym porównaniu nie jest ogólnym dowodem zbieżności metody.</p></details>
-      <div class="false-claim argument" data-kind="fallacy"><p class="label">Argument celowo błędny</p><blockquote><span class="marked">„Program zakończył działanie, więc błąd wyniku jest mniejszy od zadanej tolerancji”.</span></blockquote><p>Zakończenie obliczeń nie określa błędu wyniku.</p><details class="analysis"><summary>Non sequitur · brak wynikania</summary><p><strong>P:</strong> program zakończył pracę. <strong>W:</strong> błąd jest mniejszy od ustalonej tolerancji. P nie daje oszacowania błędu, więc nie uzasadnia W.</p></details></div>
-    </section>
-
-    <section id="gwarancje">
-      <span class="section-number">05 / ZAŁOŻENIA I WNIOSKI</span>
-      <h2>Jak korzystamy z twierdzeń?</h2>
-      <p>Twierdzenie <strong>R → N</strong> ustala wynikanie. Aby wyprowadzić <var>N</var> przez regułę odrywania, trzeba ponadto ustalić, że zachodzi <var>R</var>. Udowodnienie implikacji nie oznacza, że można pominąć sprawdzenie jej poprzednika.</p>
-      <p>Warunek <var>R</var> jest <strong>wystarczający</strong> dla <var>N</var>, gdy <var>R</var> → <var>N</var>; jest <strong>konieczny</strong>, gdy <var>N</var> → <var>R</var>. Przykładowo ścisła dominacja diagonalna w wierszach macierzy zapewnia zbieżność metody Jacobiego w arytmetyce dokładnej dla dowolnego wektora początkowego. Jej brak nie przesądza o rozbieżności.</p>
-      <details class="disclosure"><summary>Co oznacza ścisła dominacja diagonalna?</summary><p>W każdym wierszu macierzy kwadratowej zachodzi |<var>a</var><sub>ii</sub>| &gt; ∑<sub>j≠i</sub> |<var>a</var><sub>ij</sub>|. Jest to jeden z warunków wystarczających zbieżności metody Jacobiego do rozwiązania <var>Ax</var> = <var>b</var>. Samą metodę omówimy przy układach liniowych.</p></details>
-      <div class="study-only argument" data-kind="proof"><details class="analysis"><summary>Dowodzenie · krótki przykład dotyczący algorytmu</summary><p><strong>N — teza do uzasadnienia:</strong> jeśli <var>F</var>(<var>z</var><sub>*</sub>) = 0, to schemat Eulera rozpoczęty w <var>z</var><sub>*</sub> zwraca ten sam punkt w każdym kroku. <strong>R — poszukiwana racja:</strong> wzór kroku i zerowy przyrost.</p><p><strong>Dowód:</strong> dla <var>z</var><sub>n</sub> = <var>z</var><sub>*</sub> mamy <var>z</var><sub>n+1</sub> = <var>z</var><sub>*</sub> + <var>h</var> · 0 = <var>z</var><sub>*</sub>. Ponieważ tak wybrano <var>z</var><sub>0</sub>, własność zachodzi w każdym kroku. Dowód dotyczy schematu, nie poprawności dowolnej implementacji.</p><p class="direction">Przesłanka ~&gt; konkluzja: R ~&gt; N<br>Punkt wyjścia ~&gt; cel: N ~&gt; R</p></details></div>
-    </section>
-
-    <section id="zadanie">
-      <span class="section-number">06 / PROGRAM W JULII</span>
-      <h2>Od schematu do implementacji</h2>
-      <div class="assignment"><h3>Ćwiczenie wprowadzające</h3><p>Napisz funkcję <code>euler_vdp(mu, z0, h, N)</code>, która zwraca <var>N</var> + 1 chwil i przybliżeń, łącznie ze stanem początkowym. Przyjmij μ ≥ 0, <var>h</var> &gt; 0, całkowite <var>N</var> ≥ 0 oraz skończone dane liczbowe.</p><ol><li>Oddziel obliczanie <var>F</var><sub>μ</sub> od pętli. Obie nowe współrzędne oblicz z tego samego poprzedniego stanu.</li><li>Sprawdź pierwszy krok dla danych z ilustracji oraz przypadek <var>z</var><sub>0</sub> = (0, 0).</li><li>Dla μ = 0 i <var>z</var><sub>0</sub> = (2, 0) porównaj błąd w <var>T</var> = 6 przy (<var>h</var>, <var>N</var>) = (0,10; 60) i (0,05; 120).</li></ol></div>
-      <div class="argument" data-kind="checking"><p><span class="marked">Jeśli pierwszy krok Twojego programu zgadza się z przewidywanym wynikiem (2, −0,1), test potwierdza zgodność dla tych danych. Nie dowodzi poprawności programu dla wszystkich danych.</span></p><details class="analysis"><summary>Sprawdzanie pozytywne · oceniamy wynik testu</summary><p><strong>R — punkt wyjścia:</strong> hipoteza poprawnej implementacji. <strong>N — sprawdzane następstwo:</strong> wynik pierwszego kroku dla danych z ilustracji. Najpierw wyprowadzamy przewidywanie, potem uruchamiamy program i porównujemy wyniki z uwzględnieniem zaokrągleń. Dopiero zgodny wynik oznacza sprawdzanie pozytywne.</p><p>Obserwacja N nie dowodzi R. Program zwracający zawsze (2, −0,1) także przeszedłby ten test. Uzasadniony opis brzmi: „Test nie ujawnił błędu dla sprawdzonych danych”.</p><p class="direction">Przesłanka ~&gt; konkluzja: N ~&gt; R<br>Punkt wyjścia ~&gt; cel: R ~&gt; N</p></details></div>
-      <p>W opisie wyniku podaj <strong>dane, wynik, uzasadnienie i zakres wniosku</strong>. Te same wymagania będą obowiązywały przy każdej kolejnej metodzie.</p>
-      <div class="next"><strong>Następny krok:</strong> arytmetyka komputerowa — jak reprezentacja liczb i działania na nich wpływają na wynik programu.</div>
-    </section>
-    <section class="study-only" id="slownik">
-      <span class="section-number">NARZĘDZIA BADANIA</span><h2>Mapa rozumowań</h2>
-      <p class="small">Stosujemy rozróżnienia Czeżowskiego w wersji przyjętej dla tego wykładu. <var>R</var> jest racją, a <var>N</var> jej następstwem. Implikacja R → N wyraża tu wynikanie przy wskazanych założeniach. Wyjaśnianie i sprawdzanie pozytywne nie zamieniają tego wynikania na N → R.</p>
-      <div class="table-scroll"><table><thead><tr><th>Rodzaj</th><th>Wynikanie</th><th>Przesłanka ~&gt; konkluzja</th><th>Punkt wyjścia ~&gt; cel</th></tr></thead><tbody><tr><td>Wnioskowanie</td><td>R → N</td><td>R ~&gt; N</td><td>R ~&gt; N</td></tr><tr><td>Dowodzenie</td><td>R → N</td><td>R ~&gt; N</td><td>N ~&gt; R</td></tr><tr><td>Wyjaśnianie</td><td>R → N</td><td>N ~&gt; R</td><td>N ~&gt; R</td></tr><tr><td>Sprawdzanie pozytywne</td><td>R → N</td><td>N ~&gt; R</td><td>R ~&gt; N</td></tr></tbody></table></div>
-      <p class="small">W dowodzeniu podana teza N jest punktem wyjścia, a racja R — celem poszukiwania. Gotowy dowód przedstawia uzasadnienie w kierunku R ~&gt; N. W sprawdzaniu pozytywnym najpierw wyprowadzamy przewidywanie z hipotezy, a następnie oceniamy hipotezę na podstawie zaobserwowanego wyniku. Etykieta dotyczy funkcji danego fragmentu w tym procesie.</p>
-      <details class="disclosure"><summary>Pięć rodzajów błędów rozumowania</summary><p class="small">P oznacza przesłankę, W — konkluzję. Etykietę błędu nadajemy konkretnemu argumentowi i wskazujemy niepoprawny krok. Kategorie te nie muszą się wzajemnie wykluczać.</p><div class="table-scroll"><table><thead><tr><th>Błąd</th><th>Schemat</th><th>Na czym polega?</th></tr></thead><tbody><tr><td>Materialny</td><td>P: fałsz</td><td>Co najmniej jedną fałszywą przesłankę przyjęto za prawdziwą.</td></tr><tr><td>Petitio principii</td><td>P: ?</td><td>Przesłankę przyjęto bez należytego uzasadnienia.</td></tr><tr><td>Circulus vitiosus</td><td>P ↝ W ↝ P</td><td>Konkluzja ma uzasadniać przesłankę, która ma uzasadniać tę konkluzję; brak niezależnej podstawy uzasadnienia.</td></tr><tr><td>Non sequitur</td><td>P ⇏ W</td><td>Konkluzję przedstawiono jako wynikającą logicznie z przesłanek, choć takie wynikanie nie zachodzi.</td></tr><tr><td>Ignoratio elenchi</td><td>Cel: W; dowód: Q</td><td>Argument dotyczy innej tezy i nie rozstrzyga właściwej kwestii.</td></tr></tbody></table></div><p class="small">Warunkowe rozpatrywanie założenia fałszywego, np. w dowodzie nie wprost, nie jest samo przez się błędem materialnym. Sama równoważność P ↔ W nie jest błędnym kołem: koło dotyczy sposobu uzasadniania.</p><p class="small">Rozumowanie od zaobserwowanego skutku do możliwej racji nie jest automatycznie błędem. Nieuprawnione jest przypisanie mu pewności dedukcyjnej bez dodatkowego uzasadnienia. Błąd numeryczny i błąd programu to odrębne pojęcia.</p></details>
-    </section>
-  </main>
-  <footer class="footer"><p>Analiza numeryczna · Rozdział 01 · Wersja uproszczona do oceny</p><details class="disclosure editorial"><summary>Uwagi redakcyjne</summary><p>Rozdział skupia się na formułowaniu problemu, schemacie obliczeń, implementacji i ocenie wyniku. Układ van der Pola jest wspólnym przykładem dla kursu. Szczegółowe wyprowadzenia i warunki stosowania metod będą omawiane w poświęconych im rozdziałach.</p></details></footer>
-<script id="numerics">
-  'use strict';
-  // Pure numerical model. Deliberately separate from the rendering and controls.
-  function field(mu, z) { return [z[1], mu * (1 - z[0] * z[0]) * z[1] - z[0]]; }
-  function referenceError(z, t) { return Math.hypot(z[0] - 2 * Math.cos(t), z[1] + 2 * Math.sin(t)); }
-  function euler(mu, h, N, z0 = [2, 0]) {
-    if (!Number.isFinite(mu) || mu < 0 || !Number.isFinite(h) || h <= 0 || !Number.isInteger(N) || N < 0 || !Array.isArray(z0) || z0.length !== 2 || !z0.every(Number.isFinite)) throw new RangeError('Niedopuszczalne dane modelu.');
-    const states = [[z0[0], z0[1]]];
-    for (let n = 0; n < N; n++) {
-      const z = states[n], f = field(mu, z);
-      const next = [z[0] + h * f[0], z[1] + h * f[1]];
-      if (!next.every(Number.isFinite)) throw new RangeError('Nieskończony wynik obliczeń.');
-      states.push(next);
-    }
-    return states;
-  }
-  </script>
-  <script id="interface">
-  'use strict';
-  (() => {
-    const $ = id => document.getElementById(id);
-    const svgNS = 'http://www.w3.org/2000/svg';
-    const dom = Object.fromEntries(['mu-select','h-select','phase-plot','grid-lines','field-lines','axis-ticks','trajectory','trajectory-dots','next-step','next-point','current-point','point-label','exact-circle','exact-legend','value-time','value-x','value-y','value-error','step-title','calc-heading','calc-x','calc-y','next-state','reference-context','run-status','play-button','prev-button','next-button','reset-button','frame-label','step-slider','step-announcement','plot-description','reading-mode','research-mode'].map(id => [id,$(id)]));
-    const number = (x, digits=5) => (Object.is(x, -0) || Math.abs(x) < 0.5 * 10 ** -digits ? 0 : x).toFixed(digits).replace('.', ',').replace('-', '−');
-    const sub = n => String(n).replace(/\d/g, c => '₀₁₂₃₄₅₆₇₈₉'[Number(c)]);
-    const px = x => 240 + x * 376 / 7;
-    const py = y => 206 - y * 376 / 7;
-    const point = z => `${px(z[0]).toFixed(3)},${py(z[1]).toFixed(3)}`;
-    let mu=1, h=0.05, states=[], n=0, running=false, raf=0, last=0;
-    function svgNode(tag, attrs, parent, label) {
-      const el=document.createElementNS(svgNS,tag);
-      for (const [key,value] of Object.entries(attrs)) el.setAttribute(key,String(value));
-      if (label !== undefined) el.textContent=label;
-      parent.appendChild(el); return el;
-    }
-    function drawAxes() {
-      for(let a=-3;a<=3;a++) {
-        if(a===0) continue;
-        svgNode('line',{x1:px(a),x2:px(a),y1:18,y2:394},dom['grid-lines']);
-        svgNode('line',{x1:52,x2:428,y1:py(a),y2:py(a)},dom['grid-lines']);
-        svgNode('text',{x:px(a),y:222,'text-anchor':'middle'},dom['axis-ticks'],String(a).replace('-','−'));
-        svgNode('text',{x:231,y:py(a)+4,'text-anchor':'end'},dom['axis-ticks'],String(a).replace('-','−'));
-      }
-    }
-    function drawField() {
-      dom['field-lines'].replaceChildren();
-      for(let i=-6;i<=6;i++) for(let j=-6;j<=6;j++) {
-        const x=i/2,y=j/2, f=field(mu,[x,y]), length=Math.hypot(...f);
-        if(length===0) continue;
-        const dx=f[0]/length*7, dy=-f[1]/length*7;
-        svgNode('line',{x1:px(x)-dx/2,y1:py(y)-dy/2,x2:px(x)+dx/2,y2:py(y)+dy/2,'marker-end':'url(#field-arrow)'},dom['field-lines']);
-      }
-    }
-    function render(announce=false) {
-      const z=states[n], end=states.length-1, f=field(mu,z), next=states[n+1];
-      const path=states.slice(0,n+1).map((z,i)=>(i?'L':'M')+point(z)).join(' ');
-      dom['trajectory'].setAttribute('d',path);
-      dom['trajectory-dots'].replaceChildren();
-      for(let i=0;i<=n;i++) svgNode('circle',{cx:px(states[i][0]),cy:py(states[i][1]),r:1.7},dom['trajectory-dots']);
-      dom['current-point'].setAttribute('cx',px(z[0])); dom['current-point'].setAttribute('cy',py(z[1]));
-      dom['point-label'].setAttribute('x',Math.min(403,px(z[0])+10)); dom['point-label'].setAttribute('y',Math.max(32,py(z[1])-11)); dom['point-label'].textContent='z'+sub(n);
-      dom['next-step'].setAttribute('visibility',next?'visible':'hidden'); dom['next-point'].setAttribute('visibility',next?'visible':'hidden');
-      if(next) {
-        for(const [attr,value] of Object.entries({x1:px(z[0]),y1:py(z[1]),x2:px(next[0]),y2:py(next[1])})) dom['next-step'].setAttribute(attr,value);
-        dom['next-point'].setAttribute('cx',px(next[0]));dom['next-point'].setAttribute('cy',py(next[1]));
-      }
-      dom['value-time'].textContent=number(n*h,3); dom['value-x'].textContent=number(z[0]); dom['value-y'].textContent=number(z[1]);dom['value-error'].textContent=mu===0?number(referenceError(z,n*h),6):'—';
-      dom['step-title'].textContent=`Krok ${n} / ${end}`; dom['frame-label'].textContent=`${n} / ${end}`;
-      dom['step-slider'].max=end;dom['step-slider'].value=n;dom['step-slider'].setAttribute('aria-valuetext',`Krok ${n} z ${end}, czas ${number(n*h,3)}`);
-      dom['prev-button'].disabled=n===0;dom['next-button'].disabled=n===end;
-      dom['play-button'].disabled=n===end&&!running;dom['play-button'].textContent=running?'Pauza':'Odtwórz';dom['play-button'].setAttribute('aria-pressed',String(running));
-      dom['calc-heading'].textContent=next?'Następny krok':'Koniec przedziału';
-      dom['calc-x'].textContent=next?`x${sub(n+1)} = ${number(z[0])} + ${number(h,3)} · (${number(f[0])})`:'';
-      dom['calc-y'].textContent=next?`y${sub(n+1)} = ${number(z[1])} + ${number(h,3)} · (${number(f[1])})`:'';
-      dom['next-state'].textContent=next?`z${sub(n+1)} ≈ (${number(next[0])}; ${number(next[1])})`:`Obliczono ${end} kroków do T = 6.`;
-      dom['reference-context'].textContent=mu===0?'eₙ to odległość od dokładnego punktu z(tₙ) = (2 cos tₙ; −2 sin tₙ).':'Błąd eₙ obliczamy dla μ = 0, gdy znamy rozwiązanie dokładne.';
-      dom['run-status'].textContent=n===end?'Koniec · wróć do początku lub zmień h.':running?'Odtwarzanie · możesz zatrzymać w każdej chwili.':'Zatrzymano · wybierz „Krok +”.';
-      dom['plot-description'].textContent=`Płaszczyzna fazowa. μ = ${mu}, h = ${number(h,3)}. W kroku ${n}, w chwili ${number(n*h,3)}, x wynosi ${number(z[0])}, y wynosi ${number(z[1])}. Zielona łamana przedstawia obliczone przybliżenia.${mu===0?' Przerywany okrąg przedstawia krzywą rozwiązania dokładnego.':''}`;
-      if(announce) dom['step-announcement'].textContent=`Krok ${n}, czas ${number(n*h,3)}. x: ${number(z[0])}, y: ${number(z[1])}.${mu===0?' Błąd: '+number(referenceError(z,n*h),6)+'.':''}`;
-    }
-    function stop() { running=false;if(raf) cancelAnimationFrame(raf);raf=0;last=0; }
-    function goTo(value) { stop();n=Math.min(states.length-1,Math.max(0,Math.round(value)));render(true); }
-    function frame(timestamp) {
-      if(!running) return;
-      if(!last) last=timestamp;
-      if(timestamp-last>=1000/6) {last=timestamp;n++;if(n>=states.length-1) stop();render(!running);}
-      if(running) raf=requestAnimationFrame(frame);
-    }
-    function resetModel() {
-      stop();mu=Number(dom['mu-select'].value);h=Number(dom['h-select'].value);n=0;
-      states=euler(mu,h,Math.round(6/h));drawField();
-      dom['exact-circle'].setAttribute('visibility',mu===0?'visible':'hidden');dom['exact-legend'].hidden=mu!==0;
-      render(true);
-    }
-    function setMode(mode) {
-      const center=document.elementFromPoint(window.innerWidth/2,Math.min(150,window.innerHeight/3));
-      const anchor=center?.closest('section,header');const oldTop=anchor?.getBoundingClientRect().top;
-      document.documentElement.dataset.mode=mode;
-      dom['reading-mode'].setAttribute('aria-pressed',String(mode==='reading'));dom['research-mode'].setAttribute('aria-pressed',String(mode==='research'));
-      if(anchor && oldTop!==undefined) window.scrollBy({top:anchor.getBoundingClientRect().top-oldTop,behavior:'instant'});
-    }
-    dom['reading-mode'].addEventListener('click',()=>setMode('reading'));dom['research-mode'].addEventListener('click',()=>setMode('research'));
-    dom['mu-select'].addEventListener('change',resetModel);dom['h-select'].addEventListener('change',resetModel);
-    dom['play-button'].addEventListener('click',()=>{if(running){stop();render(true);}else if(n<states.length-1){running=true;render();raf=requestAnimationFrame(frame);}});
-    dom['prev-button'].addEventListener('click',()=>goTo(n-1));dom['next-button'].addEventListener('click',()=>goTo(n+1));dom['reset-button'].addEventListener('click',()=>goTo(0));dom['step-slider'].addEventListener('input',event=>goTo(Number(event.target.value)));
-    document.addEventListener('visibilitychange',()=>{if(document.hidden && running){stop();render();}});
-    window.addEventListener('pagehide',stop);
-    window.addEventListener('beforeprint',()=>{if(running){stop();render();}});
-    drawAxes();resetModel();
-  })();
-  </script>
-<nav class="course-navigation" aria-label="Przejście między rozdziałami"><a href="index.html">Spis treści</a><a href="02-arytmetyka-komputerowa.html" rel="next">Arytmetyka komputerowa →</a></nav>
+<p>Ten rozdział jest częścią wspólnych notatek.</p>
+<p><a href="index.html#cel-i-mapa-problemow">Otwórz rozdział w nowym dokumencie</a></p>
+<a id="axis-ticks" href="index.html#cel-axis-ticks" hidden></a>
+<a id="calc-heading" href="index.html#cel-calc-heading" hidden></a>
+<a id="calc-x" href="index.html#cel-calc-x" hidden></a>
+<a id="calc-y" href="index.html#cel-calc-y" hidden></a>
+<a id="current-point" href="index.html#cel-current-point" hidden></a>
+<a id="exact-circle" href="index.html#cel-exact-circle" hidden></a>
+<a id="exact-legend" href="index.html#cel-exact-legend" hidden></a>
+<a id="field-arrow" href="index.html#cel-field-arrow" hidden></a>
+<a id="field-lines" href="index.html#cel-field-lines" hidden></a>
+<a id="frame-label" href="index.html#cel-frame-label" hidden></a>
+<a id="grid-lines" href="index.html#cel-grid-lines" hidden></a>
+<a id="gwarancje" href="index.html#cel-gwarancje" hidden></a>
+<a id="h-select" href="index.html#cel-h-select" hidden></a>
+<a id="heading-gwarancje" href="index.html#cel-gwarancje" hidden></a>
+<a id="heading-kontrola" href="index.html#cel-kontrola" hidden></a>
+<a id="heading-krok" href="index.html#cel-krok" hidden></a>
+<a id="heading-mapa" href="index.html#cel-mapa" hidden></a>
+<a id="heading-model" href="index.html#cel-model" hidden></a>
+<a id="heading-slownik" href="index.html#cel-slownik" hidden></a>
+<a id="heading-zadanie" href="index.html#cel-zadanie" hidden></a>
+<a id="interface" href="index.html#cel-i-mapa-problemow" hidden></a>
+<a id="kontrola" href="index.html#cel-kontrola" hidden></a>
+<a id="krok" href="index.html#cel-krok" hidden></a>
+<a id="lab-title" href="index.html#cel-lab-title" hidden></a>
+<a id="laboratorium" href="index.html#cel-laboratorium" hidden></a>
+<a id="mapa" href="index.html#cel-mapa" hidden></a>
+<a id="model" href="index.html#cel-model" hidden></a>
+<a id="mu-select" href="index.html#cel-mu-select" hidden></a>
+<a id="next-button" href="index.html#cel-next-button" hidden></a>
+<a id="next-point" href="index.html#cel-next-point" hidden></a>
+<a id="next-state" href="index.html#cel-next-state" hidden></a>
+<a id="next-step" href="index.html#cel-next-step" hidden></a>
+<a id="numerics" href="index.html#cel-i-mapa-problemow" hidden></a>
+<a id="phase-plot" href="index.html#cel-phase-plot" hidden></a>
+<a id="play-button" href="index.html#cel-play-button" hidden></a>
+<a id="plot-clip" href="index.html#cel-plot-clip" hidden></a>
+<a id="plot-description" href="index.html#cel-plot-description" hidden></a>
+<a id="plot-title" href="index.html#cel-plot-title" hidden></a>
+<a id="point-label" href="index.html#cel-point-label" hidden></a>
+<a id="prev-button" href="index.html#cel-prev-button" hidden></a>
+<a id="reading-mode" href="index.html#cel-i-mapa-problemow" hidden></a>
+<a id="reference-context" href="index.html#cel-reference-context" hidden></a>
+<a id="research-mode" href="index.html#cel-i-mapa-problemow" hidden></a>
+<a id="reset-button" href="index.html#cel-reset-button" hidden></a>
+<a id="run-status" href="index.html#cel-run-status" hidden></a>
+<a id="slownik" href="index.html#cel-slownik" hidden></a>
+<a id="step-announcement" href="index.html#cel-step-announcement" hidden></a>
+<a id="step-arrow" href="index.html#cel-step-arrow" hidden></a>
+<a id="step-slider" href="index.html#cel-step-slider" hidden></a>
+<a id="step-title" href="index.html#cel-step-title" hidden></a>
+<a id="text-gwarancje" href="index.html#text-cel-gwarancje" hidden></a>
+<a id="text-kontrola" href="index.html#text-cel-kontrola" hidden></a>
+<a id="text-krok" href="index.html#text-cel-krok" hidden></a>
+<a id="text-mapa" href="index.html#text-cel-mapa" hidden></a>
+<a id="text-model" href="index.html#text-cel-model" hidden></a>
+<a id="text-slownik" href="index.html#text-cel-slownik" hidden></a>
+<a id="text-zadanie" href="index.html#text-cel-zadanie" hidden></a>
+<a id="trajectory" href="index.html#cel-trajectory" hidden></a>
+<a id="trajectory-dots" href="index.html#cel-trajectory-dots" hidden></a>
+<a id="tresc" href="index.html#cel-i-mapa-problemow" hidden></a>
+<a id="value-error" href="index.html#cel-value-error" hidden></a>
+<a id="value-time" href="index.html#cel-value-time" hidden></a>
+<a id="value-x" href="index.html#cel-value-x" hidden></a>
+<a id="value-y" href="index.html#cel-value-y" hidden></a>
+<a id="zadanie" href="index.html#cel-zadanie" hidden></a>
 </body>
 </html>

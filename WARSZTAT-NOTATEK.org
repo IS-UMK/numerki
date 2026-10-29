@@ -1,0 +1,708 @@
+#+TITLE: Warsztat tworzenia notatek — materiał do przyszłego skilla
+#+LANGUAGE: pl
+#+DATE: 2026-10-29
+#+OPTIONS: toc:2 num:nil
+#+STARTUP: overview hideblocks
+
+Ten dokument gromadzi sposób pracy wypracowywany przy notatkach z metod
+numerycznych. Będzie podstawą skilla tworzenia podobnych materiałów.
+Zapisujemy ustalenia autora, uzasadnienia korekt, przykłady i wyniki
+sprawdzeń. Gotowy skill zostanie opracowany na podstawie sprawdzonej pracy.
+
+Stan: autor zatwierdził dopracowania bisekcji i dziedziny w kroku Newtona,
+kropkę dziesiętną oraz podział publikacji. Przeniesiono rozdziały 1–2
+i pogłębienie z HTML do Org oraz zapisano plan dalszych tematów.
+Skill nie został jeszcze utworzony.
+Na polecenie autora scalono treść kursu w =index.org=, eksportowanym do
+=index.html=. Wyniki i ograniczenia opisuje wpis W-04.
+
+* Zakres przyszłego skilla
+
+** Cel, dane wejściowe i wynik
+
+Cel: pomagać w tworzeniu i redagowaniu notatek matematycznych, zachowując
+uzgodniony sposób prowadzenia wywodu, notację i wymagania techniczne.
+Obecny projekt dotyczy zajęć laboratoryjnych z metod numerycznych
+i zawiera przykłady w Julii.
+
+Przy rozpoczynaniu nowych notatek ustalamy:
+
+- odbiorców i zakładaną wiedzę;
+- temat, cel zajęć i zakres materiału;
+- źródła matematyczne oraz dostarczone szkice i przykłady;
+- obowiązującą notację i język implementacji;
+- rodzaj zlecenia: nowa treść, korekta, ilustracja lub praca techniczna;
+- wynik i sposób jego sprawdzenia.
+
+Docelowy układ wskazany przez autora dla tego projektu: treść notatek
+w jednym pliku Org z rozdziałami pod nagłówkami i eksport do jednego HTML
+wyświetlanego przez GitHub Pages. Wdrożono go na polecenie autora.
+Nagłówki pierwszego poziomu są rozdziałami, a niższe — podrozdziałami.
+Wynikiem eksportu jest =index.html= ze wspólną oprawą i mapą dawnych adresów.
+
+Autor zaakceptował następujący podział publikacji:
+
+- tekst główny: dotychczasowe rozdziały 1–5 oraz kolejne dodawane tematy;
+- pogłębienie arytmetyki komputerowej jako dodatek;
+- scenariusz prowadzącego, warsztat i instrukcje projektu jako osobne dokumenty.
+
+Kurs będzie sukcesywnie rozbudowywany. Liczba rozdziałów nie jest zamknięta.
+Numery podane przez autora pochodzą ze starych notatek i nie są docelową
+numeracją. Numerację wyprowadzamy z aktualnej hierarchii nagłówków;
+kotwice i odsyłacze opieramy na trwałych nazwach tematów. Przeniesienie
+istniejących materiałów do Org nie jest zleceniem napisania nowych rozdziałów.
+
+** Plan dalszych tematów wskazany przez autora
+
+Status: =zakres przyszłej rozbudowy wskazany przez autora=.
+Lista odtwarza przekazaną kolejność tematów; przy opracowanych częściach
+zapisujemy stan realizacji. Szczegółowe miejsce pozostałych tematów
+w hierarchii ustalimy przy opracowywaniu kolejnych części.
+
+- Uzupełnienia układów równań liniowych:
+  - metoda eliminacji Gaussa — opracowana na polecenie autora, wpis W-07;
+  - metody iteracyjne;
+  - metoda Jacobiego;
+  - metoda Gaussa–Seidla.
+- Reprezentacja funkcji:
+  - interpolacja wielomianowa;
+    - wielomian interpolacyjny w postaci potęgowej;
+    - wielomian interpolacyjny Lagrange’a;
+    - wielomian interpolacyjny Newtona.
+- Obliczanie pochodnych, w tym część ze źródłami.
+- Całkowanie:
+  - podejście symboliczne;
+  - całkowanie przez interpolację wielomianową;
+    - metoda prostokątów dla punktu środkowego: wielomian stopnia 0;
+    - metoda trapezów: wielomian stopnia 1;
+    - metoda Simpsona: wielomian stopnia 2.
+- Znajdowanie rozwiązania równań różniczkowych zwyczajnych:
+  - metoda Eulera, czyli metoda Rungego–Kutty pierwszego rzędu;
+  - metoda Rungego–Kutty czwartego rzędu.
+
+Dla kolejnych zastosowań temat, odbiorcy, język programu i zakres treści
+będą danymi zadania. Ścieżki obecnego repozytorium, nazwy rozdziałów
+i ustawienia konta Codexa należą do tego projektu.
+
+** Rola autora i narzędzi
+
+Autor ustala treść matematyczną, zakres kursu i sposób prowadzenia wywodu.
+Zmiany definicji, twierdzeń, założeń, dowodów, notacji oraz przykładów
+matematycznych wymagają wyraźnego polecenia. Propozycje do oceny oznaczamy
+jako propozycje; ich obecność w pliku nie oznacza akceptacji autora.
+
+Codex wykonuje zlecone prace techniczne: obsługę Org i HTML, implementację
+uzgodnionych demonstracji, sprawdzanie odsyłaczy, testy i przegląd zmian.
+Role i granice pracy opisuje [[file:AGENTS.md][AGENTS.md]], a uruchamianie narzędzi —
+[[file:CODEX.org][CODEX.org]].
+
+* Zasady dydaktyczne i redakcyjne
+
+Podstawą jest [[file:scenariusz-prowadzacego.org][scenariusz prowadzącego]]. Przy redakcji właściwego
+tematu odczytujemy odpowiednią część scenariusza, zamiast powielać go tutaj.
+Na polecenie autora w źródłach publikacji wskazujemy wyłącznie materiały
+przeznaczone dla czytelnika. Scenariusz prowadzącego, warsztat, instrukcje
+projektu i nieudostępnione notatki służą pracy nad tekstem; nie umieszczamy
+ich w bibliografii ani w opisie pochodzenia treści dla czytelnika.
+Do dalszej pracy przyjmujemy zapisane w nim zasady:
+
+- Powiązać model matematyczny, metodę obliczeniową i program.
+- Przed wprowadzeniem pojęcia wskazać, do czego będzie potrzebne.
+  Prowadzić od przykładu do rozróżnienia, reguły i uzasadnienia, a potem
+  wrócić do przykładu.
+- Jawnie wskazywać założenia i zakres wniosku. Rozróżniać wykonalność
+  pojedynczego kroku, zbieżność metody i jednoznaczność rozwiązania.
+- Odróżniać dowód twierdzenia, wnioskowanie z wykazanych założeń,
+  sprawdzenie w programie i wyjaśnienie wyniku.
+- Wykres i animację wiązać z objaśnianą zależnością. Zachowanie programu
+  interpretować w zakresie jego danych, arytmetyki i kryterium zakończenia.
+
+Sposób uzasadnienia dobieramy do problemu. Przy metodach bezpośrednich
+badamy wykonalność i jednoznaczność skończonego rachunku; przy iteracjach
+może być potrzebne badanie zbieżności. Układ jednej metody nie staje się
+obowiązkową kolejnością dla wszystkich tematów.
+
+Bieżące konwencje Org, LaTeX, bloków ról i ilustracji odczytujemy
+z =index.org= i =AGENTS.md=. Historyczne instrukcje pakietów zachowano
+w [[file:rozdzial-03-org/CZYTAJ.org][rozdziale 3]] i [[file:rozdzial-04-05-org/CZYTAJ.org][rozdziałach 4–5]].
+
+Zgodnie z poleceniem autora z 29 października 2026 r. we wszystkich
+materiałach zapisujemy liczby dziesiętne z kropką, np. \(1.5\) i \(0.25\).
+Dotyczy to tekstu, wzorów LaTeX, tabel, podpisów, kodu i wyników ilustracji.
+Przecinki rozdzielające argumenty, współrzędne lub elementy list zachowujemy.
+
+* Decyzje i korekty
+
+** Ustalenia początkowe
+
+Poniższe wpisy odtwarzają polecenia autora i stan projektu z 28 października
+2026 r. Status =ustalone= dotyczy wyraźnego polecenia; =do oceny= oznacza
+propozycję lub kandydata. Przy dalszej pracy zapisujemy datę i powód zmiany.
+
+| Identyfikator | Ustalenie | Zakres i podstawa | Status |
+|---------------+-----------+------------------+--------|
+| D-01 | Materiały źródłowe opracowujemy w Org-mode. | Zasada projektu w AGENTS.md. | ustalone |
+| D-02 | Treść matematyczną zmieniamy na wyraźne polecenie. | Zasada autora w AGENTS.md. | ustalone |
+| D-03 | Treść kursu jest w jednym Org, eksportowanym do jednego HTML. | Polecenie autora „ok, to teraz scal”; wdrożenie W-04. | ustalone, wdrożone |
+| D-04 | Zachowano odrębne zasoby dawnych pakietów; kurs używa oprawa/scalone. | Dawne pliki o wspólnych nazwach różnią się zawartością. W-04 łączy potrzebne moduły z izolacją rozdziałów, zachowując starsze zależności. | ograniczenie uwzględnione w W-04 |
+| D-05 | Podczas pracy zbieramy materiał do przyszłego skilla. | Cel autora: ukończone notatki i umiejętność tworzenia podobnych materiałów. | ustalone |
+| D-06 | Sekcja o bisekcji jest pierwszym przykładem dopracowania notatek. | Autor 29 października 2026 r. zatwierdził P-01, P-02 i P-03 z przeglądu W-01. | trzy korekty zaakceptowane |
+| D-07 | Separatorem dziesiętnym we wszystkich materiałach jest kropka. | Wyraźne polecenie autora z 29 października 2026 r.; obejmuje również wzory i wyniki ilustracji. | ustalone |
+| D-08 | Tekst główny i dodatek tworzą publikację dla czytelnika; scenariusz, warsztat i instrukcje pozostają osobno. | Autor zaakceptował podział podczas zlecenia migracji HTML → Org. Kurs będzie rozbudowywany, bez utrwalania historycznej numeracji. | ustalone |
+
+** Zapisywanie kolejnych korekt
+
+Dodajemy wpisy przy korektach, które wyjaśniają powtarzalny sposób pracy
+lub istotną decyzję. Rutynowe poprawki techniczne wystarczy opisać
+w zestawieniu zmian. Przy istotnej korekcie zapisujemy:
+
+1. Datę, zlecenie i lokalizację fragmentu: plik oraz nagłówek lub kotwicę.
+2. Problem w wersji przed zmianą i jej krótki fragment, jeżeli jest potrzebny.
+3. Wersję po zmianie oraz informację, czy autor ją zaakceptował.
+4. Powód: co poprawiono w rozumowaniu, czytelności lub działaniu.
+5. Zakres wniosku: zasada ogólna, konwencja tych notatek albo szczególny
+   przypadek danego przykładu.
+6. Sposób sprawdzenia i pozostałe wątpliwości.
+
+Zachowujemy również odrzucone rozwiązania, gdy powód odrzucenia pomoże
+w kolejnych zadaniach. Zmienione decyzje oznaczamy jako zastąpione.
+Do przyszłego skilla przenosimy reguły uzasadnione sprawdzonymi przykładami.
+
+** Przegląd W-01: bisekcja, 28 października 2026 r.
+
+Przedmiot: [[file:index.org::#pierwiastki-bisekcja][Metoda równego podziału]] wraz z ilustracją,
+kodem i odpowiednią częścią scenariusza prowadzącego. Wynik i materiał
+do porównania zapisano w [[file:przeglady/bisekcja-przeglad.org][przeglądzie]] oraz osobnej
+[[file:przeglady/bisekcja-propozycja.org][propozycji fragmentu]]. Na etapie przeglądu oryginalne źródło pozostało bez zmian.
+
+Nie wykryto błędu w twierdzeniu i dwóch obecnych przykładach. Rachunki
+sprawdzono przez wykonanie kodu Julii i funkcji obliczeniowych JavaScriptu.
+Przygotowano trzy propozycje: zachowanie uzasadnienia w widoku Czytanie,
+przypisanie oszacowania do konkretnego środka przedziału oraz powiązanie
+oszacowania z warunkiem zakończenia. Autor zatwierdził wszystkie trzy
+dopracowania 29 października 2026 r.
+
+W osobnej propozycji sprawdzono kod Julii, eksport, odsyłacze i strukturę
+HTML. Kontrola wizualna i klikanie kontrolek w przeglądarce pozostają
+niewykonane z powodu ograniczenia podglądu lokalnego HTML. Dodatkowy
+przypadek testowy ujawnił uwagę do komunikatu animacji przy dokładnym
+trafieniu w pierwiastek; obecnych dwóch przykładów ona nie dotyczy.
+
+** Wdrożenie W-01 i konwencja D-07, 29 października 2026 r.
+
+Zlecenie: wdrożyć zatwierdzone P-01, P-02 i P-03 w sekcji
+[[file:index.org::#pierwiastki-bisekcja][Metoda równego podziału]] oraz ujednolicić separator dziesiętny we wszystkich
+materiałach. Powody korekt i porównanie wersji zachowuje
+[[file:przeglady/bisekcja-przeglad.org][przegląd W-01]]. Akceptacja dotyczy tych trzech dopracowań; nie oznacza
+zatwierdzenia wszystkich pozostałych kandydatów ani ogólnej implementacji bisekcji.
+
+Z zaakceptowanych dopracowań zachowujemy do przyszłego skilla:
+
+- Uzasadnienie niezbędne do odczytania wniosku udostępniamy w każdym
+  podstawowym widoku notatek.
+- Oszacowanie i warunek zakończenia wiążemy z konkretnym przybliżeniem,
+  dla którego je wyprowadzono, z jawnym indeksowaniem kroków.
+- Wskazujemy, czy kod sprawdza pojedynczy krok, czy pełna implementacja
+  pozostaje zadaniem, oraz odróżniamy gwarancję z twierdzenia od ograniczeń arytmetyki.
+
+Kropka dziesiętna jest konwencją wszystkich tych notatek, przyjętą na wyraźne
+polecenie autora. Jej ujednolicenie nie zmienia wartości liczb ani separatorów
+elementów przedziałów, wektorów, argumentów i danych programów.
+
+Wdrożono dopracowania do źródła rozdziału 3 i obu jego wersji HTML.
+Separator ujednolicono w źródłach rozdziałów 3–4, ich podpisach i własnych
+skryptach obu katalogów =oprawa=, w scenariuszu prowadzącego, przeglądzie
+i ocenionym fragmencie oraz w odpowiadających im HTML. W rozdziałach 1–2,
+które nie mają źródeł Org, zmieniono istniejące HTML, w tym wzory MathML
+w pogłębieniu rozdziału 2. Materiały rozdziału 5 już spełniały tę konwencję.
+Regułę zapisano również w =AGENTS.md=. Zachowano kotwice, nawigację,
+geometrię ilustracji oraz dostarczone biblioteki MathJax.
+
+Sprawdzenia po wdrożeniu:
+
+- Eksport pięciu zmienionych samodzielnych dokumentów Org do HTML zakończył
+  się poprawnie. Kontrola całego projektu: 13 istniejących stron i 198
+  lokalnych odwołań; próbny eksport 12 Org dał 18 stron i 263 odwołania.
+  Nie znaleziono błędów zależności ani odsyłaczy. Bloków kodu nie wykonywano
+  podczas eksportu.
+- Julia wykonała blok pierwszego kroku i potwierdziła granicę
+  \(2^{-10}=0.0009765625\) dla dziewięciu podziałów i tolerancji \(10^{-3}\).
+- Node sprawdził składnię 16 własnych plików i bloków skryptów oraz osiem
+  definicji formatowania. Dla 38 klatek dwóch obecnych przykładów bisekcji
+  obliczenia i geometria pozostały identyczne, a etykiety używają kropki.
+- Kontrola struktury HTML potwierdziła, że idea uzasadnienia znajduje się
+  w twierdzeniu, poza ukrywanym blokiem =uwaga=. Zachowano dotychczasowe
+  identyfikatory kotwic; =git diff --check= nie zgłosił błędów.
+
+Ograniczenie: kontrola w działającej przeglądarce pozostaje niewykonana
+z powodu blokady podglądu lokalnego HTML. Sprawdzenia struktury i kodu
+nie zastępują oględzin ani kliknięć kontrolek.
+
+Podczas ujednolicania separatora wykryto różnicę wymagającą odrębnej decyzji:
+twierdzenie o kroku Newtona
+w =04-uklady-rownan-nieliniowych.html= (linia 987) przyjmuje dziedzinę
+\(D\subset\mathbb R^n\) i \(X_k\in D\), a w źródle
+=rozdzial-04-05-org/04-uklady-rownan-nieliniowych.org= (linia 383)
+funkcja była określona na całym \(\mathbb R^n\). Wtedy zachowano obie wersje.
+Autor następnie zaakceptował ujednolicenie opisane we wpisie W-02 poniżej.
+
+** Korekta W-02: dziedzina w twierdzeniu o kroku Newtona, 29 października 2026 r.
+
+Status: =zaakceptowane przez autora, wdrożone=. Polecenie „ok, popraw”
+dotyczyło zaproponowanego wariantu z otwartą dziedziną i sprawdzeniem
+przynależności nowego punktu do tej dziedziny.
+
+Lokalizacja: [[file:index.org::#nieliniowe-warunek-kroku][Kiedy krok Newtona jest jednoznacznie określony?]],
+źródło Org oraz obie wersje HTML rozdziału 4.
+
+Przed zmianą źródło Org przyjmowało \(F:\mathbb R^n\to\mathbb R^n\),
+a główny HTML — \(F:D\subset\mathbb R^n\to\mathbb R^n\).
+Po zmianie w obu wersjach \(D\subset\mathbb R^n\) jest otwarty,
+\(X_k\in D\), a \(F:D\to\mathbb R^n\) jest różniczkowalna w \(X_k\).
+Wniosek o jednoznaczności poprawki wtedy i tylko wtedy, gdy
+\(\det J(X_k)\ne0\), oraz jego dowód pozostały bez zmian.
+
+Bezpośrednio w twierdzeniu dopisano, że odwracalność \(J(X_k)\) nie zapewnia
+\(X_{k+1}\in D\). Przed oceną nowego residuum i rozważeniem kolejnego kroku
+trzeba sprawdzić, czy nowy punkt należy do dziedziny. Informacja ta jest
+dostępna w obu podstawowych widokach, poza ukrywanym blokiem =uwaga=.
+
+Powód i zakres: ujednolicenie założeń dwóch wersji rozdziału oraz odróżnienie
+jednoznacznego rozwiązania układu dla poprawki od dopuszczalności nowego
+punktu jako argumentu funkcji. Jest to doprecyzowanie twierdzenia o jednym
+kroku; nie dodaje gwarancji zbieżności całej iteracji. Kod i przykłady
+obliczeniowe pozostały bez zmian.
+
+Sprawdzenie: wykonano eksport źródła do HTML i przeniesiono wyeksportowany
+blok twierdzenia do głównej wersji HTML, zachowując jej kotwice i zasoby.
+Porównanie potwierdziło identyczną treść twierdzenia w obu HTML,
+widoczność dopisku poza =uwaga= oraz brak zmian poza blokiem twierdzenia
+w obu wersjach HTML. Wniosek i dowód nadal odnoszą się do tego samego
+układu liniowego; zmiana dziedziny nie zmienia kryterium odwracalności.
+
+=python3 narzedzia/sprawdz_projekt.py= zakończył się poprawnie:
+13 istniejących stron i 198 lokalnych odwołań; próbny eksport 12 Org
+dał 18 stron i 265 odwołań, bez błędów. =git diff --check= nie zgłosił
+błędów. Kontrola przeglądarkowa pozostaje niewykonana z powodu wcześniejszej
+blokady podglądu lokalnego HTML. Kod obliczeniowy nie był zmieniany.
+
+** Migracja W-03: źródła Org rozdziałów 1–2 i dodatku
+
+Status: =zlecone przez autora, wdrożone=. Zlecenie obejmuje przeniesienie istniejącej
+treści z HTML do Org, bez dopisywania przyszłych rozdziałów i bez scalenia
+całej publikacji. Odtworzone źródła znajdują się w katalogu głównym:
+=01-cel-i-mapa-problemow.org=, =02-arytmetyka-komputerowa.org= oraz
+=02-arytmetyka-komputerowa-poglebienie.org=.
+
+Wzory, tekst, tabele i kod Julii są edytowalne w Org. Kontrolki i SVG
+zachowano w pomocniczym =oprawa/ilustracje-01-02.org= z podpisami w Org.
+Własne style i skrypty wydzielono z HTML do =oprawa/= bez łączenia
+istniejących katalogów oprawy rozdziałów 3–5. Wzory HTML zachowują natywne
+MathML; do ich wyświetlania nie jest potrzebny JavaScript ani MathJax.
+W trzech symbolicznych zapisach części
+ułamkowej binarnej zastąpiono przecinek kropką, zgodnie z D-07.
+
+Powód i zakres: każdy obecny materiał ma otrzymać edytowalne źródło,
+które będzie można później włączyć do wspólnego dokumentu. Dodawanie
+kolejnych tematów ma polegać na rozbudowie hierarchii, bez zależności
+od dawnych numerów rozdziałów.
+
+Eksport =python3 narzedzia/eksportuj_org.py= korzysta ze standardowego Org
+i Pandoca oraz zachowuje oprawę trzech przeniesionych dokumentów. Kontrola projektu
+stosuje ten sam etap na kopii tymczasowej. Wynikowe strony są zastępowane
+dopiero po udanym eksporcie i składzie wzorów.
+
+Wyniki sprawdzeń:
+
+- Porównanie tekstu przed migracją i po niej potwierdziło zachowanie treści
+  po uwzględnieniu równoważnych znaków typograficznych i uzgodnionej kropki
+  dziesiętnej. Sformułowanie o cyfrach „po przecinku” dostosowano do kropki.
+- Zachowano wszystkie nagłówki i dotychczasowe kotwice, 11 tabel,
+  31 bloków kodu Julii oraz cztery ilustracje, w tym trzy interaktywne SVG.
+  Kod i geometria SVG są identyczne z HTML sprzed migracji. Parametry,
+  identyfikatory i opisy dostępności kontrolek pozostały bez zmian.
+- W pogłębieniu zachowano wszystkie 123 wzory z adnotacjami LaTeX;
+  porównanie po pominięciu odstępów i równoważnego zapisu pionowej kreski
+  potwierdziło ich zgodność. Dwa symboliczne separatory części ułamkowej
+  zapisano kropką zgodnie z D-07. Zachowano również opisy dostępności pięciu
+  wzorów z wprowadzeń oraz metadane dokumentów.
+- Pięć skryptów JavaScript przeniesiono bez zmiany zawartości. Node
+  potwierdził ich składnię. Bloków Julii w tym zadaniu nie wykonywano;
+  sprawdzono ich zgodność z wersją sprzed migracji.
+- Ponowny eksport dał trzy HTML identyczne bajt po bajcie. Próba błędu
+  eksportu potwierdziła zachowanie poprzedniego HTML i usunięcie plików
+  tymczasowych.
+- Kontrola projektu: 13 istniejących HTML i 212 lokalnych odwołań;
+  próbny eksport 15 Org dał 18 HTML i 282 odwołania. Nie znaleziono
+  błędów odsyłaczy ani zależności. =git diff --check= nie zgłosił błędów.
+
+Ograniczenie: nie wykonano oględzin ani klikania kontrolek w przeglądarce
+z powodu wcześniejszej blokady podglądu lokalnego HTML. Porównanie treści,
+SVG, parametrów kontrolek i skryptów nie zastępuje tej kontroli.
+Scalenie dokumentów pozostaje odrębnym krokiem.
+
+** Wdrożenie W-04: scalenie kursu, 29 października 2026 r.
+
+Status: =wykonane na wyraźne polecenie autora=. Autor po migracji W-03
+zlecił „ok, to teraz scal”. Zakres zachowuje podział D-08: pięć obecnych
+rozdziałów i dodatek są jedną publikacją. Scenariusz, warsztat, instrukcje
+i przeglądy pozostają osobno. Nie dopisano planowanych tematów.
+
+Powód: jedna edytowalna treść ma odpowiadać jednej stronie dla czytelnika,
+z możliwością sukcesywnego dodawania rozdziałów. Cała treść dawnych źródeł
+oraz włączanych ilustracji jest teraz w =index.org=, bez dyrektyw =INCLUDE=.
+Nagłówki wyznaczają hierarchię, a eksporter numeruje ją automatycznie.
+Dodatek ma wyłączoną numerację. Kotwice mają nazwy tematów i prefiksy
+rozdziałów, dzięki czemu nie zależą od przyszłej numeracji.
+
+Wdrożone pliki i zasady:
+
+- =index.org= jest jedynym źródłem treści kursu, podpisów i kontrolek.
+  Zachowano także niepublikowaną sekcję =noexport= z rozdziału o układach
+  liniowych. Dawne sześć źródeł Org zastąpiono wskazówkami do nowego pliku.
+- =oprawa/scalone/book.css= i =book.js= łączą potrzebne style i moduły,
+  ograniczając ich działanie do właściwych rozdziałów. Wspólny przełącznik
+  udostępnia widoki Czytanie i Badanie. Dawne zasoby zachowano dla podglądów
+  i porównań, bez wzajemnego nadpisywania plików o jednakowych nazwach.
+- =narzedzia/eksportuj_org.py= odtwarza domyślnie =index.html= i dziewięć
+  przekierowań. Pandoc składa wzory jako natywne MathML. Końcowy HTML kursu
+  nie ładuje MathJax. Zwykły eksport Emacsa jest tylko etapem pośrednim.
+- =oprawa/scalone/przekierowania.json= zachowuje dziewięć dawnych adresów
+  i 750 kotwic. Każdą kotwicę dopasowano do konkretnego celu, bez dopasowań
+  niejednoznacznych. Zachowano też stare kotwice strony głównej.
+- Zaktualizowano mapę źródeł i polecenia w =AGENTS.md=, =CODEX.org=,
+  =CZYTAJ.org= i warsztacie oraz odsyłacze przeglądów do nowych kotwic.
+
+Przed zmianą wykonano pełną kopię 68 plików materiałów, łącznie
+z zastanymi plikami nieśledzonymi i plikiem autozapisu autora.
+Kopia znajduje się poza katalogiem publikowanym:
+
+#+begin_example
+/home/michal/Dokumenty/ChatGPT/Materiały dydaktyczne na metody numeryczne/numerki-przed-scaleniem-2026-10-29-dhs3o4vd.tar.gz
+#+end_example
+
+Porównanie źródeł i wyników:
+
+- Zachowano wszystkie 45 bloków kodu, 994 wzory w źródle (919 fragmentów
+  i 75 środowisk LaTeX), 17 tabel oraz wszystkie 66 dawnych nagłówków.
+  Różnice odstępów we wzorach i tabelach pominięto przy porównaniu.
+- W HTML opublikowano 985 wzorów MathML, 45 bloków kodu, 17 tabel,
+  11 ilustracji i 10 statycznych SVG. Dziewięć wzorów z niepublikowanej
+  sekcji pozostało wyłącznie w źródle, wraz z jej trzema akapitami.
+- Test =node narzedzia/sprawdz_oprawe.cjs= porównuje moduły przed scaleniem
+  i po nim: 15 przebiegów modeli rozdziałów 1–2, zaokrąglanie, 100 klatek
+  metod znajdowania pierwiastków, obrazy przedziałów, pochodne oraz trzy
+  etapy Newtona 3D z powiększeniem. Obliczenia i geometria SVG są zgodne
+  po uwzględnieniu prefiksów identyfikatorów.
+- Kontrola projektu zakończyła się bez błędów: 13 istniejących HTML
+  i 874 lokalne odwołania; próbny eksport 15 Org dał 18 HTML i 953
+  odwołania. Sprawdzono też 49 powiązań identyfikatorów etykiet i SVG.
+  Zachowano kotwice obu historycznych podglądów bisekcji.
+- Sprawdzono działanie dziewięciu przekierowań dla wszystkich 750 dawnych
+  kotwic oraz dla pustych, nieznanych i błędnie zakodowanych fragmentów.
+- Ponowny eksport dał identyczny bajt po bajcie HTML kursu i przekierowania.
+  Próba brakującego celu zatrzymała eksport, zachowała poprzedni wynik
+  i usunęła pliki tymczasowe. =git diff --check= nie zgłosił błędów.
+  Kontrole te nie są sprawdzeniem matematycznym ani oceną wyglądu.
+
+Zastana różnica: źródło rozdziału o układach liniowych podaje „N. J. Highama”,
+a dawny HTML w katalogu głównym miał „J. Highama”. Zachowano zapis źródła
+Org. Nie zmieniano definicji, twierdzeń, dowodów ani kodu obliczeniowego.
+
+Ograniczenie: nie wykonano oględzin ani kliknięć w przeglądarce z powodu
+wcześniejszej blokady podglądu lokalnego HTML. Sprawdzenia kodu, parametrów,
+SVG, kotwic i eksportu nie zastępują tej kontroli. Zmiany pozostają lokalne;
+nie wykonano publikacji ani wysłania do GitHuba.
+
+** Korekta W-05: kafelki strony tytułowej, 29 października 2026 r.
+
+Polecenie autora: przywrócić pierwotny układ strony tytułowej, w którym
+każdy rozdział miał kafelek odsyłający do treści. Preferencja autora dotyczy
+kafelków; nie oznacza dodatkowej oceny treści matematycznej.
+
+Przywrócono pięć dawnych opisów rozdziałów z kopii sprzed scalenia oraz
+układ: numer po lewej, tytuł i opis, strzałka po prawej. Cały kafelek jest
+zwykłym odsyłaczem do nagłówka we wspólnym HTML i działa bez JavaScriptu.
+Dodatek ma osobny kafelek bez numeru rozdziału. Przywrócono też oprawę
+tytułu, podtytułu i nazwiska autora.
+
+Kafelki powstają z automatycznego spisu nagłówków pierwszego poziomu.
+Opisy zapisano we właściwości =CHAPTER_DESCRIPTION= w =index.org=;
+wygląd jest w =oprawa/scalone/book.css=, a ich dołączenie do eksportu
+w =narzedzia/scalony_html.py=. Nowy rozdział otrzymuje kafelek bez
+powielania listy tytułów i odsyłaczy. Zachowano istniejące kotwice
+spisu treści i rozdziałów.
+
+Sprawdzenie: eksport, sześć odsyłaczy do rozdziałów i dodatku, zachowanie
+opisów, numeracja i automatyczne dodanie kolejnego kafelka na kopii
+próbnej. Liczba wzorów, kodu, tabel i ilustracji pozostała bez zmian.
+Kontrola projektu i =git diff --check= zakończyły się bez błędów.
+Oględziny i kliknięcia w przeglądarce pozostają niewykonane z powodu
+wcześniejszej blokady podglądu lokalnego HTML.
+
+** Korekta W-06: niezależny widok rozdziału, 29 października 2026 r.
+
+Autor poprosił, aby kliknięcie kafelka pokazywało rozdział niezależnie
+od reszty treści. Zachowano jedno źródło Org i jeden wynikowy HTML.
+W =oprawa/scalone/book.js= dodano nawigację wybierającą rozdział na
+podstawie kotwicy w adresie; CSS ukrywa pozostałe części.
+
+Na początku widoczne są tylko okładka i kafelki. W rozdziale są odsyłacze
+Spis treści, Poprzedni i Następny. Bezpośrednie odsyłacze do podrozdziałów,
+dawne aliasy oraz zmiany adresu przez Wstecz/Dalej wybierają właściwy
+rozdział. Nieznana kotwica pokazuje stronę tytułową. Fokus trafia do
+widocznego nagłówka, a skrót do treści prowadzi do bieżącego rozdziału.
+
+Ilustracje są inicjalizowane przed ukryciem innych części. Zmiana rozdziału
+nie odtwarza jego HTML, więc zachowuje ustawienia i klatkę ilustracji.
+Obsługa odtwarzaczy reaguje także na ukrycie rozdziału i zatrzymuje animację;
+powrót nie wznawia jej automatycznie. Druk obejmuje widoczny rozdział.
+Bez JavaScriptu cały materiał pozostaje dostępny w jednym ciągłym dokumencie.
+
+Sprawdzenia: =narzedzia/sprawdz_nawigacje.cjs= sprawdza logikę na ręcznych
+obiektach Node: sześć rozdziałów, odsyłacze wewnętrzne, stare aliasy, błędny
+adres, powrót do spisu, końce nawigacji, fokus i szybkie zmiany kotwic.
+Osobna próba siódmego rozdziału potwierdza brak stałej liczby części.
+Sprawdzono też reakcję obsługi odtwarzaczy na ukrycie rozdziału i karty.
+Testy oprawy potwierdzają zachowanie obliczeń i geometrii SVG.
+Kontrola eksportu i odsyłaczy oraz =git diff --check= zakończyły się bez błędów.
+
+Nie zmieniono treści kursu. Oględziny i klikanie w przeglądarce pozostają
+niewykonane z powodu wcześniejszej blokady podglądu lokalnego HTML;
+sprawdzenia logiki i kodu nie zastępują tego etapu.
+
+** Opracowanie W-07: eliminacja Gaussa, 29 października 2026 r.
+
+Status: =opracowane na wyraźne polecenie autora; do oceny redakcji=.
+Autor zlecił kolejny rozdział na podstawie swoich =numerical.org=,
+z tym samym przykładem co w poprzednim rozdziale oraz według szablonu
+„Od problemu do wyjaśnienia wyniku” ze scenariusza prowadzącego.
+To polecenie opracowania treści, bez deklarowania późniejszej akceptacji
+konkretnego tekstu, twierdzenia ani kodu.
+
+Lokalizacja: [[file:index.org::#eliminacja-gaussa][Układy równań liniowych: eliminacja Gaussa]],
+nowy rozdział przed dodatkiem. Cała wcześniejsza treść =index.org= została
+zachowana. Kafelek, numeracja i odsyłacze powstały z hierarchii Org;
+wykorzystano istniejącą oprawę rozdziałów o układach liniowych.
+
+Podstawa źródłowa: pełniejsza wersja
+=/home/michal/Dropbox/Research/NumericalAnalysis/numerical.org=,
+sekcja „Metoda eliminacji Gaussa” (od wiersza 1007 w odczytanej wersji).
+Druga odnaleziona kopia w =Pobrane= jest starsza. Żadnej kopii źródłowych
+notatek nie zmieniano.
+
+Zakres opracowania:
+
+- Główny układ zachowuje macierz i prawą stronę poprzedniego rozdziału:
+  eliminacja daje tę samą macierz \(U\), wektor \(c=z=(4,6,-4)^T\)
+  i rozwiązanie \((1,2,-1)^T\). Mnożniki odtwarzają poznane \(L\).
+- Wywód prowadzi od odwracalnych działań na całych równaniach przez
+  konstrukcję na przykładzie, uogólnienie, badanie przeszkód, twierdzenie
+  z dowodem i zastosowanie założeń do programu oraz wyjaśnienia wyniku.
+  Dla metody bezpośredniej badamy wykonalność, zamiast zbieżności iteracji.
+- Wariant \(B\) z zerowym pierwszym elementem pochodzi z poprzedniego
+  rozdziału. Skalowany wybór daje \(p=(3,2,1)\) oraz rozwiązanie
+  \((-16/13,28/13,-1/13)^T\). Nie utożsamiamy go z rozwiązaniem dla \(A\).
+- Program dzieli obliczenie czynników i rozwiązanie, przechowuje osobno
+  \(L,U,p\), a przy późniejszej zamianie wierszy przenosi również
+  zapisane wcześniej mnożniki. Rozróżniono wektor \(p\) i macierz \(P\).
+
+Istotne korekty względem starych notatek, wprowadzone w ramach zlecenia
+nowego opracowania:
+
+1. W =numerical.org=, wiersze 1225–1233, drugi wybór wiersza nie zgadzał
+   się z ilorazami, a sortowanie ponownie korzystało z pierwszej kolumny.
+   W nowym tekście wybór następuje w każdym etapie, z aktualnej kolumny
+   i tylko z aktywnych wierszy. Początkowe skale przenosimy z wierszami.
+2. Wiersze 1109–1111 przypisywały wynik \((0,1)^T\) całemu zakresowi
+   \(0<\epsilon<\operatorname{eps}(\mathrm{Float64})\). Ten warunek nie
+   wystarcza. Zachowano pomocniczy układ ze źródła, ale przyjęto konkretnie
+   \(\epsilon=2^{-56}\) i pokazano zaokrąglenie obu wartości do \(-2^{56}\).
+   Oddzielono dokładne rozwiązanie, przybliżenie i obliczone residuum.
+3. Twierdzenie ograniczono jawnie do arytmetyki dokładnej. Test skrajnych
+   skal ujawnił niedomiar ilorazu przy wyborze wiersza w =Float64=;
+   ograniczenie dydaktycznej implementacji zapisano przy programie.
+
+Sprawdzenie matematyczne: niezależny przegląd nowego rozdziału nie wykazał
+błędów w rachunku, twierdzeniu, dowodzie ani zakresie warunków. Nie jest
+to akceptacja autora. W Julii 1.11.7 wykonano 1650 sprawdzeń, w tym
+200 dobrze uwarunkowanych macierzy losowych i 600 rozwiązań dla
+różnych prawych stron. Potwierdzono komentarze bloków, późniejsze zamiany
+wierszy, zachowanie wejść i czynników, przypadek jednowymiarowy i obsługę
+sprawdzonych niepoprawnych danych. Dla \(B\) norma residuum wyniosła
+\(8.881784197001252\cdot10^{-16}\); dla pomocniczego układu odtworzono
+wyniki \((0,1)^T\) i \((1,1)^T\). Testy programu nie zastępują dowodu.
+
+Eksport kursu oraz testy nawigacji i dotychczasowych demonstracji przeszły.
+Kontrola projektu: 13 istniejących HTML i 833 lokalne odwołania, następnie
+próbny eksport 15 Org do 18 HTML i 916 odwołań — bez błędów.
+=git diff --check= również nie zgłosił błędów.
+Ograniczenie oględzin: przeglądarka odmówiła dostępu do lokalnego adresu
+=file:= z powodu zasad dostępu. Nie wykonano kontroli wyglądu i klikania
+nowego rozdziału; nie obchodzono blokady. Zmiany pozostają lokalne.
+
+** Korekta W-08: zapis indeksu i samodzielność rozdziału, 29 października 2026 r.
+
+Polecenie autora: w nagłówku o pierwszej kolumnie wyświetlać \(x_1\)
+z indeksem dolnym i usunąć z rozdziału Gaussa wzmianki o wcześniejszych
+notatkach. Status: =korekta redakcyjna na wyraźne polecenie autora=.
+
+W [[file:index.org::#gauss-pierwsza-kolumna][nagłówku pierwszego etapu]] użyto zapisu matematycznego LaTeX.
+Usunięto wskazania wcześniejszych notatek z objaśnień, podpisu przykładu,
+listy źródeł i komentarza w źródle Org. Treść rozdziału ma przedstawiać
+wywód samodzielnie; historię opracowania zachowujemy w warsztacie.
+Nie zmieniono rachunków, twierdzenia, kodu ani trwałych kotwic.
+
+Sprawdzenie: eksport kursu i kontrola projektu przeszły bez błędów;
+w wynikowym nagłówku potwierdzono MathML z indeksem dolnym. Sprawdzono
+brak usuwanych odwołań w całym rozdziale i zachowanie bloków kodu.
+=git diff --check= nie zgłosił błędów. Oględziny w przeglądarce pozostają
+niewykonane ze względu na wcześniejszą blokadę dostępu do lokalnych plików.
+
+** Korekta W-09: źródła przeznaczone dla czytelnika, 29 października 2026 r.
+
+Polecenie autora: nie umieszczać w źródłach scenariusza prowadzącego
+ani innych materiałów, które nie mają być udostępnione czytelnikowi.
+Status: =zasada redakcyjna wskazana przez autora=.
+
+Z sekcji [[file:index.org::#gauss-zrodla][źródeł eliminacji Gaussa]] usunięto odsyłacz do scenariusza;
+pozostawiono publiczne opracowanie Highama i dokumentację Julii.
+Nagłówek sekcji skrócono do „Źródła”. Usunięto także wzmianki o nazwach
+wewnętrznych plików źródłowych z sekcji źródeł arytmetyki i stopki dodatku.
+Zasada nie zmienia wykorzystania scenariusza podczas redakcji ani zapisów
+historii pracy w warsztacie. Zakres obejmuje prezentację źródeł;
+rachunki, twierdzenia i kod pozostają bez zmian.
+
+Sprawdzenie: odtworzono HTML, kontrola projektu i =git diff --check=
+przeszły bez błędów. W źródle i HTML kursu nie znaleziono odwołań do
+scenariusza, warsztatu, instrukcji projektu ani nazw obu wewnętrznych
+plików źródłowych. Porównanie potwierdziło zachowanie wzorów i bloków kodu.
+
+** Porządki W-10: zależności i pliki robocze, 29 października 2026 r.
+
+Polecenie autora: uporządkować katalog, usunąć niepotrzebne pliki,
+następnie zatwierdzić wszystkie zmiany w Git i wysłać do zewnętrznego
+repozytorium. Status: =porządki techniczne na wyraźne polecenie autora=.
+
+Przed usuwaniem sprawdzono zależności publikacji, eksportu, zachowanych
+podglądów i testów. Usunięto 24 nieużywane pliki dawnych opraw: 14
+z głównego =oprawa/=, nieużywane ustawienia pakietu rozdziału 3 i dziewięć
+plików pakietu rozdziałów 4–5, w tym drugą kopię MathJax. Zachowano
+aktywną oprawę, zasoby podglądów bisekcji, licencję używanej kopii MathJax,
+cztery moduły stanowiące wzorce testów oraz wszystkie przekierowania.
+
+Usunięto też dwa pliki autozapisu Emacsa i jeden plik pamięci podręcznej
+Pythona. Łącznie 27 plików zajmowało 2268081 bajtów. Zastane materiały
+przed porządkami zabezpieczono w archiwum poza katalogiem projektu:
+
+#+begin_example
+/tmp/numerki-przed-porzadkami-3b_6e2i2/projekt.tar.gz
+#+end_example
+
+=.gitignore= wyłącza pliki robocze, pamięć podręczną, środowiska i lokalne
+poświadczenia. Wspólna konfiguracja =.codex/config.toml= pozostaje
+wersjonowana. Narzędzie kontroli projektu nie zapisuje już pamięci
+podręcznej importowanych modułów. Zaktualizowano główną instrukcję
+=CZYTAJ.org= i mapy zachowanych zasobów w instrukcjach projektu.
+Nie zmieniono treści kursu, wzorów ani kodu demonstracji.
+
+Plik autozapisu instrukcji rozdziałów 4–5 zawierał starszy raport migracji,
+różniący się od obecnego dokumentu. Jego unikatową część zachowujemy
+poniżej jako zapis historyczny, bez przypisywania mu aktualności ani
+akceptacji autora. Poniższe liczby dotyczą tamtej wersji materiałów.
+
+#+begin_quote
+Przeniesiono treść aktualnego HTML do Org. Zachowano osiem części, 138 wzorów,
+pięć bloków Julii, odsyłacz źródłowy, trzy ilustracje, jedenaście wyróżnionych
+bloków i rozwijany szkic dowodu. Usunięto przełącznik trybów: cała treść jest
+widoczna w jednym widoku. Oprawa odpowiada dotychczasowej wersji HTML,
+z dostosowaniem do standardowej struktury eksportu Org i składu wzorów przez MathJax.
+
+Porównanie potwierdziło zachowanie treści, kodu, podpisów, objaśnień i geometrii
+SVG. Testy w środowisku DOM potwierdziły poprawny skład wszystkich wzorów,
+działanie kroków Newtona i zerowania animacji, cztery warianty startu,
+41 położeń suwaka i oba przyciski wyboru macierzy. Sprawdzono wersję z lokalnymi
+plikami oprawy oraz samodzielny podgląd: bez żądań sieciowych i błędów skryptów.
+Pełna kontrola wizualna w przeglądarce nie była dostępna w środowisku wykonania.
+#+end_quote
+
+Sprawdzenie: ponowny eksport pozostawił HTML kursu i przekierowania
+identyczne bajt po bajcie. Kontrola projektu przeszła: 13 istniejących
+HTML i 832 odwołania, a po próbnym eksporcie 15 Org — 18 HTML i 921
+odwołań, bez błędów. Testy oprawy i nawigacji oraz =git diff --check=
+zakończyły się powodzeniem. Niezależny przegląd zależności potwierdził
+zachowanie zasobów podglądów i wzorców testów. Nie wykonywano nowych
+oględzin w przeglądarce; publikacja i jej aktywna oprawa nie zmieniły się
+w ramach tych porządków.
+
+* Wzorce do zatwierdzenia
+
+W sekcji o bisekcji zatwierdzono trzy opisane wyżej dopracowania.
+Pozostałe materiały są kandydatami do oceny autora; ich wskazanie nie oznacza
+zatwierdzenia całej treści matematycznej ani wszystkich rozwiązań redakcyjnych.
+
+- [[file:index.org::#pierwiastki-problem][Od problemu do równania]] — wprowadzenie celu i rozróżnienie pierwiastka,
+  przybliżenia, błędu oraz residuum. Status: =do oceny=.
+- [[file:index.org::#pierwiastki-bisekcja][Metoda równego podziału]] — przykład, konstrukcja, własności,
+  twierdzenie, źródło uzasadnienia i sprawdzenie. Pierwszy przegląd
+  wykonano; [[file:przeglady/bisekcja-propozycja.org][wariant po korektach P-01, P-02 i P-03]] zatwierdzono 29 października
+  2026 r. jako przykład tych trzech zasad.
+- [[file:index.org::#nieliniowe-krok-newtona-3d][Pierwszy krok Newtona w przestrzeni]] — powiązanie objaśnienia
+  algebraicznego z ilustracją interaktywną. Status: =do oceny=.
+- [[file:index.org::#liniowe-rozklad-lu][Rozkład LU]] — konstrukcja metody bezpośredniej i powiązanie
+  skończonego rachunku z warunkami jego wykonania. Status: =do oceny=.
+
+Po zatwierdzeniu wzorca zapisujemy datę akceptacji, jego zakres i cechy warte
+powtarzania. Przy dalszej edycji zachowujemy zaakceptowaną wersję fragmentu
+lub wskazanie jej wersji w Git, jeżeli została zapisana. Para wersji
+przed korektą i po niej powinna mieć opis przyczyny zmiany.
+
+* Kryteria oceny i próby przyszłego skilla
+
+** Kryteria jakości
+
+Poniższe kryteria stanowią roboczą listę do stosowania i doprecyzowania
+na przykładach. W raporcie podajemy, co rzeczywiście sprawdzono, kto
+ocenił wynik i co pozostaje nierozstrzygnięte.
+
+| Obszar | Oczekiwany wynik | Sposób oceny |
+|--------+------------------+--------------|
+| Matematyka | Spójna notacja, jawne założenia, uzasadniony zakres wniosków i wskazane źródła. | Przegląd autora lub recenzenta merytorycznego. |
+| Wywód | Czytelny cel, powiązanie przykładu z pojęciami i metodą, rozróżnienie dowodu oraz eksperymentu. | Ocena względem scenariusza i zaakceptowanego wzorca. |
+| Kod i ilustracje | Zgodność z uzgodnionym modelem, metodą i danymi. | Uruchomienie lub rachunek kontrolny stosownie do zadania; odnotowanie brakujących sprawdzeń. |
+| Org i HTML | Poprawny eksport, wzory, odsyłacze i zasoby. | Kontrola automatyczna oraz oględziny wyniku w przeglądarce. |
+| Obsługa strony | Czytelność przy wąskim i szerokim oknie, działanie widoków oraz zmienionych kontrolek. | Sprawdzenie właściwych funkcji w przeglądarce. |
+| Zakres pracy | Zmiany odpowiadają zleceniu i zachowują pozostałe materiały. | Przegląd zmienionych plików i zestawienia wykonanych czynności. |
+
+Obecne [[file:narzedzia/sprawdz_projekt.py][narzędzie kontroli projektu]] sprawdza próbny eksport, lokalne
+odsyłacze i zależności. Nie ocenia poprawności matematycznej, wyglądu
+ani działania JavaScriptu. Informację o wykonaniu kodu w Julii zapisujemy
+oddzielnie od informacji o poprawnym eksporcie bloku kodu.
+
+** Zadania do późniejszej próby
+
+Po opracowaniu pierwszej wersji skilla sprawdzimy go na nowych zadaniach
+w osobnym katalogu roboczym, z materiałami wejściowymi i kryteriami wyniku.
+Poniższe próby są planowane, jeszcze ich nie wykonano:
+
+1. Nowy temat niewykorzystany przy opracowywaniu skilla. Dostarczamy źródła,
+   odbiorców i zakres. Oceniamy samodzielne zastosowanie zasad wywodu
+   oraz zgodność Org i HTML z ustalonym wzorcem.
+2. Korekta wskazanego fragmentu istniejących notatek. Oceniamy wykonanie
+   konkretnej poprawki i zachowanie treści poza jej zakresem.
+3. Dodanie ilustracji do uzgodnionego przykładu. Sprawdzamy zgodność
+   ilustracji z opisem i kodem oraz jej działanie w przeglądarce.
+4. Zlecenie zawierające brakujące założenie lub uzasadnienie. Oczekujemy
+   wskazania braku, źródła lub pytania potrzebnego do dalszej pracy;
+   nie przyjmujemy nieudokumentowanej gwarancji matematycznej.
+5. Pytanie wymagające wyłącznie odpowiedzi w rozmowie. Sprawdzamy,
+   czy narzędzie respektuje zakres i nie tworzy niezamówionych plików.
+
+Z każdej próby zachowujemy polecenie, materiały wejściowe, wersję skilla,
+wynik, Twoją ocenę i konieczne poprawki. Powtarzające się problemy posłużą
+do dopracowania instrukcji. Przed uznaniem skilla za gotowy sprawdzimy,
+czy działa na nowym materiale bez odwoływania się do pełnej historii tej
+rozmowy i bez stałych ścieżek obecnego projektu.
+
+Wskazówki OpenAI: [[https://learn.chatgpt.com/use-cases/reusable-codex-skills][budowanie skilli na sprawdzonych przykładach]] oraz
+[[https://developers.openai.com/blog/eval-skills][ocena skilli według określonych kryteriów sukcesu]].

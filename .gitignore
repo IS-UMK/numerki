@@ -1,0 +1,24 @@
+# Pliki robocze Emacsa.
+*~
+.#*
+\#*\#
+
+# Pamięć podręczna i niedokończony eksport.
+__pycache__/
+*.py[cod]
+.org-export-*.html
+
+# Lokalne środowiska i poświadczenia.
+.venv/
+node_modules/
+.env
+.env.*
+!.env.example
+/.aws/
+
+# Wersjonujemy wyłącznie wspólną konfigurację projektu.
+/.codex/*
+!/.codex/config.toml
+
+.DS_Store
+Thumbs.db

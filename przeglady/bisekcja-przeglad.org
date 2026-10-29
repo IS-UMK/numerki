@@ -1,0 +1,242 @@
+#+TITLE: Przegląd bisekcji — kandydat na wzorzec notatek
+#+LANGUAGE: pl
+#+DATE: 2026-10-28
+#+OPTIONS: toc:2 num:nil
+#+STARTUP: overview
+#+HTML_MATHJAX: path:../rozdzial-03-org/oprawa/tex-svg.js align:center tagside:right font:TeX
+
+* Wynik i zakres przeglądu
+:PROPERTIES:
+:CUSTOM_ID: orgeeb2be6
+:END:
+
+Sekcja bisekcji jest dobrym kandydatem na wzorzec. Przegląd nie wykazał
+błędu w jej twierdzeniu, przykładzie ani obliczeniach dwóch obecnych
+wariantów animacji. Proponujemy trzy dopracowania związku między
+uzasadnieniem, przybliżeniem i warunkiem zakończenia.
+
+Status aktualny: P-01, P-02 i P-03 =zatwierdzone przez autora 2026-10-29=
+i wdrożone do źródła rozdziału. Akceptacja dotyczy tych trzech dopracowań.
+Poniższy opis zachowuje rozpoznanie i porównanie z przeglądu z 2026-10-28.
+
+- Źródło: [[file:../index.org::#pierwiastki-bisekcja][Metoda równego podziału]], linie 82–181 w źródle sprzed scalenia.
+- Powiązane wymagania programu: [[file:../index.org::#pierwiastki-program][Od metody do programu]], linie 717–795 w źródle sprzed scalenia.
+- Podstawa dydaktyczna: [[file:../scenariusz-prowadzacego.org][scenariusz prowadzącego]], część o bisekcji, linie 182–233.
+- [[file:bisekcja-propozycja.org][Proponowany fragment Org]] i [[file:bisekcja-propozycja.html][jego eksport HTML]].
+
+W dniu pierwotnego przeglądu rozdział, jego HTML i oprawa pozostały bez zmian.
+Po akceptacji autora 2026-10-29 trzy dopracowania wprowadzono do źródła
+rozdziału; osobny plik zachowuje oceniony wariant fragmentu i korzysta
+z istniejących zasobów rozdziału 3. Numery linii w tym raporcie odnoszą się
+do źródła w stanie z dnia pierwotnego przeglądu, 2026-10-28.
+
+SHA-256 całego źródła rozdziału przed przeglądem:
+=c5a42273681f8336cd797ccc3aa27295ccbfd6eee861567e08365d693c9b1666=.
+
+* Co warto zachować
+:PROPERTIES:
+:CUSTOM_ID: orgb4d0324
+:END:
+
+- Przejście od konkretnego podziału przedziału do ogólnej reguły.
+- Wyjaśnienie celu badania własności przed sformułowaniem twierdzenia.
+- Rozdzielenie ciągłości i zmiany znaku od dodatkowej monotoniczności.
+- Wniosek o przykładzie przed jego sprawdzeniem w programie.
+- Sformułowanie „oszacowanie błędu”. Rzeczywisty błąd nie musi maleć
+  w każdym kroku tak jak gwarantowana górna granica.
+- Przykład \(1/x\), w którym brak pierwiastka wynika z własności funkcji,
+  a nie z samego niespełnienia założenia twierdzenia.
+
+* Trzy zatwierdzone dopracowania
+:PROPERTIES:
+:CUSTOM_ID: orgd1deb0c
+:END:
+
+** P-01. Uzasadnienie matematyczne widoczne w obu widokach
+:PROPERTIES:
+:CUSTOM_ID: org34c972b
+:END:
+
+W źródle, w liniach 142–147, idea uzasadnienia bisekcji i jedyności jest
+w bloku =uwaga=. Reguła w =oprawa/widoki.css=, linie 78–79, ukrywa ten blok
+w domyślnym widoku Czytanie. Jednocześnie czytelnik widzi zapowiedź,
+że jednoznaczność zostanie uzasadniona poniżej.
+
+Propozycja: zachować tę samą treść uzasadnienia w bloku twierdzenia,
+poza =uwaga=, z oznaczeniem „Idea uzasadnienia”. Komentarze o wykonywanej
+czynności myślowej mogą nadal pozostawać w =uwaga=.
+
+Powód: wybrany widok powinien udostępniać przesłanki i uzasadnienia
+potrzebne do zrozumienia wniosków. Zmiana nie wymaga modyfikacji CSS.
+Status: =zatwierdzone przez autora 2026-10-29, wdrożone=.
+
+** P-02. Oszacowanie przypisane do konkretnego środka
+:PROPERTIES:
+:CUSTOM_ID: orgdbd088e
+:END:
+
+Przed zmianą, linie 165–166:
+
+#+begin_quote
+Pierwsze oszacowanie błędu wynosi \(0.5\). W kolejnym przedziale będzie
+wynosiło \(0.25\), niezależnie od tego, gdzie leży pierwiastek.
+#+end_quote
+
+Propozycja:
+
+#+begin_quote
+Dla \(c_0=1.5\) oszacowanie błędu wynosi \(0.5\). W zachowanym przedziale
+\([1,1.5]\) obliczymy nowy środek \(c_1=1.25\); jego błąd nie przekracza
+\(0.25\). Każde oszacowanie dotyczy środka przedziału, z którego je wyznaczono.
+#+end_quote
+
+Powód: poprzedni środek staje się końcem nowego przedziału. Mniejsza
+połowa długości nowego przedziału nie jest automatycznie oszacowaniem
+błędu poprzedniego przybliżenia. W propozycji doprecyzowano też, że
+\(c_0\) jest środkiem przedziału początkowego, a \(c_n\) — przedziału
+po \(n\) podziałach. Status: =zatwierdzone przez autora 2026-10-29, wdrożone=.
+
+** P-03. Zastosowanie oszacowania przed uruchomieniem programu
+:PROPERTIES:
+:CUSTOM_ID: org08a9b38
+:END:
+
+Obecny wniosek, linie 152–153, przewiduje zbieżność. Następujący po nim
+kod sprawdza pierwszy krok. Scenariusz prowadzącego wskazuje również
+wykorzystanie oszacowania do doboru liczby podziałów lub warunku stopu.
+
+Propozycja: przed kodem dodać warunek
+
+\begin{equation*}
+\frac{b_n-a_n}{2}\leq\tau_x
+\end{equation*}
+
+i zaznaczyć, że zwracamy środek właśnie tego przedziału. Dla \([1,2]\)
+i \(\tau_x=10^{-3}\) wystarczy dziewięć podziałów oraz obliczenie \(c_9\),
+bo \(2^{-10}=0.0009765625 < 10^{-3}\). Jest to dziesiąty środek,
+licząc od \(c_0\).
+
+Pozostawiamy pełną implementację jako zadanie dla studenta w części
+„Od metody do programu”; dodajemy do niej odsyłacz. Gwarancję z twierdzenia
+odróżniamy od ograniczeń arytmetyki =Float64= omawianych w tamtej części.
+Status: =zatwierdzone przez autora 2026-10-29, wdrożone=.
+
+* Weryfikacja matematyki i kodu
+:PROPERTIES:
+:CUSTOM_ID: org698ec4e
+:END:
+
+** Twierdzenie i rachunek
+:PROPERTIES:
+:CUSTOM_ID: org8f7cf4c
+:END:
+
+Założenia, indeksowanie od \(n=0\) i oszacowanie
+
+\begin{equation*}
+|c_n-r|\leq\frac{b_n-a_n}{2}=\frac{b_0-a_0}{2^{n+1}}
+\end{equation*}
+
+są zgodne z [[https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=9][D. Levy, Methods for Solving Nonlinear Problems, §2.3,
+tw. 2.7 i poprzedzające uzasadnienie, s. 8–9]]. Źródło odczytano tekstowo;
+narzędzie obrazu strony PDF zgłosiło błąd pamięci podręcznej. Zbieżność
+w twierdzeniu dotyczy arytmetyki dokładnej. Monotoniczność zapewnia
+jedyność, nie jest warunkiem samej zbieżności bisekcji.
+
+Dla obecnego przykładu rzeczywisty błąd rośnie z około \(0.0857864\)
+dla \(c_0=1.5\) do około \(0.1642136\) dla \(c_1=1.25\).
+Oszacowanie maleje jednocześnie z \(0.5\) do \(0.25\). Potwierdza to
+potrzebę zachowania precyzyjnego słowa „oszacowanie”.
+
+** Rzeczywiście uruchomione sprawdzenia
+:PROPERTIES:
+:CUSTOM_ID: orgc253cde
+:END:
+
+- Julia 1.11.7 wykonała definicję \(f(x)=x^2-2\) i istniejący blok pierwszego
+  kroku. Wynik: =(1.5, 0.25, 0.5)= oraz =true= przy wyborze przedziału
+  =[a,c]=. Blok z samej sekcji wymaga wcześniejszej definicji =f=;
+  w samodzielnej propozycji tę definicję podano jawnie.
+- Kod Julii z osobnej propozycji także uruchomiono. Potwierdzono pierwszy
+  krok oraz dobór granicy \(2^{-10}\) dla \(\tau_x=10^{-3}\). Niezależne
+  sprawdzenie na ułamkach dało \([a_9,b_9]=[181/128,725/512]\) oraz
+  \(c_9=1449/1024=1.4150390625\); błąd mieści się w podanej granicy.
+- Node 24.10.0 uruchomił funkcje obliczeniowe i generowanie SVG ilustracji.
+  Sprawdzono 20 klatek, odpowiadających 10 krokom dla \(x^2-2\), oraz
+  18 klatek, odpowiadających 9 krokom dla \(1/x\). Połowienie i znaki
+  były poprawne, a wygenerowane SVG nie zawierały =NaN= ani =Infinity=.
+- Wariant \(1/x\) poprawnie pokazuje etykietę „Połowa długości” zamiast
+  „Oszacowanie błędu”. Ostatni środek wynosi \(0.0009765625\), a jego
+  residuum \(1024\). Zwężenie przedziału nie rozwiązuje tego równania.
+- Animacja kończy się po ustalonej liczbie klatek. Nie jest pełnym
+  programem bisekcji kończącym obliczenia po osiągnięciu zadanej tolerancji.
+
+** Ograniczenie przed ponownym użyciem mechanizmu ilustracji
+:PROPERTIES:
+:CUSTOM_ID: org3d75425
+:END:
+
+Dodatkowy test kontrolny \(f(x)=x\) na \([-1,1]\) trafia od razu
+w pierwiastek. Funkcja =trace= kończy obliczenia, lecz kolejna dostępna
+klatka nadal opisuje wybór połowy z przeciwnymi znakami. Problem dotyczy
+komunikatu dla tego dodatkowego przypadku; obecne dwa przykłady nie
+osiągają go.
+
+Przed wykorzystaniem mechanizmu z dowolnymi nowymi funkcjami warto dodać
+osobny stan znalezienia pierwiastka. W tym przeglądzie nie zmieniano
+skryptu ani danych ilustracji. Sama ilustracja nie jest jeszcze wzorcem
+ogólnej, niezawodnej implementacji bisekcji.
+
+* Eksport i zakres sprawdzenia HTML
+:PROPERTIES:
+:CUSTOM_ID: org209272f
+:END:
+
+Wykonano eksport obu nowych plików Org do HTML. Kontrola projektu
+sprawdziła lokalne zasoby, zależności i odsyłacze. W samodzielnej propozycji
+potwierdzono obecność jednej ilustracji bisekcji, unikalność kotwic
+oraz umieszczenie idei uzasadnienia w twierdzeniu, poza ukrywanym blokiem
+=uwaga=. Osobna propozycja korzysta z lokalnego MathJax oraz istniejących
+stylów i skryptów.
+
+Otwarcie lokalnego HTML w narzędziu przeglądarki zablokowały zabezpieczenia
+podglądu. Nie wykonano zatem pełnej kontroli wizualnej, składu wzorów
+w działającej przeglądarce, kliknięć kontrolek ani widoku przy wąskim
+oknie. Kontrola kodu i eksportu nie zastępuje tych czynności.
+
+* Akceptacja autora i materiał do skilla
+:PROPERTIES:
+:CUSTOM_ID: org93b69ca
+:END:
+
+Autor zatwierdził P-01, P-02 i P-03 dnia 2026-10-29. Wdrożono widoczną
+ideę uzasadnienia, przypisanie granicy błędu do konkretnego środka
+oraz warunek zakończenia z przykładem liczby podziałów. Zachowano
+założenia i treść twierdzenia, kotwice oraz dane i mechanizm ilustracji.
+Przyjęty fragment służy jako wzorzec tych trzech rozwiązań redakcyjnych;
+nie oznacza to akceptacji wszystkich kandydatów ani dowolnych nowych
+zastosowań mechanizmu bisekcji.
+
+Z zaakceptowanych dopracowań wynikają wskazówki do przyszłego skilla:
+
+- Uzasadnienia potrzebne do odczytania wniosku powinny być dostępne
+  w każdym podstawowym widoku notatek.
+- Oszacowanie i warunek zakończenia należy wiązać z tym przybliżeniem,
+  dla którego zostały wyprowadzone.
+- Trzeba wskazywać, czy kod jest demonstracją jednego kroku, zadaniem
+  dla studenta, czy gotową implementacją metody.
+
+Wyniki sprawdzeń w częściach powyżej dotyczą pierwotnego przeglądu.
+Po wdrożeniu 2026-10-29 ponowiono eksport i kontrolę projektu: 13 istniejących
+stron, 198 lokalnych odwołań; po próbnym eksporcie 12 Org — 18 stron
+i 263 odwołania, bez błędów. Julia potwierdziła pierwszy krok i dobór liczby
+podziałów. Node sprawdził 38 klatek dwóch przykładów: obliczenia i geometria
+pozostały identyczne, a etykiety liczb używają kropki. Kontrola struktury
+potwierdziła widoczność idei uzasadnienia poza =uwaga= i zachowanie kotwic.
+=git diff --check= nie zgłosił błędów. Ograniczenie kontroli w działającej
+przeglądarce pozostaje aktualne.
+
+Zgodnie z dodatkowym poleceniem autora zapis dziesiętny z kropką wprowadzono
+także w pozostałych materiałach, podpisach i formatach wyników ilustracji.
+Przecinki rozdzielające argumenty, współrzędne i elementy przedziałów zachowano.
+Zakres oraz wyniki sprawdzeń zapisano w =WARSZTAT-NOTATEK.org=.

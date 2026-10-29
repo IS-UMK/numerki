@@ -1,0 +1,10 @@
+#+TITLE: Dodatek: arytmetyka komputerowa — pogłębienie — źródło przeniesione
+#+LANGUAGE: pl
+#+NUMERKI_REDIRECT: t
+#+OPTIONS: toc:nil num:nil author:nil date:nil creator:nil timestamp:nil
+
+Treść tego rozdziału jest teraz częścią jednego źródła notatek:
+[[file:index.org::#dodatek-arytmetyka][index.org — Dodatek: arytmetyka komputerowa — pogłębienie]].
+
+Dalsze zmiany treści wprowadzaj w =index.org= w katalogu głównym.
+Kopia pełnego materiału sprzed scalenia jest opisana w =WARSZTAT-NOTATEK.org=.

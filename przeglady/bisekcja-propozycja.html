@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Metoda równego podziału — propozycja wzorca</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="numerical-chapter" content="03 · propozycja">
+<link rel="stylesheet" href="../rozdzial-03-org/oprawa/wyklad.css">
+<link rel="stylesheet" href="../rozdzial-03-org/oprawa/widoki.css">
+<script src="../rozdzial-03-org/oprawa/widoki.js"></script>
+<script defer src="../rozdzial-03-org/oprawa/ilustracje.js"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-tex',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="../rozdzial-03-org/oprawa/tex-svg.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<header>
+<h1 class="title">Metoda równego podziału — propozycja wzorca</h1>
+</header><p>
+<b>Status: trzy dopracowania zatwierdzone przez autora 2026-10-29 i wdrożone.</b>
+Wariant przygotowano na podstawie sekcji bisekcji z rozdziału 3.
+Zatwierdzone zmiany P-01, P-02 i P-03 wprowadzono do
+<a href="../index.html#pierwiastki-bisekcja">źródła rozdziału</a>. Ten plik zachowuje osobny zapis ocenionego fragmentu.
+Zakres zmian i wyniki sprawdzeń opisuje <a href="bisekcja-przeglad.html">przegląd fragmentu</a>.
+Ilustracja i jej dwa przykłady pochodzą z obecnej oprawy.
+</p>
+<div id="outline-container-bisekcja" class="outline-2">
+<h2 id="bisekcja">Metoda równego podziału</h2>
+<div class="outline-text-2" id="text-bisekcja">
+<p>
+Rozważamy funkcję \(f(x)=x^2-2\) i szukamy jej dodatniego pierwiastka.
+Zaczynamy od przedziału \([a_0,b_0]=[1,2]\). Jego środek wynosi \(c_0=1.5\), a
+\(f(c_0)=0.25\). Przeciwne znaki pozostają w punktach \(1\) i \(1.5\), więc dalej
+badamy \([1,1.5]\).
+</p>
+
+<div id="uogolnienie-1" class="uogolnienie">
+<p>
+Przedział \([a_0,b_0]\) jest przedziałem początkowym. Po \(n\) podziałach
+mamy przedział \([a_n,b_n]\), którego środek oznaczamy przez \(c_n\):
+</p>
+
+\begin{equation*}
+c_n=\frac{a_n+b_n}{2}.
+\end{equation*}
+
+<p>
+Jeśli \(f(c_n)=0\), znaleźliśmy pierwiastek. W przeciwnym razie zachowujemy tę połowę
+przedziału, na której końcach wartości funkcji mają przeciwne znaki. Metodę nazywamy
+także <b>bisekcją</b>.
+</p>
+
+<div id="orgd8b029c" class="uwaga">
+<p>
+Uogólniamy operację z przykładu: dzielimy przedział i zachowujemy zmianę znaku. Powód,
+dla którego wolno odrzucić drugą połowę, podaje twierdzenie.
+</p>
+
+</div>
+
+</div>
+
+<figure class="animation" data-method="bisection" aria-label="Animacja: Bisekcja">
+            <div class="anim-head">
+              <label for="case-bisection">Przykład</label
+              ><select id="case-bisection" disabled>
+                <option value="0">Ciągła funkcja: x² − 2</option>
+                <option value="1">Nieciągłość: 1/x</option>
+              </select>
+            </div>
+            <div class="plot">
+              <svg
+                viewbox="0 0 760 340"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-labelledby="plot-bisection-title plot-bisection-desc"
+              >
+                <title id="plot-bisection-title">
+                  Bisekcja. f(x) = x² − 2. Krok 1: dzielimy przedział [1; 2] w jego środku.
+                </title>
+                <desc id="plot-bisection-desc">
+                  Środek c0: 1.5. f(c0): 0.25. Oszacowanie błędu: 0.5
+                </desc>
+                <defs>
+                  <clippath id="plot-bisection-clip">
+                    <rect x="56" y="28" width="680" height="284"></rect>
+                  </clippath>
+                </defs>
+                <line
+                  x1="56"
+                  y1="209.277"
+                  x2="736"
+                  y2="209.277"
+                  stroke="#d8ded5"
+                  stroke-width="1"
+                ></line>
+                <line x1="56" y1="312" x2="56" y2="28" stroke="#d8ded5" stroke-width="1"></line>
+                <line
+                  x1="192"
+                  y1="212.117"
+                  x2="192"
+                  y2="206.437"
+                  stroke="#d8ded5"
+                  stroke-width="1"
+                ></line>
+                <text x="192" y="230.277" fill="#65716b" text-anchor="middle">1</text>
+                <line
+                  x1="418.667"
+                  y1="212.117"
+                  x2="418.667"
+                  y2="206.437"
+                  stroke="#d8ded5"
+                  stroke-width="1"
+                ></line>
+                <text x="418.667" y="230.277" fill="#65716b" text-anchor="middle">1.5</text>
+                <line
+                  x1="645.333"
+                  y1="212.117"
+                  x2="645.333"
+                  y2="206.437"
+                  stroke="#d8ded5"
+                  stroke-width="1"
+                ></line>
+                <text x="645.333" y="230.277" fill="#65716b" text-anchor="middle">2</text>
+                <text x="46" y="93.426" fill="#65716b" text-anchor="end">2</text>
+                <text x="733" y="200.277" fill="#65716b" text-anchor="end">x</text>
+                <text x="56" y="16" fill="#65716b" text-anchor="start">f(x)</text>
+                <g clip-path="url(#plot-bisection-clip)">
+                  <rect
+                    x="192"
+                    y="28"
+                    width="453.333"
+                    height="284"
+                    fill="#196551"
+                    opacity=".075"
+                  ></rect>
+                  <line
+                    x1="192"
+                    y1="312"
+                    x2="192"
+                    y2="28"
+                    stroke="#196551"
+                    stroke-width="1"
+                    stroke-dasharray="4 5"
+                  ></line>
+                  <line
+                    x1="645.333"
+                    y1="312"
+                    x2="645.333"
+                    y2="28"
+                    stroke="#196551"
+                    stroke-width="1"
+                    stroke-dasharray="4 5"
+                  ></line>
+                  <path
+                    d=" M56 300.519 L57.36 300.265 L58.72 300.009 L60.08 299.753 L61.44 299.495 L62.8 299.237 L64.16 298.977 L65.52 298.716 L66.88 298.454 L68.24 298.191 L69.6 297.927 L70.96 297.662 L72.32 297.395 L73.68 297.128 L75.04 296.86 L76.4 296.59 L77.76 296.319 L79.12 296.048 L80.48 295.775 L81.84 295.501 L83.2 295.226 L84.56 294.95 L85.92 294.673 L87.28 294.394 L88.64 294.115 L90 293.835 L91.36 293.553 L92.72 293.27 L94.08 292.987 L95.44 292.702 L96.8 292.416 L98.16 292.129 L99.52 291.841 L100.88 291.552 L102.24 291.262 L103.6 290.97 L104.96 290.678 L106.32 290.385 L107.68 290.09 L109.04 289.794 L110.4 289.498 L111.76 289.2 L113.12 288.901 L114.48 288.601 L115.84 288.3 L117.2 287.997 L118.56 287.694 L119.92 287.39 L121.28 287.084 L122.64 286.778 L124 286.47 L125.36 286.161 L126.72 285.852 L128.08 285.541 L129.44 285.229 L130.8 284.916 L132.16 284.602 L133.52 284.286 L134.88 283.97 L136.24 283.653 L137.6 283.334 L138.96 283.015 L140.32 282.694 L141.68 282.372 L143.04 282.049 L144.4 281.725 L145.76 281.4 L147.12 281.074 L148.48 280.747 L149.84 280.419 L151.2 280.089 L152.56 279.759 L153.92 279.427 L155.28 279.095 L156.64 278.761 L158 278.426 L159.36 278.09 L160.72 277.753 L162.08 277.415 L163.44 277.076 L164.8 276.736 L166.16 276.394 L167.52 276.052 L168.88 275.708 L170.24 275.364 L171.6 275.018 L172.96 274.671 L174.32 274.323 L175.68 273.974 L177.04 273.624 L178.4 273.273 L179.76 272.921 L181.12 272.568 L182.48 272.213 L183.84 271.858 L185.2 271.501 L186.56 271.144 L187.92 270.785 L189.28 270.425 L190.64 270.064 L192 269.702 L193.36 269.339 L194.72 268.975 L196.08 268.61 L197.44 268.243 L198.8 267.876 L200.16 267.507 L201.52 267.138 L202.88 266.767 L204.24 266.395 L205.6 266.022 L206.96 265.648 L208.32 265.273 L209.68 264.897 L211.04 264.52 L212.4 264.141 L213.76 263.762 L215.12 263.382 L216.48 263 L217.84 262.617 L219.2 262.234 L220.56 261.849 L221.92 261.463 L223.28 261.076 L224.64 260.688 L226 260.298 L227.36 259.908 L228.72 259.517 L230.08 259.124 L231.44 258.731 L232.8 258.336 L234.16 257.94 L235.52 257.544 L236.88 257.146 L238.24 256.747 L239.6 256.347 L240.96 255.945 L242.32 255.543 L243.68 255.14 L245.04 254.735 L246.4 254.33 L247.76 253.923 L249.12 253.516 L250.48 253.107 L251.84 252.697 L253.2 252.286 L254.56 251.874 L255.92 251.461 L257.28 251.047 L258.64 250.631 L260 250.215 L261.36 249.797 L262.72 249.379 L264.08 248.959 L265.44 248.538 L266.8 248.117 L268.16 247.694 L269.52 247.27 L270.88 246.845 L272.24 246.418 L273.6 245.991 L274.96 245.563 L276.32 245.133 L277.68 244.703 L279.04 244.271 L280.4 243.838 L281.76 243.405 L283.12 242.97 L284.48 242.534 L285.84 242.097 L287.2 241.659 L288.56 241.219 L289.92 240.779 L291.28 240.338 L292.64 239.895 L294 239.452 L295.36 239.007 L296.72 238.561 L298.08 238.114 L299.44 237.666 L300.8 237.217 L302.16 236.767 L303.52 236.316 L304.88 235.864 L306.24 235.41 L307.6 234.956 L308.96 234.5 L310.32 234.044 L311.68 233.586 L313.04 233.127 L314.4 232.667 L315.76 232.206 L317.12 231.744 L318.48 231.281 L319.84 230.817 L321.2 230.352 L322.56 229.885 L323.92 229.418 L325.28 228.949 L326.64 228.479 L328 228.009 L329.36 227.537 L330.72 227.064 L332.08 226.59 L333.44 226.115 L334.8 225.638 L336.16 225.161 L337.52 224.683 L338.88 224.203 L340.24 223.723 L341.6 223.241 L342.96 222.758 L344.32 222.274 L345.68 221.789 L347.04 221.303 L348.4 220.816 L349.76 220.328 L351.12 219.839 L352.48 219.349 L353.84 218.857 L355.2 218.365 L356.56 217.871 L357.92 217.376 L359.28 216.88 L360.64 216.384 L362 215.886 L363.36 215.387 L364.72 214.886 L366.08 214.385 L367.44 213.883 L368.8 213.379 L370.16 212.875 L371.52 212.369 L372.88 211.863 L374.24 211.355 L375.6 210.846 L376.96 210.336 L378.32 209.825 L379.68 209.313 L381.04 208.8 L382.4 208.286 L383.76 207.77 L385.12 207.254 L386.48 206.736 L387.84 206.218 L389.2 205.698 L390.56 205.177 L391.92 204.655 L393.28 204.132 L394.64 203.608 L396 203.083 L397.36 202.557 L398.72 202.029 L400.08 201.501 L401.44 200.971 L402.8 200.441 L404.16 199.909 L405.52 199.376 L406.88 198.843 L408.24 198.308 L409.6 197.772 L410.96 197.234 L412.32 196.696 L413.68 196.157 L415.04 195.617 L416.4 195.075 L417.76 194.533 L419.12 193.989 L420.48 193.444 L421.84 192.898 L423.2 192.351 L424.56 191.803 L425.92 191.254 L427.28 190.704 L428.64 190.153 L430 189.601 L431.36 189.047 L432.72 188.493 L434.08 187.937 L435.44 187.38 L436.8 186.822 L438.16 186.264 L439.52 185.704 L440.88 185.143 L442.24 184.58 L443.6 184.017 L444.96 183.453 L446.32 182.887 L447.68 182.321 L449.04 181.753 L450.4 181.185 L451.76 180.615 L453.12 180.044 L454.48 179.472 L455.84 178.899 L457.2 178.325 L458.56 177.75 L459.92 177.174 L461.28 176.596 L462.64 176.018 L464 175.438 L465.36 174.858 L466.72 174.276 L468.08 173.693 L469.44 173.109 L470.8 172.524 L472.16 171.938 L473.52 171.351 L474.88 170.763 L476.24 170.173 L477.6 169.583 L478.96 168.992 L480.32 168.399 L481.68 167.805 L483.04 167.211 L484.4 166.615 L485.76 166.018 L487.12 165.42 L488.48 164.821 L489.84 164.22 L491.2 163.619 L492.56 163.017 L493.92 162.413 L495.28 161.809 L496.64 161.203 L498 160.596 L499.36 159.988 L500.72 159.38 L502.08 158.77 L503.44 158.158 L504.8 157.546 L506.16 156.933 L507.52 156.319 L508.88 155.703 L510.24 155.087 L511.6 154.469 L512.96 153.85 L514.32 153.231 L515.68 152.61 L517.04 151.988 L518.4 151.365 L519.76 150.741 L521.12 150.115 L522.48 149.489 L523.84 148.862 L525.2 148.233 L526.56 147.604 L527.92 146.973 L529.28 146.341 L530.64 145.708 L532 145.074 L533.36 144.439 L534.72 143.803 L536.08 143.166 L537.44 142.528 L538.8 141.889 L540.16 141.248 L541.52 140.607 L542.88 139.964 L544.24 139.32 L545.6 138.675 L546.96 138.03 L548.32 137.383 L549.68 136.734 L551.04 136.085 L552.4 135.435 L553.76 134.784 L555.12 134.131 L556.48 133.478 L557.84 132.823 L559.2 132.168 L560.56 131.511 L561.92 130.853 L563.28 130.194 L564.64 129.534 L566 128.873 L567.36 128.211 L568.72 127.547 L570.08 126.883 L571.44 126.218 L572.8 125.551 L574.16 124.883 L575.52 124.215 L576.88 123.545 L578.24 122.874 L579.6 122.202 L580.96 121.529 L582.32 120.855 L583.68 120.179 L585.04 119.503 L586.4 118.826 L587.76 118.147 L589.12 117.467 L590.48 116.787 L591.84 116.105 L593.2 115.422 L594.56 114.738 L595.92 114.053 L597.28 113.367 L598.64 112.68 L600 111.991 L601.36 111.302 L602.72 110.612 L604.08 109.92 L605.44 109.227 L606.8 108.534 L608.16 107.839 L609.52 107.143 L610.88 106.446 L612.24 105.748 L613.6 105.049 L614.96 104.348 L616.32 103.647 L617.68 102.945 L619.04 102.241 L620.4 101.536 L621.76 100.831 L623.12 100.124 L624.48 99.416 L625.84 98.707 L627.2 97.997 L628.56 97.286 L629.92 96.574 L631.28 95.86 L632.64 95.146 L634 94.43 L635.36 93.714 L636.72 92.996 L638.08 92.277 L639.44 91.557 L640.8 90.837 L642.16 90.114 L643.52 89.391 L644.88 88.667 L646.24 87.942 L647.6 87.216 L648.96 86.488 L650.32 85.759 L651.68 85.03 L653.04 84.299 L654.4 83.567 L655.76 82.834 L657.12 82.1 L658.48 81.365 L659.84 80.629 L661.2 79.892 L662.56 79.154 L663.92 78.414 L665.28 77.674 L666.64 76.932 L668 76.189 L669.36 75.446 L670.72 74.701 L672.08 73.955 L673.44 73.208 L674.8 72.46 L676.16 71.71 L677.52 70.96 L678.88 70.209 L680.24 69.456 L681.6 68.703 L682.96 67.948 L684.32 67.192 L685.68 66.435 L687.04 65.677 L688.4 64.918 L689.76 64.158 L691.12 63.397 L692.48 62.635 L693.84 61.872 L695.2 61.107 L696.56 60.342 L697.92 59.575 L699.28 58.807 L700.64 58.038 L702 57.269 L703.36 56.498 L704.72 55.726 L706.08 54.952 L707.44 54.178 L708.8 53.403 L710.16 52.626 L711.52 51.849 L712.88 51.07 L714.24 50.291 L715.6 49.51 L716.96 48.728 L718.32 47.945 L719.68 47.161 L721.04 46.376 L722.4 45.59 L723.76 44.803 L725.12 44.014 L726.48 43.225 L727.84 42.434 L729.2 41.643 L730.56 40.85 L731.92 40.056 L733.28 39.261 L734.64 38.465 L736 37.668"
+                    fill="none"
+                    stroke="#196551"
+                    stroke-width="2.5"
+                  ></path>
+                  <line
+                    x1="418.667"
+                    y1="209.277"
+                    x2="418.667"
+                    y2="194.17"
+                    stroke="#a15c22"
+                    stroke-width="1.5"
+                    stroke-dasharray="4 4"
+                  ></line>
+                  <circle
+                    cx="418.667"
+                    cy="209.277"
+                    r="4"
+                    fill="#a15c22"
+                    stroke="#fffdfa"
+                    stroke-width="1.3"
+                  ></circle>
+                  <circle
+                    cx="418.667"
+                    cy="194.17"
+                    r="4"
+                    fill="#a15c22"
+                    stroke="#fffdfa"
+                    stroke-width="1.3"
+                  ></circle>
+                  <circle
+                    cx="192"
+                    cy="269.702"
+                    r="4"
+                    fill="#196551"
+                    stroke="#fffdfa"
+                    stroke-width="1.3"
+                  ></circle>
+                  <circle
+                    cx="645.333"
+                    cy="88.426"
+                    r="4"
+                    fill="#196551"
+                    stroke="#fffdfa"
+                    stroke-width="1.3"
+                  ></circle>
+                </g>
+              </svg>
+            </div>
+            <div class="anim-stats">
+              <div><span>Środek c0</span><strong>1.5</strong></div>
+              <div><span>f(c0)</span><strong>0.25</strong></div>
+              <div><span>Oszacowanie błędu</span><strong>0.5</strong></div>
+            </div>
+            <p class="anim-message">Krok 1: dzielimy przedział [1; 2] w jego środku.</p>
+            <div class="anim-controls">
+              <button type="button" data-action="play" disabled aria-pressed="false">Odtwórz</button
+              ><button type="button" data-action="prev" disabled>Wstecz</button
+              ><button type="button" data-action="next" disabled>Dalej</button
+              ><button type="button" data-action="reset" disabled>Od początku</button
+              ><span class="frame-counter">1 / 20</span>
+            </div>
+<figcaption>
+
+<p>
+Zielona: badana funkcja. Pomarańczowa: konstrukcja kolejnego przybliżenia. Przykłady
+obliczane w arytmetyce podwójnej precyzji. Animacja pokazuje skończoną liczbę kroków.
+</p>
+
+</figcaption>
+</figure>
+
+<div id="wlasnosci-1" class="wlasnosci">
+<p>
+Szukamy warunków, które pozwolą zachować pierwiastek przy każdym podziale. Funkcja
+\(x^2-2\) jest ciągła na \([1,2]\), a jej wartości na końcach mają przeciwne znaki.
+Dodatkowo jest tam ściśle rosnąca, ponieważ \(f'(x)=2x>0\). Ciągłość i zmiana znaku
+posłużą do uzasadnienia zbieżności; ścisła monotoniczność — jednoznaczności.
+</p>
+
+</div>
+
+<div id="twierdzenie-1" class="twierdzenie">
+<p>
+<b>Gwarancja bisekcji.</b> Jeśli \(f\) jest ciągła na \([a_0,b_0]\) i \(f(a_0)f(b_0) < 0\),
+metoda albo trafia dokładnie w pierwiastek po skończonej liczbie kroków, albo środki
+kolejnych zachowanych przedziałów \(c_n\) spełniają \(|c_n-r|\to0\) dla pewnego
+pierwiastka \(r\). Oznacza to, że dla dowolnej dodatniej tolerancji od pewnego kroku
+wszystkie kolejne przybliżenia różnią się od \(r\) o mniej niż tę tolerancję. Ponadto
+</p>
+
+\begin{equation*}
+|c_n-r|\leq\frac{b_n-a_n}{2} =\frac{b_0-a_0}{2^{n+1}}.
+\end{equation*}
+
+<p>
+Każdy podział zmniejsza o połowę <b>oszacowanie błędu</b>. Jeżeli funkcja jest dodatkowo
+ściśle monotoniczna, pierwiastek w tym przedziale jest jedyny. Bez tego założenia
+bisekcja również zbiega, lecz początkowy przedział może zawierać kilka pierwiastków.
+</p>
+
+<div id="org19cf4db" class="zrodlo">
+<p>
+Dowód: D. Levy,
+<a href="https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=8"><i>Methods
+for Solving Nonlinear Problems</i>, §2.3, tw. 2.7 wraz z poprzedzającym dowodem, s. 8–9</a>.
+Jednoznaczność przy ścisłej monotoniczności uzasadniamy poniżej.
+</p>
+
+</div>
+
+<p>
+<b>Idea uzasadnienia.</b> Ciągłość i przeciwne znaki zapewniają istnienie pierwiastka
+w każdej zachowanej połowie. Przedziały są zagnieżdżone, a ich długości dążą do zera;
+ich wspólny punkt jest pierwiastkiem. Ścisła monotoniczność wyklucza dwa różne miejsca
+zerowe. Nie jest potrzebna do samej zbieżności.
+</p>
+
+</div>
+
+<div id="wnioskowanie-1" class="wnioskowanie">
+<p>
+Dla \(x^2-2\) na \([1,2]\) wykazaliśmy założenia twierdzenia. Zatem bisekcja zbiega do
+jedynego pierwiastka w tym przedziale, czyli \(\sqrt2\).
+</p>
+
+<p>
+Jeżeli chcemy uzyskać przybliżenie z błędem nieprzekraczającym \(\tau_x>0\),
+możemy zakończyć obliczenia, gdy
+</p>
+
+\begin{equation*}
+\frac{b_n-a_n}{2}\leq\tau_x,
+\end{equation*}
+
+<p>
+i zwrócić środek <b>tego samego przedziału</b>, czyli \(c_n=(a_n+b_n)/2\).
+Dla \([a_0,b_0]=[1,2]\) oraz \(\tau_x=10^{-3}\) oszacowanie daje
+\(2^{-10}=0.0009765625 < 10^{-3}\). Wystarczy więc dziewięć podziałów
+przedziału, po których obliczamy \(c_9\). Licząc od \(c_0\), jest to dziesiąty
+środek. Jest to gwarancja z oszacowania; wcześniejsze trafienie w pierwiastek
+pozwoliłoby zakończyć obliczenia wcześniej.
+</p>
+
+<p>
+Pełną funkcję z tolerancją i przyczyną zakończenia opracowujemy w zadaniu
+<a href="../index.html#pierwiastki-program">Od metody do programu</a>. Poniższy kod sprawdza pierwszy krok. Oszacowanie
+pochodzi z twierdzenia dla arytmetyki dokładnej; ograniczenia <code>Float64</code>
+omawiamy w przywołanej części.
+</p>
+
+</div>
+
+<div id="sprawdzenie-2" class="sprawdzenie">
+<div class="org-src-container">
+<pre class="src src-julia">f(x) = x^2 - 2
+a, b = 1.0, 2.0
+c = (a + b) / 2
+c, f(c), (b - a) / 2        # (1.5, 0.25, 0.5)
+signbit(f(a)) != signbit(f(c))  # true: zachowujemy [a, c]
+</pre>
+</div>
+
+<p>
+Dla \(c_0=1.5\) oszacowanie błędu wynosi \(0.5\). W zachowanym przedziale
+\([1,1.5]\) obliczymy nowy środek \(c_1=1.25\); jego błąd nie przekracza
+\(0.25\). Każde oszacowanie dotyczy środka przedziału, z którego je wyznaczono.
+</p>
+
+</div>
+
+<div id="wyjasnianie-1" class="wyjasnianie">
+<p>
+<b>Dlaczego sama zmiana znaku nie wystarcza?</b> Wybierz w animacji \(f(x)=1/x\) na
+\([-1,1.5]\). Przedziały zwężają się wokół zera, ale funkcja \(1/x\) nie ma
+pierwiastka. W zerze jest nieokreślona, więc nie spełnia założenia ciągłości. Zbieżność
+przedziałów nie oznacza tutaj rozwiązania równania.
+</p>
+
+<div id="org5522a3d" class="uwaga">
+<p>
+Wyjaśniamy pozorny sukces: program lokalizuje zmianę znaku przy nieciągłości. Nie
+wywodzimy braku pierwiastka z niespełnienia założenia; uzasadnia go własność funkcji
+\(1/x\).
+</p>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

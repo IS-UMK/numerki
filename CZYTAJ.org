@@ -1,27 +1,68 @@
-* Metody numeryczne — strona tytułowa i rozdziały
+#+TITLE: Metody numeryczne — pliki i praca z projektem
+#+LANGUAGE: pl
+#+DATE: 2026-10-29
+#+OPTIONS: toc:1 num:nil
 
-Rozpakuj paczkę i otwórz plik =index.html= w przeglądarce.
-Wszystkie cztery rozdziały otwierają się ze spisu treści.
-Odsyłacze „Spis treści” oraz poprzedni/następny rozdział pozwalają poruszać się po notatkach.
+* Materiały dla czytelnika
 
-Aby umieścić notatki na swojej stronie, prześlij wszystkie pliki HTML do tego
-samego katalogu. Nazwy plików pozostaw bez zmian.
+Otwórz [[file:index.html][index.html]]. Strona zawiera rozdziały kursu i dodatek;
+rozdział wybiera się ze spisu treści. Wzory kursu korzystają z natywnego
+MathML i nie wymagają dostępu do sieci.
 
-* Edycja strony tytułowej
+Dziewięć dawnych adresów HTML jest przekierowaniami do właściwych
+fragmentów kursu. Zachowujemy je dla istniejących odsyłaczy; nie są
+kopiami treści ani plikami przeznaczonymi do ręcznej edycji.
 
-Otwórz =index.org= w Emacsie. Zmień tytuły, opisy lub odsyłacze na liście
-rozdziałów. Eksport do =index.html=: =C-c C-e h h=.
-Strona tytułowa ma style zapisane w tym samym pliku i nie wymaga dodatkowych
-arkuszy CSS ani JavaScriptu.
+* Źródła i eksport
 
-* Zawartość paczki
+Jedynym źródłem treści kursu jest [[file:index.org][index.org]]. Treść, wzory, kod Julii,
+podpisy i kontrolki ilustracji edytuj w tym pliku. Style i zachowanie
+strony znajdują się w =oprawa/scalone/book.css= i =book.js=.
 
-- =index.html= — gotowa strona tytułowa ze spisem treści.
-- =index.org= — jej źródło Org-mode.
-- Cztery pliki HTML rozdziałów — dostępne wersje notatek, z dodaną nawigacją.
-- =02-arytmetyka-komputerowa-poglebienie.html= — rozwinięcie zagadnień, do którego
-  prowadzą odsyłacze z drugiego rozdziału.
+Odtworzenie HTML i przekierowań:
 
-Rozdziały 1 i 2 pochodzą z plików HTML. Rozdziały 3 i 4 pochodzą z najnowszych
-dostępnych samodzielnych podglądów HTML. Treści rozdziałów nie redagowano;
-dodano wyłącznie odsyłacze do spisu treści i do sąsiednich rozdziałów.
+#+begin_src sh :eval never
+python3 narzedzia/eksportuj_org.py
+#+end_src
+
+Wymagane są Python 3, Emacs z Org-mode i Pandoc. Eksport nie wykonuje
+bloków kodu. Zwykły eksport Emacsa pomija końcowy skład MathML i obsługę
+przekierowań, dlatego używaj powyższego polecenia.
+
+* Pozostałe pliki
+
+| Plik lub katalog | Rola |
+|------------------+------|
+| =oprawa/scalone/= | Aktywna oprawa i mapa dawnych adresów. |
+| =narzedzia/= | Eksport i kontrole projektu, oprawy oraz nawigacji. |
+| =scenariusz-prowadzacego.org= i odpowiadający mu HTML | Materiał prowadzącego. |
+| =WARSZTAT-NOTATEK.org= | Ustalenia autora, historia korekt i materiał do przyszłego skilla. |
+| =AGENTS.md= i =CODEX.org= | Zasady oraz szczegółowa instrukcja pracy w projekcie. |
+| =przeglady/= | Zachowane przeglądy i propozycja bisekcji. |
+| Dawne źródła rozdziałów Org | Krótkie wskazówki do aktualnej lokalizacji treści. |
+| =oprawa/01-numerics.js= i =02-numerics.js= | Wzorce modeli dla testów porównawczych. |
+| =rozdzial-03-org/oprawa/= | Zasoby zachowanych podglądów bisekcji i wzorzec testów metod. |
+| =rozdzial-04-05-org/oprawa/newton-3d.js= | Wzorzec testu demonstracji Newtona 3D. |
+| =.codex/config.toml= i =codex-config.example.toml= | Ustawienia projektu oraz ich szablon. |
+| =.gitignore= | Wyłączenie plików roboczych, pamięci podręcznej i lokalnych poświadczeń z Git. |
+
+Zachowane zasoby dawnych pakietów mają sprawdzone zależności. Nie usuwaj
+ich tylko dlatego, że główny HTML nie odwołuje się do nich bezpośrednio.
+Nieużywane dawne oprawy, dodatkową kopię MathJax i pliki robocze usunięto.
+Scenariusza, warsztatu i instrukcji projektu nie dodajemy do bibliografii
+materiałów dla czytelnika.
+
+* Sprawdzenie zmian
+
+#+begin_src sh :eval never
+python3 narzedzia/sprawdz_projekt.py
+node narzedzia/sprawdz_oprawe.cjs
+node narzedzia/sprawdz_nawigacje.cjs
+git diff --check
+#+end_src
+
+Kontrola projektu wykonuje próbny eksport na tymczasowej kopii.
+Testy oprawy i nawigacji wymagają Node.js. Kontrole automatyczne nie
+zastępują sprawdzenia zmienionego wyglądu i działania w przeglądarce
+ani przeglądu poprawności matematycznej. Pełna instrukcja:
+[[file:CODEX.org][CODEX.org]].

@@ -1,0 +1,15 @@
+# Opcjonalny szablon konfiguracji projektu.
+# Codex wczytuje ustawienia projektu z .codex/config.toml po uznaniu
+# projektu za zaufany. Ten plik .example nie jest wczytywany automatycznie.
+# Jeśli konfiguracja już istnieje, połącz wpisy zamiast ją nadpisywać.
+# Instrukcja: CODEX.org. Dokumentacja sprawdzona 2026-10-28:
+# https://learn.chatgpt.com/docs/config-file/config-basic
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
+
+# Model pozostaje wybrany w aplikacji lub konfiguracji użytkownika.
+# Nie są tu zapisywane klucze API, logowanie ani globalne ustawienia.

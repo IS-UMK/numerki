@@ -1,0 +1,168 @@
+#+TITLE: Rozdział 03 — edycja i eksport
+#+LANGUAGE: pl
+#+STARTUP: overview
+
+* Aktualny układ po scaleniu, 29 października 2026 r.
+
+Źródłem całego kursu jest teraz [[file:../index.org][index.org]] w katalogu głównym.
+Stamtąd uruchom =python3 narzedzia/eksportuj_org.py=, aby odtworzyć
+=index.html= i przekierowania dawnych stron. Treść, wzory oraz podpisy
+ilustracji edytuj w tym wspólnym źródle. Aktywna oprawa znajduje się
+w =oprawa/scalone/= katalogu głównego. Pełną instrukcję zawiera
+[[file:../CODEX.org][CODEX.org]].
+
+W katalogu =oprawa= pozostają =wyklad.css=, =widoki.css=, =widoki.js=,
+=ilustracje.js=, =ilustracje.org=, =tex-svg.js= i =MathJax-LICENSE.txt=.
+Obsługują historyczne podglądy bisekcji i testy porównawcze.
+Nieużywane =ustawienia.org= usunięto.
+
+Poniższa instrukcja opisuje historyczną paczkę sprzed scalenia i porządków;
+jej spis plików nie jest mapą obecnego katalogu. Dawne pliki rozdziałów Org
+wskazują teraz nową lokalizację treści i nie są samodzielnymi źródłami kursu.
+
+* Od czego zacząć
+
+Rozpakuj cały katalog. Otwórz w Emacsie plik =03-pierwiastki-rownan.org=.
+To jest źródło wykładu: zmiany treści wprowadzaj tutaj.
+
+Eksportuj przez =C-c C-e h h=. Obok źródła powstanie plik
+=03-pierwiastki-rownan.html=. Wariant =C-c C-e h o= dodatkowo otwiera wynik
+w przeglądarce. Wystarczy zwykły eksporter HTML w Org; nie trzeba instalować
+własnego rozszerzenia ani wykonywać bloków Julii. Wersję kontrolną sprawdzono
+w Emacsie 29.3 ze standardowym eksporterem Org.
+
+Źródło HTML odwołuje się do katalogu =oprawa=. Przenoś go razem z HTML-em.
+Dołączony pakiet działa bez internetu: ma lokalne style, skrypty i MathJax.
+JavaScript jest potrzebny do składu wzorów oraz działania ilustracji.
+Odnośniki do publikacji naukowych prowadzą do zewnętrznych stron.
+
+* Widoki HTML
+
+Na górze wyeksportowanej strony są przyciski =Czytanie= i =Badanie=.
+
+| Widok | Wygląd |
+|-------+--------|
+| Czytanie | Ciągły tekst ze stonowaną oprawą; ukryte etykiety ról i pomocnicze uwagi o rozumowaniu |
+| Badanie | Widoczne nazwy ról, wyróżnione bloki i dodatkowe uwagi |
+
+Domyślnie włącza się czytanie. Przeglądarka zapamiętuje wybrany widok,
+jeżeli pozwala na zapis ustawień. Przy zablokowanym zapisie przełącznik
+nadal działa. Zmiana widoku zachowuje wzory, kod, twierdzenia i ilustracje.
+Przełącznik jest dostępny również z klawiatury.
+
+Oba widoki powstają z tego samego pliku Org. Nie trzeba powielać treści
+ani zmieniać sposobu eksportu. Obsługę widoków zawierają pliki =widoki.css=
+i =widoki.js= w katalogu =oprawa=. Po wyłączeniu JavaScriptu strona udostępnia
+pełną treść; skład wzorów i interaktywne ilustracje wymagają JavaScriptu.
+Wydruk odpowiada wybranemu widokowi, a pasek przełączania nie jest drukowany.
+
+* Jak skupić się na treści
+
+| Czynność | Skrót w Emacsie |
+|----------+-----------------|
+| Rozwiń lub zwiń część pod nagłówkiem | =TAB= na nagłówku |
+| Zmieniaj widok struktury całego pliku | =Shift-TAB= |
+| Pokaż tylko bieżącą część | =C-x n s= |
+| Pokaż tylko bieżący blok, np. twierdzenie | =C-x n b= |
+| Przywróć pełny widok | =C-x n w= |
+| Edytuj blok Julii w osobnym buforze | =C-c '= w bloku |
+| Otwórz plik wskazany przez INCLUDE | =C-c '= na odwołaniu |
+
+Zawężenie widoku nie usuwa pozostałej treści. Przed eksportem całego rozdziału
+przywróć pełny widok przez =C-x n w=. Miękkie zawijanie wierszy można włączyć
+poleceniem =M-x visual-line-mode=.
+
+Plik otwiera się z widocznym zarysem. Rozwijaj tylko część, którą edytujesz.
+Komentarze zaczynające się od =# = nie są eksportowane. Własne uwagi można
+umieszczać również pod nagłówkiem z oznaczeniem =:noexport:=.
+
+* Składnia treści
+
+Nagłówek zaczyna się od jednej gwiazdki i spacji. Dwie gwiazdki oznaczają
+podrozdział. Akapity rozdziela pusty wiersz. Pogrubienie zapisuje się jako
+=*ważny fragment*=, kod w zdaniu jako ==Float64==, a odnośnik jako
+=[[adres][opis]]=.
+
+Role fragmentów zachowano jako zwykłe bloki specjalne Org:
+=twierdzenie=, =wlasnosci=, =rozroznienie=, =wnioskowanie=, =sprawdzenie=,
+=uogolnienie=, =wyjasnianie= i =teza=. Na przykład:
+
+#+begin_example
+,#+begin_twierdzenie
+*Krótki tytuł.* Treść twierdzenia i jego założenia.
+,#+end_twierdzenie
+#+end_example
+
+Podpis roli oraz kolory nadaje arkusz CSS. Treść źródła nie zawiera HTML-owych
+znaczników akapitów. Blok =uwaga= służy krótkim objaśnieniom, a =zrodlo= —
+odsyłaczom do uzasadnień.
+
+Wzory w zdaniu zapisuj w nawiasach =\( ... \)=. Większe wzory mają postać:
+
+#+begin_example
+\begin{equation*}
+|x_n-r| \leq \frac{|f(x_n)|}{m}.
+\end{equation*}
+#+end_example
+
+Środowisko =equation*= chroni zapis przed potraktowaniem wiersza zaczynającego
+się od pionowej kreski jako tabeli Org. Znak mniejszości w LaTeX-u zapisuj
+z odstępami, np. =a < b=, albo poleceniem =\lt=. Zapobiega to rozpoznaniu
+fragmentu jako znacznika HTML. W obecnym źródle odstępy są już dodane.
+
+Bloki =src julia= zawierają dotychczasowe przykłady. Eksport pokazuje ich treść;
+ustawienie =:eval never-export= zapobiega wykonywaniu ich podczas eksportu.
+Identyfikatory =CUSTOM_ID= i =:id= stabilizują odnośniki — nie trzeba ich
+zmieniać przy zwykłej korekcie zdań.
+
+* Co znajduje się w katalogu oprawa
+
+| Plik | Rola |
+|------+------|
+| =ustawienia.org= | Ustawienia standardowego eksportera HTML |
+| =wyklad.css= | Typografia, kolory, układ i wyróżnienia |
+| =widoki.css= | Wygląd paska wyboru i reguły widoku czytania |
+| =widoki.js= | Przełączanie widoków i zapamiętywanie wyboru |
+| =ilustracje.org= | Sześć ilustracji: HTML/SVG w zwijanych blokach oraz podpisy w Org |
+| =ilustracje.js= | Reguły działania ilustracji i ich kontrolek |
+| =tex-svg.js= | MathJax 3.2.2, lokalny skład wzorów |
+| =MathJax-LICENSE.txt= | Licencja dołączonego MathJax |
+
+Każde odwołanie =#+INCLUDE= w rozdziale wstawia odpowiedni fragment
+=ilustracje.org=. Podpisy można poprawiać w tym pliku bez dotykania SVG.
+Zaawansowane zmiany konstrukcji ilustracji wymagają edycji HTML lub JavaScriptu.
+
+* Przyjęte zmiany
+
+Zachowano treść merytoryczną aktualnego rozdziału, pięć bloków Julii, odsyłacze
+źródłowe, sześć ilustracji i wyróżnienia ról tekstu. Dodano przełącznik widoków czytania i badania.
+Pomocnicze uwagi oraz etykiety ról są widoczne w widoku badania. Drobne różnice układu wynikają ze
+standardowej struktury HTML generowanej przez Org oraz składu wzorów przez MathJax.
+
+Wzorce równań w ilustracjach są zapisane w JavaScripcie. Zmiana przykładu
+matematycznego w treści nie zmienia automatycznie funkcji w ilustracji; trzeba
+wówczas skorygować również jej konfigurację. Zwykła korekta tekstu nie wymaga
+edycji oprawy.
+
+Dla pozostałych rozdziałów proponuję ten sam układ: jeden plik Org na rozdział,
+wspólny styl i wyraźnie oddzielone ilustracje. Zmiana narzędzia nie jest obecnie
+konieczna: Org umożliwia zarówno przegląd struktury, jak i pracę nad jednym
+fragmentem przy ukryciu reszty.
+
+* Dokumentacja
+
+- [[https://orgmode.org/manual/Structure-Editing.html][Struktura, zawężanie do części lub bloku i przywracanie widoku]].
+- [[https://orgmode.org/manual/HTML-Export.html][Eksport HTML]].
+- [[https://orgmode.org/manual/Include-Files.html][Włączanie plików i fragmentów Org]].
+- [[https://www.mathjax.org/][MathJax]].
+
+* Zakres sprawdzenia
+
+Eksport wykonano standardowym eksporterem HTML w Emacsie. Porównanie
+potwierdziło zachowanie treści siedmiu części, pięciu bloków Julii i ośmiu
+odsyłaczy źródłowych. Testy w środowisku DOM potwierdziły skład 294 wzorów
+i działanie kontrolek sześciu ilustracji, także bez żądań sieciowych.
+Pełna kontrola wizualna w przeglądarce nie była dostępna w środowisku wykonania.
+
+Sprawdzono również oba widoki HTML: widoczność uwag, stan przycisków,
+przełączanie podczas korzystania z ilustracji oraz odczyt i zapis preferencji.

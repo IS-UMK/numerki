@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rozdział w scalonych notatkach — Metody numeryczne</title>
+<link rel="canonical" href="../index.html#uklady-rownan-liniowych">
+<script>
+"use strict";
+const przeniesienie = {"strona": "../index.html", "rozdzial": "uklady-rownan-liniowych", "kotwice": {"MathJax-script": "uklady-rownan-liniowych", "content": "uklady-rownan-liniowych", "table-of-contents": "uklady-rownan-liniowych", "text-table-of-contents": "uklady-rownan-liniowych", "orgeb3c929": "liniowe-wprowadzenie-01", "outline-container-problem": "outline-container-liniowe-problem", "problem": "liniowe-problem", "text-problem": "text-liniowe-problem", "outline-container-proste-uklady": "outline-container-liniowe-proste-uklady", "proste-uklady": "liniowe-proste-uklady", "text-proste-uklady": "text-liniowe-proste-uklady", "outline-container-org367c36f": "liniowe-uklad-diagonalny", "org367c36f": "liniowe-uklad-diagonalny", "text-org367c36f": "text-liniowe-uklad-diagonalny", "outline-container-orgafd77bf": "liniowe-uklad-dolnotrojkatny-podstawianie-w-przod", "orgafd77bf": "liniowe-uklad-dolnotrojkatny-podstawianie-w-przod", "text-orgafd77bf": "text-liniowe-uklad-dolnotrojkatny-podstawianie-w-przod", "outline-container-org6c1bf8c": "liniowe-uklad-gornotrojkatny-podstawianie-w-tyl", "org6c1bf8c": "liniowe-uklad-gornotrojkatny-podstawianie-w-tyl", "text-org6c1bf8c": "text-liniowe-uklad-gornotrojkatny-podstawianie-w-tyl", "org837367a": "liniowe-details-01", "orgd02f33a": "liniowe-rozroznienie-01", "outline-container-org5b1a417": "liniowe-uklad-trojkatny-po-przestawieniu-rownan", "org5b1a417": "liniowe-uklad-trojkatny-po-przestawieniu-rownan", "text-org5b1a417": "text-liniowe-uklad-trojkatny-po-przestawieniu-rownan", "org2fe27c5": "liniowe-details-02", "org385fbad": "liniowe-rozroznienie-02", "outline-container-rozklad-lu": "outline-container-liniowe-rozklad-lu", "rozklad-lu": "liniowe-rozklad-lu", "text-rozklad-lu": "text-liniowe-rozklad-lu", "org73e0022": "liniowe-details-03", "org6146721": "liniowe-rozroznienie-03", "outline-container-org59b093d": "liniowe-konstrukcja-na-przykladzie", "org59b093d": "liniowe-konstrukcja-na-przykladzie", "text-org59b093d": "text-liniowe-konstrukcja-na-przykladzie", "org3f652f5": "liniowe-wyprowadzenie-01", "outline-container-org5e2f64c": "liniowe-ta-sama-regula-dla-n-wymiarow", "org5e2f64c": "liniowe-ta-sama-regula-dla-n-wymiarow", "text-org5e2f64c": "text-liniowe-ta-sama-regula-dla-n-wymiarow", "orgceddb99": "liniowe-uogolnienie-01", "org86e8203": "liniowe-details-04", "outline-container-warunek-lu": "outline-container-liniowe-warunek-lu", "warunek-lu": "liniowe-warunek-lu", "text-warunek-lu": "text-liniowe-warunek-lu", "org52f1ed1": "liniowe-details-05", "orgdd9cc6a": "liniowe-rozroznienie-04", "orge820b91": "liniowe-twierdzenie-01", "org9e2ae56": "liniowe-details-06", "orgc2fb643": "liniowe-details-07", "org68345bd": "liniowe-rozroznienie-05", "org04845a1": "liniowe-wnioskowanie-01", "outline-container-cholesky": "outline-container-liniowe-cholesky", "cholesky": "liniowe-cholesky", "text-cholesky": "text-liniowe-cholesky", "orgfef4f7f": "liniowe-details-08", "org6e6eb9d": "liniowe-rozroznienie-06", "org0bcb2fc": "liniowe-twierdzenie-02", "orgee652ff": "liniowe-uogolnienie-02", "orgebeb1bc": "liniowe-details-09", "outline-container-program": "outline-container-liniowe-program", "program": "liniowe-program", "text-program": "text-liniowe-program", "org0cb6ff1": "liniowe-sprawdzenie-01", "outline-container-wyjasnienie": "outline-container-liniowe-wyjasnienie", "wyjasnienie": "liniowe-wyjasnienie", "text-wyjasnienie": "text-liniowe-wyjasnienie", "org3da8fe9": "liniowe-details-10", "org2acb3f6": "liniowe-rozroznienie-07", "outline-container-org5a184b1": "liniowe-powrot-do-wariantu-z-zerowym-pierwszym-minorem", "org5a184b1": "liniowe-powrot-do-wariantu-z-zerowym-pierwszym-minorem", "text-org5a184b1": "text-liniowe-powrot-do-wariantu-z-zerowym-pierwszym-minorem", "org0c05fbd": "liniowe-wyjasnienie-01", "orgaa84158": "liniowe-details-11", "org235e0b5": "liniowe-stopka-01"}};
+let staraKotwica = location.hash.slice(1);
+try { staraKotwica = decodeURIComponent(staraKotwica); } catch (_) {}
+const cel = Object.prototype.hasOwnProperty.call(przeniesienie.kotwice, staraKotwica)
+  ? przeniesienie.kotwice[staraKotwica] : przeniesienie.rozdzial;
+location.replace(przeniesienie.strona + "#" + encodeURIComponent(cel));
+</script>
+</head>
+<body>
+<p>Ten rozdział jest częścią wspólnych notatek.</p>
+<p><a href="../index.html#uklady-rownan-liniowych">Otwórz rozdział w nowym dokumencie</a></p>
+<a id="MathJax-script" href="../index.html#uklady-rownan-liniowych" hidden></a>
+<a id="cholesky" href="../index.html#liniowe-cholesky" hidden></a>
+<a id="content" href="../index.html#uklady-rownan-liniowych" hidden></a>
+<a id="org04845a1" href="../index.html#liniowe-wnioskowanie-01" hidden></a>
+<a id="org0bcb2fc" href="../index.html#liniowe-twierdzenie-02" hidden></a>
+<a id="org0c05fbd" href="../index.html#liniowe-wyjasnienie-01" hidden></a>
+<a id="org0cb6ff1" href="../index.html#liniowe-sprawdzenie-01" hidden></a>
+<a id="org235e0b5" href="../index.html#liniowe-stopka-01" hidden></a>
+<a id="org2acb3f6" href="../index.html#liniowe-rozroznienie-07" hidden></a>
+<a id="org2fe27c5" href="../index.html#liniowe-details-02" hidden></a>
+<a id="org367c36f" href="../index.html#liniowe-uklad-diagonalny" hidden></a>
+<a id="org385fbad" href="../index.html#liniowe-rozroznienie-02" hidden></a>
+<a id="org3da8fe9" href="../index.html#liniowe-details-10" hidden></a>
+<a id="org3f652f5" href="../index.html#liniowe-wyprowadzenie-01" hidden></a>
+<a id="org52f1ed1" href="../index.html#liniowe-details-05" hidden></a>
+<a id="org59b093d" href="../index.html#liniowe-konstrukcja-na-przykladzie" hidden></a>
+<a id="org5a184b1" href="../index.html#liniowe-powrot-do-wariantu-z-zerowym-pierwszym-minorem" hidden></a>
+<a id="org5b1a417" href="../index.html#liniowe-uklad-trojkatny-po-przestawieniu-rownan" hidden></a>
+<a id="org5e2f64c" href="../index.html#liniowe-ta-sama-regula-dla-n-wymiarow" hidden></a>
+<a id="org6146721" href="../index.html#liniowe-rozroznienie-03" hidden></a>
+<a id="org68345bd" href="../index.html#liniowe-rozroznienie-05" hidden></a>
+<a id="org6c1bf8c" href="../index.html#liniowe-uklad-gornotrojkatny-podstawianie-w-tyl" hidden></a>
+<a id="org6e6eb9d" href="../index.html#liniowe-rozroznienie-06" hidden></a>
+<a id="org73e0022" href="../index.html#liniowe-details-03" hidden></a>
+<a id="org837367a" href="../index.html#liniowe-details-01" hidden></a>
+<a id="org86e8203" href="../index.html#liniowe-details-04" hidden></a>
+<a id="org9e2ae56" href="../index.html#liniowe-details-06" hidden></a>
+<a id="orgaa84158" href="../index.html#liniowe-details-11" hidden></a>
+<a id="orgafd77bf" href="../index.html#liniowe-uklad-dolnotrojkatny-podstawianie-w-przod" hidden></a>
+<a id="orgc2fb643" href="../index.html#liniowe-details-07" hidden></a>
+<a id="orgceddb99" href="../index.html#liniowe-uogolnienie-01" hidden></a>
+<a id="orgd02f33a" href="../index.html#liniowe-rozroznienie-01" hidden></a>
+<a id="orgdd9cc6a" href="../index.html#liniowe-rozroznienie-04" hidden></a>
+<a id="orge820b91" href="../index.html#liniowe-twierdzenie-01" hidden></a>
+<a id="orgeb3c929" href="../index.html#liniowe-wprowadzenie-01" hidden></a>
+<a id="orgebeb1bc" href="../index.html#liniowe-details-09" hidden></a>
+<a id="orgee652ff" href="../index.html#liniowe-uogolnienie-02" hidden></a>
+<a id="orgfef4f7f" href="../index.html#liniowe-details-08" hidden></a>
+<a id="outline-container-cholesky" href="../index.html#outline-container-liniowe-cholesky" hidden></a>
+<a id="outline-container-org367c36f" href="../index.html#liniowe-uklad-diagonalny" hidden></a>
+<a id="outline-container-org59b093d" href="../index.html#liniowe-konstrukcja-na-przykladzie" hidden></a>
+<a id="outline-container-org5a184b1" href="../index.html#liniowe-powrot-do-wariantu-z-zerowym-pierwszym-minorem" hidden></a>
+<a id="outline-container-org5b1a417" href="../index.html#liniowe-uklad-trojkatny-po-przestawieniu-rownan" hidden></a>
+<a id="outline-container-org5e2f64c" href="../index.html#liniowe-ta-sama-regula-dla-n-wymiarow" hidden></a>
+<a id="outline-container-org6c1bf8c" href="../index.html#liniowe-uklad-gornotrojkatny-podstawianie-w-tyl" hidden></a>
+<a id="outline-container-orgafd77bf" href="../index.html#liniowe-uklad-dolnotrojkatny-podstawianie-w-przod" hidden></a>
+<a id="outline-container-problem" href="../index.html#outline-container-liniowe-problem" hidden></a>
+<a id="outline-container-program" href="../index.html#outline-container-liniowe-program" hidden></a>
+<a id="outline-container-proste-uklady" href="../index.html#outline-container-liniowe-proste-uklady" hidden></a>
+<a id="outline-container-rozklad-lu" href="../index.html#outline-container-liniowe-rozklad-lu" hidden></a>
+<a id="outline-container-warunek-lu" href="../index.html#outline-container-liniowe-warunek-lu" hidden></a>
+<a id="outline-container-wyjasnienie" href="../index.html#outline-container-liniowe-wyjasnienie" hidden></a>
+<a id="problem" href="../index.html#liniowe-problem" hidden></a>
+<a id="program" href="../index.html#liniowe-program" hidden></a>
+<a id="proste-uklady" href="../index.html#liniowe-proste-uklady" hidden></a>
+<a id="rozklad-lu" href="../index.html#liniowe-rozklad-lu" hidden></a>
+<a id="table-of-contents" href="../index.html#uklady-rownan-liniowych" hidden></a>
+<a id="text-cholesky" href="../index.html#text-liniowe-cholesky" hidden></a>
+<a id="text-org367c36f" href="../index.html#text-liniowe-uklad-diagonalny" hidden></a>
+<a id="text-org59b093d" href="../index.html#text-liniowe-konstrukcja-na-przykladzie" hidden></a>
+<a id="text-org5a184b1" href="../index.html#text-liniowe-powrot-do-wariantu-z-zerowym-pierwszym-minorem" hidden></a>
+<a id="text-org5b1a417" href="../index.html#text-liniowe-uklad-trojkatny-po-przestawieniu-rownan" hidden></a>
+<a id="text-org5e2f64c" href="../index.html#text-liniowe-ta-sama-regula-dla-n-wymiarow" hidden></a>
+<a id="text-org6c1bf8c" href="../index.html#text-liniowe-uklad-gornotrojkatny-podstawianie-w-tyl" hidden></a>
+<a id="text-orgafd77bf" href="../index.html#text-liniowe-uklad-dolnotrojkatny-podstawianie-w-przod" hidden></a>
+<a id="text-problem" href="../index.html#text-liniowe-problem" hidden></a>
+<a id="text-program" href="../index.html#text-liniowe-program" hidden></a>
+<a id="text-proste-uklady" href="../index.html#text-liniowe-proste-uklady" hidden></a>
+<a id="text-rozklad-lu" href="../index.html#text-liniowe-rozklad-lu" hidden></a>
+<a id="text-table-of-contents" href="../index.html#uklady-rownan-liniowych" hidden></a>
+<a id="text-warunek-lu" href="../index.html#text-liniowe-warunek-lu" hidden></a>
+<a id="text-wyjasnienie" href="../index.html#text-liniowe-wyjasnienie" hidden></a>
+<a id="warunek-lu" href="../index.html#liniowe-warunek-lu" hidden></a>
+<a id="wyjasnienie" href="../index.html#liniowe-wyjasnienie" hidden></a>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rozdział w scalonych notatkach — Metody numeryczne</title>
+<link rel="canonical" href="index.html#uklady-rownan-liniowych">
+<script>
+"use strict";
+const przeniesienie = {"strona": "index.html", "rozdzial": "uklady-rownan-liniowych", "kotwice": {"MathJax-script": "uklady-rownan-liniowych", "content": "uklady-rownan-liniowych", "table-of-contents": "uklady-rownan-liniowych", "text-table-of-contents": "uklady-rownan-liniowych", "problem": "liniowe-problem", "proste-uklady": "liniowe-proste-uklady", "układ-diagonalny": "liniowe-uklad-diagonalny", "układ-dolnotrójkątny-podstawianie-w-przód": "liniowe-uklad-dolnotrojkatny-podstawianie-w-przod", "układ-górnotrójkątny-podstawianie-w-tył": "liniowe-uklad-gornotrojkatny-podstawianie-w-tyl", "układ-trójkątny-po-przestawieniu-równań": "liniowe-uklad-trojkatny-po-przestawieniu-rownan", "rozklad-lu": "liniowe-rozklad-lu", "konstrukcja-na-przykładzie": "liniowe-konstrukcja-na-przykladzie", "ta-sama-reguła-dla-n-wymiarów": "liniowe-ta-sama-regula-dla-n-wymiarow", "warunek-lu": "liniowe-warunek-lu", "cholesky": "liniowe-cholesky", "program": "liniowe-program", "cb1": "liniowe-kod-1", "cb1-1": "liniowe-kod-1-wiersz-1", "cb1-2": "liniowe-kod-1-wiersz-2", "cb1-3": "liniowe-kod-1-wiersz-3", "cb1-4": "liniowe-kod-1-wiersz-4", "cb1-5": "liniowe-kod-1-wiersz-5", "cb1-6": "liniowe-kod-1-wiersz-6", "cb1-7": "liniowe-kod-1-wiersz-7", "cb1-8": "liniowe-kod-1-wiersz-8", "cb1-9": "liniowe-kod-1-wiersz-9", "cb1-10": "liniowe-kod-1-wiersz-10", "cb1-11": "liniowe-kod-1-wiersz-11", "cb1-12": "liniowe-kod-1-wiersz-12", "cb1-13": "liniowe-kod-1-wiersz-13", "cb1-14": "liniowe-kod-1-wiersz-14", "cb1-15": "liniowe-kod-1-wiersz-15", "cb1-16": "liniowe-kod-1-wiersz-16", "cb1-17": "liniowe-kod-1-wiersz-17", "cb1-18": "liniowe-kod-1-wiersz-18", "cb1-19": "liniowe-kod-1-wiersz-19", "cb1-20": "liniowe-kod-1-wiersz-20", "cb1-21": "liniowe-kod-1-wiersz-21", "cb2": "liniowe-kod-2", "cb2-1": "liniowe-kod-2-wiersz-1", "cb2-2": "liniowe-kod-2-wiersz-2", "cb2-3": "liniowe-kod-2-wiersz-3", "cb2-4": "liniowe-kod-2-wiersz-4", "cb2-5": "liniowe-kod-2-wiersz-5", "cb2-6": "liniowe-kod-2-wiersz-6", "cb2-7": "liniowe-kod-2-wiersz-7", "cb2-8": "liniowe-kod-2-wiersz-8", "cb2-9": "liniowe-kod-2-wiersz-9", "cb2-10": "liniowe-kod-2-wiersz-10", "cb2-11": "liniowe-kod-2-wiersz-11", "cb2-12": "liniowe-kod-2-wiersz-12", "cb2-13": "liniowe-kod-2-wiersz-13", "cb2-14": "liniowe-kod-2-wiersz-14", "cb2-15": "liniowe-kod-2-wiersz-15", "cb2-16": "liniowe-kod-2-wiersz-16", "wyjasnienie": "liniowe-wyjasnienie", "powrót-do-wariantu-z-zerowym-pierwszym-minorem": "liniowe-powrot-do-wariantu-z-zerowym-pierwszym-minorem", "cb3": "liniowe-kod-3", "cb3-1": "liniowe-kod-3-wiersz-1", "cb3-2": "liniowe-kod-3-wiersz-2", "cb4": "liniowe-kod-4", "cb4-1": "liniowe-kod-4-wiersz-1", "cb4-2": "liniowe-kod-4-wiersz-2", "cb4-3": "liniowe-kod-4-wiersz-3", "cb4-4": "liniowe-kod-4-wiersz-4"}};
+let staraKotwica = location.hash.slice(1);
+try { staraKotwica = decodeURIComponent(staraKotwica); } catch (_) {}
+const cel = Object.prototype.hasOwnProperty.call(przeniesienie.kotwice, staraKotwica)
+  ? przeniesienie.kotwice[staraKotwica] : przeniesienie.rozdzial;
+location.replace(przeniesienie.strona + "#" + encodeURIComponent(cel));
+</script>
+</head>
+<body>
+<p>Ten rozdział jest częścią wspólnych notatek.</p>
+<p><a href="index.html#uklady-rownan-liniowych">Otwórz rozdział w nowym dokumencie</a></p>
+<a id="MathJax-script" href="index.html#uklady-rownan-liniowych" hidden></a>
+<a id="cb1" href="index.html#liniowe-kod-1" hidden></a>
+<a id="cb1-1" href="index.html#liniowe-kod-1-wiersz-1" hidden></a>
+<a id="cb1-10" href="index.html#liniowe-kod-1-wiersz-10" hidden></a>
+<a id="cb1-11" href="index.html#liniowe-kod-1-wiersz-11" hidden></a>
+<a id="cb1-12" href="index.html#liniowe-kod-1-wiersz-12" hidden></a>
+<a id="cb1-13" href="index.html#liniowe-kod-1-wiersz-13" hidden></a>
+<a id="cb1-14" href="index.html#liniowe-kod-1-wiersz-14" hidden></a>
+<a id="cb1-15" href="index.html#liniowe-kod-1-wiersz-15" hidden></a>
+<a id="cb1-16" href="index.html#liniowe-kod-1-wiersz-16" hidden></a>
+<a id="cb1-17" href="index.html#liniowe-kod-1-wiersz-17" hidden></a>
+<a id="cb1-18" href="index.html#liniowe-kod-1-wiersz-18" hidden></a>
+<a id="cb1-19" href="index.html#liniowe-kod-1-wiersz-19" hidden></a>
+<a id="cb1-2" href="index.html#liniowe-kod-1-wiersz-2" hidden></a>
+<a id="cb1-20" href="index.html#liniowe-kod-1-wiersz-20" hidden></a>
+<a id="cb1-21" href="index.html#liniowe-kod-1-wiersz-21" hidden></a>
+<a id="cb1-3" href="index.html#liniowe-kod-1-wiersz-3" hidden></a>
+<a id="cb1-4" href="index.html#liniowe-kod-1-wiersz-4" hidden></a>
+<a id="cb1-5" href="index.html#liniowe-kod-1-wiersz-5" hidden></a>
+<a id="cb1-6" href="index.html#liniowe-kod-1-wiersz-6" hidden></a>
+<a id="cb1-7" href="index.html#liniowe-kod-1-wiersz-7" hidden></a>
+<a id="cb1-8" href="index.html#liniowe-kod-1-wiersz-8" hidden></a>
+<a id="cb1-9" href="index.html#liniowe-kod-1-wiersz-9" hidden></a>
+<a id="cb2" href="index.html#liniowe-kod-2" hidden></a>
+<a id="cb2-1" href="index.html#liniowe-kod-2-wiersz-1" hidden></a>
+<a id="cb2-10" href="index.html#liniowe-kod-2-wiersz-10" hidden></a>
+<a id="cb2-11" href="index.html#liniowe-kod-2-wiersz-11" hidden></a>
+<a id="cb2-12" href="index.html#liniowe-kod-2-wiersz-12" hidden></a>
+<a id="cb2-13" href="index.html#liniowe-kod-2-wiersz-13" hidden></a>
+<a id="cb2-14" href="index.html#liniowe-kod-2-wiersz-14" hidden></a>
+<a id="cb2-15" href="index.html#liniowe-kod-2-wiersz-15" hidden></a>
+<a id="cb2-16" href="index.html#liniowe-kod-2-wiersz-16" hidden></a>
+<a id="cb2-2" href="index.html#liniowe-kod-2-wiersz-2" hidden></a>
+<a id="cb2-3" href="index.html#liniowe-kod-2-wiersz-3" hidden></a>
+<a id="cb2-4" href="index.html#liniowe-kod-2-wiersz-4" hidden></a>
+<a id="cb2-5" href="index.html#liniowe-kod-2-wiersz-5" hidden></a>
+<a id="cb2-6" href="index.html#liniowe-kod-2-wiersz-6" hidden></a>
+<a id="cb2-7" href="index.html#liniowe-kod-2-wiersz-7" hidden></a>
+<a id="cb2-8" href="index.html#liniowe-kod-2-wiersz-8" hidden></a>
+<a id="cb2-9" href="index.html#liniowe-kod-2-wiersz-9" hidden></a>
+<a id="cb3" href="index.html#liniowe-kod-3" hidden></a>
+<a id="cb3-1" href="index.html#liniowe-kod-3-wiersz-1" hidden></a>
+<a id="cb3-2" href="index.html#liniowe-kod-3-wiersz-2" hidden></a>
+<a id="cb4" href="index.html#liniowe-kod-4" hidden></a>
+<a id="cb4-1" href="index.html#liniowe-kod-4-wiersz-1" hidden></a>
+<a id="cb4-2" href="index.html#liniowe-kod-4-wiersz-2" hidden></a>
+<a id="cb4-3" href="index.html#liniowe-kod-4-wiersz-3" hidden></a>
+<a id="cb4-4" href="index.html#liniowe-kod-4-wiersz-4" hidden></a>
+<a id="cholesky" href="index.html#liniowe-cholesky" hidden></a>
+<a id="content" href="index.html#uklady-rownan-liniowych" hidden></a>
+<a id="konstrukcja-na-przykładzie" href="index.html#liniowe-konstrukcja-na-przykladzie" hidden></a>
+<a id="powrót-do-wariantu-z-zerowym-pierwszym-minorem" href="index.html#liniowe-powrot-do-wariantu-z-zerowym-pierwszym-minorem" hidden></a>
+<a id="problem" href="index.html#liniowe-problem" hidden></a>
+<a id="program" href="index.html#liniowe-program" hidden></a>
+<a id="proste-uklady" href="index.html#liniowe-proste-uklady" hidden></a>
+<a id="rozklad-lu" href="index.html#liniowe-rozklad-lu" hidden></a>
+<a id="ta-sama-reguła-dla-n-wymiarów" href="index.html#liniowe-ta-sama-regula-dla-n-wymiarow" hidden></a>
+<a id="table-of-contents" href="index.html#uklady-rownan-liniowych" hidden></a>
+<a id="text-table-of-contents" href="index.html#uklady-rownan-liniowych" hidden></a>
+<a id="układ-diagonalny" href="index.html#liniowe-uklad-diagonalny" hidden></a>
+<a id="układ-dolnotrójkątny-podstawianie-w-przód" href="index.html#liniowe-uklad-dolnotrojkatny-podstawianie-w-przod" hidden></a>
+<a id="układ-górnotrójkątny-podstawianie-w-tył" href="index.html#liniowe-uklad-gornotrojkatny-podstawianie-w-tyl" hidden></a>
+<a id="układ-trójkątny-po-przestawieniu-równań" href="index.html#liniowe-uklad-trojkatny-po-przestawieniu-rownan" hidden></a>
+<a id="warunek-lu" href="index.html#liniowe-warunek-lu" hidden></a>
+<a id="wyjasnienie" href="index.html#liniowe-wyjasnienie" hidden></a>
+</body>
+</html>
