@@ -469,6 +469,35 @@ Warunek <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><seman
 <p>
 W każdym wierszu macierzy kwadratowej zachodzi |<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><annotation encoding="application/x-tex">a_{ii}</annotation></semantics></math>| &gt; ∑<sub>j≠i</sub> |<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">a_{ij}</annotation></semantics></math>|. Jest to jeden z warunków wystarczających zbieżności metody Jacobiego do rozwiązania <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax = b</annotation></semantics></math>. Samą metodę omówimy przy układach liniowych.
 </p>
+
+<p>
+<strong>Dowód.</strong> Macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> jest nieosobliwa: gdyby <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>v</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">Av=0</annotation></semantics></math> dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">v\ne0</annotation></semantics></math>,
+wybralibyśmy składową <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>v</mi><mi>i</mi></msub><annotation encoding="application/x-tex">v_i</annotation></semantics></math> o największym module. W wierszu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> składnik
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><msub><mi>v</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_{ii}v_i</annotation></semantics></math> miałby większy moduł niż suma modułów pozostałych składników,
+więc nie mogłyby się one sumować do zera. Układ ma zatem jedyne rozwiązanie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mo>*</mo></msub><annotation encoding="application/x-tex">x_*</annotation></semantics></math>.
+</p>
+
+<p>
+Niech <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mrow><mi mathvariant="normal">diag</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>a</mi><mn>11</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>a</mi><mrow><mi>n</mi><mi>n</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">D=\operatorname{diag}(a_{11},\ldots,a_{nn})</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mi>I</mi><mo>−</mo><msup><mi>D</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>A</mi></mrow><annotation encoding="application/x-tex">H=I-D^{-1}A</annotation></semantics></math>.
+Iteracja Jacobiego to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>H</mi><msub><mi>x</mi><mi>k</mi></msub><mo>+</mo><msup><mi>D</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>b</mi></mrow><annotation encoding="application/x-tex">x_{k+1}=Hx_k+D^{-1}b</annotation></semantics></math>. Dla błędu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mi>k</mi></msub><mo>=</mo><msub><mi>x</mi><mi>k</mi></msub><mo>−</mo><msub><mi>x</mi><mo>*</mo></msub></mrow><annotation encoding="application/x-tex">e_k=x_k-x_*</annotation></semantics></math>
+mamy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>H</mi><msub><mi>e</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">e_{k+1}=He_k</annotation></semantics></math>. Przyjmując normę maksimum
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>v</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><msub><mrow><mi mathvariant="normal">max</mi><mo>&#8289;</mo></mrow><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>v</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">\|v\|_\infty=\max_i|v_i|</annotation></semantics></math>, otrzymujemy
+</p>
+
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><munder><mi mathvariant="normal">max</mi><mi>i</mi></munder><munder><mo>∑</mo><mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><mfrac><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">|</mo></mrow><mo>&lt;</mo><mn>1</mn><mo>,</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="postfix">∥</mo><msub><mi>e</mi><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><mi>q</mi><mo stretchy="false" form="postfix">∥</mo><msub><mi>e</mi><mi>k</mi></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">q=\max_i\sum_{j\ne i}\left|\frac{a_{ij}}{a_{ii}}\right|&lt;1,
+\qquad \|e_{k+1}\|_\infty\leq q\|e_k\|_\infty.</annotation></semantics></math>
+
+<p>
+Przez powtarzanie nierówności <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msub><mi>e</mi><mi>k</mi></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><msup><mi>q</mi><mi>k</mi></msup><mo stretchy="false" form="postfix">∥</mo><msub><mi>e</mi><mn>0</mn></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>→</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\|e_k\|_\infty\leq q^k\|e_0\|_\infty\to0</annotation></semantics></math>,
+niezależnie od wyboru <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>0</mn></msub><annotation encoding="application/x-tex">x_0</annotation></semantics></math>.
+</p>
+
+<p>
+Dowód normowy: I. Maros, Imperial College London,
+<a href="https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=113"><i>Lecture Notes: 233 Computational Techniques</i> (2008), §4.5.5, s. 108–109</a>
+oraz <a href="https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=106">§4.5.1, tw. 6 z dowodem, s. 101</a>.
+Powyżej zapisano argument w notacji tych notatek i rozpisano nieosobliwość <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>.
+</p>
 </details>
 
 <div class="study-only argument" data-kind="proof" id="cel-study-only-01">
@@ -481,6 +510,13 @@ W każdym wierszu macierzy kwadratowej zachodzi |<math display="inline" xmlns="h
 
 <p>
 <strong>Dowód:</strong> dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>n</mi></msub><mo>=</mo><msub><mi>z</mi><mo>*</mo></msub></mrow><annotation encoding="application/x-tex">z_{n} = z_{*}</annotation></semantics></math> mamy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>z</mi><mo>*</mo></msub><mo>+</mo><mi>h</mi><mo>·</mo><mn>0</mn><mo>=</mo><msub><mi>z</mi><mo>*</mo></msub></mrow><annotation encoding="application/x-tex">z_{n+1} = z_{*} + h · 0 = z_{*}</annotation></semantics></math>. Ponieważ tak wybrano <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mn>0</mn></msub><annotation encoding="application/x-tex">z_{0}</annotation></semantics></math>, własność zachodzi w każdym kroku. Dowód dotyczy schematu, nie poprawności dowolnej implementacji.
+</p>
+
+<p>
+Jest to wniosek z definicji iteracji punktu stałego: D. Levy,
+<a href="https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=5"><i>Methods for Solving Nonlinear Problems</i>, §2.2, wzór (2.4)</a>.
+Tutaj iterujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>z</mi><mo>+</mo><mi>h</mi><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">G(z)=z+hF(z)</annotation></semantics></math>. Powyższy argument uzasadnia zastosowanie
+tej definicji do schematu Eulera.
 </p>
 
 <p class="direction">
@@ -987,6 +1023,13 @@ W poniższym twierdzeniu <math display="inline" xmlns="http://www.w3.org/1998/Ma
 <span class="marked"> <strong>Dowód.</strong> Punkt <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>+</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">x + d</annotation></semantics></math> leży przed środkiem odcinka między <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>x</mi><mo>+</mo></msup><annotation encoding="application/x-tex">x^{+}</annotation></semantics></math>. Jest więc bliższy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> niż dowolnej innej liczbie reprezentowalnej. Z definicji zaokrąglania otrzymujemy fl(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>+</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">x + d) = x</annotation></semantics></math>. </span>
 </p>
 
+<p>
+Podstawa argumentu geometrycznego: D. Goldberg,
+<a href="https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html"><i>What Every Computer Scientist Should Know About Floating-Point Arithmetic</i>,
+sekcja „Relative Error and Ulps” — zaokrąglanie do najbliższej i błąd do połowy odstępu</a>.
+Powyżej zastosowano tę regułę do punktu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>+</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">x+d</annotation></semantics></math> leżącego przed środkiem odcinka.
+</p>
+
 <details class="analysis" id="arytmetyka-details-04">
 <summary>Dowodzenie · szukamy racji dla podanej tezy</summary>
 
@@ -1066,6 +1109,13 @@ Odcinki łączą wartości ciągów; nie oznaczają dodatkowych kroków. To mode
 <div class="argument" data-kind="inference" id="arytmetyka-argument-03">
 <p>
 <span class="marked"> Jeżeli przy stałym <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math> i niezmienionych regułach zaokrąglania otrzymaliśmy fl(ŝ<sub>n</sub> + <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">d)</annotation></semantics></math> = ŝ<sub>n</sub>, to następny krok powtarza te same dane i działanie. Zatem w tym algorytmie wszystkie dalsze wartości również pozostaną równe ŝ<sub>n</sub>. </span>
+</p>
+
+<p>
+Jest to wniosek z definicji iteracji punktu stałego: D. Levy,
+<a href="https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=5"><i>Methods for Solving Nonlinear Problems</i>, §2.2, wzór (2.4)</a>.
+Tutaj <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">fl</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mo>+</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">G(s)=\operatorname{fl}(s+d)</annotation></semantics></math>, przy stałym <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math> i niezmienionej regule
+zaokrąglania; powyższy argument dotyczy tego konkretnego odwzorowania.
 </p>
 
 <details class="analysis" id="arytmetyka-details-06">
@@ -1175,6 +1225,14 @@ fl(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
 
 <p>
 <strong>Uzasadnienie:</strong> dla 2<sup>e</sup> ≤ |<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>| &lt; 2<sup>e+1</sup> połowa odstępu wynosi 2<sup>e−p</sup>. Podzielenie tego ograniczenia przez |<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>| daje co najwyżej 2<sup>−p</sup>. Oszacowanie dotyczy jednego zaokrąglenia. Nie jest oszacowaniem błędu całego programu i nie obejmuje bez zmian niedomiaru ani przepełnienia.
+</p>
+
+<p>
+Źródło wyprowadzenia: D. Goldberg,
+<a href="https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html"><i>What Every Computer Scientist Should Know About Floating-Point Arithmetic</i>,
+sekcja „Relative Error and Ulps”, równanie (2) i następujący po nim argument</a>.
+Dla podstawy 2 otrzymujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>=</mo><msup><mn>2</mn><mrow><mi>−</mi><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">u=2^{-p}</annotation></semantics></math>. Goldberg nazywa tę wielkość <i>machine epsilon</i>;
+w tych notatkach odróżniamy ją od <code>eps(T)</code>, równego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></msup><annotation encoding="application/x-tex">2^{1-p}</annotation></semantics></math>.
 </p>
 </details>
 
@@ -2349,7 +2407,7 @@ Przybliżenia pozostają między punktem startowym a pierwiastkiem.
 
 <div id="pierwiastki-zrodlo-03" class="zrodlo">
 <p>
-Dowód wariantu rosnącego: D. Levy,
+Adaptacja dowodu dla funkcji rosnącej: D. Levy,
 <a href="https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=12"><i>Methods
 for Solving Nonlinear Problems</i>, §2.4, tw. 2.8 z dowodem, s. 12–13</a>. Zastosowanie tego
 dowodu na przedziale i wariant malejący uzasadniamy poniżej.
@@ -2420,10 +2478,11 @@ kroków. Po pierwszym kroku dalszy ciąg jest monotoniczny.
 
 <div id="pierwiastki-zrodlo-04" class="zrodlo">
 <p>
-Dowód: D. Levy,
+Dowód dla funkcji rosnącej: D. Levy,
 <a href="https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=12"><i>Methods
-for Solving Nonlinear Problems</i>, §2.4, tw. 2.8 z dowodem, s. 12–13</a>. Wariant malejący
-otrzymujemy przez opisane poniżej odbicie osi.
+for Solving Nonlinear Problems</i>, §2.4, tw. 2.8 z dowodem, s. 12–13</a>. Poniżej
+opisano adaptację przez odbicie osi dla funkcji malejącej. Nierówności dowodu
+dopuszczają <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>f</mi><mo>″</mo></msup><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">f&#39;&#39;\geq0</annotation></semantics></math>; równość może prowadzić do skończonego trafienia.
 </p>
 
 </div>
@@ -2696,9 +2755,14 @@ sieczna trafia w pierwiastek w jednym kroku.
 
 <div id="pierwiastki-zrodlo-06" class="zrodlo">
 <p>
-Dowód dokładnego rzędu: Y. Tan, C. Ye, Q. Zhang, S. Zhao,
+Teza w recenzowanej literaturze: E. Cătinaş,
+<a href="https://ictp.acad.ro/how-many-steps-still-left-to-x/"><i>How Many Steps Still Left to x*?</i>,
+SIAM Review 63(3) (2021), 585–624, §4.2.2, tw. 4.18</a>. Artykuł odsyła po dowód
+do książki Ostrowskiego.
+Pełny dowód dostępny online: Y. Tan, C. Ye, Q. Zhang, S. Zhao,
 <a href="https://arxiv.org/pdf/2510.13228v1#page=7"><i>On Convergence of the Secant Method</i>
-(2025), §3, tw. 3.4 z dowodem, s. 7–8</a> (preprint).
+(2025), §3, tw. 3.4 z dowodem, s. 7–8</a>. To preprint; nie potwierdzono jego
+publikacji recenzowanej. Te dwa odsyłacze dokumentują odpowiednio tezę i pełny dowód.
 </p>
 
 </div>
@@ -3513,8 +3577,12 @@ Takie ograniczenie pozwala przeliczyć residuum na oszacowanie błędu.
 
 <div id="pierwiastki-zrodlo-08" class="zrodlo">
 <p>
-Dowód oszacowania podajemy poniżej. Jego podstawą jest udowodnione twierdzenie o
-wartości średniej: G. Strang, E. J. Herman,
+Dowód oszacowania: C. J. S. Alves, Instituto Superior Técnico,
+<a href="https://www.math.tecnico.ulisboa.pt/~calves/MC/cap1uk.html"><i>Computational Mathematics</i>,
+część „Nonlinear scalar equations”, „Corollary (Lagrange error estimate − a posteriori)”
+i następujący dowód</a>. Źródło używa minimum <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msup><mi>f</mi><mo>′</mo></msup><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|f&#39;|</annotation></semantics></math>; poniżej stosujemy
+dowolne dodatnie dolne ograniczenie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>.
+Podstawowe twierdzenie o wartości średniej z dowodem: G. Strang, E. J. Herman,
 <a href="https://openstax.org/books/calculus-volume-1/pages/4-4-the-mean-value-theorem"><i>Calculus,
 Volume 1</i>, OpenStax, §4.4, tw. 4.5 z dowodem</a>.
 </p>
@@ -4141,10 +4209,15 @@ Rozwiązanie nie może więc być jedyne.
 </p>
 
 <p class="source">
-Źródło z algebry liniowej: G. Strang,
-<a href="https://math.mit.edu/~gs/linearalgebra/ila5/linearalgebra5_6Great.pdf" class="source">Six Great Theorems of Linear Algebra</a>,
-zestawienie „Linear algebra in a nutshell”. Stosujemy je do macierzy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>J</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>X</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">A=J(X_k)</annotation></semantics></math>
-i prawej strony <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mi>−</mi><mi>F</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>X</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">b=-F(X_k)</annotation></semantics></math>.
+Podstawa źródłowa uzasadnienia: R. A. Beezer, <i>A First Course in Linear Algebra</i>,
+wersja 3.50:
+<a href="https://linear.pugetsound.edu/download/fcla-3.50-tablet.pdf#page=83" class="source">tw. NMUS z dowodem, s. 69–70</a>,
+<a href="https://linear.pugetsound.edu/download/fcla-3.50-tablet.pdf#page=115">tw. PSPHS z dowodem, s. 101–102</a>
+oraz <a href="https://linear.pugetsound.edu/download/fcla-3.50-tablet.pdf#page=377">tw. SMZD z dowodem, s. 363–364</a>.
+Stosujemy je do <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>J</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>X</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">A=J(X_k)</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mi>−</mi><mi>F</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>X</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">b=-F(X_k)</annotation></semantics></math>. NMUS daje jednoznaczność dla
+macierzy nieosobliwej; PSPHS opisuje rozwiązania jako sumę rozwiązania szczególnego
+i wektora z jądra, a SMZD wiąże osobliwość z zerowym wyznacznikiem.
+Powyżej zapisano ten argument dla poprawki Newtona.
 </p>
 </details>
 
@@ -4900,6 +4973,13 @@ Ostatni minor <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
 
 </div>
 
+<p class="source">
+Pełny dowód: S. J. Cowley,
+<a href="https://www.damtp.cam.ac.uk/user/sjc1/teaching/NAIB/notes.pdf#page=64" class="source"><i>Mathematical Tripos: IB Numerical Analysis</i> (2014), §8.2.7,
+tw. 8.3 z dowodem, s. 60–61</a>. Źródło dopuszcza zerowy ostatni minor;
+poniżej podajemy skrót argumentu w przyjętej notacji.
+</p>
+
 <details id="liniowe-details-06">
 <summary>Idea dowodu i sens warunku</summary>
 <p>
@@ -5024,6 +5104,12 @@ i ma dodatnie elementy na przekątnej.
 
 </div>
 
+<p class="source">
+Pełny dowód indukcyjny istnienia i jednoznaczności: N. J. Higham,
+<a href="https://nhigham.com/2020/08/11/what-is-a-cholesky-factorization/" class="source"><i>What Is a Cholesky Factorization?</i> (2020)</a>.
+Źródło używa czynnika górnotrójkątnego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>; tutaj przyjmujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><msup><mi>R</mi><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">C=R^T</annotation></semantics></math>.
+</p>
+
 <div data-tytul="Kryterium Sylvestera" id="liniowe-uogolnienie-02" class="uogolnienie">
 <p>
 Rzeczywista macierz <strong>symetryczna</strong> jest dodatnio określona wtedy i tylko
@@ -5032,6 +5118,12 @@ wtedy, gdy wszystkie jej wiodące minory główne są dodatnie:
 </p>
 
 </div>
+
+<p class="source">
+Pełny dowód kryterium: R. C. Gunning,
+<a href="https://web.math.princeton.edu/~gunning/bk.pdf#page=220" class="source"><i>An Introduction to Analysis</i> (2017), §4.2, tw. 4.19 z dowodem, s. 212</a>.
+Określenie „principal minors” oznacza tam minory wiodące, zdefiniowane na s. 211.
+</p>
 
 <details id="liniowe-details-09">
 <summary>Idea uzasadnienia rozkładu i kryterium</summary>
@@ -5217,11 +5309,12 @@ macierzy można używać tych samych czynników.
 <details id="liniowe-details-11">
 <summary>Źródła: twierdzenia i dokumentacja</summary>
 <ul class="org-ul">
-<li>N. J. Higham, <a href="https://nhigham.com/2021/04/20/what-is-an-lu-factorization/">What Is an LU Factorization?</a> — warunki rozkładu;
-pełny dowód: <i>Accuracy and Stability of Numerical Algorithms</i>, wyd. 2,
-twierdzenie 9.1.</li>
+<li>S. J. Cowley, <a href="https://www.damtp.cam.ac.uk/user/sjc1/teaching/NAIB/notes.pdf#page=64">Mathematical Tripos: IB Numerical Analysis</a>,
+§8.2.7, tw. 8.3 z dowodem, s. 60–61 — istnienie i jednoznaczność LU.</li>
+<li>N. J. Higham, <a href="https://nhigham.com/2021/04/20/what-is-an-lu-factorization/">What Is an LU Factorization?</a> — omówienie warunków rozkładu i związku z eliminacją.</li>
 <li>N. J. Higham, <a href="https://nhigham.com/2020/08/11/what-is-a-cholesky-factorization/">What Is a Cholesky Factorization?</a> — dowód indukcyjny.</li>
-<li>UNSW, MATH2111, <a href="https://web.maths.unsw.edu.au/~potapov/2111_course_notes/Sylvester_0027s-criterion.html">Sylvester's criterion</a> — kryterium dodatniej określoności.</li>
+<li>R. C. Gunning, <a href="https://web.math.princeton.edu/~gunning/bk.pdf#page=220">An Introduction to Analysis</a>,
+§4.2, tw. 4.19 z dowodem, s. 212 — kryterium Sylvestera.</li>
 <li><a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">Julia: LinearAlgebra</a> — układy trójkątne, <code>lu</code>, <code>cholesky</code> i permutacje.</li>
 </ul>
 </details>
@@ -5630,6 +5723,13 @@ i wyznacza jedyne rozwiązanie <math display="inline" xmlns="http://www.w3.org/1
 
 </div>
 
+<p class="source">
+Podstawa dowodu: S. J. Cowley,
+<a href="https://www.damtp.cam.ac.uk/user/sjc1/teaching/NAIB/notes.pdf#page=64" class="source"><i>Mathematical Tripos: IB Numerical Analysis</i> (2014), §8.2.7,
+tw. 8.3, wniosek 8.4 i tw. 8.5 z dowodami, s. 60–61</a>. Poniższe uzasadnienie
+stosuje te wyniki do eliminacji i uwzględnia także dzielnik przy podstawianiu w tył.
+</p>
+
 <details id="gauss-dowod">
 <summary>Uzasadnienie i rola ostatniego minora</summary>
 <p>
@@ -5687,6 +5787,13 @@ niezerową przekątną, a podstawianie w tył wyznacza jedyne rozwiązanie
 </p>
 
 </div>
+
+<p class="source">
+Podstawa argumentu o istnieniu niezerowego elementu prowadzącego: M. K. Kadalbajoo,
+NPTEL, <a href="https://archive.nptel.ac.in/content/storage2/courses/122104019/numerical-analysis/kadalbajoo/lec1/node5.html" class="source"><i>Gaussian Elimination</i>,
+część „Pivoting and Scaling in Gaussian Elimination”</a>. Poniżej zapisujemy ten
+argument przez wyznacznik pozostałego bloku i dołączamy podstawianie w tył.
+</p>
 
 <details id="gauss-dowod-zamiany">
 <summary>Dlaczego odpowiedni wiersz zawsze istnieje?</summary>
@@ -5952,6 +6059,10 @@ a który dodatkowo pozwala rozpocząć podstawianie w tył.
 <details id="gauss-zrodla">
 <summary>Źródła</summary>
 <ul class="org-ul">
+<li>S. J. Cowley, <a href="https://www.damtp.cam.ac.uk/user/sjc1/teaching/NAIB/notes.pdf#page=64">Mathematical Tripos: IB Numerical Analysis</a>,
+§8.2.7, tw. 8.3, wniosek 8.4 i tw. 8.5 z dowodami, s. 60–61 — LU, minory i elementy prowadzące.</li>
+<li>M. K. Kadalbajoo, NPTEL, <a href="https://archive.nptel.ac.in/content/storage2/courses/122104019/numerical-analysis/kadalbajoo/lec1/node5.html">Gaussian Elimination</a>,
+część <i>Pivoting and Scaling in Gaussian Elimination</i> — uzasadnienie wykonalności doboru wierszy.</li>
 <li>N. J. Higham, <a href="https://nhigham.com/2021/04/20/what-is-an-lu-factorization/">What Is an LU Factorization?</a>, część <i>Relation with Gaussian Elimination</i>:
 wiodące minory, elementy prowadzące i związek z LU.</li>
 <li><a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#LinearAlgebra.lu">Julia: lu</a> — konwencja permutacji, wybór częściowy i rozwiązywanie przez obiekt rozkładu.</li>
@@ -6274,6 +6385,13 @@ Ułamek wymierny w postaci nieskracalnej ma skończony zapis binarny wtedy i tyl
 W konkretnym typie potrzebne są jeszcze wystarczająca precyzja i zakres. Są to liczby postaci <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>/</mi><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">m/2^k</annotation></semantics></math>, gdzie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math> jest całkowite, a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> całkowite i nieujemne.
 </p>
 
+<p>
+Źródło dowodu obu kierunków: Stony Brook University, MAT 311,
+<a href="https://www.math.stonybrook.edu/~olga/mat311-spr09/mat311soln9.pdf#page=2"><i>Introduction to Number Theory</i>, Problem Set 9 — Solutions (2009),
+„Binary expansions question”, punkt (b), s. 2</a>. Argument o części ułamkowej
+stosujemy także do liczb ze skończoną częścią całkowitą i ich liczb przeciwnych.
+</p>
+
 <div class="uwaga_badawcza" id="dodatek-uwaga_badawcza-02">
 <p>
 To twierdzenie o całej klasie ułamków. Podano uzasadnienie obu kierunków; trzy wcześniejsze testy nie zastępują tego uzasadnienia.
@@ -6543,6 +6661,12 @@ Uogólnienie
 
 <p>
 W przedziale liczb normalnych <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><msup><mn>2</mn><mi>e</mi></msup><mo>,</mo><msup><mn>2</mn><mrow><mi>e</mi><mo>+</mo><mn>1</mn></mrow></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[2^e,2^{e+1})</annotation></semantics></math> wartości mają postać <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>j</mi><msup><mn>2</mn><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></msup><mo stretchy="false" form="postfix">)</mo><msup><mn>2</mn><mi>e</mi></msup></mrow><annotation encoding="application/x-tex">(1+j2^{1-p})2^e</annotation></semantics></math>. Zwiększenie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math> o 1 zwiększa wartość o <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>e</mi><mo>−</mo><mi>p</mi><mo>+</mo><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">2^{e-p+1}</annotation></semantics></math>. Dlatego w następnym takim przedziale odstęp jest dwukrotnie większy. Przy 1 otrzymujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">eps</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\operatorname{eps}(T)=2^{1-p}</annotation></semantics></math>.
+</p>
+
+<p>
+Podstawa wyprowadzenia: Oracle,
+<a href="https://docs.oracle.com/cd/E19059-01/stud.10/819-0499/ncg_math.html"><i>Numerical Computation Guide</i>, rozdział „IEEE Arithmetic”, §2.2.2–2.2.3</a>.
+Zapis części znaczącej formatów <i>single</i> i <i>double</i> uogólniamy tutaj do <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> bitów.
 </p>
 
 <div class="uwaga_badawcza" id="dodatek-uwaga_badawcza-03">
@@ -7131,6 +7255,16 @@ Błąd zaokrąglenia do najbliższego sąsiada nie przekracza połowy odstępu. 
 Oba przypadki obejmuje mniej ostre oszacowanie: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mrow><mi mathvariant="normal">fl</mi><mo>&#8289;</mo></mrow><mi>T</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>x</mi><mo stretchy="false" form="prefix">|</mo><mo>≤</mo><mi>u</mi><mo stretchy="false" form="prefix">|</mo><mi>x</mi><mo stretchy="false" form="prefix">|</mo><mi>+</mi><mfrac><mi>η</mi><mn>2</mn></mfrac><mo>,</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">|</mo><mi>x</mi><mo stretchy="false" form="prefix">|</mo><mo>≤</mo><mi>M</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">|\operatorname{fl}_T(x)-x|\leq u|x|+\frac\eta2,\qquad |x|\leq M.</annotation></semantics></math> Oszacowania zapisano w arytmetyce rzeczywistej. Dodatnie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\eta/2</annotation></semantics></math> nie jest reprezentowalne w <code>T</code>; obliczenie tej wielkości w <code>T</code> daje zero.
 </p>
 
+<p>
+Źródło ograniczenia względnego: D. Goldberg,
+<a href="https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html"><i>What Every Computer Scientist Should Know About Floating-Point Arithmetic</i>,
+sekcja „Relative Error and Ulps”, równanie (2)</a>. Argument przez połowę odstępu,
+także dla subnormalnych: Oracle,
+<a href="https://docs.oracle.com/cd/E19059-01/stud.10/819-0499/ncg_math.html"><i>Numerical Computation Guide</i>, §2.3.4 „Error Properties of Gradual Underflow”</a>.
+Zastosowano go tutaj do stałego odstępu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math>. Oszacowanie łączne jest
+bezpośrednim wnioskiem z dwóch udowodnionych przypadków.
+</p>
+
 <div class="uwaga_badawcza" id="dodatek-uwaga_badawcza-06">
 <p>
 Uogólnienie ma uzasadnienie geometryczne: odległość od najbliższego punktu nie przekracza połowy odstępu. Testy przy 1 i przy zerze pokazują dwa przypadki, lecz nie stanowią dowodu oszacowań.
@@ -7183,6 +7317,11 @@ Wybór typu jest częścią budowy modelu obliczeniowego. Precyzja i zakres okre
 <li><a href="https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/">Julia: typy liczbowe, literały i zaokrąglanie</a>.</li>
 <li><a href="https://docs.julialang.org/en/v1/base/numbers/">Julia: operacje na liczbach i precyzja</a>.</li>
 <li><a href="https://docs.oracle.com/cd/E19059-01/stud.10/819-0499/ncg_math.html">Oracle: pola formatów IEEE i liczby subnormalne</a>.</li>
+<li>D. Goldberg, <a href="https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">What Every Computer Scientist Should Know About Floating-Point Arithmetic</a>,
+„Relative Error and Ulps” — wyprowadzenie granicy błędu względnego.</li>
+<li>Stony Brook University, MAT 311,
+<a href="https://www.math.stonybrook.edu/~olga/mat311-spr09/mat311soln9.pdf#page=2">Problem Set 9 — Solutions</a>,
+„Binary expansions question”, punkt (b), s. 2 — dowód warunku skończonego zapisu binarnego.</li>
 </ul>
 
 <div class="goal" id="dodatek-goal-01">

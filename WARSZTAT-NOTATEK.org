@@ -125,6 +125,14 @@ badamy wykonalność i jednoznaczność skończonego rachunku; przy iteracjach
 może być potrzebne badanie zbieżności. Układ jednej metody nie staje się
 obowiązkową kolejnością dla wszystkich tematów.
 
+Na polecenie autora z 29 października 2026 r. każde dodawane twierdzenie
+uzasadniamy dowodem opartym na uznanym materiale opublikowanym w sieci.
+Sprawdzamy obecność dowodu w źródle oraz zgodność założeń i wniosku;
+wskazujemy autora, tytuł i lokalizację dowodu. Odróżniamy dowód źródłowy,
+jego adaptację i własny wniosek z udowodnionego wyniku. Sam odsyłacz
+do sformułowania twierdzenia lub dokumentacji programu nie zastępuje
+źródła dowodu. Status preprintu i brak dostępu do dowodu zgłaszamy jawnie.
+
 Bieżące konwencje Org, LaTeX, bloków ról i ilustracji odczytujemy
 z =index.org= i =AGENTS.md=. Historyczne instrukcje pakietów zachowano
 w [[file:przeglady/instrukcje-pakietow/pierwiastki.org][rozdziale 3]] i [[file:przeglady/instrukcje-pakietow/uklady.org][rozdziałach 4–5]].
@@ -766,6 +774,48 @@ Sprawdzenie: odtworzono HTML; kontrola projektu i =git diff --check=
 przeszły bez błędów. Potwierdzono obecność nowego twierdzenia i dowodu,
 zachowanie dotychczasowych kotwic oraz brak zmian w kodzie i innych
 rozdziałach. Wcześniejsze niezapisane w Git korekty W-13 zachowano.
+
+** Uzupełnienie W-15: dowody i ich źródła internetowe, 29 października 2026 r.
+
+Polecenie autora: sprawdzić, czy twierdzenia mają dowody oparte na uznanych
+materiałach opublikowanych w sieci, a następnie uzupełnić wykryte braki.
+Status: =uzupełnione na polecenie autora; bez deklarowania akceptacji tekstu=.
+
+Przegląd objął 13 bloków =twierdzenie= w =index.org= i ogólne tezy poza
+tymi blokami. Wskazał brak dowodu Jacobiego, źródła zawierające jedynie
+sformułowania oraz niedziałający odsyłacz do kryterium Sylvestera.
+
+Zakres uzupełnienia:
+
+- Dodano dowód zbieżności Jacobiego przez normę maksimum, oparty na
+  skrypcie I. Marosa (Imperial College London, §4.5.1 i §4.5.5).
+- Dla kroku Newtona wskazano udowodnione wyniki Beezera; dla LU i Gaussa
+  bez zamian — Cowleya; dla doboru wierszy — argument Kadalbajoo (NPTEL).
+- Niedziałający link UNSW zastąpiono dowodem kryterium Sylvestera
+  u Gunninga. Dodano źródło dowodu skończonego zapisu binarnego (Stony Brook).
+- Dopisano bezpośrednie źródła wyprowadzeń błędów (Goldberg i Oracle)
+  i oszacowania przez residuum (Alves). Jawnie oznaczono adaptacje oraz
+  elementarne wnioski z definicji iteracji; nie przypisano im fikcyjnego
+  pochodzenia z publikacji zawierającej tylko definicję.
+- Dokładny rząd siecznych potwierdzono w artykule Cătinaşa w /SIAM Review/.
+  Dostępny i zweryfikowany pełny dowód Tan i współautorów pozostaje
+  preprintem. Nie potwierdzono pełnego dowodu w uznanym publicznie dostępnym
+  źródle przy tych samych założeniach; nie zastąpiono go szkicem zakładającym
+  istnienie granicy definiującej rząd. To nadal ograniczenie bibliograficzne.
+
+Zachowano dotychczasowe tezy, założenia, przykłady, kod, ilustracje i trwałe
+kotwice. Uzupełnienie źródeł potwierdza podstawę argumentacji; nie dowodzi
+historycznego pochodzenia wcześniej zapisanych fragmentów.
+
+Sprawdzenie: odtworzono =index.html=. Kontrola projektu przeszła bez błędów:
+4 istniejące HTML i 64 lokalne odwołania; próbny eksport 9 Org do 9 HTML,
+160 lokalnych odwołań. =git diff --check= nie zgłosił błędów. Porównanie
+potwierdziło identyczność 13 tez, 88 =CUSTOM_ID=, 52 bloków kodu i 31 bloków
+eksportowanego HTML. Zachowano wszystkie 736 dotychczasowych identyfikatorów
+HTML; nowe wzory wyeksportowano do MathML (łącznie 1178). Niezależny przegląd
+uzupełnień nie wskazał błędów matematycznych ani niezgodnych atrybucji.
+Podgląd lokalnego HTML został zablokowany przez politykę URL przeglądarki
+(protokół =file:=); nie obchodzono tej blokady.
 
 * Wzorce do zatwierdzenia
 

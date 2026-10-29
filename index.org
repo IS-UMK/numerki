@@ -376,6 +376,29 @@ Warunek \(R\) jest *wystarczający* dla \(N\), gdy \(R\) → \(N\); jest *koniec
 
 W każdym wierszu macierzy kwadratowej zachodzi |\(a_{ii}\)| > ∑_{j≠i} |\(a_{ij}\)|. Jest to jeden z warunków wystarczających zbieżności metody Jacobiego do rozwiązania \(Ax = b\). Samą metodę omówimy przy układach liniowych.
 
+*Dowód.* Macierz \(A\) jest nieosobliwa: gdyby \(Av=0\) dla \(v\ne0\),
+wybralibyśmy składową \(v_i\) o największym module. W wierszu \(i\) składnik
+\(a_{ii}v_i\) miałby większy moduł niż suma modułów pozostałych składników,
+więc nie mogłyby się one sumować do zera. Układ ma zatem jedyne rozwiązanie \(x_*\).
+
+Niech \(D=\operatorname{diag}(a_{11},\ldots,a_{nn})\) i \(H=I-D^{-1}A\).
+Iteracja Jacobiego to \(x_{k+1}=Hx_k+D^{-1}b\). Dla błędu \(e_k=x_k-x_*\)
+mamy \(e_{k+1}=He_k\). Przyjmując normę maksimum
+\(\|v\|_\infty=\max_i|v_i|\), otrzymujemy
+
+\begin{equation*}
+q=\max_i\sum_{j\ne i}\left|\frac{a_{ij}}{a_{ii}}\right|<1,
+\qquad \|e_{k+1}\|_\infty\leq q\|e_k\|_\infty.
+\end{equation*}
+
+Przez powtarzanie nierówności \(\|e_k\|_\infty\leq q^k\|e_0\|_\infty\to0\),
+niezależnie od wyboru \(x_0\).
+
+Dowód normowy: I. Maros, Imperial College London,
+[[https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=113][/Lecture Notes: 233 Computational Techniques/ (2008), §4.5.5, s. 108–109]]
+oraz [[https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=106][§4.5.1, tw. 6 z dowodem, s. 101]].
+Powyżej zapisano argument w notacji tych notatek i rozpisano nieosobliwość \(A\).
+
 #+end_details
 
 #+attr_html: :class study-only argument :data-kind proof
@@ -389,6 +412,11 @@ W każdym wierszu macierzy kwadratowej zachodzi |\(a_{ii}\)| > ∑_{j≠i} |\(a_
 *N — teza do uzasadnienia:* jeśli \(F(z_{*})\) = 0, to schemat Eulera rozpoczęty w \(z_{*}\) zwraca ten sam punkt w każdym kroku. *R — poszukiwana racja:* wzór kroku i zerowy przyrost.
 
 *Dowód:* dla \(z_{n} = z_{*}\) mamy \(z_{n+1} = z_{*} + h · 0 = z_{*}\). Ponieważ tak wybrano \(z_{0}\), własność zachodzi w każdym kroku. Dowód dotyczy schematu, nie poprawności dowolnej implementacji.
+
+Jest to wniosek z definicji iteracji punktu stałego: D. Levy,
+[[https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=5][/Methods for Solving Nonlinear Problems/, §2.2, wzór (2.4)]].
+Tutaj iterujemy \(G(z)=z+hF(z)\). Powyższy argument uzasadnia zastosowanie
+tej definicji do schematu Eulera.
 
 #+attr_html: :class direction
 Przesłanka ~> konkluzja: R ~> N@@html:<br>@@Punkt wyjścia ~> cel: N ~> R
@@ -771,6 +799,11 @@ W poniższym twierdzeniu \(x\) jest dodatnią liczbą reprezentowalną, a \(x^{+
 #+begin_argument
 @@html:<span class="marked">@@ *Dowód.* Punkt \(x + d\) leży przed środkiem odcinka między \(x\) a \(x^{+}\). Jest więc bliższy \(x\) niż dowolnej innej liczbie reprezentowalnej. Z definicji zaokrąglania otrzymujemy fl(\(x + d) = x\). @@html:</span>@@
 
+Podstawa argumentu geometrycznego: D. Goldberg,
+[[https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html][/What Every Computer Scientist Should Know About Floating-Point Arithmetic/,
+sekcja „Relative Error and Ulps” — zaokrąglanie do najbliższej i błąd do połowy odstępu]].
+Powyżej zastosowano tę regułę do punktu \(x+d\) leżącego przed środkiem odcinka.
+
 #+attr_html: :class analysis
 #+attr_html: :id arytmetyka-details-04
 #+begin_details
@@ -849,6 +882,11 @@ Odcinki łączą wartości ciągów; nie oznaczają dodatkowych kroków. To mode
 #+attr_html: :id arytmetyka-argument-03
 #+begin_argument
 @@html:<span class="marked">@@ Jeżeli przy stałym \(d\) i niezmienionych regułach zaokrąglania otrzymaliśmy fl(ŝ_{n} + \(d)\) = ŝ_{n}, to następny krok powtarza te same dane i działanie. Zatem w tym algorytmie wszystkie dalsze wartości również pozostaną równe ŝ_{n}. @@html:</span>@@
+
+Jest to wniosek z definicji iteracji punktu stałego: D. Levy,
+[[https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=5][/Methods for Solving Nonlinear Problems/, §2.2, wzór (2.4)]].
+Tutaj \(G(s)=\operatorname{fl}(s+d)\), przy stałym \(d\) i niezmienionej regule
+zaokrąglania; powyższy argument dotyczy tego konkretnego odwzorowania.
 
 #+attr_html: :class analysis
 #+attr_html: :id arytmetyka-details-06
@@ -948,6 +986,12 @@ fl(\(r) = r\)(1 + θ), |θ| ≤ \(u, u\) = 2^{−p} = =eps(T)/2=.
 #+end_equation
 
 *Uzasadnienie:* dla 2^{e} ≤ |\(r\)| < 2^{e+1} połowa odstępu wynosi 2^{e−p}. Podzielenie tego ograniczenia przez |\(r\)| daje co najwyżej 2^{−p}. Oszacowanie dotyczy jednego zaokrąglenia. Nie jest oszacowaniem błędu całego programu i nie obejmuje bez zmian niedomiaru ani przepełnienia.
+
+Źródło wyprowadzenia: D. Goldberg,
+[[https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html][/What Every Computer Scientist Should Know About Floating-Point Arithmetic/,
+sekcja „Relative Error and Ulps”, równanie (2) i następujący po nim argument]].
+Dla podstawy 2 otrzymujemy \(u=2^{-p}\). Goldberg nazywa tę wielkość /machine epsilon/;
+w tych notatkach odróżniamy ją od =eps(T)=, równego \(2^{1-p}\).
 
 #+end_details
 
@@ -1918,7 +1962,7 @@ Przybliżenia pozostają między punktem startowym a pierwiastkiem.
 
 #+attr_html: :id pierwiastki-zrodlo-03
 #+begin_zrodlo
-Dowód wariantu rosnącego: D. Levy,
+Adaptacja dowodu dla funkcji rosnącej: D. Levy,
 [[https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=12][/Methods
 for Solving Nonlinear Problems/, §2.4, tw. 2.8 z dowodem, s. 12–13]]. Zastosowanie tego
 dowodu na przedziale i wariant malejący uzasadniamy poniżej.
@@ -1975,10 +2019,11 @@ kroków. Po pierwszym kroku dalszy ciąg jest monotoniczny.
 
 #+attr_html: :id pierwiastki-zrodlo-04
 #+begin_zrodlo
-Dowód: D. Levy,
+Dowód dla funkcji rosnącej: D. Levy,
 [[https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=12][/Methods
-for Solving Nonlinear Problems/, §2.4, tw. 2.8 z dowodem, s. 12–13]]. Wariant malejący
-otrzymujemy przez opisane poniżej odbicie osi.
+for Solving Nonlinear Problems/, §2.4, tw. 2.8 z dowodem, s. 12–13]]. Poniżej
+opisano adaptację przez odbicie osi dla funkcji malejącej. Nierówności dowodu
+dopuszczają \(f''\geq0\); równość może prowadzić do skończonego trafienia.
 #+end_zrodlo
 
 #+attr_html: :id pierwiastki-uwaga-07
@@ -2225,9 +2270,14 @@ sieczna trafia w pierwiastek w jednym kroku.
 
 #+attr_html: :id pierwiastki-zrodlo-06
 #+begin_zrodlo
-Dowód dokładnego rzędu: Y. Tan, C. Ye, Q. Zhang, S. Zhao,
+Teza w recenzowanej literaturze: E. Cătinaş,
+[[https://ictp.acad.ro/how-many-steps-still-left-to-x/][/How Many Steps Still Left to x*?/,
+SIAM Review 63(3) (2021), 585–624, §4.2.2, tw. 4.18]]. Artykuł odsyła po dowód
+do książki Ostrowskiego.
+Pełny dowód dostępny online: Y. Tan, C. Ye, Q. Zhang, S. Zhao,
 [[https://arxiv.org/pdf/2510.13228v1#page=7][/On Convergence of the Secant Method/
-(2025), §3, tw. 3.4 z dowodem, s. 7–8]] (preprint).
+(2025), §3, tw. 3.4 z dowodem, s. 7–8]]. To preprint; nie potwierdzono jego
+publikacji recenzowanej. Te dwa odsyłacze dokumentują odpowiednio tezę i pełny dowód.
 #+end_zrodlo
 
 #+attr_html: :id pierwiastki-uwaga-09
@@ -2984,8 +3034,12 @@ Takie ograniczenie pozwala przeliczyć residuum na oszacowanie błędu.
 
 #+attr_html: :id pierwiastki-zrodlo-08
 #+begin_zrodlo
-Dowód oszacowania podajemy poniżej. Jego podstawą jest udowodnione twierdzenie o
-wartości średniej: G. Strang, E. J. Herman,
+Dowód oszacowania: C. J. S. Alves, Instituto Superior Técnico,
+[[https://www.math.tecnico.ulisboa.pt/~calves/MC/cap1uk.html][/Computational Mathematics/,
+część „Nonlinear scalar equations”, „Corollary (Lagrange error estimate − a posteriori)”
+i następujący dowód]]. Źródło używa minimum \(|f'|\); poniżej stosujemy
+dowolne dodatnie dolne ograniczenie \(m\).
+Podstawowe twierdzenie o wartości średniej z dowodem: G. Strang, E. J. Herman,
 [[https://openstax.org/books/calculus-volume-1/pages/4-4-the-mean-value-theorem][/Calculus,
 Volume 1/, OpenStax, §4.4, tw. 4.5 z dowodem]].
 #+end_zrodlo
@@ -3540,10 +3594,15 @@ J(X_k)(H+tV)=J(X_k)H+tJ(X_k)V=-F(X_k).
 Rozwiązanie nie może więc być jedyne.
 
 #+attr_html: :class source
-Źródło z algebry liniowej: G. Strang,
-[[https://math.mit.edu/~gs/linearalgebra/ila5/linearalgebra5_6Great.pdf][Six Great Theorems of Linear Algebra]],
-zestawienie „Linear algebra in a nutshell”. Stosujemy je do macierzy \(A=J(X_k)\)
-i prawej strony \(b=-F(X_k)\).
+Podstawa źródłowa uzasadnienia: R. A. Beezer, /A First Course in Linear Algebra/,
+wersja 3.50:
+[[https://linear.pugetsound.edu/download/fcla-3.50-tablet.pdf#page=83][tw. NMUS z dowodem, s. 69–70]],
+[[https://linear.pugetsound.edu/download/fcla-3.50-tablet.pdf#page=115][tw. PSPHS z dowodem, s. 101–102]]
+oraz [[https://linear.pugetsound.edu/download/fcla-3.50-tablet.pdf#page=377][tw. SMZD z dowodem, s. 363–364]].
+Stosujemy je do \(A=J(X_k)\) i \(b=-F(X_k)\). NMUS daje jednoznaczność dla
+macierzy nieosobliwej; PSPHS opisuje rozwiązania jako sumę rozwiązania szczególnego
+i wektora z jądra, a SMZD wiąże osobliwość z zerowym wyznacznikiem.
+Powyżej zapisano ten argument dla poprawki Newtona.
 
 #+end_details
 
@@ -4173,6 +4232,12 @@ jednoznaczny rozkład \(A=LU\) bez zamian wierszy, z \(l_{ii}=1\).
 Ostatni minor \(\Delta_n=\det A\) może być zerowy.
 #+end_twierdzenie
 
+#+attr_html: :class source
+Pełny dowód: S. J. Cowley,
+[[https://www.damtp.cam.ac.uk/user/sjc1/teaching/NAIB/notes.pdf#page=64][/Mathematical Tripos: IB Numerical Analysis/ (2014), §8.2.7,
+tw. 8.3 z dowodem, s. 60–61]]. Źródło dopuszcza zerowy ostatni minor;
+poniżej podajemy skrót argumentu w przyjętej notacji.
+
 #+attr_html: :id liniowe-details-06
 #+begin_details
 #+HTML: <summary>Idea dowodu i sens warunku</summary>
@@ -4284,6 +4349,11 @@ jednoznaczny rozkład \(A=CC^T\), gdzie \(C\) jest dolnotrójkątna
 i ma dodatnie elementy na przekątnej.
 #+end_twierdzenie
 
+#+attr_html: :class source
+Pełny dowód indukcyjny istnienia i jednoznaczności: N. J. Higham,
+[[https://nhigham.com/2020/08/11/what-is-a-cholesky-factorization/][/What Is a Cholesky Factorization?/ (2020)]].
+Źródło używa czynnika górnotrójkątnego \(R\); tutaj przyjmujemy \(C=R^T\).
+
 #+attr_html: :data-tytul Kryterium Sylvestera
 #+attr_html: :id liniowe-uogolnienie-02
 #+begin_uogolnienie
@@ -4291,6 +4361,11 @@ Rzeczywista macierz *symetryczna* jest dodatnio określona wtedy i tylko
 wtedy, gdy wszystkie jej wiodące minory główne są dodatnie:
 \(\Delta_k>0\) dla \(k=1,\ldots,n\).
 #+end_uogolnienie
+
+#+attr_html: :class source
+Pełny dowód kryterium: R. C. Gunning,
+[[https://web.math.princeton.edu/~gunning/bk.pdf#page=220][/An Introduction to Analysis/ (2017), §4.2, tw. 4.19 z dowodem, s. 212]].
+Określenie „principal minors” oznacza tam minory wiodące, zdefiniowane na s. 211.
 
 #+attr_html: :id liniowe-details-09
 #+begin_details
@@ -4460,11 +4535,12 @@ macierzy można używać tych samych czynników.
 #+attr_html: :id liniowe-details-11
 #+begin_details
 #+HTML: <summary>Źródła: twierdzenia i dokumentacja</summary>
-- N. J. Higham, [[https://nhigham.com/2021/04/20/what-is-an-lu-factorization/][What Is an LU Factorization?]] — warunki rozkładu;
-  pełny dowód: /Accuracy and Stability of Numerical Algorithms/, wyd. 2,
-  twierdzenie 9.1.
+- S. J. Cowley, [[https://www.damtp.cam.ac.uk/user/sjc1/teaching/NAIB/notes.pdf#page=64][Mathematical Tripos: IB Numerical Analysis]],
+  §8.2.7, tw. 8.3 z dowodem, s. 60–61 — istnienie i jednoznaczność LU.
+- N. J. Higham, [[https://nhigham.com/2021/04/20/what-is-an-lu-factorization/][What Is an LU Factorization?]] — omówienie warunków rozkładu i związku z eliminacją.
 - N. J. Higham, [[https://nhigham.com/2020/08/11/what-is-a-cholesky-factorization/][What Is a Cholesky Factorization?]] — dowód indukcyjny.
-- UNSW, MATH2111, [[https://web.maths.unsw.edu.au/~potapov/2111_course_notes/Sylvester_0027s-criterion.html][Sylvester's criterion]] — kryterium dodatniej określoności.
+- R. C. Gunning, [[https://web.math.princeton.edu/~gunning/bk.pdf#page=220][An Introduction to Analysis]],
+  §4.2, tw. 4.19 z dowodem, s. 212 — kryterium Sylvestera.
 - [[https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/][Julia: LinearAlgebra]] — układy trójkątne, =lu=, =cholesky= i permutacje.
 #+end_details
 
@@ -4846,6 +4922,12 @@ i wyznacza jedyne rozwiązanie \(Ax=b\) dla każdego \(b\)
 \end{equation*}
 #+end_twierdzenie
 
+#+attr_html: :class source
+Podstawa dowodu: S. J. Cowley,
+[[https://www.damtp.cam.ac.uk/user/sjc1/teaching/NAIB/notes.pdf#page=64][/Mathematical Tripos: IB Numerical Analysis/ (2014), §8.2.7,
+tw. 8.3, wniosek 8.4 i tw. 8.5 z dowodami, s. 60–61]]. Poniższe uzasadnienie
+stosuje te wyniki do eliminacji i uwzględnia także dzielnik przy podstawianiu w tył.
+
 #+attr_html: :id gauss-dowod
 #+begin_details
 #+HTML: <summary>Uzasadnienie i rola ostatniego minora</summary>
@@ -4898,6 +4980,12 @@ zamieniając wiersze. Otrzymana macierz \(U\) ma
 niezerową przekątną, a podstawianie w tył wyznacza jedyne rozwiązanie
 \(Ax=b\) dla każdego \(b\in\mathbb R^n\).
 #+end_twierdzenie
+
+#+attr_html: :class source
+Podstawa argumentu o istnieniu niezerowego elementu prowadzącego: M. K. Kadalbajoo,
+NPTEL, [[https://archive.nptel.ac.in/content/storage2/courses/122104019/numerical-analysis/kadalbajoo/lec1/node5.html][/Gaussian Elimination/,
+część „Pivoting and Scaling in Gaussian Elimination”]]. Poniżej zapisujemy ten
+argument przez wyznacznik pozostałego bloku i dołączamy podstawianie w tył.
 
 #+attr_html: :id gauss-dowod-zamiany
 #+begin_details
@@ -5151,6 +5239,10 @@ a który dodatkowo pozwala rozpocząć podstawianie w tył.
 #+attr_html: :id gauss-zrodla
 #+begin_details
 #+HTML: <summary>Źródła</summary>
+- S. J. Cowley, [[https://www.damtp.cam.ac.uk/user/sjc1/teaching/NAIB/notes.pdf#page=64][Mathematical Tripos: IB Numerical Analysis]],
+  §8.2.7, tw. 8.3, wniosek 8.4 i tw. 8.5 z dowodami, s. 60–61 — LU, minory i elementy prowadzące.
+- M. K. Kadalbajoo, NPTEL, [[https://archive.nptel.ac.in/content/storage2/courses/122104019/numerical-analysis/kadalbajoo/lec1/node5.html][Gaussian Elimination]],
+  część /Pivoting and Scaling in Gaussian Elimination/ — uzasadnienie wykonalności doboru wierszy.
 - N. J. Higham, [[https://nhigham.com/2021/04/20/what-is-an-lu-factorization/][What Is an LU Factorization?]], część /Relation with Gaussian Elimination/:
   wiodące minory, elementy prowadzące i związek z LU.
 - [[https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#LinearAlgebra.lu][Julia: lu]] — konwencja permutacji, wybór częściowy i rozwiązywanie przez obiekt rozkładu.
@@ -5406,6 +5498,11 @@ Ułamek wymierny w postaci nieskracalnej ma skończony zapis binarny wtedy i tyl
 
 W konkretnym typie potrzebne są jeszcze wystarczająca precyzja i zakres. Są to liczby postaci \(m/2^k\), gdzie \(m\) jest całkowite, a \(k\) całkowite i nieujemne.
 
+Źródło dowodu obu kierunków: Stony Brook University, MAT 311,
+[[https://www.math.stonybrook.edu/~olga/mat311-spr09/mat311soln9.pdf#page=2][/Introduction to Number Theory/, Problem Set 9 — Solutions (2009),
+„Binary expansions question”, punkt (b), s. 2]]. Argument o części ułamkowej
+stosujemy także do liczb ze skończoną częścią całkowitą i ich liczb przeciwnych.
+
 #+attr_html: :class uwaga_badawcza
 #+attr_html: :id dodatek-uwaga_badawcza-02
 #+begin_uwaga_badawcza
@@ -5619,6 +5716,10 @@ Precyzja typu pozostaje stała, choć zmienia się *rozdzielczość bezwzględna
 Uogólnienie
 
 W przedziale liczb normalnych \([2^e,2^{e+1})\) wartości mają postać \((1+j2^{1-p})2^e\). Zwiększenie \(j\) o 1 zwiększa wartość o \(2^{e-p+1}\). Dlatego w następnym takim przedziale odstęp jest dwukrotnie większy. Przy 1 otrzymujemy \(\operatorname{eps}(T)=2^{1-p}\).
+
+Podstawa wyprowadzenia: Oracle,
+[[https://docs.oracle.com/cd/E19059-01/stud.10/819-0499/ncg_math.html][/Numerical Computation Guide/, rozdział „IEEE Arithmetic”, §2.2.2–2.2.3]].
+Zapis części znaczącej formatów /single/ i /double/ uogólniamy tutaj do \(p\) bitów.
 
 #+attr_html: :class uwaga_badawcza
 #+attr_html: :id dodatek-uwaga_badawcza-03
@@ -6109,6 +6210,14 @@ Błąd zaokrąglenia do najbliższego sąsiada nie przekracza połowy odstępu. 
 
 Oba przypadki obejmuje mniej ostre oszacowanie: \(|\operatorname{fl}_T(x)-x|\leq u|x|+\frac\eta2,\qquad |x|\leq M.\) Oszacowania zapisano w arytmetyce rzeczywistej. Dodatnie \(\eta/2\) nie jest reprezentowalne w =T=; obliczenie tej wielkości w =T= daje zero.
 
+Źródło ograniczenia względnego: D. Goldberg,
+[[https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html][/What Every Computer Scientist Should Know About Floating-Point Arithmetic/,
+sekcja „Relative Error and Ulps”, równanie (2)]]. Argument przez połowę odstępu,
+także dla subnormalnych: Oracle,
+[[https://docs.oracle.com/cd/E19059-01/stud.10/819-0499/ncg_math.html][/Numerical Computation Guide/, §2.3.4 „Error Properties of Gradual Underflow”]].
+Zastosowano go tutaj do stałego odstępu \(\eta\). Oszacowanie łączne jest
+bezpośrednim wnioskiem z dwóch udowodnionych przypadków.
+
 #+attr_html: :class uwaga_badawcza
 #+attr_html: :id dodatek-uwaga_badawcza-06
 #+begin_uwaga_badawcza
@@ -6160,6 +6269,11 @@ Wybór typu jest częścią budowy modelu obliczeniowego. Precyzja i zakres okre
 - [[https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/][Julia: typy liczbowe, literały i zaokrąglanie]].
 - [[https://docs.julialang.org/en/v1/base/numbers/][Julia: operacje na liczbach i precyzja]].
 - [[https://docs.oracle.com/cd/E19059-01/stud.10/819-0499/ncg_math.html][Oracle: pola formatów IEEE i liczby subnormalne]].
+- D. Goldberg, [[https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html][What Every Computer Scientist Should Know About Floating-Point Arithmetic]],
+  „Relative Error and Ulps” — wyprowadzenie granicy błędu względnego.
+- Stony Brook University, MAT 311,
+  [[https://www.math.stonybrook.edu/~olga/mat311-spr09/mat311soln9.pdf#page=2][Problem Set 9 — Solutions]],
+  „Binary expansions question”, punkt (b), s. 2 — dowód warunku skończonego zapisu binarnego.
 
 #+attr_html: :class goal
 #+attr_html: :id dodatek-goal-01
