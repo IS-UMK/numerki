@@ -50,27 +50,25 @@ poprawności matematycznej.
   i demonstracje są ograniczone do odpowiednich rozdziałów; identyfikatory
   mają prefiksy tematów. Treść, wzory i podpisy zmieniaj w `index.org`,
   wygląd i zachowanie kontrolek — w tych CSS/JavaScript.
-- `oprawa/scalone/przekierowania.json` mapuje dziewięć dawnych adresów HTML
+- `oprawa/scalone/przekierowania.json` mapuje sześć dawnych adresów HTML
   i ich kotwice na rozdziały wspólnej strony. Eksport odtwarza te HTML jako
   przekierowania z widocznym odsyłaczem zastępczym. Nie edytuj ich ręcznie.
-- Dawne źródła `01-cel-i-mapa-problemow.org`, `02-arytmetyka-komputerowa.org`,
-  `02-arytmetyka-komputerowa-poglebienie.org`,
-  `rozdzial-03-org/03-pierwiastki-rownan.org` oraz dwa rozdziały Org
-  w `rozdzial-04-05-org/` są teraz wskazówkami do właściwych części
-  `index.org`, oznaczonymi `#+NUMERKI_REDIRECT: t`. Nie dodawaj tam treści kursu.
-- W `oprawa/` poza aktywnym `scalone/` pozostają `01-numerics.js`
-  i `02-numerics.js`, używane jako wzorce testów. Zasoby
-  `rozdzial-03-org/oprawa/` obsługują historyczne podglądy bisekcji i testy;
-  `rozdzial-04-05-org/oprawa/newton-3d.js` jest wzorcem testu Newtona 3D.
-  Nieużywane dawne oprawy usunięto po kontroli zależności. Pozostałych
-  zasobów nie nadpisuj ani nie usuwaj bez sprawdzenia zależności.
-  Pomocniczych Org w `oprawa` nie eksportuj jako samodzielnych rozdziałów.
+- Dawne wskazówki Org do przeniesionych rozdziałów usunięto. Nie odtwarzaj
+  ich: jedynym źródłem treści kursu jest `index.org`. Katalogi
+  `rozdzial-03-org/` i `rozdzial-04-05-org/` usunięto wraz z trzema
+  przekierowaniami w podkatalogach, zgodnie z decyzją autora.
+- `narzedzia/wzorce/` zawiera cztery zachowane moduły JavaScript do testów:
+  `01-numerics.js`, `02-numerics.js`, `pierwiastki.js` i `newton-3d.js`.
+  Skrypt `pierwiastki.js` obsługuje również historyczny podgląd bisekcji.
+  Jego pozostałe zasoby znajdują się w `przeglady/oprawa/`.
+  Zachowanych zasobów nie nadpisuj ani nie usuwaj bez sprawdzenia zależności.
+  Pomocniczych Org w `oprawa` nie eksportuj jako samodzielnych dokumentów.
 - `scenariusz-prowadzacego.org` jest osobnym źródłem odpowiadającego mu HTML.
   `przeglady/` zawiera historyczne przeglądy i propozycje. Ich zasoby
   i względne ścieżki pozostają potrzebne.
 - `CZYTAJ.org` w katalogu głównym opisuje aktualny układ projektu.
-  Instrukcje dawnych pakietów zawierają na początku aktualną mapę zasobów,
-  a dalej historyczny opis sprzed scalenia i porządków.
+  Instrukcje dawnych pakietów są w `przeglady/instrukcje-pakietow/`;
+  zawierają aktualną lokalizację zasobów oraz historyczny opis.
 - `CODEX.org` opisuje pracę i polecenia projektu. `WARSZTAT-NOTATEK.org`
   zbiera ustalenia, korekty, plan przyszłych tematów i materiał do skilla.
   Wpis W-04 wskazuje kopię pełnych materiałów sprzed scalenia poza katalogiem

@@ -2,23 +2,22 @@
 #+LANGUAGE: pl
 #+STARTUP: overview
 
-* Aktualny układ po scaleniu, 29 października 2026 r.
+* Aktualna lokalizacja, 29 października 2026 r.
 
-Źródłem całego kursu jest teraz [[file:../index.org][index.org]] w katalogu głównym.
-Stamtąd uruchom =python3 narzedzia/eksportuj_org.py=, aby odtworzyć
-=index.html= i przekierowania dawnych stron. Treść, wzory oraz podpisy
-ilustracji edytuj w tym wspólnym źródle. Aktywna oprawa znajduje się
-w =oprawa/scalone/= katalogu głównego. Pełną instrukcję zawiera
-[[file:../CODEX.org][CODEX.org]].
+Źródłem całego kursu jest [[file:../../index.org][index.org]] w katalogu głównym.
+Eksport: =python3 narzedzia/eksportuj_org.py=. Aktywna oprawa kursu
+jest w =oprawa/scalone/=. Szczegóły pracy opisuje [[file:../../CODEX.org][CODEX.org]].
 
-W katalogu =oprawa= pozostają =wyklad.css=, =widoki.css=, =widoki.js=,
-=ilustracje.js=, =ilustracje.org=, =tex-svg.js= i =MathJax-LICENSE.txt=.
-Obsługują historyczne podglądy bisekcji i testy porównawcze.
-Nieużywane =ustawienia.org= usunięto.
+Zasoby zachowanych podglądów bisekcji są teraz w =przeglady/oprawa/=.
+Skrypt ilustracji, używany również jako wzorzec testów, znajduje się
+w =narzedzia/wzorce/pierwiastki.js=.
 
-Poniższa instrukcja opisuje historyczną paczkę sprzed scalenia i porządków;
-jej spis plików nie jest mapą obecnego katalogu. Dawne pliki rozdziałów Org
-wskazują teraz nową lokalizację treści i nie są samodzielnymi źródłami kursu.
+Dawny katalog pakietu oraz wskazówki Org do przeniesionych rozdziałów
+usunięto. Zachowano sześć przekierowań HTML w katalogu głównym;
+trzy dawne adresy w podkatalogach wycofano na polecenie autora.
+
+Poniższy tekst dokumentuje historyczny pakiet sprzed scalenia i porządków.
+Jego nazwy plików i polecenia nie opisują obecnej struktury projektu.
 
 * Od czego zacząć
 

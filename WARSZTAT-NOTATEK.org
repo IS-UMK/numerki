@@ -124,7 +124,7 @@ obowiązkową kolejnością dla wszystkich tematów.
 
 Bieżące konwencje Org, LaTeX, bloków ról i ilustracji odczytujemy
 z =index.org= i =AGENTS.md=. Historyczne instrukcje pakietów zachowano
-w [[file:rozdzial-03-org/CZYTAJ.org][rozdziale 3]] i [[file:rozdzial-04-05-org/CZYTAJ.org][rozdziałach 4–5]].
+w [[file:przeglady/instrukcje-pakietow/pierwiastki.org][rozdziale 3]] i [[file:przeglady/instrukcje-pakietow/uklady.org][rozdziałach 4–5]].
 
 Zgodnie z poleceniem autora z 29 października 2026 r. we wszystkich
 materiałach zapisujemy liczby dziesiętne z kropką, np. \(1.5\) i \(0.25\).
@@ -634,6 +634,45 @@ zakończyły się powodzeniem. Niezależny przegląd zależności potwierdził
 zachowanie zasobów podglądów i wzorców testów. Nie wykonywano nowych
 oględzin w przeglądarce; publikacja i jej aktywna oprawa nie zmieniły się
 w ramach tych porządków.
+
+** Przeniesienie W-11: wzorce testów i wycofane katalogi, 29 października 2026 r.
+
+Polecenie autora: przenieść zachowane skrypty poza katalogi dawnych
+rozdziałów i usunąć te katalogi. Autor wybrał zachowanie sześciu
+przekierowań HTML w katalogu głównym oraz usunięcie trzech adresów
+w podkatalogach. Status: =zmiana organizacji plików na polecenie autora=.
+
+Cztery skrypty wzorcowe przeniesiono do =narzedzia/wzorce/=:
+=01-numerics.js=, =02-numerics.js=, =pierwiastki.js= i =newton-3d.js=.
+Test oprawy korzysta z nowych ścieżek. Skrypt =pierwiastki.js= nadal
+obsługuje również zachowany podgląd bisekcji; pozostałe zasoby tego
+podglądu przeniesiono do =przeglady/oprawa/=, wraz z licencją MathJax.
+Przenoszone skrypty, style i plik ilustracji zachowano bajt po bajcie.
+
+Historyczne instrukcje pakietów są teraz w
+=przeglady/instrukcje-pakietow/pierwiastki.org= i =uklady.org=.
+Poprawiono ich odsyłacze, preambuły i aktualne mapy projektu. Przeniesienie
+nie oznacza akceptacji historycznych propozycji matematycznych.
+
+Usunięto sześć plików Org, które po scaleniu zawierały wyłącznie wskazówki
+do =index.org=. Nie zawierały samodzielnej treści kursu. Z manifestu
+wycofano trzy przekierowania w podkatalogach, aby eksport nie odtwarzał
+usuniętych katalogów. Pozostawiono sześć przekierowań w katalogu głównym.
+Zgodnie z decyzją autora wycofane adresy nie będą już działać.
+
+Źródłem kursu pozostaje =index.org=. Zmieniono w nim jedynie ścieżkę
+MathJax w konfiguracji pośredniego eksportu; wynikowy kurs nadal używa
+natywnego MathML. Treści, wzorów i kodu demonstracji nie redagowano.
+
+Sprawdzenie: eksport kursu i obu podglądów, kontrola projektu oraz testy
+oprawy i nawigacji przeszły. Kontrola objęła 10 istniejących HTML i 557
+lokalnych odwołań, a po próbnym eksporcie 9 Org — 15 HTML i 647 odwołań,
+bez błędów. Potwierdzono identyczność głównego HTML i sześciu przekierowań
+oraz zachowanie tekstu i wszystkich kotwic obu podglądów. Osobny przegląd
+potwierdził brak brakujących zależności i brak prób odtworzenia usuniętych
+katalogów przez eksporter. =git diff --check= nie zgłosił błędów.
+Nowych oględzin w przeglądarce nie wykonano ze względu na wcześniejszą
+blokadę lokalnych plików.
 
 * Wzorce do zatwierdzenia
 

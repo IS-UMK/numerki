@@ -61,13 +61,13 @@ sprawdzenia wyniku. Poprawny test programu nie zastępuje dowodu twierdzenia.
 | =index.org= → =index.html= | Jedno źródło i jedna strona całego kursu: rozdziały oraz dodatek. |
 | =oprawa/scalone/book.css= i =book.js= | Aktywne style, przełącznik widoków i demonstracje kursu. |
 | =oprawa/scalone/przekierowania.json= | Dawne adresy HTML i kotwice prowadzące do wspólnej strony. |
-| Dawne pliki rozdziałów Org | Krótkie wskazówki do właściwych części =index.org=, bez kopii treści. |
-| Dawne pliki rozdziałów HTML | Dziewięć przekierowań, odtwarzanych przy eksporcie kursu. |
-| Zachowane starsze zasoby =oprawa/= i obu pakietów | Tylko zależności historycznych podglądów i wzorce testów; nieużywane oprawy usunięto. |
+| Dawne pliki rozdziałów HTML w katalogu głównym | Sześć przekierowań, odtwarzanych przy eksporcie kursu; dawne wskazówki Org i trzy przekierowania w podkatalogach usunięto. |
+| =narzedzia/wzorce/= | Cztery zachowane moduły JavaScript do porównywania obliczeń i SVG. |
+| =przeglady/oprawa/= | Zasoby historycznych podglądów bisekcji. |
 | =scenariusz-prowadzacego.org= → HTML o tej samej nazwie | Osobne wytyczne prowadzącego. |
 | =przeglady/= | Historyczne przeglądy i oceniane propozycje. |
 | =CZYTAJ.org= w katalogu głównym | Aktualna mapa projektu i polecenia pracy. |
-| =CZYTAJ.org= w dawnych pakietach | Aktualna mapa zachowanych zasobów oraz historyczne instrukcje. |
+| =przeglady/instrukcje-pakietow/= | Historyczne instrukcje z informacją o aktualnej lokalizacji zasobów. |
 | =AGENTS.md= | Trwałe instrukcje odczytywane przez Codexa. |
 | =WARSZTAT-NOTATEK.org= | Ustalenia, korekty, plan rozbudowy i materiał do przyszłego skilla. |
 | =.codex/config.toml= | Aktywne ustawienia lokalnego projektu. |
@@ -111,18 +111,21 @@ stanowi etap pośredni: do aktualizacji strony stosuj powyższe polecenie,
 które utrwala też kotwice i odtwarza przekierowania.
 
 Wynik zastępuje istniejący HTML po udanym eksporcie, składzie wzorów
-i sprawdzeniu celów przekierowań. Dziewięć dawnych adresów zachowano:
+i sprawdzeniu celów przekierowań. Sześć dawnych adresów w katalogu głównym zachowano:
 z rozpoznaną kotwicą prowadzą do odpowiedniego fragmentu, a bez niej do
 rozdziału. Przy wyłączonym JavaScripcie dostępny jest widoczny odsyłacz.
 Nie edytuj tych HTML ręcznie; ich źródłem jest mapa przekierowań.
+Trzy dawne adresy w katalogach pakietów rozdziałów wycofano zgodnie
+z decyzją autora. Dawnych plików Org zawierających jedynie wskazówki
+do aktualnej treści również nie odtwarzamy.
 
 Wygląd i działanie demonstracji zmieniaj w =oprawa/scalone/book.css=
 i =book.js=. Ich style, wyszukiwanie kontrolek oraz identyfikatory SVG
-są przypisane do rozdziałów. Po porządkach w dawnych oprawach pozostają
-tylko zależności podglądów w =przeglady/= i wzorce testów: dwa modele
-=oprawa/01-numerics.js= i =02-numerics.js=, zasoby podglądów bisekcji
-w =rozdzial-03-org/oprawa/= oraz =rozdzial-04-05-org/oprawa/newton-3d.js=.
-Nie są już źródłem treści kursu. Ich usunięcie wymaga wcześniejszego
+są przypisane do rozdziałów. Zasoby podglądów bisekcji są
+w =przeglady/oprawa/=, a cztery wzorce testów w =narzedzia/wzorce/=
+(=01-numerics.js=, =02-numerics.js=, =pierwiastki.js= i =newton-3d.js=).
+Skrypt =pierwiastki.js= jest też używany przez historyczny podgląd.
+Te pliki nie są źródłem treści kursu. Ich usunięcie wymaga wcześniejszego
 sprawdzenia i dostosowania odpowiednich podglądów lub testów.
 
 Pełną kopię materiałów sprzed scalenia zapisano poza katalogiem strony;

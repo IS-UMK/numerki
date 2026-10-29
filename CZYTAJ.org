@@ -9,9 +9,10 @@ Otwórz [[file:index.html][index.html]]. Strona zawiera rozdziały kursu i dodat
 rozdział wybiera się ze spisu treści. Wzory kursu korzystają z natywnego
 MathML i nie wymagają dostępu do sieci.
 
-Dziewięć dawnych adresów HTML jest przekierowaniami do właściwych
-fragmentów kursu. Zachowujemy je dla istniejących odsyłaczy; nie są
-kopiami treści ani plikami przeznaczonymi do ręcznej edycji.
+Sześć dawnych adresów HTML w katalogu głównym jest przekierowaniami
+do właściwych fragmentów kursu. Zachowujemy je dla istniejących odsyłaczy;
+nie są kopiami treści ani plikami do ręcznej edycji. Trzy dawne adresy
+w usuniętych katalogach rozdziałów zostały wycofane na polecenie autora.
 
 * Źródła i eksport
 
@@ -38,17 +39,15 @@ przekierowań, dlatego używaj powyższego polecenia.
 | =scenariusz-prowadzacego.org= i odpowiadający mu HTML | Materiał prowadzącego. |
 | =WARSZTAT-NOTATEK.org= | Ustalenia autora, historia korekt i materiał do przyszłego skilla. |
 | =AGENTS.md= i =CODEX.org= | Zasady oraz szczegółowa instrukcja pracy w projekcie. |
-| =przeglady/= | Zachowane przeglądy i propozycja bisekcji. |
-| Dawne źródła rozdziałów Org | Krótkie wskazówki do aktualnej lokalizacji treści. |
-| =oprawa/01-numerics.js= i =02-numerics.js= | Wzorce modeli dla testów porównawczych. |
-| =rozdzial-03-org/oprawa/= | Zasoby zachowanych podglądów bisekcji i wzorzec testów metod. |
-| =rozdzial-04-05-org/oprawa/newton-3d.js= | Wzorzec testu demonstracji Newtona 3D. |
+| =przeglady/= | Zachowane przeglądy i propozycja bisekcji; zasoby w =oprawa/=, dawne instrukcje w =instrukcje-pakietow/=. |
+| =narzedzia/wzorce/= | Cztery wzorce JavaScript dla testów porównawczych; skrypt metod służy też podglądowi bisekcji. |
 | =.codex/config.toml= i =codex-config.example.toml= | Ustawienia projektu oraz ich szablon. |
 | =.gitignore= | Wyłączenie plików roboczych, pamięci podręcznej i lokalnych poświadczeń z Git. |
 
-Zachowane zasoby dawnych pakietów mają sprawdzone zależności. Nie usuwaj
-ich tylko dlatego, że główny HTML nie odwołuje się do nich bezpośrednio.
-Nieużywane dawne oprawy, dodatkową kopię MathJax i pliki robocze usunięto.
+Zachowane zasoby podglądów i wzorce testów mają sprawdzone zależności.
+Nie usuwaj ich tylko dlatego, że główny HTML nie odwołuje się do nich
+bezpośrednio. Dawne katalogi rozdziałów i wskazówki Org do przeniesionych
+treści usunięto; całą treść kursu edytujemy w =index.org=.
 Scenariusza, warsztatu i instrukcji projektu nie dodajemy do bibliografii
 materiałów dla czytelnika.
 

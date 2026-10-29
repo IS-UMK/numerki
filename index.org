@@ -15,7 +15,7 @@
 #+HTML_HEAD: <meta name="color-scheme" content="light">
 #+HTML_HEAD: <link rel="stylesheet" href="oprawa/scalone/book.css">
 #+HTML_HEAD: <script defer src="oprawa/scalone/book.js"></script>
-#+HTML_MATHJAX: path:rozdzial-03-org/oprawa/tex-svg.js align:center tagside:right font:TeX
+#+HTML_MATHJAX: path:przeglady/oprawa/tex-svg.js align:center tagside:right font:TeX
 
 # To jest jedyne źródło treści publikacji. Dodawaj rozdziały jako nagłówki *.
 # Identyfikatory CUSTOM_ID zachowuj przy zmianie tytułu lub kolejności.

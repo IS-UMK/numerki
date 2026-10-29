@@ -3,7 +3,7 @@
 #+DATE: 2026-10-28
 #+OPTIONS: toc:2 num:nil
 #+STARTUP: overview
-#+HTML_MATHJAX: path:../rozdzial-03-org/oprawa/tex-svg.js align:center tagside:right font:TeX
+#+HTML_MATHJAX: path:oprawa/tex-svg.js align:center tagside:right font:TeX
 
 * Wynik i zakres przeglądu
 :PROPERTIES:

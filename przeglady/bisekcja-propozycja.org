@@ -9,11 +9,11 @@
 #+PROPERTY: header-args :eval never-export :exports code
 #+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
 #+HTML_HEAD: <meta name="numerical-chapter" content="03 · propozycja">
-#+HTML_HEAD: <link rel="stylesheet" href="../rozdzial-03-org/oprawa/wyklad.css">
-#+HTML_HEAD: <link rel="stylesheet" href="../rozdzial-03-org/oprawa/widoki.css">
-#+HTML_HEAD: <script src="../rozdzial-03-org/oprawa/widoki.js"></script>
-#+HTML_HEAD: <script defer src="../rozdzial-03-org/oprawa/ilustracje.js"></script>
-#+HTML_MATHJAX: path:../rozdzial-03-org/oprawa/tex-svg.js align:center tagside:right font:TeX
+#+HTML_HEAD: <link rel="stylesheet" href="oprawa/wyklad.css">
+#+HTML_HEAD: <link rel="stylesheet" href="oprawa/widoki.css">
+#+HTML_HEAD: <script src="oprawa/widoki.js"></script>
+#+HTML_HEAD: <script defer src="../narzedzia/wzorce/pierwiastki.js"></script>
+#+HTML_MATHJAX: path:oprawa/tex-svg.js align:center tagside:right font:TeX
 
 *Status: trzy dopracowania zatwierdzone przez autora 2026-10-29 i wdrożone.*
 Wariant przygotowano na podstawie sekcji bisekcji z rozdziału 3.
@@ -52,7 +52,7 @@ dla którego wolno odrzucić drugą połowę, podaje twierdzenie.
 #+end_uwaga
 #+end_uogolnienie
 
-#+INCLUDE: "../rozdzial-03-org/oprawa/ilustracje.org::*Bisekcja" :only-contents t
+#+INCLUDE: "oprawa/ilustracje.org::*Bisekcja" :only-contents t
 
 #+attr_html: :id wlasnosci-1
 #+begin_wlasnosci

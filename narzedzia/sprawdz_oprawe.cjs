@@ -5,8 +5,8 @@ const base=path.resolve(__dirname,'..')+path.sep;
 const book=require(base+'oprawa/scalone/book.js');
 assert.equal(book.errors.length,0);
 const model1={},model2={};
-vm.runInNewContext(fs.readFileSync(base+'oprawa/01-numerics.js','utf8'),model1);
-vm.runInNewContext(fs.readFileSync(base+'oprawa/02-numerics.js','utf8'),model2);
+vm.runInNewContext(fs.readFileSync(base+'narzedzia/wzorce/01-numerics.js','utf8'),model1);
+vm.runInNewContext(fs.readFileSync(base+'narzedzia/wzorce/02-numerics.js','utf8'),model2);
 let runs=0;
 for(const mu of [0,1])for(const h of [.025,.05,.1]){
  const count=Math.round(6/h);
@@ -20,7 +20,7 @@ for(const p of [3,4,5]){
  for(const x of [1,1.09375,1.125,1.5,2,3.875])assert.equal(JSON.stringify(model2.roundingInfo(x,p)),JSON.stringify(book.modules.arytmetyka.roundingInfo(x,p)));
 }
 const originalApis=[];let holder={};const mod={};Object.defineProperty(mod,'exports',{get(){return holder},set(x){holder=x;originalApis.push(x)}});
-vm.runInNewContext(fs.readFileSync(base+'rozdzial-03-org/oprawa/ilustracje.js','utf8'),{module:mod,document:{querySelectorAll:()=>[]}});
+vm.runInNewContext(fs.readFileSync(base+'narzedzia/wzorce/pierwiastki.js','utf8'),{module:mod,document:{querySelectorAll:()=>[]}});
 assert.equal(originalApis.length,3);
 const a=originalApis[0],b=book.modules.pierwiastki.RootMethods;let frames=0;
 function same(x,y){assert.equal(JSON.stringify(x),JSON.stringify(y));}
@@ -64,7 +64,7 @@ function harness(book){
  const document={readyState:'complete',getElementById(id){return id===(book?'nieliniowe-newton-zoom':'newton-zoom')?root:null},querySelector(s){return s==='.chapter-nieliniowe'?chapter:null},querySelectorAll(){return[]}};
  const context={document,console,URLSearchParams,location:{search:''}};
  context.window=context;
- vm.runInNewContext(fs.readFileSync(base+(book?'oprawa/scalone/book.js':'rozdzial-04-05-org/oprawa/newton-3d.js'),'utf8'),context);
+ vm.runInNewContext(fs.readFileSync(base+(book?'oprawa/scalone/book.js':'narzedzia/wzorce/newton-3d.js'),'utf8'),context);
  if(book)assert.equal(context.NumerkiBook.errors.length,0);
  return {nodes,node};
 }
