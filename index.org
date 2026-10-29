@@ -4497,7 +4497,7 @@ Wystarczą plansze odsłaniane krokami; płynna animacja nie jest potrzebna.
 * Układy równań liniowych: eliminacja Gaussa
 :PROPERTIES:
 :CUSTOM_ID: eliminacja-gaussa
-:CHAPTER_DESCRIPTION: Działania na równaniach, eliminacja w przód i skalowany wybór elementu prowadzącego.
+:CHAPTER_DESCRIPTION: Eliminacja w przód, wiodące minory główne i wybór elementu prowadzącego.
 :HTML_CONTAINER: section
 :HTML_CONTAINER_CLASS: book-chapter chapter-liniowe chapter-gauss
 :END:
@@ -4717,66 +4717,68 @@ od rozwiązywania układów.
 :HTML_CONTAINER: section
 :END:
 
-Wzór na mnożnik wymaga niezerowego dzielnika. Bez zamian wierszy
-wykonalność dla macierzy nieosobliwej zależy od jej wiodących minorów
-głównych: poznany [[#liniowe-warunek-lu][warunek LU]] daje
-\(u_{kk}=\Delta_k/\Delta_{k-1}\), gdzie \(\Delta_0=1\).
-Jeśli wszystkie \(\Delta_1,\ldots,\Delta_n\ne0\), eliminacja i podstawianie
-w tył są wykonalne. Sama nieosobliwość nie zapewnia tej kolejności obliczeń.
+Wzór na mnożnik wymaga niezerowego dzielnika. Nie wystarczy sprawdzić
+przekątnej macierzy wejściowej: dzielniki zmieniają się podczas eliminacji.
 
-*** Zerowy element prowadzący: wariant znany z poprzedniego rozdziału
+*** Zerowy drugi minor: zero pojawia się po eliminacji
 :PROPERTIES:
 :CUSTOM_ID: gauss-zerowy-element
 :HTML_CONTAINER: section
 :END:
 
-Wróćmy do macierzy
-\(B=\begin{pmatrix}0&2&4\\2&5&4\\4&4&9\end{pmatrix}\)
-i tej samej prawej strony \(b=(4,8,3)^T\).
-Bez zamian pierwszy mnożnik wymaga dzielenia przez zero, chociaż
-\(\det B=-52\ne0\). W pierwszej kolumnie są jednak inne niezerowe elementy.
-Przestawienie całych równań pozwala wybrać inny wiersz prowadzący.
+Zmieńmy w głównej macierzy tylko \(a_{22}\) z \(5\) na \(1\),
+zachowując prawą stronę \(b\):
 
-#+attr_html: :data-tytul Rozróżnienie · dwa sposoby wyboru wiersza
+\begin{equation*}
+\widetilde A=\begin{pmatrix}4&2&4\\2&1&4\\4&4&9\end{pmatrix},
+\qquad \Delta_1=4,\quad
+\Delta_2=\det\begin{pmatrix}4&2\\2&1\end{pmatrix}=0,\quad
+\Delta_3=-16.
+\end{equation*}
+
+Wszystkie współczynniki wejściowe są niezerowe. Dopiero działania
+\(W_2\leftarrow W_2-\tfrac12W_1\), \(W_3\leftarrow W_3-W_1\) dają
+
+\begin{equation*}
+\left(\begin{array}{ccc|c}
+4&2&4&4\\0&0&2&6\\0&2&5&-1
+\end{array}\right).
+\end{equation*}
+
+Drugi element prowadzący wynosi \(1-\tfrac12\cdot2=0\).
+Bez zamiany wierszy nie obliczymy mnożnika \(m_{32}=2/0\).
+Zamiana \(W_2\leftrightarrow W_3\) daje już układ górnotrójkątny:
+
+\begin{equation*}
+\left(\begin{array}{ccc|c}
+4&2&4&4\\0&2&5&-1\\0&0&2&6
+\end{array}\right),
+\qquad x_3=3,\quad x_2=-8,\quad x_1=2.
+\end{equation*}
+
+Zerowy wcześniejszy minor zatrzymał metodę bez zamian, chociaż
+\(\det\widetilde A\ne0\) i układ ma jedno rozwiązanie.
+
+#+attr_html: :data-tytul Rozróżnienie · wybór wiersza prowadzącego
 #+attr_html: :id gauss-wybor-rozroznienie
 #+begin_rozroznienie
-*Wybór częściowy* w etapie \(k\) oznacza wybór największej wartości
-\(\lvert a_{ik}^{(k)}\rvert\) w aktywnej części kolumny:
-\(i=k,\ldots,n\). Zamieniamy wybrany wiersz z wierszem \(k\).
-Wtedy \(\lvert m_{ik}\rvert\le1\).
-
-*Skalowany wybór częściowy* porównuje
-wielkość elementu z wielkością współczynników jego wiersza. Na początku
-obliczamy skale
+*Wybór częściowy* wybiera największą wartość \(|a_{ik}^{(k)}|\)
+w aktywnej części kolumny, \(i=k,\ldots,n\).
+*Skalowany wybór częściowy* porównuje ją z początkową skalą wiersza:
 
 \begin{equation*}
-\sigma_i=\max_{1\le j\le n}|a_{ij}|.
-\end{equation*}
-
-Dla nieosobliwej macierzy wszystkie \(\sigma_i>0\). W każdym etapie
-wybieramy indeks \(q\), dla którego
-
-\begin{equation*}
+\sigma_i=\max_{1\le j\le n}|a_{ij}|,\qquad
 \frac{|a_{qk}^{(k)}|}{\sigma_q}
-=\max_{k\le i\le n}\frac{|a_{ik}^{(k)}|}{\sigma_i},
+=\max_{k\le i\le n}
+\frac{|a_{ik}^{(k)}|}{\sigma_i}.
 \end{equation*}
 
-a następnie zamieniamy wiersze \(q\) i \(k\), także w prawej stronie.
-Skale ustalamy z pierwotnej macierzy i przenosimy wraz z wierszami;
-nie wyznaczamy ich na nowo po eliminacji. Przy remisie wybieramy pierwszy
-wiersz w aktualnej kolejności. Ograniczenie \(|m_{ik}|\le1\) nie musi
-zachodzić dla wyboru skalowanego.
+Dla nieosobliwej macierzy skale są dodatnie. W każdym etapie zamieniamy
+wiersze \(q\) i \(k\), wraz z prawymi stronami i skalami. Przy remisie
+wybieramy pierwszy wiersz w aktualnej kolejności. Wektor \(p\) zapisuje
+numery pierwotnych wierszy: \(PA=A[p,:]\), \(Pb=b[p]\).
+Kolejność niewiadomych pozostaje bez zmian.
 #+end_rozroznienie
-
-Skale oznaczamy przez \(\sigma_i\), aby nie mylić ich z wektorem
-kontrolnym \(s\). Maksimum wyznaczamy *w każdym etapie, w aktualnej
-kolumnie i tylko wśród jeszcze niewykorzystanych wierszy*. Jednorazowe
-uporządkowanie pierwszej kolumny nie wyznacza całej kolejności eliminacji.
-
-Zapisujemy też wektor permutacji \(p\): jego \(i\)-ty element podaje numer
-pierwotnego wiersza znajdującego się teraz na pozycji \(i\).
-Macierz permutacji \(P\) spełnia \(PA=A[p,:]\), \(Pb=b[p]\).
-Zamiany wierszy nie zmieniają kolejności niewiadomych.
 
 *** Mały element prowadzący: rola arytmetyki
 :PROPERTIES:
@@ -4821,67 +4823,91 @@ Ten konkretny rachunek wyjaśnia utratę informacji. Sam warunek
 jednoznacznie wyniku dla wszystkich dodatnich \(\epsilon\).
 #+end_details
 
-** Twierdzenie: wykonalność i poprawność eliminacji
+** Twierdzenie: kiedy Gauss bez zamian zawsze rozwiązuje układ?
 :PROPERTIES:
 :CUSTOM_ID: gauss-twierdzenie
 :HTML_CONTAINER: section
 :END:
 
-#+attr_html: :data-tytul Twierdzenie · eliminacja z zamianami wierszy
+Niech \(\Delta_k=\det A_k\), gdzie \(A_k\) jest lewym górnym blokiem
+\(k\times k\) macierzy \(A\); przyjmujemy \(\Delta_0=1\).
+
+#+attr_html: :data-tytul Twierdzenie · warunek konieczny i wystarczający
 #+attr_html: :id gauss-twierdzenie-tresc
 #+begin_twierdzenie
-Niech \(A\in\mathbb R^{n\times n}\) będzie nieosobliwa,
-\(b\in\mathbb R^n\), \(n\ge1\). W arytmetyce dokładnej eliminacja Gaussa,
-która w każdym etapie wybiera niezerowy element w aktywnej części kolumny
-i przestawia odpowiedni wiersz na pozycję prowadzącą, jest wykonalna.
-Otrzymany układ górnotrójkątny ma niezerową przekątną, a podstawianie w tył
-wyznacza jedyne rozwiązanie \(Ax=b\).
+Dla \(A\in\mathbb R^{n\times n}\), \(n\ge1\), metoda Gaussa
+*bez zamian wierszy* — eliminacja w przód i podstawianie w tył —
+w arytmetyce dokładnej jest wykonalna z niezerowymi dzielnikami
+i wyznacza jedyne rozwiązanie \(Ax=b\) dla każdego \(b\)
+*wtedy i tylko wtedy, gdy*
 
-Zarówno wybór częściowy, jak i skalowany wybór częściowy spełniają ten warunek.
+\begin{equation*}
+\boxed{\Delta_1\ne0,\ \Delta_2\ne0,\ \ldots,\ \Delta_n\ne0.}
+\end{equation*}
 #+end_twierdzenie
 
 #+attr_html: :id gauss-dowod
 #+begin_details
-#+HTML: <summary>Dowód: odwracalność działań i niezerowy element w aktywnej kolumnie</summary>
-Wszystkie wykonane działania są odwracalne, więc zachowują nieosobliwość
-macierzy i zbiór rozwiązań układu. Po \(k-1\) etapach macierz ma postać
-blokową
+#+HTML: <summary>Uzasadnienie i rola ostatniego minora</summary>
+Po wykonalnych wcześniejszych etapach elementy prowadzące spełniają
 
 \begin{equation*}
-\begin{pmatrix}T&R\\0&C\end{pmatrix},
+\Delta_k=u_{11}\cdots u_{kk},\qquad
+u_{kk}=\frac{\Delta_k}{\Delta_{k-1}}.
 \end{equation*}
 
-gdzie \(T\) jest górnotrójkątna z wcześniej wybranymi niezerowymi
-elementami prowadzącymi na przekątnej. Dla \(k=1\) rozpatrujemy po prostu
-\(C=A\). Ponieważ wyznacznik całej macierzy jest niezerowy, a dla
-\(k>1\) wynosi \(\det T\det C\), blok \(C\) też jest nieosobliwy.
-Jego pierwsza kolumna nie może składać się z samych zer. Można więc
-wybrać niezerowy element prowadzący i wykonać kolejny etap eliminacji.
+Niezerowe minory zapewniają więc kolejno niezerowe dzielniki.
+Odwrotnie: niezerowe dzielniki dają niezerowe iloczyny, czyli wszystkie
+\(\Delta_k\ne0\). Odwracalność działań na równaniach i podstawianie w tył
+zapewniają jedyne rozwiązanie.
 
-Indukcja daje macierz górnotrójkątną \(U\) z niezerową przekątną.
-Podstawianie w tył wyznacza jednoznacznie kolejne współrzędne, a
-równoważność układów zapewnia, że otrzymany wektor rozwiązuje \(Ax=b\).
-Przy wyborze skalowanym wszystkie skale są dodatnie; skoro w aktywnej
-kolumnie jest element niezerowy, maksimum ilorazów też jest dodatnie.
-Wybrany element nie może zatem być zerem.
+Eliminacja dzieli przez \(u_{11},\ldots,u_{n-1,n-1}\).
+Ostatni warunek \(\Delta_n\ne0\) zapewnia \(u_{nn}\ne0\), potrzebne
+przy rozpoczęciu podstawiania: \(x_n=c_n/u_{nn}\).
 #+end_details
 
-Twierdzenie dotyczy arytmetyki dokładnej. Nie podaje oszacowania błędu
-programu =Float64=. Wybór elementu prowadzącego nie usuwa wszystkich
-skutków zaokrągleń ani zależności błędu od własności macierzy.
+*Związek z LU.* Samo obliczenie czynników \(A=LU\) nie wymaga dzielenia
+przez \(u_{nn}\), więc przy niezerowych pierwszych \(n-1\) minorach
+ostatni minor może być zerowy. Rozwiązanie układu przez LU obejmuje
+jednak także \(Ux=z\), a więc to samo podstawianie w tył.
 
 #+attr_html: :id gauss-osobliwosc
 #+begin_details
-#+HTML: <summary>Co oznacza zerowa aktywna kolumna?</summary>
-Jeśli w arytmetyce dokładnej, po poprawnych wcześniejszych etapach, cała
-aktywna część kolumny jest zerowa, to dla macierzy kwadratowej nie można
-uzyskać \(n\) niezerowych elementów prowadzących. Macierz jest osobliwa.
-Nie wynika z tego jeszcze sprzeczność układu: zależnie od prawej strony
-może on mieć nieskończenie wiele rozwiązań albo nie mieć żadnego.
-Do rozstrzygnięcia potrzebna jest dalsza analiza układu.
+#+HTML: <summary>Wykonalność tej metody a istnienie rozwiązania</summary>
+Dla jedynego rozwiązania układu kwadratowego wystarcza i jest konieczne
+\(\det A\ne0\). Niezerowość wcześniejszych minorów jest dodatkowym
+warunkiem pracy *bez zamian wierszy*, co pokazuje \(\widetilde A\).
+Jeśli wcześniejsze minory są niezerowe, lecz \(\Delta_n=0\), ostatnie
+równanie ma postać \(0=c_n\): układ jest sprzeczny albo ma nieskończenie
+wiele rozwiązań. Twierdzenie nie jest oszacowaniem błędu w =Float64=.
+#+end_details
 
-Zero otrzymane w programie po zaokrągleniach nie jest samo w sobie dowodem
-osobliwości dokładnej macierzy wejściowej.
+** Twierdzenie: kiedy wystarczą zamiany wierszy?
+:PROPERTIES:
+:CUSTOM_ID: gauss-zamiany-wierszy
+:HTML_CONTAINER: section
+:END:
+
+#+attr_html: :data-tytul Twierdzenie · eliminacja z doborem wierszy
+#+attr_html: :id gauss-twierdzenie-zamiany
+#+begin_twierdzenie
+Jeśli \(A\in\mathbb R^{n\times n}\), \(n\ge1\), i \(\det A\ne0\),
+to w arytmetyce dokładnej na każdym etapie Gaussa można wybrać niezerowy
+element prowadzący w aktualnie przekształconej macierzy, w razie potrzeby
+zamieniając wiersze. Otrzymana macierz \(U\) ma
+niezerową przekątną, a podstawianie w tył wyznacza jedyne rozwiązanie
+\(Ax=b\) dla każdego \(b\in\mathbb R^n\).
+#+end_twierdzenie
+
+#+attr_html: :id gauss-dowod-zamiany
+#+begin_details
+#+HTML: <summary>Dlaczego odpowiedni wiersz zawsze istnieje?</summary>
+W etapie \(k\) szukamy niezerowego elementu kolumny \(k\) w wierszach
+\(k,\ldots,n\). Gdyby po wcześniejszych poprawnych etapach wszystkie
+te elementy były zerowe, pozostały blok, a więc cała macierz, miałby zerowy
+wyznacznik. Jest to niemożliwe: zamiany wierszy i eliminacja zachowują
+nieosobliwość. Wybór niezerowego elementu pozwala wykonać kolejny etap;
+na końcu nieosobliwy układ trójkątny rozwiązujemy przez podstawianie w tył.
 #+end_details
 
 ** Wnioskowanie: co przewidujemy dla naszych danych?
@@ -4890,48 +4916,17 @@ osobliwości dokładnej macierzy wejściowej.
 :HTML_CONTAINER: section
 :END:
 
-#+attr_html: :data-tytul Wnioskowanie · wykazane założenia i wynik dokładny
+#+attr_html: :data-tytul Wnioskowanie · zastosowanie warunku
 #+attr_html: :id gauss-wnioskowanie
 #+begin_wnioskowanie
-Dla głównej macierzy \(A\) mamy \(\det A=64\ne0\).
-Twierdzenie zapewnia wykonalność eliminacji z wyborem wierszy i jedyne
-rozwiązanie dla podanej prawej strony. Ponadto wiodące minory
-\(4,16,64\) są niezerowe, więc wystarczy wariant bez zamian.
-
-Przy wyborze skalowanym początkowe skale wynoszą \((4,5,9)\).
-Pierwsze ilorazy to \(1,2/5,4/9\), zatem pozostawiamy pierwszy wiersz.
-W drugim etapie porównujemy \(4/5\) i \(2/9\): znów bez zamiany.
-Przewidujemy \(p=(1,2,3)\), poznane \(L,U\), \(z=(4,6,-4)^T\)
-i \(x=(1,2,-1)^T\).
+Dla głównej macierzy \(A\) minory wynoszą \(4,16,64\).
+Metoda bez zamian jest wykonalna, a elementy prowadzące to
+\(4/1=4\), \(16/4=4\), \(64/16=4\).
+Dla \(\widetilde A\) warunek wersji bez zamian zawodzi w drugim etapie:
+\(u_{22}=\Delta_2/\Delta_1=0/4=0\). Ponieważ jednak
+\(\det\widetilde A=-16\ne0\), twierdzenie o doborze wierszy zapewnia
+wykonalność metody z zamianami; w tym przykładzie zamieniamy wiersze 2 i 3.
 #+end_wnioskowanie
-
-Dla wariantu \(B\) nieosobliwość także została wykazana, lecz wersja
-bez zamian zatrzyma się na pierwszym dzielniku. Wersja skalowana
-porówna \(0,2/5,4/9\) i zamieni wiersze 1 oraz 3:
-
-\begin{equation*}
-\left(\begin{array}{ccc|c}
-4&4&9&3\\2&5&4&8\\0&2&4&4
-\end{array}\right)
-\quad\longrightarrow\quad
-\left(\begin{array}{ccc|c}
-4&4&9&3\\0&3&-\frac12&\frac{13}2\\0&2&4&4
-\end{array}\right).
-\end{equation*}
-
-Teraz ilorazy to \(3/5\) i \(2/4\), więc w drugim etapie nie zamieniamy
-wierszy. Mnożnik \(2/3\) daje
-
-\begin{equation*}
-[U\mid c]=\left(\begin{array}{ccc|c}
-4&4&9&3\\0&3&-\frac12&\frac{13}2\\0&0&\frac{13}3&-\frac13
-\end{array}\right),
-\qquad x=\begin{pmatrix}-16/13\\28/13\\-1/13\end{pmatrix}.
-\end{equation*}
-
-To inne rozwiązanie niż \(s\), ponieważ zmieniliśmy macierz układu.
-W =Float64= oczekujemy przybliżenia tych ułamków, a nie dokładnego
-zapisu wszystkich wartości pośrednich.
 
 ** Od reguły do programu
 :PROPERTIES:
@@ -5032,6 +5027,8 @@ end
 Funkcja =gauss_rozwiaz= korzysta z wyniku =gauss_rozklad=.
 Rozwiązuje \(Lz=Pb\), potem \(Ux=z\); przekątna \(L\) jest jednostkowa.
 Dla kolejnej prawej strony używamy tego samego =F=.
+=gauss_rozklad= sprawdza także ostatni element prowadzący, ponieważ
+przygotowuje rozkład do rozwiązywania układu.
 Program kończy skończony zestaw pętli albo zgłasza przeszkodę. Sprawdzenie
 =iszero= wykrywa zapisane zero, a =isfinite= — brak skończonego wyniku;
 żaden z tych warunków nie ocenia dokładności obliczenia.
@@ -5052,7 +5049,7 @@ Najpierw odtwórz przewidywane czynniki i rozwiązanie, potem wykonaj:
 A = [4.0 2 4; 2 5 4; 4 4 9]
 b = [4.0, 8, 3]
 s = [1.0, 2, -1]
-F = gauss_rozklad(A)
+F = gauss_rozklad(A; wybor=:bez_zamian)
 x = gauss_rozwiaz(F, b)
 
 F.p                          # [1, 2, 3]
@@ -5066,25 +5063,25 @@ norm(x - s)                  # 0.0: norma błędu
 gauss_rozwiaz(F, A * ones(3)) ≈ ones(3)  # true: inna prawa strona
 #+end_src
 
-Wariant z zerowym pierwszym elementem uruchamiamy oddzielnie, ponieważ
+Wariant z zerowym drugim minorem uruchamiamy oddzielnie, ponieważ
 pierwsze z poniższych wywołań celowo zgłasza błąd:
 
 #+NAME: gauss-kod-4
 #+begin_src julia
 B = copy(A)
-B[1, 1] = 0.0
-gauss_rozklad(B; wybor=:bez_zamian)  # błąd w kroku 1
+B[2, 2] = 1.0                         # wariant z zerowym drugim minorem
+gauss_rozklad(B; wybor=:bez_zamian)  # błąd w kroku 2
 #+end_src
 
 #+NAME: gauss-kod-5
 #+begin_src julia
 G = gauss_rozklad(B)
 y = gauss_rozwiaz(G, b)
-G.p                                 # [3, 2, 1]
+G.p                                 # [1, 3, 2]
 G.L * G.U ≈ B[G.p, :]              # true
-y ≈ [-16/13, 28/13, -1/13]         # true
-norm(B * y - b)                     # małe residuum; oceń otrzymaną wartość
-norm(y - [-16/13, 28/13, -1/13])    # porównanie z rozwiązaniem kontrolnym
+y ≈ [2.0, -8, 3]                   # true
+norm(B * y - b)                     # 0.0
+norm(y - [2.0, -8, 3])              # 0.0
 #+end_src
 
 Porównanie z wbudowanym rozkładem sprawdza rozwiązanie, lecz nie wymaga
@@ -5135,40 +5132,27 @@ porównać wyniki; nie stanowi dowodu ogólnej poprawności algorytmu.
 #+attr_html: :data-tytul Wyjaśnianie · powiązanie reguły z obserwacją
 #+attr_html: :id gauss-wyjasnienie-wynikow
 #+begin_wyjasnienie
-Dla \(A\) wszystkie użyte mnożniki i wyniki działań są dokładnie
-reprezentowalne w =Float64=. Brak zamian i niezerowe elementy prowadzące
-\(4,4,4\) zgadzają się z przewidywaniem. Równoważne przekształcenia oraz
-podstawianie w tył wyjaśniają otrzymanie \((1,2,-1)^T\).
+Dla \(A\) twierdzenie zapewnia wykonalność obu etapów bez zamian.
+Dla \(\widetilde A\) pierwszy etap tworzy zerowy drugi dzielnik;
+zamiana wierszy umożliwia otrzymanie \((2,-8,3)^T\).
+W obu przykładach eliminacja i podstawianie dają dokładne wyniki w =Float64=.
 
-Dla \(B\) wersja bez zamian zatrzymuje się na zerowym dzielniku;
-nie dowodzi to sprzeczności układu. Wersja skalowana wybiera wiersz 3,
-a potem wykonuje wykonalny rachunek. Ułamki z mianownikami \(3\) i \(13\)
-nie mają skończonego rozwinięcia binarnego, więc wynik jest przybliżeniem.
-
-W przykładzie z \(\epsilon\) metoda bez zamian jest wykonalna w arytmetyce
-dokładnej, lecz zaokrąglenia usuwają różnicę pomiędzy dwiema prawie równymi
-wartościami. Odczyt tych wartości i reguły podstawiania wskazuje przyczynę
-wyniku \((0,1)^T\). Sama obserwacja błędnego rozwiązania nie ustalałaby
-jeszcze, czy przyczyna leży w metodzie, danych czy implementacji.
+W pomocniczym przykładzie z \(\epsilon\) przeszkodą są zaokrąglenia,
+nie brak rozwiązania dokładnego. Zgodność testów sprawdza wybrane
+przebiegi programu; nie zastępuje dowodu twierdzenia.
 #+end_wyjasnienie
 
-Dla dokładnego rozwiązania \(s\), wyniku \(\widehat x\), błędu
-\(e=\widehat x-s\) i residuum \(r=A\widehat x-b\) nadal zachodzi
-\(Ae=r\). Małe residuum bez informacji o macierzy nie zapewnia małego
-błędu. Osobno kontrolujemy jakość rozkładu:
-\(\widehat L\widehat U-PA\). Zgodność pojedynczych testów sprawdza
-wybrane przebiegi programu; nie zastępuje dowodu twierdzenia.
+Przy innych danych odróżniaj [[#liniowe-wyjasnienie][błąd od residuum]]:
+małe \(\|A\widehat x-b\|\) samo nie zapewnia małego błędu rozwiązania.
 
-*Zadanie.* Wyjaśnij, dlaczego po zamianie wierszy trzeba przestawić także
-wcześniejsze mnożniki w \(L\) i prawą stronę. Następnie użyj jednego rozkładu
-\(A\) dla obu prawych stron z przykładów programu. Przed każdym uruchomieniem
-podaj przewidywane rozwiązanie i wskaż, którą równość będziesz sprawdzać.
+*Zadanie.* Wskaż, które minory zapewniają wykonalność eliminacji,
+a który dodatkowo pozwala rozpocząć podstawianie w tył.
 
 #+attr_html: :id gauss-zrodla
 #+begin_details
 #+HTML: <summary>Źródła</summary>
 - N. J. Higham, [[https://nhigham.com/2021/04/20/what-is-an-lu-factorization/][What Is an LU Factorization?]], część /Relation with Gaussian Elimination/:
-  powiązanie eliminacji i rozkładu LU.
+  wiodące minory, elementy prowadzące i związek z LU.
 - [[https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#LinearAlgebra.lu][Julia: lu]] — konwencja permutacji, wybór częściowy i rozwiązywanie przez obiekt rozkładu.
 #+end_details
 

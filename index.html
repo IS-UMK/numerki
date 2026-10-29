@@ -67,7 +67,7 @@ Od modelu matematycznego do metody obliczeniowej i programu.
 <span class="chapter-card-arrow" aria-hidden="true">→</span></a></li>
 <li class="chapter-card"><a class="chapter-card-link" href="#eliminacja-gaussa"><span class="chapter-card-number">06</span>
 <span class="chapter-card-title">Układy równań liniowych: eliminacja Gaussa</span>
-<span class="chapter-card-description">Działania na równaniach, eliminacja w przód i skalowany wybór elementu prowadzącego.</span>
+<span class="chapter-card-description">Eliminacja w przód, wiodące minory główne i wybór elementu prowadzącego.</span>
 <span class="chapter-card-arrow" aria-hidden="true">→</span></a></li>
 <li class="chapter-card chapter-card-unnumbered"><a class="chapter-card-link" href="#dodatek-arytmetyka"><span class="chapter-card-title">Dodatek: arytmetyka komputerowa — pogłębienie</span>
 <span class="chapter-card-arrow" aria-hidden="true">→</span></a></li>
@@ -5497,73 +5497,69 @@ od rozwiązywania układów.
 <h3 id="gauss-wybor-elementu"><span class="section-number-3">6.4.</span> Badanie własności: kiedy potrzebna jest zamiana wierszy?</h3>
 <div class="outline-text-3" id="text-gauss-wybor-elementu">
 <p>
-Wzór na mnożnik wymaga niezerowego dzielnika. Bez zamian wierszy
-wykonalność dla macierzy nieosobliwej zależy od jej wiodących minorów
-głównych: poznany <a href="#liniowe-warunek-lu">warunek LU</a> daje
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mi>k</mi><mi>k</mi></mrow></msub><mo>=</mo><msub><mi mathvariant="normal">Δ</mi><mi>k</mi></msub><mi>/</mi><msub><mi mathvariant="normal">Δ</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">u_{kk}=\Delta_k/\Delta_{k-1}</annotation></semantics></math>, gdzie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mn>0</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\Delta_0=1</annotation></semantics></math>.
-Jeśli wszystkie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi mathvariant="normal">Δ</mi><mi>n</mi></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta_1,\ldots,\Delta_n\ne0</annotation></semantics></math>, eliminacja i podstawianie
-w tył są wykonalne. Sama nieosobliwość nie zapewnia tej kolejności obliczeń.
+Wzór na mnożnik wymaga niezerowego dzielnika. Nie wystarczy sprawdzić
+przekątnej macierzy wejściowej: dzielniki zmieniają się podczas eliminacji.
 </p>
 </div>
 <section id="outline-container-gauss-zerowy-element" class="outline-4">
-<h4 id="gauss-zerowy-element"><span class="section-number-4">6.4.1.</span> Zerowy element prowadzący: wariant znany z poprzedniego rozdziału</h4>
+<h4 id="gauss-zerowy-element"><span class="section-number-4">6.4.1.</span> Zerowy drugi minor: zero pojawia się po eliminacji</h4>
 <div class="outline-text-4" id="text-gauss-zerowy-element">
 <p>
-Wróćmy do macierzy
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>9</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">B=\begin{pmatrix}0&amp;2&amp;4\\2&amp;5&amp;4\\4&amp;4&amp;9\end{pmatrix}</annotation></semantics></math>
-i tej samej prawej strony <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo>,</mo><mn>8</mn><mo>,</mo><mn>3</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">b=(4,8,3)^T</annotation></semantics></math>.
-Bez zamian pierwszy mnożnik wymaga dzielenia przez zero, chociaż
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mi>B</mi><mo>=</mo><mi>−</mi><mn>52</mn><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\det B=-52\ne0</annotation></semantics></math>. W pierwszej kolumnie są jednak inne niezerowe elementy.
-Przestawienie całych równań pozwala wybrać inny wiersz prowadzący.
+Zmieńmy w głównej macierzy tylko <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mn>22</mn></msub><annotation encoding="application/x-tex">a_{22}</annotation></semantics></math> z <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>5</mn><annotation encoding="application/x-tex">5</annotation></semantics></math> na <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>,
+zachowując prawą stronę <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>:
 </p>
 
-<div data-tytul="Rozróżnienie · dwa sposoby wyboru wiersza" id="gauss-wybor-rozroznienie" class="rozroznienie">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>A</mi><mo accent="true">̃</mo></mover><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>9</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><msub><mi mathvariant="normal">Δ</mi><mn>1</mn></msub><mo>=</mo><mn>4</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi mathvariant="normal">Δ</mi><mn>3</mn></msub><mo>=</mo><mi>−</mi><mn>16</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\widetilde A=\begin{pmatrix}4&amp;2&amp;4\\2&amp;1&amp;4\\4&amp;4&amp;9\end{pmatrix},
+\qquad \Delta_1=4,\quad
+\Delta_2=\det\begin{pmatrix}4&amp;2\\2&amp;1\end{pmatrix}=0,\quad
+\Delta_3=-16.</annotation></semantics></math>
+
 <p>
-<strong>Wybór częściowy</strong> w etapie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> oznacza wybór największej wartości
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msubsup><mi>a</mi><mrow><mi>i</mi><mi>k</mi></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow></msubsup><mo stretchy="false" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">\lvert a_{ik}^{(k)}\rvert</annotation></semantics></math> w aktywnej części kolumny:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mi>k</mi><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">i=k,\ldots,n</annotation></semantics></math>. Zamieniamy wybrany wiersz z wierszem <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.
-Wtedy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>m</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo stretchy="false" form="postfix">|</mo><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\lvert m_{ik}\rvert\le1</annotation></semantics></math>.
+Wszystkie współczynniki wejściowe są niezerowe. Dopiero działania
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>2</mn></msub><mo>←</mo><msub><mi>W</mi><mn>2</mn></msub><mo>−</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><msub><mi>W</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">W_2\leftarrow W_2-\tfrac12W_1</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>3</mn></msub><mo>←</mo><msub><mi>W</mi><mn>3</mn></msub><mo>−</mo><msub><mi>W</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">W_3\leftarrow W_3-W_1</annotation></semantics></math> dają
 </p>
 
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>6</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\left(\begin{array}{ccc|c}
+4&amp;2&amp;4&amp;4\\0&amp;0&amp;2&amp;6\\0&amp;2&amp;5&amp;-1
+\end{array}\right).</annotation></semantics></math>
+
 <p>
-<strong>Skalowany wybór częściowy</strong> porównuje
-wielkość elementu z wielkością współczynników jego wiersza. Na początku
-obliczamy skale
+Drugi element prowadzący wynosi <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⋅</mo><mn>2</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">1-\tfrac12\cdot2=0</annotation></semantics></math>.
+Bez zamiany wierszy nie obliczymy mnożnika <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mn>32</mn></msub><mo>=</mo><mn>2</mn><mi>/</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">m_{32}=2/0</annotation></semantics></math>.
+Zamiana <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>2</mn></msub><mo>↔</mo><msub><mi>W</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">W_2\leftrightarrow W_3</annotation></semantics></math> daje już układ górnotrójkątny:
 </p>
 
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>i</mi></msub><mo>=</mo><munder><mi mathvariant="normal">max</mi><mrow><mn>1</mn><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>n</mi></mrow></munder><mo stretchy="false" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">|</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\sigma_i=\max_{1\le j\le n}|a_{ij}|.</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>6</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><mn>3</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>x</mi><mn>2</mn></msub><mo>=</mo><mi>−</mi><mn>8</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mn>2</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\left(\begin{array}{ccc|c}
+4&amp;2&amp;4&amp;4\\0&amp;2&amp;5&amp;-1\\0&amp;0&amp;2&amp;6
+\end{array}\right),
+\qquad x_3=3,\quad x_2=-8,\quad x_1=2.</annotation></semantics></math>
 
 <p>
-Dla nieosobliwej macierzy wszystkie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>i</mi></msub><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\sigma_i&gt;0</annotation></semantics></math>. W każdym etapie
-wybieramy indeks <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>, dla którego
+Zerowy wcześniejszy minor zatrzymał metodę bez zamian, chociaż
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mover><mi>A</mi><mo accent="true">̃</mo></mover><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\det\widetilde A\ne0</annotation></semantics></math> i układ ma jedno rozwiązanie.
 </p>
 
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><msubsup><mi>a</mi><mrow><mi>q</mi><mi>k</mi></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow></msubsup><mo stretchy="false" form="prefix">|</mo></mrow><msub><mi>σ</mi><mi>q</mi></msub></mfrac><mo>=</mo><munder><mi mathvariant="normal">max</mi><mrow><mi>k</mi><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>n</mi></mrow></munder><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><msubsup><mi>a</mi><mrow><mi>i</mi><mi>k</mi></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow></msubsup><mo stretchy="false" form="prefix">|</mo></mrow><msub><mi>σ</mi><mi>i</mi></msub></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">\frac{|a_{qk}^{(k)}|}{\sigma_q}
-=\max_{k\le i\le n}\frac{|a_{ik}^{(k)}|}{\sigma_i},</annotation></semantics></math>
+<div data-tytul="Rozróżnienie · wybór wiersza prowadzącego" id="gauss-wybor-rozroznienie" class="rozroznienie">
+<p>
+<strong>Wybór częściowy</strong> wybiera największą wartość <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msubsup><mi>a</mi><mrow><mi>i</mi><mi>k</mi></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow></msubsup><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|a_{ik}^{(k)}|</annotation></semantics></math>
+w aktywnej części kolumny, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mi>k</mi><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">i=k,\ldots,n</annotation></semantics></math>.
+<strong>Skalowany wybór częściowy</strong> porównuje ją z początkową skalą wiersza:
+</p>
+
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>i</mi></msub><mo>=</mo><munder><mi mathvariant="normal">max</mi><mrow><mn>1</mn><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>n</mi></mrow></munder><mo stretchy="false" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">|</mo><mo>,</mo><mspace width="2.0em"></mspace><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><msubsup><mi>a</mi><mrow><mi>q</mi><mi>k</mi></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow></msubsup><mo stretchy="false" form="prefix">|</mo></mrow><msub><mi>σ</mi><mi>q</mi></msub></mfrac><mo>=</mo><munder><mi mathvariant="normal">max</mi><mrow><mi>k</mi><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>n</mi></mrow></munder><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><msubsup><mi>a</mi><mrow><mi>i</mi><mi>k</mi></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow></msubsup><mo stretchy="false" form="prefix">|</mo></mrow><msub><mi>σ</mi><mi>i</mi></msub></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\sigma_i=\max_{1\le j\le n}|a_{ij}|,\qquad
+\frac{|a_{qk}^{(k)}|}{\sigma_q}
+=\max_{k\le i\le n}
+\frac{|a_{ik}^{(k)}|}{\sigma_i}.</annotation></semantics></math>
 
 <p>
-a następnie zamieniamy wiersze <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>, także w prawej stronie.
-Skale ustalamy z pierwotnej macierzy i przenosimy wraz z wierszami;
-nie wyznaczamy ich na nowo po eliminacji. Przy remisie wybieramy pierwszy
-wiersz w aktualnej kolejności. Ograniczenie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>m</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo stretchy="false" form="prefix">|</mo><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|m_{ik}|\le1</annotation></semantics></math> nie musi
-zachodzić dla wyboru skalowanego.
+Dla nieosobliwej macierzy skale są dodatnie. W każdym etapie zamieniamy
+wiersze <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>, wraz z prawymi stronami i skalami. Przy remisie
+wybieramy pierwszy wiersz w aktualnej kolejności. Wektor <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> zapisuje
+numery pierwotnych wierszy: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>A</mi><mo>=</mo><mi>A</mi><mo stretchy="false" form="prefix">[</mo><mi>p</mi><mo>,</mo><mo>:</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">PA=A[p,:]</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>b</mi><mo>=</mo><mi>b</mi><mo stretchy="false" form="prefix">[</mo><mi>p</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">Pb=b[p]</annotation></semantics></math>.
+Kolejność niewiadomych pozostaje bez zmian.
 </p>
 
 </div>
-
-<p>
-Skale oznaczamy przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\sigma_i</annotation></semantics></math>, aby nie mylić ich z wektorem
-kontrolnym <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>. Maksimum wyznaczamy <strong>w każdym etapie, w aktualnej
-kolumnie i tylko wśród jeszcze niewykorzystanych wierszy</strong>. Jednorazowe
-uporządkowanie pierwszej kolumny nie wyznacza całej kolejności eliminacji.
-</p>
-
-<p>
-Zapisujemy też wektor permutacji <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>: jego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>-ty element podaje numer
-pierwotnego wiersza znajdującego się teraz na pozycji <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>.
-Macierz permutacji <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math> spełnia <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>A</mi><mo>=</mo><mi>A</mi><mo stretchy="false" form="prefix">[</mo><mi>p</mi><mo>,</mo><mo>:</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">PA=A[p,:]</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>b</mi><mo>=</mo><mi>b</mi><mo stretchy="false" form="prefix">[</mo><mi>p</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">Pb=b[p]</annotation></semantics></math>.
-Zamiany wierszy nie zmieniają kolejności niewiadomych.
-</p>
 </div>
 </section>
 <section id="outline-container-gauss-maly-element" class="outline-4">
@@ -5614,131 +5610,116 @@ jednoznacznie wyniku dla wszystkich dodatnich <math display="inline" xmlns="http
 </section>
 </section>
 <section id="outline-container-gauss-twierdzenie" class="outline-3">
-<h3 id="gauss-twierdzenie"><span class="section-number-3">6.5.</span> Twierdzenie: wykonalność i poprawność eliminacji</h3>
+<h3 id="gauss-twierdzenie"><span class="section-number-3">6.5.</span> Twierdzenie: kiedy Gauss bez zamian zawsze rozwiązuje układ?</h3>
 <div class="outline-text-3" id="text-gauss-twierdzenie">
-<div data-tytul="Twierdzenie · eliminacja z zamianami wierszy" id="gauss-twierdzenie-tresc" class="twierdzenie">
 <p>
-Niech <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mi>n</mi><mo>×</mo><mi>n</mi></mrow></msup></mrow><annotation encoding="application/x-tex">A\in\mathbb R^{n\times n}</annotation></semantics></math> będzie nieosobliwa,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">b\in\mathbb R^n</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n\ge1</annotation></semantics></math>. W arytmetyce dokładnej eliminacja Gaussa,
-która w każdym etapie wybiera niezerowy element w aktywnej części kolumny
-i przestawia odpowiedni wiersz na pozycję prowadzącą, jest wykonalna.
-Otrzymany układ górnotrójkątny ma niezerową przekątną, a podstawianie w tył
-wyznacza jedyne rozwiązanie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math>.
+Niech <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mi>k</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><msub><mi>A</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\Delta_k=\det A_k</annotation></semantics></math>, gdzie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>A</mi><mi>k</mi></msub><annotation encoding="application/x-tex">A_k</annotation></semantics></math> jest lewym górnym blokiem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>×</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">k\times k</annotation></semantics></math> macierzy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>; przyjmujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mn>0</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\Delta_0=1</annotation></semantics></math>.
 </p>
 
+<div data-tytul="Twierdzenie · warunek konieczny i wystarczający" id="gauss-twierdzenie-tresc" class="twierdzenie">
 <p>
-Zarówno wybór częściowy, jak i skalowany wybór częściowy spełniają ten warunek.
+Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mi>n</mi><mo>×</mo><mi>n</mi></mrow></msup></mrow><annotation encoding="application/x-tex">A\in\mathbb R^{n\times n}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n\ge1</annotation></semantics></math>, metoda Gaussa
+<strong>bez zamian wierszy</strong> — eliminacja w przód i podstawianie w tył —
+w arytmetyce dokładnej jest wykonalna z niezerowymi dzielnikami
+i wyznacza jedyne rozwiązanie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math> dla każdego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+<strong>wtedy i tylko wtedy, gdy</strong>
 </p>
+
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><msub><mi mathvariant="normal">Δ</mi><mn>1</mn></msub><mo>≠</mo><mn>0</mn><mo>,</mo><mspace width="0.222em"></mspace><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub><mo>≠</mo><mn>0</mn><mo>,</mo><mspace width="0.222em"></mspace><mi>…</mi><mo>,</mo><mspace width="0.222em"></mspace><msub><mi mathvariant="normal">Δ</mi><mi>n</mi></msub><mo>≠</mo><mn>0</mn><mi>.</mi></mrow></menclose><annotation encoding="application/x-tex">\boxed{\Delta_1\ne0,\ \Delta_2\ne0,\ \ldots,\ \Delta_n\ne0.}</annotation></semantics></math>
 
 </div>
 
 <details id="gauss-dowod">
-<summary>Dowód: odwracalność działań i niezerowy element w aktywnej kolumnie</summary>
+<summary>Uzasadnienie i rola ostatniego minora</summary>
 <p>
-Wszystkie wykonane działania są odwracalne, więc zachowują nieosobliwość
-macierzy i zbiór rozwiązań układu. Po <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k-1</annotation></semantics></math> etapach macierz ma postać
-blokową
+Po wykonalnych wcześniejszych etapach elementy prowadzące spełniają
 </p>
 
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>T</mi></mtd><mtd columnalign="center" style="text-align: center"><mi>R</mi></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>C</mi></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{pmatrix}T&amp;R\\0&amp;C\end{pmatrix},</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mi>k</mi></msub><mo>=</mo><msub><mi>u</mi><mn>11</mn></msub><mi>⋯</mi><msub><mi>u</mi><mrow><mi>k</mi><mi>k</mi></mrow></msub><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>u</mi><mrow><mi>k</mi><mi>k</mi></mrow></msub><mo>=</mo><mfrac><msub><mi mathvariant="normal">Δ</mi><mi>k</mi></msub><msub><mi mathvariant="normal">Δ</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\Delta_k=u_{11}\cdots u_{kk},\qquad
+u_{kk}=\frac{\Delta_k}{\Delta_{k-1}}.</annotation></semantics></math>
 
 <p>
-gdzie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> jest górnotrójkątna z wcześniej wybranymi niezerowymi
-elementami prowadzącymi na przekątnej. Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math> rozpatrujemy po prostu
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">C=A</annotation></semantics></math>. Ponieważ wyznacznik całej macierzy jest niezerowy, a dla
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k&gt;1</annotation></semantics></math> wynosi <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mi>T</mi><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">\det T\det C</annotation></semantics></math>, blok <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math> też jest nieosobliwy.
-Jego pierwsza kolumna nie może składać się z samych zer. Można więc
-wybrać niezerowy element prowadzący i wykonać kolejny etap eliminacji.
+Niezerowe minory zapewniają więc kolejno niezerowe dzielniki.
+Odwrotnie: niezerowe dzielniki dają niezerowe iloczyny, czyli wszystkie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mi>k</mi></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta_k\ne0</annotation></semantics></math>. Odwracalność działań na równaniach i podstawianie w tył
+zapewniają jedyne rozwiązanie.
 </p>
 
 <p>
-Indukcja daje macierz górnotrójkątną <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>U</mi><annotation encoding="application/x-tex">U</annotation></semantics></math> z niezerową przekątną.
-Podstawianie w tył wyznacza jednoznacznie kolejne współrzędne, a
-równoważność układów zapewnia, że otrzymany wektor rozwiązuje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math>.
-Przy wyborze skalowanym wszystkie skale są dodatnie; skoro w aktywnej
-kolumnie jest element niezerowy, maksimum ilorazów też jest dodatnie.
-Wybrany element nie może zatem być zerem.
+Eliminacja dzieli przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mn>11</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>u</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">u_{11},\ldots,u_{n-1,n-1}</annotation></semantics></math>.
+Ostatni warunek <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mi>n</mi></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta_n\ne0</annotation></semantics></math> zapewnia <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mi>n</mi><mi>n</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">u_{nn}\ne0</annotation></semantics></math>, potrzebne
+przy rozpoczęciu podstawiania: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>n</mi></msub><mo>=</mo><msub><mi>c</mi><mi>n</mi></msub><mi>/</mi><msub><mi>u</mi><mrow><mi>n</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">x_n=c_n/u_{nn}</annotation></semantics></math>.
 </p>
 </details>
 
 <p>
-Twierdzenie dotyczy arytmetyki dokładnej. Nie podaje oszacowania błędu
-programu <code>Float64</code>. Wybór elementu prowadzącego nie usuwa wszystkich
-skutków zaokrągleń ani zależności błędu od własności macierzy.
+<strong>Związek z LU.</strong> Samo obliczenie czynników <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>L</mi><mi>U</mi></mrow><annotation encoding="application/x-tex">A=LU</annotation></semantics></math> nie wymaga dzielenia
+przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mrow><mi>n</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">u_{nn}</annotation></semantics></math>, więc przy niezerowych pierwszych <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math> minorach
+ostatni minor może być zerowy. Rozwiązanie układu przez LU obejmuje
+jednak także <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mi>x</mi><mo>=</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">Ux=z</annotation></semantics></math>, a więc to samo podstawianie w tył.
 </p>
 
 <details id="gauss-osobliwosc">
-<summary>Co oznacza zerowa aktywna kolumna?</summary>
+<summary>Wykonalność tej metody a istnienie rozwiązania</summary>
 <p>
-Jeśli w arytmetyce dokładnej, po poprawnych wcześniejszych etapach, cała
-aktywna część kolumny jest zerowa, to dla macierzy kwadratowej nie można
-uzyskać <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> niezerowych elementów prowadzących. Macierz jest osobliwa.
-Nie wynika z tego jeszcze sprzeczność układu: zależnie od prawej strony
-może on mieć nieskończenie wiele rozwiązań albo nie mieć żadnego.
-Do rozstrzygnięcia potrzebna jest dalsza analiza układu.
+Dla jedynego rozwiązania układu kwadratowego wystarcza i jest konieczne
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mi>A</mi><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\det A\ne0</annotation></semantics></math>. Niezerowość wcześniejszych minorów jest dodatkowym
+warunkiem pracy <strong>bez zamian wierszy</strong>, co pokazuje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>A</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\widetilde A</annotation></semantics></math>.
+Jeśli wcześniejsze minory są niezerowe, lecz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mi>n</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta_n=0</annotation></semantics></math>, ostatnie
+równanie ma postać <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><msub><mi>c</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">0=c_n</annotation></semantics></math>: układ jest sprzeczny albo ma nieskończenie
+wiele rozwiązań. Twierdzenie nie jest oszacowaniem błędu w <code>Float64</code>.
+</p>
+</details>
+</div>
+</section>
+<section id="outline-container-gauss-zamiany-wierszy" class="outline-3">
+<h3 id="gauss-zamiany-wierszy"><span class="section-number-3">6.6.</span> Twierdzenie: kiedy wystarczą zamiany wierszy?</h3>
+<div class="outline-text-3" id="text-gauss-zamiany-wierszy">
+<div data-tytul="Twierdzenie · eliminacja z doborem wierszy" id="gauss-twierdzenie-zamiany" class="twierdzenie">
+<p>
+Jeśli <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mi>n</mi><mo>×</mo><mi>n</mi></mrow></msup></mrow><annotation encoding="application/x-tex">A\in\mathbb R^{n\times n}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n\ge1</annotation></semantics></math>, i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mi>A</mi><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\det A\ne0</annotation></semantics></math>,
+to w arytmetyce dokładnej na każdym etapie Gaussa można wybrać niezerowy
+element prowadzący w aktualnie przekształconej macierzy, w razie potrzeby
+zamieniając wiersze. Otrzymana macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>U</mi><annotation encoding="application/x-tex">U</annotation></semantics></math> ma
+niezerową przekątną, a podstawianie w tył wyznacza jedyne rozwiązanie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math> dla każdego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">b\in\mathbb R^n</annotation></semantics></math>.
 </p>
 
+</div>
+
+<details id="gauss-dowod-zamiany">
+<summary>Dlaczego odpowiedni wiersz zawsze istnieje?</summary>
 <p>
-Zero otrzymane w programie po zaokrągleniach nie jest samo w sobie dowodem
-osobliwości dokładnej macierzy wejściowej.
+W etapie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> szukamy niezerowego elementu kolumny <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> w wierszach
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">k,\ldots,n</annotation></semantics></math>. Gdyby po wcześniejszych poprawnych etapach wszystkie
+te elementy były zerowe, pozostały blok, a więc cała macierz, miałby zerowy
+wyznacznik. Jest to niemożliwe: zamiany wierszy i eliminacja zachowują
+nieosobliwość. Wybór niezerowego elementu pozwala wykonać kolejny etap;
+na końcu nieosobliwy układ trójkątny rozwiązujemy przez podstawianie w tył.
 </p>
 </details>
 </div>
 </section>
 <section id="outline-container-gauss-przewidywanie" class="outline-3">
-<h3 id="gauss-przewidywanie"><span class="section-number-3">6.6.</span> Wnioskowanie: co przewidujemy dla naszych danych?</h3>
+<h3 id="gauss-przewidywanie"><span class="section-number-3">6.7.</span> Wnioskowanie: co przewidujemy dla naszych danych?</h3>
 <div class="outline-text-3" id="text-gauss-przewidywanie">
-<div data-tytul="Wnioskowanie · wykazane założenia i wynik dokładny" id="gauss-wnioskowanie" class="wnioskowanie">
+<div data-tytul="Wnioskowanie · zastosowanie warunku" id="gauss-wnioskowanie" class="wnioskowanie">
 <p>
-Dla głównej macierzy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> mamy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mi>A</mi><mo>=</mo><mn>64</mn><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\det A=64\ne0</annotation></semantics></math>.
-Twierdzenie zapewnia wykonalność eliminacji z wyborem wierszy i jedyne
-rozwiązanie dla podanej prawej strony. Ponadto wiodące minory
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>,</mo><mn>16</mn><mo>,</mo><mn>64</mn></mrow><annotation encoding="application/x-tex">4,16,64</annotation></semantics></math> są niezerowe, więc wystarczy wariant bez zamian.
-</p>
-
-<p>
-Przy wyborze skalowanym początkowe skale wynoszą <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>9</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(4,5,9)</annotation></semantics></math>.
-Pierwsze ilorazy to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>2</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>4</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">1,2/5,4/9</annotation></semantics></math>, zatem pozostawiamy pierwszy wiersz.
-W drugim etapie porównujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">4/5</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">2/9</annotation></semantics></math>: znów bez zamiany.
-Przewidujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p=(1,2,3)</annotation></semantics></math>, poznane <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>,</mo><mi>U</mi></mrow><annotation encoding="application/x-tex">L,U</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo>,</mo><mn>6</mn><mo>,</mo><mi>−</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">z=(4,6,-4)^T</annotation></semantics></math>
-i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>−</mi><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">x=(1,2,-1)^T</annotation></semantics></math>.
+Dla głównej macierzy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> minory wynoszą <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>,</mo><mn>16</mn><mo>,</mo><mn>64</mn></mrow><annotation encoding="application/x-tex">4,16,64</annotation></semantics></math>.
+Metoda bez zamian jest wykonalna, a elementy prowadzące to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>1</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">4/1=4</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">16/4=4</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64</mn><mi>/</mi><mn>16</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">64/16=4</annotation></semantics></math>.
+Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>A</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\widetilde A</annotation></semantics></math> warunek wersji bez zamian zawodzi w drugim etapie:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mn>22</mn></msub><mo>=</mo><msub><mi mathvariant="normal">Δ</mi><mn>2</mn></msub><mi>/</mi><msub><mi mathvariant="normal">Δ</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">u_{22}=\Delta_2/\Delta_1=0/4=0</annotation></semantics></math>. Ponieważ jednak
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">det</mi><mo>&#8289;</mo></mrow><mover><mi>A</mi><mo accent="true">̃</mo></mover><mo>=</mo><mi>−</mi><mn>16</mn><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\det\widetilde A=-16\ne0</annotation></semantics></math>, twierdzenie o doborze wierszy zapewnia
+wykonalność metody z zamianami; w tym przykładzie zamieniamy wiersze 2 i 3.
 </p>
 
 </div>
-
-<p>
-Dla wariantu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> nieosobliwość także została wykazana, lecz wersja
-bez zamian zatrzyma się na pierwszym dzielniku. Wersja skalowana
-porówna <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>2</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>4</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">0,2/5,4/9</annotation></semantics></math> i zamieni wiersze 1 oraz 3:
-</p>
-
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>9</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>3</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>8</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="1.0em"></mspace><mo>→</mo><mspace width="1.0em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>9</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>3</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>3</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac></mtd><mtd columnalign="center" style="text-align: center"><mfrac><mn>13</mn><mn>2</mn></mfrac></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\left(\begin{array}{ccc|c}
-4&amp;4&amp;9&amp;3\\2&amp;5&amp;4&amp;8\\0&amp;2&amp;4&amp;4
-\end{array}\right)
-\quad\longrightarrow\quad
-\left(\begin{array}{ccc|c}
-4&amp;4&amp;9&amp;3\\0&amp;3&amp;-\frac12&amp;\frac{13}2\\0&amp;2&amp;4&amp;4
-\end{array}\right).</annotation></semantics></math>
-
-<p>
-Teraz ilorazy to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">3/5</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">2/4</annotation></semantics></math>, więc w drugim etapie nie zamieniamy
-wierszy. Mnożnik <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">2/3</annotation></semantics></math> daje
-</p>
-
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mi>U</mi><mo>∣</mo><mi>c</mi><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>4</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>9</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>3</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>3</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac></mtd><mtd columnalign="center" style="text-align: center"><mfrac><mn>13</mn><mn>2</mn></mfrac></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mfrac><mn>13</mn><mn>3</mn></mfrac></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mfrac><mn>1</mn><mn>3</mn></mfrac></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><mi>x</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>16</mn><mi>/</mi><mn>13</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>28</mn><mi>/</mi><mn>13</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>13</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">[U\mid c]=\left(\begin{array}{ccc|c}
-4&amp;4&amp;9&amp;3\\0&amp;3&amp;-\frac12&amp;\frac{13}2\\0&amp;0&amp;\frac{13}3&amp;-\frac13
-\end{array}\right),
-\qquad x=\begin{pmatrix}-16/13\\28/13\\-1/13\end{pmatrix}.</annotation></semantics></math>
-
-<p>
-To inne rozwiązanie niż <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>, ponieważ zmieniliśmy macierz układu.
-W <code>Float64</code> oczekujemy przybliżenia tych ułamków, a nie dokładnego
-zapisu wszystkich wartości pośrednich.
-</p>
 </div>
 </section>
 <section id="outline-container-gauss-program" class="outline-3">
-<h3 id="gauss-program"><span class="section-number-3">6.7.</span> Od reguły do programu</h3>
+<h3 id="gauss-program"><span class="section-number-3">6.8.</span> Od reguły do programu</h3>
 <div class="outline-text-3" id="text-gauss-program">
 <p>
 Podzielimy program na dwie części: najpierw obliczenie
@@ -5836,6 +5817,8 @@ end
 Funkcja <code>gauss_rozwiaz</code> korzysta z wyniku <code>gauss_rozklad</code>.
 Rozwiązuje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>z</mi><mo>=</mo><mi>P</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">Lz=Pb</annotation></semantics></math>, potem <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mi>x</mi><mo>=</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">Ux=z</annotation></semantics></math>; przekątna <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> jest jednostkowa.
 Dla kolejnej prawej strony używamy tego samego <code>F</code>.
+<code>gauss_rozklad</code> sprawdza także ostatni element prowadzący, ponieważ
+przygotowuje rozkład do rozwiązywania układu.
 Program kończy skończony zestaw pętli albo zgłasza przeszkodę. Sprawdzenie
 <code>iszero</code> wykrywa zapisane zero, a <code>isfinite</code> — brak skończonego wyniku;
 żaden z tych warunków nie ocenia dokładności obliczenia.
@@ -5845,7 +5828,7 @@ zgłosić zerowy element prowadzący mimo nieosobliwości dokładnej macierzy.
 </p>
 </div>
 <section id="outline-container-gauss-testy" class="outline-4">
-<h4 id="gauss-testy"><span class="section-number-4">6.7.1.</span> Przewidzieć, uruchomić, porównać</h4>
+<h4 id="gauss-testy"><span class="section-number-4">6.8.1.</span> Przewidzieć, uruchomić, porównać</h4>
 <div class="outline-text-4" id="text-gauss-testy">
 <p>
 Najpierw odtwórz przewidywane czynniki i rozwiązanie, potem wykonaj:
@@ -5855,7 +5838,7 @@ Najpierw odtwórz przewidywane czynniki i rozwiązanie, potem wykonaj:
 <pre class="src src-julia" id="gauss-kod-3">A = [4.0 2 4; 2 5 4; 4 4 9]
 b = [4.0, 8, 3]
 s = [1.0, 2, -1]
-F = gauss_rozklad(A)
+F = gauss_rozklad(A; wybor=:bez_zamian)
 x = gauss_rozwiaz(F, b)
 
 F.p                          # [1, 2, 3]
@@ -5871,25 +5854,25 @@ gauss_rozwiaz(F, A * ones(3)) ≈ ones(3)  # true: inna prawa strona
 </div>
 
 <p>
-Wariant z zerowym pierwszym elementem uruchamiamy oddzielnie, ponieważ
+Wariant z zerowym drugim minorem uruchamiamy oddzielnie, ponieważ
 pierwsze z poniższych wywołań celowo zgłasza błąd:
 </p>
 
 <div class="org-src-container">
 <pre class="src src-julia" id="gauss-kod-4">B = copy(A)
-B[1, 1] = 0.0
-gauss_rozklad(B; wybor=:bez_zamian)  # błąd w kroku 1
+B[2, 2] = 1.0                         # wariant z zerowym drugim minorem
+gauss_rozklad(B; wybor=:bez_zamian)  # błąd w kroku 2
 </pre>
 </div>
 
 <div class="org-src-container">
 <pre class="src src-julia" id="gauss-kod-5">G = gauss_rozklad(B)
 y = gauss_rozwiaz(G, b)
-G.p                                 # [3, 2, 1]
+G.p                                 # [1, 3, 2]
 G.L * G.U ≈ B[G.p, :]              # true
-y ≈ [-16/13, 28/13, -1/13]         # true
-norm(B * y - b)                     # małe residuum; oceń otrzymaną wartość
-norm(y - [-16/13, 28/13, -1/13])    # porównanie z rozwiązaniem kontrolnym
+y ≈ [2.0, -8, 3]                   # true
+norm(B * y - b)                     # 0.0
+norm(y - [2.0, -8, 3])              # 0.0
 </pre>
 </div>
 
@@ -5938,54 +5921,39 @@ porównać wyniki; nie stanowi dowodu ogólnej poprawności algorytmu.
 </section>
 </section>
 <section id="outline-container-gauss-wyjasnienie" class="outline-3">
-<h3 id="gauss-wyjasnienie"><span class="section-number-3">6.8.</span> Od wyniku programu do wyjaśnienia</h3>
+<h3 id="gauss-wyjasnienie"><span class="section-number-3">6.9.</span> Od wyniku programu do wyjaśnienia</h3>
 <div class="outline-text-3" id="text-gauss-wyjasnienie">
 <div data-tytul="Wyjaśnianie · powiązanie reguły z obserwacją" id="gauss-wyjasnienie-wynikow" class="wyjasnienie">
 <p>
-Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> wszystkie użyte mnożniki i wyniki działań są dokładnie
-reprezentowalne w <code>Float64</code>. Brak zamian i niezerowe elementy prowadzące
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>,</mo><mn>4</mn><mo>,</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">4,4,4</annotation></semantics></math> zgadzają się z przewidywaniem. Równoważne przekształcenia oraz
-podstawianie w tył wyjaśniają otrzymanie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>−</mi><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">(1,2,-1)^T</annotation></semantics></math>.
+Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> twierdzenie zapewnia wykonalność obu etapów bez zamian.
+Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>A</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\widetilde A</annotation></semantics></math> pierwszy etap tworzy zerowy drugi dzielnik;
+zamiana wierszy umożliwia otrzymanie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>,</mo><mi>−</mi><mn>8</mn><mo>,</mo><mn>3</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">(2,-8,3)^T</annotation></semantics></math>.
+W obu przykładach eliminacja i podstawianie dają dokładne wyniki w <code>Float64</code>.
 </p>
 
 <p>
-Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> wersja bez zamian zatrzymuje się na zerowym dzielniku;
-nie dowodzi to sprzeczności układu. Wersja skalowana wybiera wiersz 3,
-a potem wykonuje wykonalny rachunek. Ułamki z mianownikami <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>13</mn><annotation encoding="application/x-tex">13</annotation></semantics></math>
-nie mają skończonego rozwinięcia binarnego, więc wynik jest przybliżeniem.
-</p>
-
-<p>
-W przykładzie z <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϵ</mi><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math> metoda bez zamian jest wykonalna w arytmetyce
-dokładnej, lecz zaokrąglenia usuwają różnicę pomiędzy dwiema prawie równymi
-wartościami. Odczyt tych wartości i reguły podstawiania wskazuje przyczynę
-wyniku <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">(0,1)^T</annotation></semantics></math>. Sama obserwacja błędnego rozwiązania nie ustalałaby
-jeszcze, czy przyczyna leży w metodzie, danych czy implementacji.
+W pomocniczym przykładzie z <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϵ</mi><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math> przeszkodą są zaokrąglenia,
+nie brak rozwiązania dokładnego. Zgodność testów sprawdza wybrane
+przebiegi programu; nie zastępuje dowodu twierdzenia.
 </p>
 
 </div>
 
 <p>
-Dla dokładnego rozwiązania <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>, wyniku <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>x</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\widehat x</annotation></semantics></math>, błędu
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mover><mi>x</mi><mo accent="true">̂</mo></mover><mo>−</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">e=\widehat x-s</annotation></semantics></math> i residuum <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mi>A</mi><mover><mi>x</mi><mo accent="true">̂</mo></mover><mo>−</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">r=A\widehat x-b</annotation></semantics></math> nadal zachodzi
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>e</mi><mo>=</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">Ae=r</annotation></semantics></math>. Małe residuum bez informacji o macierzy nie zapewnia małego
-błędu. Osobno kontrolujemy jakość rozkładu:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>L</mi><mo accent="true">̂</mo></mover><mover><mi>U</mi><mo accent="true">̂</mo></mover><mo>−</mo><mi>P</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">\widehat L\widehat U-PA</annotation></semantics></math>. Zgodność pojedynczych testów sprawdza
-wybrane przebiegi programu; nie zastępuje dowodu twierdzenia.
+Przy innych danych odróżniaj <a href="#liniowe-wyjasnienie">błąd od residuum</a>:
+małe <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>A</mi><mover><mi>x</mi><mo accent="true">̂</mo></mover><mo>−</mo><mi>b</mi><mo stretchy="false" form="postfix">∥</mo></mrow><annotation encoding="application/x-tex">\|A\widehat x-b\|</annotation></semantics></math> samo nie zapewnia małego błędu rozwiązania.
 </p>
 
 <p>
-<strong>Zadanie.</strong> Wyjaśnij, dlaczego po zamianie wierszy trzeba przestawić także
-wcześniejsze mnożniki w <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> i prawą stronę. Następnie użyj jednego rozkładu
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> dla obu prawych stron z przykładów programu. Przed każdym uruchomieniem
-podaj przewidywane rozwiązanie i wskaż, którą równość będziesz sprawdzać.
+<strong>Zadanie.</strong> Wskaż, które minory zapewniają wykonalność eliminacji,
+a który dodatkowo pozwala rozpocząć podstawianie w tył.
 </p>
 
 <details id="gauss-zrodla">
 <summary>Źródła</summary>
 <ul class="org-ul">
 <li>N. J. Higham, <a href="https://nhigham.com/2021/04/20/what-is-an-lu-factorization/">What Is an LU Factorization?</a>, część <i>Relation with Gaussian Elimination</i>:
-powiązanie eliminacji i rozkładu LU.</li>
+wiodące minory, elementy prowadzące i związek z LU.</li>
 <li><a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#LinearAlgebra.lu">Julia: lu</a> — konwencja permutacji, wybór częściowy i rozwiązywanie przez obiekt rozkładu.</li>
 </ul>
 </details>

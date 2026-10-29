@@ -115,6 +115,8 @@ Do dalszej pracy przyjmujemy zapisane w nim zasady:
   pojedynczego kroku, zbieżność metody i jednoznaczność rozwiązania.
 - Odróżniać dowód twierdzenia, wnioskowanie z wykazanych założeń,
   sprawdzenie w programie i wyjaśnienie wyniku.
+- Pisać konkretnie i zwięźle: dobierać przykład do kluczowej własności
+  oraz unikać powtarzania wywodu. Zalecenie autora przy korekcie W-13.
 - Wykres i animację wiązać z objaśnianą zależnością. Zachowanie programu
   interpretować w zakresie jego danych, arytmetyki i kryterium zakończenia.
 
@@ -701,6 +703,69 @@ projektu przeszła: 4 istniejące HTML i 64 odwołania, a po próbnym eksporcie
 zatrzymała eksport, zachowała wcześniejszy wynik i usunęła plik tymczasowy.
 Źródło kursu, wynikowy HTML, aktywne CSS/JS oraz ustawienia projektu
 pozostały identyczne bajt po bajcie.
+
+** Korekta W-13: drugi minor i warunek pełnej metody Gaussa, 29 października 2026 r.
+
+Polecenie autora: pokazać wariant z zerowym drugim wiodącym minorem
+przy niezerowych współczynnikach wejściowych, wyeksponować warunek
+powodzenia metody i rolę ostatniego minora; redagować konkretnie
+oraz minimalistycznie. Status: =opracowane na polecenie autora; do oceny=.
+
+Lokalizacja: [[file:index.org::#gauss-zerowy-element][wariant z zerowym drugim minorem]] i [[file:index.org::#gauss-twierdzenie][twierdzenie Gaussa]].
+W głównej macierzy zmieniono tylko \(a_{22}\) z \(5\) na \(1\).
+Minory nowej \(\widetilde A\) wynoszą \(4,0,-16\). Po pierwszej eliminacji
+pojawia się drugi dzielnik równy zero; zamiana wierszy 2 i 3 daje
+rozwiązanie \((2,-8,3)^T\) dla niezmienionej prawej strony.
+Zastąpiono wcześniejszy wariant w rozdziale Gaussa i jego testach.
+Główny przykład oraz poprzedni rozdział o LU pozostawiono bez zmian.
+
+Doprecyzowanie matematyczne: wszystkie niezerowe wiodące minory aż do
+stopnia \(n\) są warunkiem koniecznym i wystarczającym wykonalności
+pełnej metody Gaussa *bez zamian wierszy*, z niezerowymi dzielnikami
+w arytmetyce dokładnej. Warunek nie jest konieczny dla samego istnienia
+jedynego rozwiązania przy dopuszczeniu zamian; przykład ma niezerowy
+wyznacznik mimo \(\Delta_2=0\). Ostatni minor zapewnia niezerowy dzielnik
+przy rozpoczęciu podstawiania w tył. Samo obliczenie czynników LU może
+zakończyć się przy zerowym ostatnim elemencie; rozwiązanie układu przez
+LU również obejmuje podstawianie w tył. Rozróżnienie opisano krótko
+w tekście zamiast utrwalać nieścisłe utożsamienie tych zadań.
+
+Skrócono opis wyboru wiersza, dowód, powtórzony rachunek wariantu
+oraz końcowe wyjaśnienia. Zachowano trwałe kotwice i istniejący kod
+obu funkcji. Dodano jedno zdanie wyjaśniające, dlaczego funkcja
+przygotowująca rozkład do rozwiązania sprawdza również ostatni element.
+
+Sprawdzenie matematyczne: niezależny przegląd nie wskazał błędów
+w rachunku, twierdzeniu ani jego zakresie; nie oznacza to akceptacji
+autora. W Julii 1.11.7 przeszło 40 sprawdzeń: dane główne, nowy wariant,
+zatrzymanie w kroku 2, permutacja \((1,3,2)\), wcześniejsze mnożniki
+macierzy \(L\), porównanie z wbudowanym rozwiązaniem, przykład małego
+elementu prowadzącego i przypadek jednowymiarowy. Dla nowego wariantu
+normy residuum i błędu wyniosły \(0.0\).
+
+Sprawdzenie techniczne: odtworzono =index.html=, kontrola projektu
+i =git diff --check= przeszły bez błędów. Zachowano wszystkie trwałe
+kotwice rozdziału i potwierdzono brak zmian w pozostałych rozdziałach.
+Rozdział skrócono z 25098 do około 22300 znaków. Oględzin w przeglądarce
+nie wykonano ze względu na wcześniejszą blokadę lokalnych plików.
+
+** Uzupełnienie W-14: twierdzenie o doborze wierszy, 29 października 2026 r.
+
+Polecenie autora: dodać w formie twierdzenia wyjaśnienie, kiedy zamiany
+wierszy zawsze umożliwiają eliminację. Status: =dodane na polecenie autora=.
+
+W [[file:index.org::#gauss-zamiany-wierszy][rozdziale Gaussa]] dodano krótkie twierdzenie: dla nieosobliwej macierzy
+kwadratowej w arytmetyce dokładnej na każdym etapie można wybrać niezerowy
+element prowadzący w aktywnej części aktualnej kolumny. Uzasadnienie
+wykorzystuje zachowanie nieosobliwości i nieosobliwość pozostałego bloku.
+Przy przykładzie z zerowym drugim minorem rozróżniono zastosowanie obu
+twierdzeń. Niezależny przegląd potwierdził ścisłość argumentu, także dla
+jednego równania. Nie rozszerzano przykładów ani kodu.
+
+Sprawdzenie: odtworzono HTML; kontrola projektu i =git diff --check=
+przeszły bez błędów. Potwierdzono obecność nowego twierdzenia i dowodu,
+zachowanie dotychczasowych kotwic oraz brak zmian w kodzie i innych
+rozdziałach. Wcześniejsze niezapisane w Git korekty W-13 zachowano.
 
 * Wzorce do zatwierdzenia
 
