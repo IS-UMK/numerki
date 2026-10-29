@@ -9,10 +9,8 @@ Otwórz [[file:index.html][index.html]]. Strona zawiera rozdziały kursu i dodat
 rozdział wybiera się ze spisu treści. Wzory kursu korzystają z natywnego
 MathML i nie wymagają dostępu do sieci.
 
-Sześć dawnych adresów HTML w katalogu głównym jest przekierowaniami
-do właściwych fragmentów kursu. Zachowujemy je dla istniejących odsyłaczy;
-nie są kopiami treści ani plikami do ręcznej edycji. Trzy dawne adresy
-w usuniętych katalogach rozdziałów zostały wycofane na polecenie autora.
+Wszystkie rozdziały są w =index.html=. Dawne osobne HTML i przekierowania
+usunięto na polecenie autora; wcześniejsze adresy nie są obsługiwane.
 
 * Źródła i eksport
 
@@ -20,28 +18,28 @@ Jedynym źródłem treści kursu jest [[file:index.org][index.org]]. Treść, wz
 podpisy i kontrolki ilustracji edytuj w tym pliku. Style i zachowanie
 strony znajdują się w =oprawa/scalone/book.css= i =book.js=.
 
-Odtworzenie HTML i przekierowań:
+Odtworzenie =index.html=:
 
 #+begin_src sh :eval never
 python3 narzedzia/eksportuj_org.py
 #+end_src
 
 Wymagane są Python 3, Emacs z Org-mode i Pandoc. Eksport nie wykonuje
-bloków kodu. Zwykły eksport Emacsa pomija końcowy skład MathML i obsługę
-przekierowań, dlatego używaj powyższego polecenia.
+bloków kodu. Zwykły eksport Emacsa pomija końcowy skład MathML i utrwalenie
+kotwic, dlatego używaj powyższego polecenia.
 
 * Pozostałe pliki
 
 | Plik lub katalog | Rola |
 |------------------+------|
-| =oprawa/scalone/= | Aktywna oprawa i mapa dawnych adresów. |
+| =oprawa/scalone/= | Aktywne style i skrypty kursu. |
 | =narzedzia/= | Eksport i kontrole projektu, oprawy oraz nawigacji. |
 | =scenariusz-prowadzacego.org= i odpowiadający mu HTML | Materiał prowadzącego. |
 | =WARSZTAT-NOTATEK.org= | Ustalenia autora, historia korekt i materiał do przyszłego skilla. |
 | =AGENTS.md= i =CODEX.org= | Zasady oraz szczegółowa instrukcja pracy w projekcie. |
 | =przeglady/= | Zachowane przeglądy i propozycja bisekcji; zasoby w =oprawa/=, dawne instrukcje w =instrukcje-pakietow/=. |
 | =narzedzia/wzorce/= | Cztery wzorce JavaScript dla testów porównawczych; skrypt metod służy też podglądowi bisekcji. |
-| =.codex/config.toml= i =codex-config.example.toml= | Ustawienia projektu oraz ich szablon. |
+| =.codex/config.toml= | Ustawienia projektu. |
 | =.gitignore= | Wyłączenie plików roboczych, pamięci podręcznej i lokalnych poświadczeń z Git. |
 
 Zachowane zasoby podglądów i wzorce testów mają sprawdzone zależności.

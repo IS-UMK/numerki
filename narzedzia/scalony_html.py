@@ -1,26 +1,13 @@
-"""Wykończenie scalonej publikacji i obsługa dotychczasowych adresów."""
+"""Wykończenie i kontrola scalonej publikacji."""
 
 from html import escape
 from html.parser import HTMLParser
-from pathlib import Path
-import json
-import posixpath
 import re
-
-
-MANIFEST = Path("oprawa/scalone/przekierowania.json")
 
 
 def is_book(source):
     return bool(re.search(r"^#\+NUMERKI_BOOK:\s*t\s*$",
                           source.read_text(encoding="utf-8"), re.M | re.I))
-
-
-def project_root(source):
-    for parent in (source.parent, *source.parents):
-        if (parent / MANIFEST).is_file():
-            return parent
-    raise ValueError(f"{source}: nie znaleziono mapy przekierowań")
 
 
 def chapter_cards(text, source):
@@ -92,14 +79,8 @@ def finish_book(source, output, render_mathml):
     output.write_text(text, encoding="utf-8")
 
 
-def load_redirects(root):
-    value = json.loads((root / MANIFEST).read_text(encoding="utf-8"))
-    if value.get("wersja") != 1 or not isinstance(value.get("strony"), dict):
-        raise ValueError("nieobsługiwany format mapy przekierowań")
-    return value["strony"]
-
-
-def validate_redirects(root, book):
+def validate_book(book):
+    """Odrzuć powtórzone kotwice przed zastąpieniem wynikowego HTML."""
     class Anchors(HTMLParser):
         def __init__(self):
             super().__init__()
@@ -114,68 +95,3 @@ def validate_redirects(root, book):
 
     document = Anchors()
     document.feed(book.read_text(encoding="utf-8"))
-    for page, specification in load_redirects(root).items():
-        for target in [specification["rozdzial"], *specification["kotwice"].values()]:
-            if target not in document.ids:
-                raise ValueError(f"{page}: brak docelowej kotwicy {target}")
-
-
-def redirect_html(page, specification):
-    relative = posixpath.relpath("index.html", posixpath.dirname(page) or ".")
-    target = relative + "#" + specification["rozdzial"]
-    mapping = specification["kotwice"]
-    config = json.dumps({"strona": relative, "rozdzial": specification["rozdzial"],
-                         "kotwice": mapping}, ensure_ascii=False).replace("<", "\\u003c")
-    aliases = "\n".join(
-        f'<a id="{escape(old, quote=True)}" href="{escape(relative + "#" + new, quote=True)}" hidden></a>'
-        for old, new in sorted(mapping.items())
-    )
-    return f'''<!doctype html>
-<html lang="pl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rozdział w scalonych notatkach — Metody numeryczne</title>
-<link rel="canonical" href="{escape(target, quote=True)}">
-<script>
-"use strict";
-const przeniesienie = {config};
-let staraKotwica = location.hash.slice(1);
-try {{ staraKotwica = decodeURIComponent(staraKotwica); }} catch (_) {{}}
-const cel = Object.prototype.hasOwnProperty.call(przeniesienie.kotwice, staraKotwica)
-  ? przeniesienie.kotwice[staraKotwica] : przeniesienie.rozdzial;
-location.replace(przeniesienie.strona + "#" + encodeURIComponent(cel));
-</script>
-</head>
-<body>
-<p>Ten rozdział jest częścią wspólnych notatek.</p>
-<p><a href="{escape(target, quote=True)}">Otwórz rozdział w nowym dokumencie</a></p>
-{aliases}
-</body>
-</html>
-'''
-
-
-def finish_redirect(source, output):
-    root = project_root(source)
-    page = source.with_suffix(".html").relative_to(root).as_posix()
-    specification = load_redirects(root).get(page)
-    if specification is None:
-        raise ValueError(f"{page}: brak przekierowania w mapie")
-    output.write_text(redirect_html(page, specification), encoding="utf-8")
-
-
-def redirect_source(source):
-    return bool(re.search(r"^#\+NUMERKI_REDIRECT:\s*t\s*$",
-                          source.read_text(encoding="utf-8"), re.M | re.I))
-
-
-def write_redirects(root):
-    validate_redirects(root, root / "index.html")
-    pages = load_redirects(root)
-    for page, specification in pages.items():
-        target = (root / page).resolve()
-        if not target.is_relative_to(root.resolve()) or target == root / "index.html":
-            raise ValueError(f"niedozwolona ścieżka przekierowania: {page}")
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(redirect_html(page, specification), encoding="utf-8")

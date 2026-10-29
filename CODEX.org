@@ -60,8 +60,6 @@ sprawdzenia wyniku. Poprawny test programu nie zastępuje dowodu twierdzenia.
 |----------------+---------------|
 | =index.org= → =index.html= | Jedno źródło i jedna strona całego kursu: rozdziały oraz dodatek. |
 | =oprawa/scalone/book.css= i =book.js= | Aktywne style, przełącznik widoków i demonstracje kursu. |
-| =oprawa/scalone/przekierowania.json= | Dawne adresy HTML i kotwice prowadzące do wspólnej strony. |
-| Dawne pliki rozdziałów HTML w katalogu głównym | Sześć przekierowań, odtwarzanych przy eksporcie kursu; dawne wskazówki Org i trzy przekierowania w podkatalogach usunięto. |
 | =narzedzia/wzorce/= | Cztery zachowane moduły JavaScript do porównywania obliczeń i SVG. |
 | =przeglady/oprawa/= | Zasoby historycznych podglądów bisekcji. |
 | =scenariusz-prowadzacego.org= → HTML o tej samej nazwie | Osobne wytyczne prowadzącego. |
@@ -71,9 +69,8 @@ sprawdzenia wyniku. Poprawny test programu nie zastępuje dowodu twierdzenia.
 | =AGENTS.md= | Trwałe instrukcje odczytywane przez Codexa. |
 | =WARSZTAT-NOTATEK.org= | Ustalenia, korekty, plan rozbudowy i materiał do przyszłego skilla. |
 | =.codex/config.toml= | Aktywne ustawienia lokalnego projektu. |
-| =codex-config.example.toml= | Szablon ustawień, niewczytywany automatycznie. |
 | =.gitignore= | Wyłączenie plików roboczych, pamięci podręcznej i lokalnych poświadczeń z Git. |
-| =narzedzia/eksportuj_org.py= | Odtworzenie strony kursu i przekierowań. |
+| =narzedzia/eksportuj_org.py= | Odtworzenie strony kursu. |
 | =narzedzia/sprawdz_projekt.py= | Kontrola HTML, kotwic, zależności i próbnego eksportu. |
 | =narzedzia/sprawdz_oprawe.cjs= | Porównanie obliczeń i SVG demonstracji przed scaleniem i po nim. |
 | =narzedzia/sprawdz_nawigacje.cjs= | Logika pojedynczych rozdziałów, kotwic i historii na obiektach Node. |
@@ -108,16 +105,13 @@ Nie wykonuje bloków kodu. Pandoc przekształca LaTeX w natywne MathML,
 więc wzory w =index.html= nie wymagają MathJax, sieci ani JavaScriptu.
 JavaScript obsługuje widoki oraz demonstracje. Zwykły eksport =C-c C-e h h=
 stanowi etap pośredni: do aktualizacji strony stosuj powyższe polecenie,
-które utrwala też kotwice i odtwarza przekierowania.
+które utrwala też kotwice.
 
 Wynik zastępuje istniejący HTML po udanym eksporcie, składzie wzorów
-i sprawdzeniu celów przekierowań. Sześć dawnych adresów w katalogu głównym zachowano:
-z rozpoznaną kotwicą prowadzą do odpowiedniego fragmentu, a bez niej do
-rozdziału. Przy wyłączonym JavaScripcie dostępny jest widoczny odsyłacz.
-Nie edytuj tych HTML ręcznie; ich źródłem jest mapa przekierowań.
-Trzy dawne adresy w katalogach pakietów rozdziałów wycofano zgodnie
-z decyzją autora. Dawnych plików Org zawierających jedynie wskazówki
-do aktualnej treści również nie odtwarzamy.
+i kontroli kotwic. Eksport kursu odtwarza wyłącznie =index.html=.
+Na polecenie autora usunięto wszystkie dawne HTML rozdziałów, ich mapę
+przekierowań oraz wskazówki Org do przeniesionych treści. Nie odtwarzamy
+tych plików; dawne osobne adresy nie są już obsługiwane.
 
 Wygląd i działanie demonstracji zmieniaj w =oprawa/scalone/book.css=
 i =book.js=. Ich style, wyszukiwanie kontrolek oraz identyfikatory SVG
@@ -195,9 +189,7 @@ i parametry uruchomienia mogą mieć pierwszeństwo. Model i poziom
 rozumowania są dziedziczone z konfiguracji użytkownika; konfiguracja
 projektu ich nie zmienia.
 
-[[file:codex-config.example.toml][Szablon konfiguracji]] pozostaje wzorcem do porównania lub
-ponownego przygotowania pliku aktywnego. Sam plik =.example= nie jest
-wczytywany przez Codexa.
+Ustawienia projektu zmieniamy bezpośrednio w =.codex/config.toml=.
 
 ** Próba bez edycji projektu
 

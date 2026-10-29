@@ -10,7 +10,6 @@ import tempfile
 sys.dont_write_bytecode = True
 
 from sprawdz_projekt import EXPORT, ROOT, finish_org_html
-from scalony_html import is_book, project_root, validate_redirects, write_redirects
 
 
 def main():
@@ -41,16 +40,12 @@ def main():
             return result.returncode
         for source, temporary in temporary_outputs:
             finish_org_html(source, temporary)
-            if is_book(source):
-                validate_redirects(project_root(source), temporary)
         # Zastąp wynik dopiero po powodzeniu eksportu i składu wszystkich wzorów.
         for source, temporary in temporary_outputs:
             output = source.with_suffix(".html")
             shutil.copymode(output if output.exists() else source, temporary)
             temporary.replace(output)
             print(f"OK: {source.name} → {output.name}")
-            if is_book(source):
-                write_redirects(project_root(source))
         return 0
     except subprocess.TimeoutExpired:
         print("BŁĄD: eksport przekroczył 120 sekund.", file=sys.stderr)

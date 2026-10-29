@@ -12,9 +12,9 @@ Zasoby zachowanych podglądów bisekcji są teraz w =przeglady/oprawa/=.
 Skrypt ilustracji, używany również jako wzorzec testów, znajduje się
 w =narzedzia/wzorce/pierwiastki.js=.
 
-Dawny katalog pakietu oraz wskazówki Org do przeniesionych rozdziałów
-usunięto. Zachowano sześć przekierowań HTML w katalogu głównym;
-trzy dawne adresy w podkatalogach wycofano na polecenie autora.
+Dawny katalog pakietu, wskazówki Org i wszystkie osobne HTML rozdziałów
+usunięto na polecenie autora. Kurs jest dostępny w =index.html=;
+nie utrzymujemy przekierowań z dawnych adresów.
 
 Poniższy tekst dokumentuje historyczny pakiet sprzed scalenia i porządków.
 Jego nazwy plików i polecenia nie opisują obecnej struktury projektu.

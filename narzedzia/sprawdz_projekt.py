@@ -92,12 +92,11 @@ def render_mathml(text):
 
 
 def finish_org_html(source, output):
-    """Wykończ książkę lub stronę przekierowania po standardowym eksporcie Org."""
-    from scalony_html import finish_book, finish_redirect, is_book, redirect_source
+    """Złóż i sprawdź książkę po standardowym eksporcie Org."""
+    from scalony_html import finish_book, is_book, validate_book
     if is_book(source):
         finish_book(source, output, render_mathml)
-    elif redirect_source(source):
-        finish_redirect(source, output)
+        validate_book(output)
 
 
 class Document(HTMLParser):
@@ -223,9 +222,6 @@ def main():
         for source in sources:
             staged_source = staged / source.relative_to(ROOT)
             finish_org_html(staged_source, staged_source.with_suffix(".html"))
-        if (staged / "oprawa/scalone/przekierowania.json").is_file():
-            from scalony_html import write_redirects
-            write_redirects(staged)
         print(f"Próbny eksport: {len(sources)} plików Org; bloki kodu wyłączone.")
         exported_ok = check(staged, "HTML po próbnym eksporcie")
     if existing_ok and exported_ok:

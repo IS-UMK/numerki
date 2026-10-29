@@ -38,7 +38,8 @@ Docelowy układ wskazany przez autora dla tego projektu: treść notatek
 w jednym pliku Org z rozdziałami pod nagłówkami i eksport do jednego HTML
 wyświetlanego przez GitHub Pages. Wdrożono go na polecenie autora.
 Nagłówki pierwszego poziomu są rozdziałami, a niższe — podrozdziałami.
-Wynikiem eksportu jest =index.html= ze wspólną oprawą i mapą dawnych adresów.
+Wynikiem eksportu jest =index.html= ze wspólną oprawą. Dawne osobne adresy
+wycofano na polecenie autora, zgodnie z wpisem W-12.
 
 Autor zaakceptował następujący podział publikacji:
 
@@ -673,6 +674,33 @@ potwierdził brak brakujących zależności i brak prób odtworzenia usuniętych
 katalogów przez eksporter. =git diff --check= nie zgłosił błędów.
 Nowych oględzin w przeglądarce nie wykonano ze względu na wcześniejszą
 blokadę lokalnych plików.
+
+** Porządki W-12: usunięcie dawnych adresów i szablonu, 29 października 2026 r.
+
+Polecenie autora: nie utrzymywać dawnych adresów rozdziałów i usunąć
+szablon konfiguracji. Zastępuje to wcześniejszą decyzję o zachowaniu
+sześciu przekierowań. Status: =wykonanie wyraźnego polecenia autora=.
+
+Usunięto sześć HTML rozdziałów z katalogu głównego, mapę przekierowań
+oraz plik =codex-config.example.toml=. Z eksportera i kontroli projektu
+usunięto obsługę dawnych adresów, aby pliki nie wracały po eksporcie.
+Zachowano skład MathML, utrwalanie kotwic i wykrywanie powtórzonych
+identyfikatorów przed zastąpieniem wynikowego HTML. Eksport kursu
+odtwarza teraz wyłącznie =index.html=; osobne dokumenty nadal można
+wyeksportować, wskazując ich źródła. Aktywne ustawienia projektu
+pozostają w =.codex/config.toml=.
+
+Uaktualniono bieżące mapy i instrukcje. Wcześniejsze wpisy warsztatu
+zachowują historię decyzji, a nie opisują obecnego zestawu plików.
+Treści kursu, wzorów i kodu demonstracji nie zmieniano.
+
+Sprawdzenie: eksport nie odtworzył żadnego usuniętego pliku. Kontrola
+projektu przeszła: 4 istniejące HTML i 64 odwołania, a po próbnym eksporcie
+9 Org — 9 HTML i 154 odwołania, bez błędów. Testy oprawy i nawigacji oraz
+=git diff --check= zakończyły się powodzeniem. Próba powtórzonej kotwicy
+zatrzymała eksport, zachowała wcześniejszy wynik i usunęła plik tymczasowy.
+Źródło kursu, wynikowy HTML, aktywne CSS/JS oraz ustawienia projektu
+pozostały identyczne bajt po bajcie.
 
 * Wzorce do zatwierdzenia
 

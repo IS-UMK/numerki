@@ -43,16 +43,16 @@ poprawności matematycznej.
   przy przenoszeniu fragmentów. Kurs nie ma ustalonej liczby rozdziałów.
 - `index.html` jest wynikiem `python3 narzedzia/eksportuj_org.py`.
   Używaj tego polecenia, ponieważ zwykły eksport Emacsa pomija końcowy skład
-  MathML, utrwalenie kotwic i odtworzenie przekierowań. Eksport nie wykonuje
+  MathML i utrwalenie kotwic. Eksport nie wykonuje
   bloków kodu. Wymaga Pythona 3, Emacsa z Org-mode oraz Pandoca.
   Wynikowe wzory są natywnym MathML i nie wymagają MathJax ani sieci.
 - `oprawa/scalone/book.css` i `book.js` są aktywną oprawą kursu. Style
   i demonstracje są ograniczone do odpowiednich rozdziałów; identyfikatory
   mają prefiksy tematów. Treść, wzory i podpisy zmieniaj w `index.org`,
   wygląd i zachowanie kontrolek — w tych CSS/JavaScript.
-- `oprawa/scalone/przekierowania.json` mapuje sześć dawnych adresów HTML
-  i ich kotwice na rozdziały wspólnej strony. Eksport odtwarza te HTML jako
-  przekierowania z widocznym odsyłaczem zastępczym. Nie edytuj ich ręcznie.
+- Dawne osobne HTML rozdziałów i mapę przekierowań usunięto na polecenie
+  autora. Eksport kursu tworzy wyłącznie `index.html`; nie odtwarzaj
+  dawnych adresów ani ich mapy.
 - Dawne wskazówki Org do przeniesionych rozdziałów usunięto. Nie odtwarzaj
   ich: jedynym źródłem treści kursu jest `index.org`. Katalogi
   `rozdzial-03-org/` i `rozdzial-04-05-org/` usunięto wraz z trzema
@@ -76,15 +76,13 @@ poprawności matematycznej.
 - `.codex/config.toml` zawiera aktywne ustawienia projektu: `on-request`,
   `workspace-write` i `sandbox_workspace_write.network_access = false`.
   Model i poziom rozumowania są dziedziczone z ustawień użytkownika.
-- `codex-config.example.toml` pozostaje szablonem tych ustawień;
-  sam plik `.example` nie jest automatycznie wczytywany.
 - `.gitignore` pomija autozapis i kopie Emacsa, pamięć podręczną, pliki
   tymczasowe, lokalne środowiska i poświadczenia. Z `.codex/` wersjonujemy
   wyłącznie `config.toml`.
 
 Nowe materiały dydaktyczne zapisuj w Org-mode. Zmieniaj źródło, a HTML
-odtwarzaj przez eksport. Zachowuj nazwy plików, trwałe kotwice, mapę dawnych
-adresów i działanie demonstracji. Przy przenoszeniu HTML uwzględniaj zasoby.
+odtwarzaj przez eksport. Zachowuj nazwy aktualnych plików, trwałe kotwice
+i działanie demonstracji. Przy przenoszeniu HTML uwzględniaj zasoby.
 
 ## Przebieg pracy i sprawdzenie
 
