@@ -1,6 +1,6 @@
 #+TITLE: Warsztat tworzenia notatek — materiał do przyszłego skilla
 #+LANGUAGE: pl
-#+DATE: 2026-10-29
+#+DATE: 2026-10-30
 #+OPTIONS: toc:2 num:nil
 #+STARTUP: overview hideblocks
 
@@ -816,6 +816,45 @@ HTML; nowe wzory wyeksportowano do MathML (łącznie 1178). Niezależny przeglą
 uzupełnień nie wskazał błędów matematycznych ani niezgodnych atrybucji.
 Podgląd lokalnego HTML został zablokowany przez politykę URL przeglądarki
 (protokół =file:=); nie obchodzono tej blokady.
+
+** Uzupełnienie W-16: scenariusz zajęć o LU, 30 października 2026 r.
+
+Polecenie autora: dopisać do scenariusza przebieg zajęć od układu trzech
+równań przez proste układy, konstrukcję Doolittle'a, ograniczenia związane
+z minorami i obliczanie wyznacznika do Choleskiego i kryterium Sylvestera.
+Status: =opracowane na polecenie autora; bez deklarowania akceptacji redakcji=.
+
+Lokalizacja: [[file:scenariusz-prowadzacego.org::#scenariusz-rozklad-lu][scenariusz rozkładu LU]]. Zachowano kolejność wskazaną
+przez autora i wykorzystano macierz oraz warianty już obecne w kursie.
+Przestawianie układów odczytano jako permutację całych równań wraz
+z prawymi stronami, prowadzącą do postaci dolno- lub górnotrójkątnej.
+Nie zmieniano =index.org= ani zakresu rozdziału dla czytelnika.
+
+Doprecyzowania dyktowanego opisu, zgodne z istniejącymi notatkami:
+
+- Iloraz drugiego minora przez pierwszy daje \(u_{22}\), natomiast
+  \(u_{11}=\Delta_1\); ogólnie \(u_{kk}=\Delta_k/\Delta_{k-1}\),
+  gdy mianownik jest niezerowy, przy \(\Delta_0=1\).
+- Niezerowe minory do stopnia \(n-1\) zapewniają jednoznaczność
+  rozkładu z \(l_{ii}=1\). Jednoznaczność rozwiązania \(Ax=b\)
+  wymaga dodatkowo niezerowego ostatniego minora.
+- W standardowym rozkładzie Choleskiego wyrażenia pod pierwiastkami
+  muszą być dodatnie, a nie jedynie niezerowe. Kryterium Sylvestera
+  dotyczy macierzy rzeczywistych symetrycznych i wszystkich minorów
+  wiodących aż do stopnia \(n\).
+
+Powód: zachowanie poprawnych indeksów i rozróżnienie warunków dla rozkładu,
+rozwiązania układu oraz dodatniej określoności. Niezależny przegląd
+potwierdził rachunki oraz zgodność twierdzeń ze źródłami Cowleya, Highama
+i Gunninga wskazanymi w kursie; nie jest to akceptacja autora.
+
+Sprawdzenie techniczne: odtworzono wyłącznie HTML scenariusza. Kontrola
+projektu przeszła bez błędów: 4 istniejące HTML i 70 lokalnych odwołań;
+próbny eksport 9 Org do 9 HTML i 168 lokalnych odwołań. Wszystkie
+268 wzorów scenariusza przeszły dodatkową kontrolę konwersji przez Pandoc
+bez zmiany wynikowego HTML. =git diff --check= nie zgłosił błędów.
+Oględzin strony nie wykonano: środowisko zablokowało uruchomienie serwera
+lokalnego, a polityka przeglądarki odrzuciła dostęp do lokalnego podglądu.
 
 * Wzorce do zatwierdzenia
 

@@ -1,13 +1,13 @@
 #+TITLE: Metody numeryczne — wytyczne dla prowadzącego
 #+SUBTITLE: Scenariusze zajęć
 #+LANGUAGE: pl
-#+DATE: 2026-10-27
+#+DATE: 2026-10-30
 #+OPTIONS: toc:1 num:nil
 #+STARTUP: showall
 
 * Zasada prowadzenia wywodu
 
-Przez oba rozdziały utrzymywać cel: *rozwiązać problem określony modelem
+Przez omawiane rozdziały utrzymywać cel: *rozwiązać problem określony modelem
 matematycznym za pomocą metody obliczeniowej zaimplementowanej w programie*.
 
 Prowadzić od konkretnego problemu i przykładu do rozróżnień, wspólnej
@@ -630,7 +630,204 @@ zbadamy metody jego rozwiązywania.
 
 
 
-* Domknięcie obu rozdziałów
+* Rozdział 5. Układy równań liniowych — rozkład LU
+:PROPERTIES:
+:CUSTOM_ID: scenariusz-rozklad-lu
+:END:
+
+** Kolejność prowadzenia zajęć
+
+1. *Zacząć od układu trzech równań z trzema niewiadomymi.*
+   Na tablicy zapisać przykład z [[file:index.org::#liniowe-problem][rozdziału o układach liniowych]]:
+
+   \begin{equation*}
+   \begin{cases}
+   4x_1+2x_2+4x_3=4,\\
+   2x_1+5x_2+4x_3=8,\\
+   4x_1+4x_2+9x_3=3.
+   \end{cases}
+   \qquad
+   A=\begin{pmatrix}4&2&4\\2&5&4\\4&4&9\end{pmatrix},
+   \quad b=\begin{pmatrix}4\\8\\3\end{pmatrix}.
+   \end{equation*}
+
+   Następnie zdefiniować problem modelem \(Ax=b\): dane są \(A,b\),
+   szukamy wektora \(x\) spełniającego wszystkie równania.
+   /Tablica; formułowanie problemu i wskazanie niewiadomych./
+
+2. *Pokazać układy proste w rozwiązywaniu.*
+   Zachować kolejność: macierz diagonalna, dolnotrójkątna,
+   górnotrójkątna, a następnie układy dolno- i górnotrójkątne po
+   przestawieniu równań. Wykorzystać [[file:index.org::#liniowe-proste-uklady][przykłady prostych układów]];
+   dla obu postaci trójkątnych przestawić całe równania wraz z prawymi
+   stronami i poprosić o odtworzenie kolejności obliczeń.
+   Po uporządkowaniu równań do postaci diagonalnej lub trójkątnej
+   przyjąć niezerowe elementy na przekątnej. Dla diagonalnej każde
+   równanie daje jedną niewiadomą; dla dolnotrójkątnej podstawiamy
+   w przód, dla górnotrójkątnej — w tył. Wskazać, że permutacja równań
+   zmienia ich kolejność, zachowując kolejność niewiadomych.
+   /Tablica; rozpoznawanie struktury i kolejności podstawiania./
+
+3. *Wyodrębnić problem pośredni: znaleźć rozkład macierzy.*
+   Zapowiedzieć, że drogę do rozwiązania \(Ax=b\) zaczynamy od zadania
+   \(A=LU\). Teraz dana jest \(A\), a szukamy macierzy dolnotrójkątnej
+   \(L\) i górnotrójkątnej \(U\). Po znalezieniu czynników rozwiązanie
+   układu sprowadzi się do dwóch znanych zadań: \(Lz=b\), potem
+   \(Ux=z\). Najpierw ustalić, *czego szukamy*, potem przedstawić,
+   *jak to obliczymy*: metodę LU (Banachiewicza) w wariancie Doolittle'a,
+   z \(l_{ii}=1\).
+   /Tablica; rozróżnianie rozwiązania układu i rozkładu macierzy./
+
+4. *Wyprowadzić wszystkie współczynniki przez wymnożenie czynników.*
+   Dla macierzy z początku zajęć zapisać
+
+   \begin{equation*}
+   A=\begin{pmatrix}1&0&0\\l_{21}&1&0\\l_{31}&l_{32}&1\end{pmatrix}
+   \begin{pmatrix}u_{11}&u_{12}&u_{13}\\0&u_{22}&u_{23}\\0&0&u_{33}\end{pmatrix}.
+   \end{equation*}
+
+   Mnożyć kolejne wiersze przez kolumny i porównywać z elementami
+   \(A\). Nie podawać od razu gotowych czynników. Otrzymać kolejno:
+
+   \begin{equation*}
+   \begin{aligned}
+   u_{11}&=4,&u_{12}&=2,&u_{13}&=4,\\
+   l_{21}&=2/4=\tfrac12,&l_{31}&=4/4=1,\\
+   u_{22}&=5-\tfrac12\cdot2=4,&u_{23}&=4-\tfrac12\cdot4=2,\\
+   l_{32}&=(4-1\cdot2)/4=\tfrac12,\\
+   u_{33}&=9-1\cdot4-\tfrac12\cdot2=4.
+   \end{aligned}
+   \end{equation*}
+
+   Zaznaczać używane dzielniki \(u_{11}\) i \(u_{22}\). Na końcu
+   wymnożyć otrzymane \(L,U\) i sprawdzić \(LU=A\).
+   /Tablica; konstruowanie algorytmu i sprawdzanie rachunku./
+
+5. *Wprowadzić wiodące minory główne i obliczyć je w przykładzie.*
+   Chcemy rozpoznać, kiedy zaznaczone dzielniki są niezerowe.
+   Oznaczyć przez \(A_k\) lewy górny blok \(k\times k\), a przez
+   \(\Delta_k=\det A_k\) jego wyznacznik; przyjąć \(\Delta_0=1\).
+   Pokazać bloki i obliczyć
+
+   \begin{equation*}
+   \begin{aligned}
+   \Delta_1&=4,\\
+   \Delta_2&=4\cdot5-2\cdot2=16,\\
+   \Delta_3&=4(45-16)-2(18-16)+4(8-20)=64.
+   \end{aligned}
+   \end{equation*}
+
+   Odróżnić podmacierz od jej wyznacznika oraz minor główny od wiodącego.
+   /Tablica; definiowanie pojęcia potrzebnego do badania metody./
+
+6. *Wskazać w rachunku problem przy zerowym pierwszym i drugim minorze.*
+   Najpierw zmienić tylko \(a_{11}\) z \(4\) na \(0\).
+   Otrzymujemy \(u_{11}=\Delta_1=0\), a porównanie pierwszej kolumny
+   wymaga \(l_{21}\cdot0=2\) i \(l_{31}\cdot0=4\).
+   W tym przykładzie rozkład bez zamian wierszy nie istnieje.
+
+   Wrócić do wyjściowej \(A\) i tym razem zmienić tylko \(a_{22}\)
+   z \(5\) na \(1\), jak w [[file:index.org::#gauss-zerowy-element][wariancie z zerowym drugim minorem]].
+   Pierwszy krok przebiega poprawnie, lecz \(\Delta_2=4\cdot1-2\cdot2=0\)
+   i \(u_{22}=1-\tfrac12\cdot2=0\). Równanie dla elementu \(a_{32}\)
+   ma postać \(1\cdot2+l_{32}\cdot0=4\), czyli wymaga
+   \(l_{32}\cdot0=2\). Pokazać dokładnie miejsce niewykonalnego kroku.
+   /Tablica; zmiana danych, rozpoznawanie i wyjaśnianie ograniczenia./
+
+7. *Powiązać przekątną U z minorami.*
+   Dla lewych górnych bloków rozkładu mamy \(A_k=L_kU_k\),
+   a \(\det L_k=1\). Stąd wyprowadzić
+
+   \begin{equation*}
+   \Delta_k=u_{11}\cdots u_{kk},\qquad
+   u_{kk}=\frac{\Delta_k}{\Delta_{k-1}}
+   \quad\text{przy }\Delta_{k-1}\ne0.
+   \end{equation*}
+
+   W szczególności \(u_{11}=\Delta_1\), \(u_{22}=\Delta_2/\Delta_1\)
+   i \(u_{33}=\Delta_3/\Delta_2\). W wyjściowym przykładzie daje to
+   \(4,4,4\). Powiązać zerowy minor z zerowym dzielnikiem w algorytmie;
+   przy zerowym mianowniku nie stosować wzoru na iloraz.
+   /Tablica; wyprowadzanie zależności i uogólnianie./
+
+8. *Sformułować twierdzenie i wyjaśnić rolę ostatniego minora.*
+   Jeżeli dla \(A\in\mathbb R^{n\times n}\) wszystkie wiodące minory
+   \(\Delta_1,\ldots,\Delta_{n-1}\) są niezerowe, to istnieje
+   jednoznaczny rozkład \(A=LU\) bez zamian wierszy, z \(l_{ii}=1\).
+   Uzasadnić kolejność: niezerowe \(u_{kk}\) pozwalają wyznaczać
+   kolejne kolumny \(L\), a porównanie elementów ustala wszystkie
+   współczynniki jednoznacznie. [[file:index.org::#liniowe-warunek-lu][Dowód i jego źródło są w rozdziale o LU]].
+   Podkreślić, że \(\Delta_n=\det A\) może być zerowy: przy samym
+   obliczaniu czynników nie dzielimy przez \(u_{nn}\).
+   Do jednoznacznego rozwiązania \(Ax=b\) potrzebujemy dodatkowo
+   \(\Delta_n\ne0\), aby wykonać podstawianie w tył.
+   Warunek twierdzenia jest wystarczający; sam zerowy wcześniejszy minor
+   nie wyklucza istnienia rozkładu dla każdej macierzy osobliwej.
+   /Tablica; sformułowanie twierdzenia, dowodzenie i określanie zakresu wniosku./
+
+9. *Obliczyć wyznacznik z czynników.*
+   Wrócić do całej macierzy i zapisać
+
+   \begin{equation*}
+   \det A=\det L\det U=1\cdot\prod_{i=1}^n u_{ii}.
+   \end{equation*}
+
+   Wyjaśnić oba uproszczenia przez trójkątność i jednostkową przekątną
+   \(L\). W przykładzie \(\det A=4\cdot4\cdot4=64=\Delta_3\).
+   /Tablica; zastosowanie rozkładu i powrót do minorów./
+
+10. *Przedstawić rozkład Choleskiego i warunek pod pierwiastkiem.*
+    Dla macierzy rzeczywistej symetrycznej szukamy \(A=CC^T\), gdzie
+    \(C\) jest dolnotrójkątna z dodatnią przekątną. Odróżnić \(C\)
+    od wcześniejszej \(L\) z jedynkami na przekątnej. Pokazać regułę
+
+    \begin{equation*}
+    c_{kk}=\sqrt{a_{kk}-\sum_{s=1}^{k-1}c_{ks}^2},\qquad
+    c_{ik}=\frac{a_{ik}-\sum_{s=1}^{k-1}c_{is}c_{ks}}{c_{kk}},
+    \quad i=k+1,\ldots,n.
+    \end{equation*}
+
+    Wyrażenia pod pierwiastkami muszą być *dodatnie*: ujemne nie dają
+    rzeczywistego pierwiastka, a zero nie daje dodatniej przekątnej
+    i w kolejnych obliczeniach może spowodować dzielenie przez zero.
+    Sama symetria nie zapewnia tego warunku. Zapowiedzieć potrzebę
+    sprawdzenia dodatniej określoności.
+    /Tablica; porównywanie rozkładów i badanie wykonalności reguły./
+
+11. *Zastosować kryterium Sylvestera do wyboru metody.*
+    Przypomnieć definicję: macierz rzeczywista \(A\) jest dodatnio
+    określona, gdy \(v^TAv>0\) dla każdego \(v\ne0\).
+    Sformułować kryterium: rzeczywista macierz *symetryczna* jest
+    dodatnio określona wtedy i tylko wtedy, gdy \(\Delta_k>0\)
+    dla wszystkich \(k=1,\ldots,n\). Tutaj uwzględniamy także
+    ostatni minor. Powiązać kryterium z twierdzeniem o istnieniu
+    jednoznacznego rozkładu Choleskiego z dodatnią przekątną;
+    [[file:index.org::#liniowe-cholesky][omówić uzasadnienie i wskazać źródła dowodów z notatek]].
+    W wyjściowym przykładzie wykazać \(A=A^T\) i dodatniość minorów
+    \(4,16,64\). Wywnioskować możliwość zastosowania metody, a następnie
+    obliczyć i sprawdzić czynnik
+
+    \begin{equation*}
+    \begin{aligned}
+    c_{11}&=\sqrt4=2,&c_{21}&=1,&c_{31}&=2,\\
+    c_{22}&=\sqrt{5-1^2}=2,&c_{32}&=1,\\
+    c_{33}&=\sqrt{9-2^2-1^2}=2.
+    \end{aligned}
+    \qquad
+    C=\begin{pmatrix}2&0&0\\1&2&0\\2&1&2\end{pmatrix}.
+    \end{equation*}
+
+    /Tablica; sprawdzanie założeń, wnioskowanie i kontrola rachunku./
+
+** Sprawdzenie rozumienia
+
+Poprosić studentów o rozróżnienie problemów \(Ax=b\) i \(A=LU\),
+wskazanie dzielenia uniemożliwionego przez zerowy pierwszy lub drugi
+minor oraz wyjaśnienie, dlaczego ostatni minor może być zerowy przy
+rozkładzie LU, a musi być dodatni w kryterium Sylvestera.
+
+
+* Domknięcie omawianych rozdziałów
 
 Oddzielać trzy ustalenia: *co przewiduje twierdzenie, czy spełniono jego
 założenia i co pokazał program*. Brak warunku wystarczającego oznacza brak
