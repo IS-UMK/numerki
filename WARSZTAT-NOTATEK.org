@@ -856,6 +856,43 @@ bez zmiany wynikowego HTML. =git diff --check= nie zgłosił błędów.
 Oględzin strony nie wykonano: środowisko zablokowało uruchomienie serwera
 lokalnego, a polityka przeglądarki odrzuciła dostęp do lokalnego podglądu.
 
+** Korekta W-17: skrótowy scenariusz prowadzącego, 30 października 2026 r.
+
+Polecenie autora: scenariusz ma krótko przypominać kolejność przekazywania
+wiedzy i trzymać się istniejącego szablonu. Status: =zasada wskazana przez autora;
+redakcja wykonana na polecenie=.
+
+W [[file:scenariusz-prowadzacego.org::#scenariusz-rozklad-lu][scenariuszu LU]] zachowano 11 kroków w formie: pogrubiony cel,
+krótka wskazówka i nazwa działania poznawczego. Usunięto szczegółowe
+rachunki, macierze i osobne sprawdzenie rozumienia; pozostawiono odsyłacz
+do pełnych notatek. Powód: scenariusz służy przypomnieniu toku zajęć.
+Zachowano kolejność autora, zakres tematu i trwałą kotwicę.
+
+Sprawdzenie: odtworzono HTML scenariusza; kontrola projektu i
+=git diff --check= przeszły bez błędów. Przegląd potwierdził zgodność
+ze skrótowym szablonem oraz zachowanie kluczowych warunków metod.
+Treść poza częścią LU i jej trwała kotwica pozostały bez zmian.
+Podglądu w przeglądarce nie powtarzano po wcześniejszej blokadzie.
+
+** Korekta W-18: skrót wcześniejszych scenariuszy, 30 października 2026 r.
+
+Polecenie autora: zastosować skrótowy szablon LU również we wszystkich
+wcześniejszych scenariuszach. Status: =wykonane na polecenie autora=.
+
+Skrócono arytmetykę, wspólny tok i cztery metody znajdowania pierwiastków
+oraz układy nieliniowe. Każdy krok zawiera cel, krótką wskazówkę i nazwę
+działania poznawczego. Szczegółowe rachunki, pełne dowody i kod zastąpiono
+odsyłaczami do notatek. Zachowano kolejność, zakres, przykłady w formie
+przypomnień i wspólny schemat SVG. Powód: szybkie odtworzenie toku zajęć.
+Zachowano wcześniejszy skrót LU; nie zmieniano treści kursu w =index.org=.
+
+Sprawdzenie: odtworzono HTML scenariusza; kontrola projektu i
+=git diff --check= przeszły bez błędów. Niezależny przegląd potwierdził
+zachowanie kolejności, zakresu, przykładów i kluczowych rozróżnień.
+Porównanie z wersją wejściową potwierdziło identyczność części LU,
+domknięcia, diagramu SVG, treści kursu i zastanej konfiguracji.
+Podglądu w przeglądarce nie powtarzano po wcześniejszej blokadzie.
+
 * Wzorce do zatwierdzenia
 
 W sekcji o bisekcji zatwierdzono trzy opisane wyżej dopracowania.

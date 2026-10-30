@@ -235,18 +235,18 @@
 <h2>Spis tre&#x015b;ci</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org024321c">Zasada prowadzenia wywodu</a></li>
-<li><a href="#org21a95c0">Rozdział 2. Arytmetyka komputerowa</a></li>
-<li><a href="#org7fd101f">Rozdział 3. Znajdowanie pierwiastków równań</a></li>
-<li><a href="#org2980cea">Rozdział 4. Układy równań nieliniowych</a></li>
+<li><a href="#org42c9674">Zasada prowadzenia wywodu</a></li>
+<li><a href="#orgc30f6a8">Rozdział 2. Arytmetyka komputerowa</a></li>
+<li><a href="#org9e71e2e">Rozdział 3. Znajdowanie pierwiastków równań</a></li>
+<li><a href="#org049881e">Rozdział 4. Układy równań nieliniowych</a></li>
 <li><a href="#scenariusz-rozklad-lu">Rozdział 5. Układy równań liniowych — rozkład LU</a></li>
-<li><a href="#orgd3c2167">Domknięcie omawianych rozdziałów</a></li>
+<li><a href="#org61fb615">Domknięcie omawianych rozdziałów</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org024321c" class="outline-2">
-<h2 id="org024321c">Zasada prowadzenia wywodu</h2>
-<div class="outline-text-2" id="text-org024321c">
+<div id="outline-container-org42c9674" class="outline-2">
+<h2 id="org42c9674">Zasada prowadzenia wywodu</h2>
+<div class="outline-text-2" id="text-org42c9674">
 <p>
 Przez omawiane rozdziały utrzymywać cel: <b>rozwiązać problem określony modelem
 matematycznym za pomocą metody obliczeniowej zaimplementowanej w programie</b>.
@@ -265,70 +265,64 @@ W trybie Badanie nazywać właśnie wykonane działanie myślowe.
 </p>
 </div>
 </div>
-<div id="outline-container-org21a95c0" class="outline-2">
-<h2 id="org21a95c0">Rozdział 2. Arytmetyka komputerowa</h2>
-<div class="outline-text-2" id="text-org21a95c0">
+<div id="outline-container-orgc30f6a8" class="outline-2">
+<h2 id="orgc30f6a8">Rozdział 2. Arytmetyka komputerowa</h2>
+<div class="outline-text-2" id="text-orgc30f6a8">
+<p>
+Korzystać z <a href="index.html#arytmetyka-komputerowa">przykładów i objaśnień z notatek</a>.
+</p>
+
 <ol class="org-ol">
 <li><b>Przypomnieć problem i ustalić cel.</b>
-Program realizuje działania modelu matematycznego przy ograniczonym
-zapisie liczb. Chcemy ustalić, co może zapisać, jak dokładny wynik
-uzyskamy i ile czasu zajmie obliczenie.
-<i>Działanie: formułowanie problemu.</i></li>
+Program wykonuje działania modelu przy ograniczonym zapisie liczb.
+Ustalić pytania o reprezentację, błąd wyniku i czas obliczeń.
+<i>Formułowanie problemu.</i></li>
 
-<li><b>Powiązać reprezentację ze znaną notacją naukową.</b>
-Na jednej liczbie pokazać część znaczącą i wykładnik, następnie
-przejść do zapisu binarnego i ograniczeń IEEE 754. Rozróżnić typ
-w języku Julia i format jego reprezentacji.
+<li><b>Powiązać reprezentację z notacją naukową.</b>
+Na jednej liczbie przejść od części znaczącej i wykładnika do zapisu
+binarnego i IEEE 754. Rozróżnić typ Julii i format reprezentacji.
 <i>Tablica; rozróżnianie pojęć.</i></li>
 
-<li><b>Zbadać, które liczby zapisujemy dokładnie.</b>
-Porównać proste ułamki, np. \(1/2\) i \(1/10\). Najpierw przewidzieć
-wynik, potem sprawdzić zapis w programie. Uzasadnić warunek skończonego
-zapisu binarnego; osobno uwzględnić precyzję i zakres konkretnego typu.
+<li><b>Zbadać dokładność zapisu liczb.</b>
+Porównać \(1/2\) i \(1/10\): przewidzieć zapis, sprawdzić go i uzasadnić
+warunek skończonego rozwinięcia. Uwzględnić precyzję i zakres typu.
 <i>Kod i tablica; sprawdzanie, uogólnianie, uzasadnianie.</i></li>
 
 <li><b>Rozróżnić precyzję, odstęp i dokładność.</b>
-Pokazać na osi liczby reprezentowalne i zmianę odstępów. Wprowadzić
-epsilon maszynowy, a następnie porównać błędy wyników tego samego typu.
-Odróżnić liczbę bitów znaczących od zgodności wyniku z wartością dokładną.
+Pokazać zmienne odstępy na osi i wprowadzić epsilon maszynowy.
+Porównać precyzję typu z błędami wyników w tym samym typie.
 <i>Ilustracja i kod; rozróżnianie, porównywanie.</i></li>
 
-<li><b>Zbadać granice dotychczasowego obrazu.</b>
-Przejść w okolice zera: odróżnić liczby normalne i subnormalne oraz
-najmniejszą dodatnią normalną od najmniejszej dodatniej reprezentowalnej.
-Pokazać działanie dokładne i działanie zaokrąglone do zera.
+<li><b>Zbadać okolice zera.</b>
+Rozróżnić liczby normalne i subnormalne oraz najmniejszą dodatnią
+normalną i reprezentowalną. Pokazać zaokrąglenie wyniku do zera.
 <i>Oś liczbowa i kod; rozróżnianie, sprawdzanie.</i></li>
 
-<li><b>Zbudować wspólny model zaokrąglania.</b>
-Zapowiedzieć cel: potrzebujemy reguły, która pozwoli przewidywać wynik
-i ograniczać błąd. Z wyboru najbliższego punktu wyprowadzić oszacowania
-dla zakresu normalnego i okolicy zera. Wskazać założenia i różnicę
-między błędem jednego działania a błędem całego programu.
+<li><b>Zbudować model zaokrąglania.</b>
+Z wyboru najbliższej liczby wyprowadzić oszacowania błędu dla zakresu
+normalnego i okolicy zera. Oddzielić błąd działania od błędu programu.
 <i>Tablica; uogólnianie i dowodzenie.</i></li>
 
 <li><b>Zastosować model i ocenić program.</b>
-Przewidzieć zachowanie powtarzanego dodawania, obejrzeć animację
-i wyjaśnić zastój. Porównać czas i błąd obliczeń w różnych typach.
-Wniosek ograniczyć do zbadanego programu, danych i sprzętu.
+Przewidzieć i wyjaśnić zastój powtarzanego dodawania. Porównać czas
+i błąd w różnych typach; wnioski odnieść do badanego programu i sprzętu.
 <i>Animacja i kod; wnioskowanie, sprawdzanie, wyjaśnianie.</i></li>
 </ol>
 
 <p>
-Przejście: znamy już ograniczenia działań komputera; teraz potrzebujemy
-reguł obliczeń prowadzących do rozwiązania równania.
+Przejście: znamy ograniczenia arytmetyki; teraz szukamy reguł rozwiązywania równań.
 </p>
 </div>
 </div>
-<div id="outline-container-org7fd101f" class="outline-2">
-<h2 id="org7fd101f">Rozdział 3. Znajdowanie pierwiastków równań</h2>
-<div class="outline-text-2" id="text-org7fd101f">
+<div id="outline-container-org9e71e2e" class="outline-2">
+<h2 id="org9e71e2e">Rozdział 3. Znajdowanie pierwiastków równań</h2>
+<div class="outline-text-2" id="text-org9e71e2e">
 </div>
-<div id="outline-container-orgf985cb5" class="outline-3">
-<h3 id="orgf985cb5">Wspólna kolejność dla każdej metody</h3>
-<div class="outline-text-3" id="text-orgf985cb5">
+<div id="outline-container-orgf70acb1" class="outline-3">
+<h3 id="orgf70acb1">Wspólna kolejność dla każdej metody</h3>
+<div class="outline-text-3" id="text-orgf70acb1">
 <p>
-Stosować poniższy tok do metody równego podziału, Newtona, siecznych
-oraz iteracji funkcyjnych.
+Stosować ten tok do bisekcji, Newtona, siecznych i iteracji funkcyjnych.
 </p>
 
 <figure style="text-align: center;">
@@ -389,567 +383,291 @@ oraz iteracji funkcyjnych.
 </figure>
 
 <ol class="org-ol">
-<li><b>Wrócić do problemu i celu obliczeń.</b>
-Szukamy \(s\), dla którego \(f(s)=0\). Chcemy wyznaczyć jego
-przybliżenie za pomocą metody obliczeniowej zaimplementowanej
-w programie w Julii.
-<i>Formułowanie problemu i celu.</i></li>
+<li><b>Sformułować problem i cel.</b>
+Szukamy pierwiastka \(f(s)=0\); program ma wyznaczyć jego przybliżenie.
+<i>Formułowanie problemu.</i></li>
 
-<li><b>Przedstawić metodę na konkretnym przykładzie.</b>
-Pokazać ideę, zapisać wzór i wykonać kilka kroków. Powiązać
-konstrukcję na wykresie z regułą obliczeń. Wskazać potrzebne dane
-początkowe: przedział, jeden punkt albo dwa punkty.
-<i>Tablica lub GeoGebra i animacja; konstruowanie metody.</i></li>
+<li><b>Skonstruować metodę na przykładzie.</b>
+Powiązać obraz z regułą obliczeń. Wskazać dane początkowe i wykonać kroki.
+<i>Tablica i animacja; konstruowanie metody.</i></li>
 
-<li><b>Określić cel badania własności funkcji.</b>
-Chcemy ustalić, jakie własności funkcji i warunki początkowe zapewnią
-zbieżność metody. W związku z tym celem wprowadzać potrzebne pojęcia:
-najpierw na przykładzie i wykresie, następnie przez ścisły warunek.
-Odróżnić wykonalność pojedynczego kroku, zbieżność i jedyność pierwiastka.
-<i>Rozróżnianie pojęć, rozpoznawanie własności, uogólnianie.</i></li>
+<li><b>Zbadać własności potrzebne do zbieżności.</b>
+Wprowadzać pojęcia potrzebne do uzasadnienia metody.
+Rozdzielić wykonalność kroku, zbieżność i jedyność pierwiastka.
+<i>Rozróżnianie, badanie własności.</i></li>
 
-<li><b>Połączyć warunki w twierdzeniu.</b>
-Zebrać własności w założenia \(A\). Przedstawić udowodnioną implikację
-\(A\Rightarrow B\), w której \(B\) określa zbieżność i zakres gwarancji.
-Omówić ideę dowodu; wskazać źródło, które ten dowód zawiera.
-<i>Sformułowanie twierdzenia i jego uzasadnienie.</i></li>
+<li><b>Sformułować twierdzenie.</b>
+Zebrać założenia i zakres gwarancji. Omówić ideę dowodu.
+<i>Uogólnianie, uzasadnianie.</i></li>
 
-<li><b>Zastosować twierdzenie do badanego przypadku.</b>
-Wykazać założenia dla konkretnej funkcji i danych początkowych.
-Z udowodnionego \(A\Rightarrow B\) oraz wykazanego \(A\) wywnioskować
-\(B\). Odróżnić taki wniosek od przypuszczenia, które dopiero
-zamierzamy sprawdzić w programie.
-<i>Wnioskowanie i odróżnianie wniosku od przypuszczenia.</i></li>
+<li><b>Zastosować twierdzenie do przykładu.</b>
+Wykazać założenia dla funkcji i startu, następnie wywnioskować wynik.
+<i>Sprawdzanie założeń, wnioskowanie.</i></li>
 
-<li><b>Przejść od reguły do programu i sprawdzić przewidywania.</b>
-Omówić implementację, kryterium zakończenia i kontrolę błędu.
-Rozróżnić pierwiastek, przybliżenie, błąd i residuum. Dla wybranego
-przykładu, a następnie innych funkcji i danych, najpierw przewidywać
-wynik, potem uruchamiać program. Zgodność przykładów z tezą
-nie zastępuje jej dowodu.
-<i>Kod i animacja; sprawdzanie przewidywań na przykładach.</i></li>
+<li><b>Sprawdzić przewidywanie w programie.</b>
+Omówić kryterium zakończenia i kontrolę błędu. Rozróżnić błąd i residuum.
+<i>Kod i animacja; sprawdzanie.</i></li>
 
-<li><b>Wyjaśnić otrzymany wynik.</b>
-Powiązać zachowanie iteracji z własnościami funkcji i regułą metody,
-posługując się poznanymi pojęciami i twierdzeniami. Oddzielić
-ograniczenia metody od błędów implementacji i skutków zaokrągleń.
-Samo niespełnienie warunku wystarczającego nie wyjaśnia rozbieżności.
+<li><b>Wyjaśnić wynik.</b>
+Powiązać przebieg z regułą metody i własnościami funkcji.
+Oddzielić ograniczenia metody, błędy programu i zaokrąglenia.
 <i>Wyjaśnianie.</i></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org2a2b104" class="outline-3">
-<h3 id="org2a2b104">Metoda równego podziału</h3>
-<div class="outline-text-3" id="text-org2a2b104">
+<div id="outline-container-org5fa4d28" class="outline-3">
+<h3 id="org5fa4d28">Metoda równego podziału</h3>
+<div class="outline-text-3" id="text-org5fa4d28">
+<p>
+Korzystać z <a href="index.html#pierwiastki-bisekcja">przykładów i uzasadnień z notatek</a>.
+</p>
+
 <ol class="org-ol">
 <li><b>Wrócić do problemu.</b>
-Szukamy \(s\), dla którego \(f(s)=0\). Dla \(f(x)=x^2-2\)
-zaznaczyć na wykresie przedział \([1,2]\). Celem jest wyznaczenie
-przybliżenia pierwiastka z określoną dokładnością przez program.
+Dla \(x^2-2\) na \([1,2]\) wskazać szukany pierwiastek i cel obliczeń.
 <i>Tablica lub GeoGebra; formułowanie problemu.</i></li>
 
 <li><b>Zbudować regułę podziału.</b>
-Wyznaczyć środek \(c=(a+b)/2\). Jeśli \(f(c)=0\), zakończyć;
-w przeciwnym razie zachować połowę, na której końcach wartości funkcji
-mają przeciwne znaki. Wykonać kilka kroków i powiązać je z animacją.
+Wyznaczać środek, sprawdzać trafienie w zero i wybierać właściwą połowę.
+Powiązać kilka kroków z animacją.
 <i>Tablica i animacja; konstruowanie metody.</i></li>
 
-<li><b>Wyjaśnić cel poszukiwania własności funkcji.</b>
-Szukamy warunków \(A\), z których wynika \(B\): zachowane przedziały
-zawierają pierwiastek, a ich środki przybliżają go z dowolnie małym
-błędem. Samo skracanie przedziału jeszcze tego nie uzasadnia.
+<li><b>Ustalić cel badania własności.</b>
+Szukamy warunków zachowania pierwiastka i zbieżności przybliżeń.
 <i>Formułowanie celu uzasadnienia.</i></li>
 
-<li><b>Rozdzielić warunki istnienia i jedyności.</b>
-Zbadać ciągłość na całym przedziale i przeciwne znaki wartości
-na końcach. Na rysunku pokazać, dlaczego ciągłość jest istotna.
-Ścisłą monotoniczność wskazać jako dodatkową własność zapewniającą
-jedyność pierwiastka; nie jest potrzebna do zbieżności bisekcji.
-<i>Tablica lub GeoGebra; rozróżnianie, identyfikowanie warunków.</i></li>
+<li><b>Rozdzielić istnienie i jedyność.</b>
+Zbadać ciągłość i przeciwne znaki na końcach przedziału.
+Ścisłą monotoniczność wskazać jako dodatkowy warunek jedyności.
+<i>Tablica lub GeoGebra; rozróżnianie warunków.</i></li>
 
-<li><b>Połączyć własności w twierdzeniu.</b>
-Przyjąć \(A\): ciągłość \(f\) na \([a_0,b_0]\)
-i \(f(a_0)f(b_0)<0\). Wniosek \(B\): bisekcja trafia w pierwiastek
-albo środki kolejnych przedziałów zbiegają do jednego z pierwiastków.
-Dla środka \(c_n\), licząc od \(n=0\), błąd nie przekracza
-\((b_0-a_0)/2^{n+1}\). Omówić ideę dowodu: zagnieżdżone przedziały,
-malejąca do zera długość i ciągłość funkcji.
-Źródło z dowodem: <a href="https://math.umd.edu/~dlevy/classes/amsc466/lecture-notes/root-chap.pdf#page=8">D. Levy, Methods for Solving Nonlinear Problems, §2.3, tw. 2.7 i poprzedzający dowód, s. 8–9</a>.
-<i>Uogólnianie, sformułowanie twierdzenia.</i></li>
+<li><b>Sformułować gwarancję bisekcji.</b>
+Powiązać założenia ze zbieżnością i oszacowaniem błędu przez długość
+przedziału. Omówić ideę zagnieżdżonych przedziałów.
+<i>Twierdzenie; uogólnianie, uzasadnianie.</i></li>
 
-<li><b>Zastosować twierdzenie przed uruchomieniem programu.</b>
-Dla \(x^2-2\) na \([1,2]\) uzasadnić ciągłość i obliczyć znaki
-na końcach. Z \(A\) oraz udowodnionego \(A\Rightarrow B\)
-wywnioskować zbieżność. Z oszacowania błędu dobrać liczbę podziałów
-lub warunek zakończenia. Następnie sprawdzić przebieg w programie
-w Julii i zestawić go z przewidywaniem.
+<li><b>Przewidzieć wynik i sprawdzić program.</b>
+Wykazać założenia dla \(x^2-2\), dobrać kryterium zakończenia
+z oszacowania błędu i porównać przewidywanie z programem w Julii.
 <i>Wnioskowanie, sprawdzanie.</i></li>
 
-<li><b>Przejść do nowych funkcji.</b>
-Przewidzieć i zbadać wynik dla \(1/x\) na \([-1,1]\): funkcja
-nie jest określona w zerze i nie ma pierwiastka. Wyjaśnić, dlaczego
-przeciwne znaki na końcach nie wystarczają. Z kolei \(x^2\) ma
-pierwiastek mimo jednakowych znaków na końcach tego przedziału.
-Odróżnić brak gwarancji od nieistnienia rozwiązania.
-<i>GeoGebra i program; sprawdzanie, wyjaśnianie, rozróżnianie.</i></li>
+<li><b>Zbadać granice gwarancji.</b>
+Porównać \(1/x\) i \(x^2\) na \([-1,1]\).
+Wyjaśnić rolę ciągłości i odróżnić brak gwarancji od braku pierwiastka.
+<i>GeoGebra i program; wyjaśnianie, rozróżnianie.</i></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org7fe2703" class="outline-3">
-<h3 id="org7fe2703">Metoda Newtona</h3>
-<div class="outline-text-3" id="text-org7fe2703">
+<div id="outline-container-org1e88f7d" class="outline-3">
+<h3 id="org1e88f7d">Metoda Newtona</h3>
+<div class="outline-text-3" id="text-org1e88f7d">
+<p>
+Korzystać z <a href="index.html#pierwiastki-newton">przykładów i uzasadnień z notatek</a>.
+</p>
+
 <ol class="org-ol">
 <li><b>Wrócić do problemu.</b>
-Szukamy \(s\), dla którego \(f(s)=0\). Dla \(f(x)=x^2-2\)
-wybrać początkowe przybliżenie \(x_0=2\). Zapowiedzieć konstrukcję
-kolejnego przybliżenia przez zastąpienie funkcji prostszą funkcją.
-<i>Formułowanie problemu, konstruowanie przybliżenia.</i></li>
+Dla \(x^2-2\) przyjąć start \(x_0=2\) i zapowiedzieć przybliżenie liniowe.
+<i>Formułowanie problemu.</i></li>
 
 <li><b>Wyprowadzić krok ze stycznej.</b>
-Narysować styczną w \(x_n\), opisaną wzorem
-\(\ell_n(x)=f(x_n)+f'(x_n)(x-x_n)\). Powiązać go z liniowym
-przybliżeniem Taylora. Z równania \(\ell_n(x_{n+1})=0\) otrzymać
-\(x_{n+1}=x_n-f(x_n)/f'(x_n)\) i pokazać kilka kroków.
-<i>Tablica lub GeoGebra, animacja; wyprowadzanie wzoru.</i></li>
+Powiązać styczną z przybliżeniem Taylora. Z jej zera otrzymać wzór
+Newtona i pokazać kilka kroków.
+<i>Tablica, GeoGebra i animacja; konstruowanie metody.</i></li>
 
-<li><b>Wyjaśnić cel poszukiwania własności funkcji.</b>
-Chcemy znaleźć warunki \(A\), z których wynika \(B\): kolejne
-przybliżenia zbiegają do pierwiastka. Odróżnić możliwość wykonania
-kroku, wymagającą \(f'(x_n)\ne0\), od gwarancji zbieżności.
-<i>Formułowanie celu uzasadnienia, rozróżnianie.</i></li>
+<li><b>Ustalić cel badania własności.</b>
+Szukamy warunków zbieżności. Odróżnić je od niezerowej pochodnej,
+potrzebnej do wykonania kroku.
+<i>Formułowanie celu, rozróżnianie.</i></li>
 
-<li><b>Nadać własnościom znaczenie na rysunku.</b>
-Wprowadzić pierwiastek prosty: \(f(s)=0\) i \(f'(s)\ne0\).
-Pokazać, jak znak pierwszej pochodnej określa wzrost lub spadek,
-a druga pochodna pozwala rozpoznać wypukłość lub wklęsłość
-na przedziale. Dla funkcji wypukłej narysować styczne leżące
-pod wykresem. Wskazać potrzebną w twierdzeniu ciągłość pochodnych.
-<i>GeoGebra lub tablica; rozróżnianie, identyfikowanie własności.</i></li>
+<li><b>Rozpoznać własności na rysunku.</b>
+Wprowadzić pierwiastek prosty. Powiązać pochodne z monotonicznością,
+wypukłością i położeniem stycznych; wskazać ciągłość pochodnych.
+<i>GeoGebra lub tablica; rozpoznawanie własności.</i></li>
 
 <li><b>Sformułować gwarancję lokalną.</b>
-Przyjąć \(A\): \(f\) ma ciągłe pochodne do rzędu drugiego
-w otoczeniu prostego pierwiastka. Wniosek \(B\): dla dostatecznie
-bliskiego startu Newton trafia w pierwiastek albo zbiega do niego;
-błąd kolejnego przybliżenia jest ograniczony stałą razy kwadrat
-poprzedniego błędu. Omówić ideę dowodu i podkreślić lokalny zakres
-gwarancji. Warunek \(f''(s)\ne0\) nie jest tu potrzebny.
-Źródło z dowodem: <a href="https://www.karlin.mff.cuni.cz/~kucera/Numerical_Methods_for_Nonlinear_Equations.pdf#page=18">V. Kučera, Numerical Methods for Nonlinear Equations, §2.3, tw. 14 z dowodem, s. 15–16</a>.
-<i>Uogólnianie, sformułowanie twierdzenia.</i></li>
+Przypomnieć warunki klasy \(C^2\) i prostego pierwiastka.
+Omówić ideę dowodu i zbieżność dla dostatecznie bliskiego startu.
+<i>Twierdzenie; określanie zakresu gwarancji.</i></li>
 
-<li><b>Uzasadnić wybór startu w przykładzie.</b>
-Dla \(x^2-2\) na \([1,2]\) ustalić istnienie jedynego pierwiastka
-\(s\), dodatniość \(f'\) i wypukłość. Na stycznych pokazać,
-że start \(2\) daje \(s\leq x_{n+1}<x_n\), dopóki \(x_n>s\).
-Uzasadnić, że taki ciąg ma granicę, a wzór Newtona wymusza, by była
-ona pierwiastkiem. To uzasadnia ten start; samo słowo „lokalnie”
-nie rozstrzyga, czy dowolnie wybrany start jest dostatecznie bliski.
-<i>Tablica i animacja; sprawdzanie własności, uzasadnianie.</i></li>
+<li><b>Uzasadnić start w przykładzie.</b>
+Dla \(x^2-2\) na \([1,2]\) wykorzystać monotoniczność i wypukłość,
+aby uzasadnić zbieżność ze startu \(2\).
+<i>Tablica i animacja; sprawdzanie założeń, wnioskowanie.</i></li>
 
-<li><b>Przewidzieć i sprawdzić działanie programu.</b>
-Przed uruchomieniem kodu przewidzieć kierunek zmian przybliżeń.
-W programie w Julii śledzić \(x_n\), wartość \(f(x_n)\)
-i przyjęty warunek zakończenia. Odróżnić małą wartość funkcji
-od małego błędu przybliżenia pierwiastka.
-<i>Wnioskowanie, sprawdzanie, rozróżnianie.</i></li>
+<li><b>Sprawdzić przewidywanie w programie.</b>
+Przewidzieć kierunek iteracji, śledzić przybliżenia i warunek zakończenia.
+Odróżnić małą wartość funkcji od małego błędu.
+<i>Kod; sprawdzanie, rozróżnianie.</i></li>
 
-<li><b>Zmienić start lub funkcję i wyjaśnić wynik.</b>
-Dla \(x^2-2\) wybrać \(x_0=0\) i rozpoznać zerowy mianownik.
-Dla \(x^3-2x+2\) ze startem \(0\) przewidzieć cykl \(0,1,0,1,\ldots\),
-a następnie sprawdzić go w programie. Wyjaśnić wynik przez regułę
-iteracji; samo niespełnienie warunku wystarczającego go nie wyjaśnia.
+<li><b>Zmienić dane i wyjaśnić wynik.</b>
+Dla \(x^2-2\) wybrać start \(0\); dla \(x^3-2x+2\) zbadać cykl ze startu \(0\).
+Wyjaśnić wynik ze wzoru, nie samym brakiem warunku wystarczającego.
 <i>GeoGebra i program; sprawdzanie, wyjaśnianie.</i></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orga2a6d05" class="outline-3">
-<h3 id="orga2a6d05">Metoda siecznych</h3>
-<div class="outline-text-3" id="text-orga2a6d05">
+<div id="outline-container-org1f823e1" class="outline-3">
+<h3 id="org1f823e1">Metoda siecznych</h3>
+<div class="outline-text-3" id="text-org1f823e1">
+<p>
+Korzystać z <a href="index.html#pierwiastki-sieczne">przykładów i uzasadnień z notatek</a>.
+</p>
+
 <ol class="org-ol">
-<li><b>Wrócić do problemu i nawiązać do Newtona.</b>
-Nadal szukamy \(s\), dla którego \(f(s)=0\). Zapytać, jak wyznaczać
-kolejne przybliżenie bez obliczania pochodnej w programie.
-Dla \(f(x)=x^2-2\) wybrać dwa różne punkty startowe.
+<li><b>Nawiązać do problemu i Newtona.</b>
+Dla \(x^2-2\) wybrać dwa starty. Zapowiedzieć obliczenia bez pochodnej.
 <i>Formułowanie problemu, porównywanie metod.</i></li>
 
 <li><b>Zastąpić styczną sieczną.</b>
-Poprowadzić prostą przez \((x_{n-1},f(x_{n-1}))\)
-i \((x_n,f(x_n))\). Jej nachyleniem zastąpić pochodną
-we wzorze Newtona i otrzymać
-\(x_{n+1}=x_n-f(x_n)(x_n-x_{n-1})/(f(x_n)-f(x_{n-1}))\).
-Powiązać wzór z przecięciem siecznej z osią i animacją kolejnych kroków.
-<i>Tablica lub GeoGebra, animacja; wyprowadzanie wzoru.</i></li>
+Z przecięcia siecznej z osią wyprowadzić regułę kolejnego przybliżenia.
+Powiązać wzór z animacją.
+<i>Tablica i animacja; konstruowanie metody.</i></li>
 
-<li><b>Wyjaśnić cel poszukiwania własności funkcji.</b>
-Szukamy warunków \(A\), z których wynika \(B\): zbieżność do
-pierwiastka dla odpowiednio wybranych dwóch startów. Odróżnić
-niezerowy mianownik, umożliwiający krok, od warunków zbieżności.
-Różne argumenty mogą mieć jednakowe wartości funkcji.
-<i>Formułowanie celu uzasadnienia, rozróżnianie.</i></li>
+<li><b>Ustalić cel badania własności.</b>
+Szukamy warunków zbieżności dla dwóch startów. Odróżnić je od niezerowego
+mianownika; różne argumenty mogą mieć równe wartości funkcji.
+<i>Formułowanie celu, rozróżnianie.</i></li>
 
-<li><b>Rozpoznać własności w otoczeniu pierwiastka.</b>
-Zbadać ciągłość pierwszej i drugiej pochodnej oraz prostotę pierwiastka.
-Na wykresie porównać nachylenia siecznych z nachyleniem stycznej.
-Wyjaśnić, dlaczego \(f'(s)\ne0\) wraz z ciągłością pochodnej
-zapewnia ścisłą monotoniczność w dostatecznie małym otoczeniu.
-Zaznaczyć, że metoda nie zachowuje przedziału jak bisekcja.
-<i>GeoGebra lub tablica; identyfikowanie własności, porównywanie.</i></li>
+<li><b>Zbadać otoczenie pierwiastka.</b>
+Rozpoznać prosty pierwiastek i ciągłość dwóch pochodnych.
+Porównać sieczne ze styczną; zaznaczyć brak zachowania przedziału.
+<i>GeoGebra lub tablica; badanie własności, porównywanie.</i></li>
 
-<li><b>Połączyć własności w twierdzeniu lokalnym.</b>
-Przyjąć \(A\): \(f\) ma ciągłe pochodne do rzędu drugiego
-w otoczeniu prostego pierwiastka. Wniosek \(B\): dwa różne,
-dostatecznie bliskie starty zapewniają trafienie w pierwiastek
-albo zbieżność do niego. Omówić ideę dowodu: błąd nowego przybliżenia
-jest ograniczony stałą razy iloczyn dwóch poprzednich błędów;
-odpowiednio małe błędy utrzymują kolejne przybliżenia w otoczeniu.
-Źródło z dowodem: <a href="https://www.karlin.mff.cuni.cz/~kucera/Numerical_Methods_for_Nonlinear_Equations.pdf#page=37">V. Kučera, Numerical Methods for Nonlinear Equations, §2.4.2, tw. 27, część dowodu dotycząca lokalnej zbieżności, s. 34–36</a>.
-<i>Uogólnianie, sformułowanie twierdzenia.</i></li>
+<li><b>Sformułować gwarancję lokalną.</b>
+Powiązać te własności ze zbieżnością dla dwóch różnych, dostatecznie
+bliskich startów. Omówić ideę dowodu.
+<i>Twierdzenie; określanie zakresu gwarancji.</i></li>
 
-<li><b>Uzasadnić starty i wywnioskować wynik.</b>
-Dla \(x^2-2\) wybrać \(x_0=1.4\) i \(x_1=1.5\).
-W otoczeniu \(|x-s|\leq0.1\) dodatniego pierwiastka wykorzystać
-oszacowanie z dowodu, aby uzasadnić pozostawanie w nim iteracji
-i zbieżność. Po ustaleniu tych warunków wywnioskować wynik.
-Zaznaczyć, że sam prosty pierwiastek nie uzasadnia dowolnej pary startów.
+<li><b>Uzasadnić wybór startów.</b>
+Dla \(x^2-2\) przyjąć \(1.4\) i \(1.5\); wykorzystać oszacowanie
+z dowodu, aby uzasadnić pozostawanie iteracji w otoczeniu i zbieżność.
 <i>Sprawdzanie założeń, wnioskowanie.</i></li>
 
-<li><b>Porównać przewidywanie z programem i zbadać inne starty.</b>
-W programie w Julii śledzić kolejne pary przybliżeń i wartości funkcji.
-Przewidzieć, a następnie sprawdzić przypadek \(x_0=-1\), \(x_1=1\):
-dla \(x^2-2\) obie wartości funkcji są równe, więc krok jest
-niewykonalny. Wyjaśnić wynik geometrycznie i ze wzoru. Porównać
-wpływ startu na przebieg Newtona i siecznych dla tej samej funkcji.
-<i>Animacja i program; sprawdzanie, wyjaśnianie, porównywanie.</i></li>
+<li><b>Porównać przewidywanie z programem.</b>
+Sprawdzić starty zbieżne, potem \(-1\) i \(1\) dla tej samej funkcji.
+Wyjaśnić zerowy mianownik; porównać wpływ startu z metodą Newtona.
+<i>Animacja i program; sprawdzanie, wyjaśnianie.</i></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgd88920b" class="outline-3">
-<h3 id="orgd88920b">Metoda iteracji funkcyjnych</h3>
-<div class="outline-text-3" id="text-orgd88920b">
+<div id="outline-container-orgd9ca834" class="outline-3">
+<h3 id="orgd9ca834">Metoda iteracji funkcyjnych</h3>
+<div class="outline-text-3" id="text-orgd9ca834">
+<p>
+Korzystać z <a href="index.html#pierwiastki-iteracje-funkcyjne">przykładów i uzasadnień z notatek</a>.
+</p>
+
 <ol class="org-ol">
 <li><b>Wrócić do problemu.</b>
-Szukamy \(s\), dla którego \(f(s)=0\). Przedstawić regułę
-\(x_{n+1}=g(x_n)\) i wyjaśnić na przykładzie, czym jest punkt stały:
-\(g(s)=s\).
+Przedstawić iterację \(x_{n+1}=g(x_n)\) i punkt stały \(g(s)=s\).
 <i>Formułowanie problemu, rozróżnianie pojęć.</i></li>
 
 <li><b>Powiązać punkt stały z pierwiastkiem.</b>
-Na przykładzie \(f(x)=x^2-2\) i \(g(x)=x-(x^2-2)/4\) pokazać
-równoważność obu równań. Zestawić przecięcie wykresu \(f\) z osią
-poziomą z przecięciem wykresów \(g(x)\) i \(y=x\).
-<i>Tablica lub GeoGebra; przekształcanie modelu, uzasadnianie równoważności.</i></li>
+Dla \(x^2-2\) wybrać \(g(x)=x-(x^2-2)/4\). Uzasadnić równoważność
+równań i pokazać przecięcie wykresu \(g\) z prostą \(y=x\).
+<i>Tablica lub GeoGebra; przekształcanie modelu.</i></li>
 
-<li><b>Wyjaśnić cel poszukiwania własności funkcji.</b>
-Chcemy znaleźć warunki \(A\), z których wynika \(B\): istnienie jedynego
-punktu stałego w rozpatrywanym przedziale i zbieżność iteracji do niego.
-Dopiero teraz wprowadzać pojęcia potrzebne do sformułowania \(A\).
+<li><b>Ustalić cel badania własności.</b>
+Szukamy warunków jedyności punktu stałego i zbieżności iteracji.
 <i>Formułowanie celu uzasadnienia.</i></li>
 
 <li><b>Wprowadzić kontrakcję przez obraz.</b>
-Porównać odległość dwóch argumentów z odległością ich obrazów.
-Szukać przedziału, na którym jedna stała \(q<1\) ogranicza stosunek
-tych odległości dla każdej pary różnych argumentów. Dla funkcji klasy
-\(C^1\) związać tę własność z ograniczeniem modułu pochodnej.
+Porównać odległości argumentów i obrazów, wskazując wspólną stałą
+skracania. Powiązać ją z ograniczeniem modułu pochodnej.
 <i>Rysunek lub GeoGebra; porównywanie, uogólnianie.</i></li>
 
-<li><b>Osobno wprowadzić odwzorowanie przedziału w siebie.</b>
-Pokazać, że obrazy wszystkich punktów przedziału pozostają w nim.
-Odróżnić tę własność od skracania odległości. W przykładzie zbadać
-oba warunki na \(I=[1,2]\); rysunek uzupełnić uzasadnieniem
-obejmującym cały przedział.
+<li><b>Osobno zbadać odwzorowanie przedziału w siebie.</b>
+Sprawdzić tę własność i kontrakcję na \([1,2]\).
+Uzasadnić oba warunki dla całego przedziału.
 <i>Rozróżnianie, sprawdzanie założeń.</i></li>
 
-<li><b>Połączyć własności w twierdzeniu.</b>
-Przyjąć \(A\): niepusty zamknięty przedział, odwzorowanie go w siebie
-oraz kontrakcja ze wspólną stałą \(0\leq q<1\).
-Wniosek \(B\): jeden punkt stały w tym przedziale i zbieżność
-z każdego punktu początkowego należącego do niego.
-Omówić sens założeń i ideę dowodu.
-Wyjaśnić: mamy udowodnione \(A\Rightarrow B\); ustalenie \(A\)
-pozwala więc wywnioskować \(B\).
-<i>Sformułowanie twierdzenia i wnioskowanie.</i></li>
+<li><b>Zebrać warunki w twierdzeniu.</b>
+Na niepustym zamkniętym przedziale połączyć kontrakcję z odwzorowaniem
+w siebie: jeden punkt stały i zbieżność z każdego startu w przedziale.
+<i>Twierdzenie; uzasadnianie, wnioskowanie.</i></li>
 
-<li><b>Przejść do nowych funkcji.</b>
-Zbadać ich własności, przewidzieć przebieg iteracji i sprawdzić go
-w programie. Porównać np. kontrakcję z \(g(x)=2/x\), która dla startu
-1 tworzy cykl. Wyjaśnić wynik przez własności konkretnej reguły.
-<i>Wnioskowanie, sprawdzanie, wyjaśnianie.</i></li>
+<li><b>Zbadać nowe funkcje i wyjaśnić wynik.</b>
+Przewidzieć i sprawdzić przebieg; porównać kontrakcję z cyklem
+dla \(g(x)=2/x\) ze startu \(1\). Wyjaśnić wynik z reguły iteracji.
+<i>Program; sprawdzanie, wyjaśnianie.</i></li>
 </ol>
 </div>
 </div>
 </div>
-<div id="outline-container-org2980cea" class="outline-2">
-<h2 id="org2980cea">Rozdział 4. Układy równań nieliniowych</h2>
-<div class="outline-text-2" id="text-org2980cea">
+<div id="outline-container-org049881e" class="outline-2">
+<h2 id="org049881e">Rozdział 4. Układy równań nieliniowych</h2>
+<div class="outline-text-2" id="text-org049881e">
 </div>
-<div id="outline-container-orgf7a281b" class="outline-3">
-<h3 id="orgf7a281b">Kolejność prowadzenia zajęć</h3>
-<div class="outline-text-3" id="text-orgf7a281b">
+<div id="outline-container-org8438d2e" class="outline-3">
+<h3 id="org8438d2e">Kolejność prowadzenia zajęć</h3>
+<div class="outline-text-3" id="text-org8438d2e">
+<p>
+Korzystać z <a href="index.html#uklady-rownan-nieliniowych">przykładów i rachunków z notatek</a>.
+</p>
+
 <ol class="org-ol">
-<li><b>Wrócić do problemu i przejść od liczby do wektora.</b>
-Przypomnieć zadanie jednowymiarowe: szukamy liczby \(s\), dla której
-\(f(s)=0\). W dwóch wymiarach szukamy pary \(S=(s_1,s_2)^T\),
-która spełnia jednocześnie \(f_1(s_1,s_2)=0\) i \(f_2(s_1,s_2)=0\).
-Każda funkcja \(f_i:\mathbb R^2\to\mathbb R\) ma wartość skalarną;
-razem tworzą funkcję wektorową \(F:\mathbb R^2\to\mathbb R^2\).
-Zapisać problem jako \(F(S)=0\). Najpierw ustalić, <b>czego szukamy</b>;
-dopiero potem przejść do sposobu obliczeń.
-<i>Tablica; formułowanie problemu, analogia, rozróżnianie pojęć.</i></li>
+<li><b>Przejść od liczby do wektora.</b>
+Przypomnieć pojedyncze równanie i zdefiniować problem \(F(S)=0\).
+Odróżnić składowe skalarne od funkcji wektorowej; wskazać, czego szukamy.
+<i>Tablica; formułowanie problemu, rozróżnianie pojęć.</i></li>
 
-<li><p>
-<b>Przedstawić konkretny model i jego dwa rozwiązania.</b>
-Przyjąć przykład
-</p>
+<li><b>Przedstawić przykład i jego rozwiązania.</b>
+Wyznaczyć dwa przecięcia okręgu \(x^2+y^2=2\) z prostą \(x=y\).
+W GeoGebrze przedstawić oba wykresy powierzchniowe; \(z\) oznacza
+wartość funkcji, a wspólnych zer szukamy na \(z=0\).
+<i>Tablica i GeoGebra; interpretowanie modelu.</i></li>
 
-\begin{equation*}
-F(x,y)=\begin{pmatrix}x^2+y^2-2\\x-y\end{pmatrix}=0.
-\end{equation*}
+<li><b>Wyprowadzić pojedynczy krok Newtona.</b>
+Nawiązać do stycznej: z przybliżenia liniowego otrzymać układ dla
+poprawki i aktualizację. Wprowadzić macierz Jacobiego oraz uogólnić
+zapis na \(n\) równań i niewiadomych.
+<i>Tablica; konstruowanie metody, uogólnianie.</i></li>
 
-<p>
-W płaszczyźnie argumentów szukamy przecięcia okręgu \(x^2+y^2=2\)
-i prostej \(x=y\). Z podstawienia \(y=x\) otrzymać dwa pierwiastki:
-\(S_+=(1,1)^T\) i \(S_-=(-1,-1)^T\). W GeoGebrze pokazać także
-wykresy \(z=x^2+y^2-2\) oraz \(z=x-y\): paraboloidę obrotową
-i płaszczyznę. Wyjaśnić, że \(z\) przedstawia wartość funkcji;
-układ ma nadal tylko dwie niewiadome. Wspólne zera obu funkcji
-odpowiadają punktom przecięcia obu wykresów z płaszczyzną \(z=0\).
-<i>Tablica i GeoGebra; interpretowanie modelu, zmiana przedstawienia.</i>
-</p></li>
+<li><b>Obliczyć krok dla ustalonego startu.</b>
+Dla \(X_0=(1.5,1)^T\) wyznaczyć poprawkę i nowe przybliżenie.
+Odróżnić te dwa wektory od dokładnego rozwiązania.
+<i>Tablica; stosowanie reguły, rozróżnianie pojęć.</i></li>
 
-<li><p>
-<b>Zbudować metodę przez wyprowadzenie pojedynczego kroku.</b>
-Nawiązać do stycznej w jednowymiarowej metodzie Newtona.
-Dla \(F\) klasy \(C^1\) rozwinąć obie składowe wokół bieżącego
-przybliżenia \(X_k\). W zapisie wektorowym:
-</p>
+<li><b>Nadać krokowi interpretację geometryczną.</b>
+Odsłaniać powierzchnie, punkty styczności, płaszczyzny styczne i ich
+ślady na \(z=0\). Przecięcie śladów wyznacza nowe przybliżenie;
+narysować wektor poprawki i odróżnić go od długości kroku.
+<i>GeoGebra; wiązanie obrazu z rachunkiem.</i></li>
 
-\begin{equation*}
-F(X_k+H)=F(X_k)+J(X_k)H+o(\|H\|),\qquad H\to0.
-\end{equation*}
+<li><b>Sprawdzić wynik pojedynczego kroku.</b>
+Podstawić nowe przybliżenie do układu pierwotnego. Pokazać, że zeruje
+model liniowy, i wyjaśnić potrzebę ponowienia obliczeń.
+<i>Tablica; sprawdzanie, rozróżnianie modelu i problemu.</i></li>
 
-<p>
-Wyjaśnić, że reszta podzielona przez \(\|H\|\) dąży do zera.
-Pominąć ją i zażądać zerowania modelu liniowego. Otrzymać regułę
-</p>
+<li><b>Zbadać ograniczenie przez zmianę startu.</b>
+Dla \(P=(1,-1)^T\) pokazać równoległe i rozłączne ślady płaszczyzn
+stycznych na \(z=0\). Wykazać sprzeczność układu dla poprawki
+i powiązać ją z osobliwością macierzy Jacobiego.
+<i>GeoGebra i tablica; rozpoznawanie przeszkody.</i></li>
 
-\begin{equation*}
-J(X_k)H_k=-F(X_k),\qquad X_{k+1}=X_k+H_k.
-\end{equation*}
-
-<p>
-Wprowadzić macierz Jacobiego: wiersze odpowiadają składowym funkcji,
-kolumny — zmiennym. Podkreślić, że <b>krokiem</b>, czyli poprawką,
-jest wektor \(H_k\). W ustalonym punkcie \(X_k\) rozwiązujemy
-układ liniowy względem \(H_k\), choć pierwotny problem jest nieliniowy.
-Pokazać ten sam zapis dla \(n\) równań i \(n\) niewiadomych,
-po czym wrócić do przykładu dwuwymiarowego.
-<i>Tablica; konstruowanie metody, wyprowadzanie wzoru, uogólnianie.</i>
-</p></li>
-
-<li><p>
-<b>Obliczyć krok dla ustalonego startu.</b>
-Przyjąć \(X_0=(1.5,1)^T\). Wspólnie obliczyć wartości funkcji
-i pochodnych, a następnie podstawić je do układu dla poprawki:
-</p>
-
-\begin{equation*}
-J(x,y)=\begin{pmatrix}2x&2y\\1&-1\end{pmatrix},\qquad
-\begin{pmatrix}3&2\\1&-1\end{pmatrix}
-\begin{pmatrix}h_1\\h_2\end{pmatrix}
-=\begin{pmatrix}-1.25\\-0.5\end{pmatrix}.
-\end{equation*}
-
-<p>
-Z drugiego równania otrzymać \(h_1=h_2-0.5\), a z pierwszego
-\(5h_2=0.25\). Stąd
-\(H_0=(-0.45,0.05)^T\) i \(X_1=(1.05,1.05)^T\).
-Rozróżnić poprawkę \(H_0\), nowe przybliżenie \(X_1\)
-i dokładny pierwiastek \(S_+\).
-<i>Tablica; stosowanie reguły, rachunek, rozróżnianie pojęć.</i>
-</p></li>
-
-<li><p>
-<b>Nadać obliczonemu krokowi interpretację geometryczną.</b>
-Wyprowadzić równania płaszczyzn stycznych nad \(X_0\):
-</p>
-
-\begin{equation*}
-\begin{aligned}
-T_1:\quad z&=1.25+3(x-1.5)+2(y-1)=3x+2y-5.25,\\
-T_2:\quad z&=0.5+(x-1.5)-(y-1)=x-y.
-\end{aligned}
-\end{equation*}
-
-<p>
-Wyjaśnić, dlaczego płaszczyzna styczna do wykresu \(z=x-y\)
-pokrywa się z tym wykresem. W GeoGebrze kolejno odsłaniać powierzchnie,
-punkty styczności, obie płaszczyzny styczne oraz ich ślady na \(z=0\),
-czyli proste \(3x+2y=5.25\) i \(x-y=0\).
-Ich przecięcie daje \(Q_1=(1.05;1.05;0)\).
-Narysować wektor od \(Q_0=(1.5;1;0)\) do \(Q_1\).
-To przestrzenne przedstawienie poprawki \(H_0\), o współrzędnych
-\((-0.45;0.05;0)\). Odległość między tymi punktami jest
-<b>długością kroku</b> \(\|H_0\|_2\), a nie samym wektorem.
-Zaznaczyć, że dwie płaszczyzny styczne przecinają się wzdłuż prostej;
-dopiero warunek \(z=0\) wybiera na niej nowe przybliżenie.
-<i>GeoGebra i tablica; budowanie intuicji, wiązanie obrazu z rachunkiem.</i>
-</p></li>
-
-<li><b>Sprawdzić, co rozwiązał pojedynczy krok.</b>
-Podstawić \(X_1\) do układu pierwotnego:
-\(F(X_1)=(0.205,0)^T\). Nowy punkt zeruje oba przybliżenia
-liniowe, lecz nie zeruje jeszcze funkcji \(F\). Wyjaśnić potrzebę
-ponownego obliczenia wartości i macierzy Jacobiego w \(X_1\).
-Oddzielić konstrukcję kroku od dowodu zbieżności całej iteracji.
-<i>Tablica; sprawdzanie, rozróżnianie rozwiązania i przybliżenia.</i></li>
-
-<li><p>
-<b>Zbadać ograniczenie metody przez zmianę punktu startowego.</b>
-Wybrać \(P=(1,-1)^T\). Ponownie obliczyć płaszczyznę styczną
-do paraboloidy: \(T_1':z=2(x-1)-2(y+1)=2x-2y-4\).
-Druga płaszczyzna pozostaje opisana równaniem \(T_2:z=x-y\).
-W GeoGebrze pokazać ich ślady na <b>płaszczyźnie \(z=0\)</b>:
-\(x-y=2\) oraz \(x-y=0\). Są to proste równoległe i rozłączne,
-więc nie wyznaczają następnego przybliżenia. Same płaszczyzny
-\(T_1'\) i \(T_2\) przecinają się wzdłuż prostej
-\(x-y=4,\ z=4\); nie są równoległe w przestrzeni.
-Powiązać obraz z układem dla poprawki:
-</p>
-
-\begin{equation*}
-\begin{cases}
-2h_1-2h_2=0,\\
-h_1-h_2=-2.
-\end{cases}
-\end{equation*}
-
-<p>
-Wykazać sprzeczność: pierwsze równanie wymaga \(h_1=h_2\),
-drugie temu przeczy. Następnie obliczyć
-\(\det J(x,y)=-2(x+y)\) i \(\det J(P)=0\).
-<i>GeoGebra i tablica; porównywanie przypadków, rozpoznawanie przeszkody.</i>
-</p></li>
-
-<li><p>
-<b>Sformułować i uzasadnić warunek jednoznacznego kroku.</b>
-Dla \(F:D\subset\mathbb R^n\to\mathbb R^n\) klasy \(C^1\),
-gdzie \(D\) jest otwarty, oraz \(X_k\in D\) sformułować twierdzenie:
-</p>
-
-\begin{equation*}
-J(X_k)H_k=-F(X_k)\text{ ma dokładnie jedno rozwiązanie}
-\quad\Longleftrightarrow\quad\det J(X_k)\ne0.
-\end{equation*}
-
-<p>
-Wyjaśnić oba kierunki równoważności. Odwracalność daje jedyną
-poprawkę \(-J(X_k)^{-1}F(X_k)\). Gdy macierz jest osobliwa,
-istnieje \(V\ne0\) taki, że \(J(X_k)V=0\); jeżeli \(H\)
-jest rozwiązaniem, rozwiązaniami są także wszystkie \(H+tV\),
-gdzie \(t\in\mathbb R\). Układ nie ma więc rozwiązania albo ma ich
-nieskończenie wiele.
-Jest to warunek konieczny i wystarczający <b>jednoznaczności poprawki</b>;
-nie jest gwarancją zbieżności iteracji ani istnienia pierwiastka
-w wybranym obszarze. Zastosować twierdzenie do obu startów:
-wyznaczniki wynoszą odpowiednio \(-5\) i \(0\).
-<i>Tablica; uogólnianie, sformułowanie twierdzenia, dowodzenie, wnioskowanie.</i>
-</p></li>
+<li><b>Sformułować warunek jednoznacznego kroku.</b>
+Poprawka jest jednoznaczna wtedy i tylko wtedy, gdy macierz Jacobiego
+w bieżącym punkcie jest nieosobliwa. Omówić uzasadnienie i odróżnić
+tę gwarancję od zbieżności iteracji.
+<i>Twierdzenie; określanie zakresu gwarancji.</i></li>
 
 <li><b>Przejść do Julii i sprawdzić przewidywania.</b>
-Zapowiedzieć, że metody rozwiązywania układów liniowych będą tematem
-następnego rozdziału. Teraz wyznaczać \(H\) operatorem <code>A \ b</code>,
-gdzie <code>A</code> jest macierzą \(J(X)\), a <code>b</code> wektorem \(-F(X)\).
-Objaśnić jego zadanie: rozwiązuje
-układ <code>A*H = b</code>. Pokazać związek z zapisem przez macierz odwrotną;
-operator <code>\</code> nie wymaga jej jawnego obliczania. Najpierw odtworzyć
-poprawny krok dla \(X_0\), potem przejść do \(P\).
-Przed wykonaniem polecenia poprosić studentów o przewidywanie wyniku.
-Dla podanej osobliwej macierzy pokazać wyjątek <code>SingularException</code>.
-<i>REPL Julii; przejście od reguły do programu, przewidywanie, sprawdzanie.</i></li>
+Wyznaczać poprawkę operatorem <code>A \ b</code>, bez jawnego obliczania macierzy
+odwrotnej. Odtworzyć poprawny krok, potem zmienić start na \(P\);
+przewidzieć i sprawdzić wyjątek <code>SingularException</code>.
+<i>REPL Julii; przewidywanie, sprawdzanie.</i></li>
 
-<li><b>Wyjaśnić komunikat przez własności badanego układu.</b>
-Poprosić studentów o uzasadnienie wyniku: osobliwa macierz Jacobiego
-wyklucza jednoznaczny krok, a sprzeczność dwóch konkretnych równań
-wykazuje, że tutaj poprawka w ogóle nie istnieje. Sam komunikat
-<code>SingularException</code> nie rozstrzyga, czy układ jest sprzeczny,
-czy ma nieskończenie wiele rozwiązań. Podkreślić, że pierwotny układ
-nieliniowy nadal ma dwa znane pierwiastki; przeszkoda dotyczy
-wyznaczenia kroku w punkcie \(P\). Celem jest wyjaśnianie zachowania
-programu za pomocą modelu, rachunku i twierdzenia.
-<i>Tablica i kod; wyjaśnianie, odróżnianie wyniku od jego uzasadnienia.</i></li>
+<li><b>Wyjaśnić wynik przez własności układu.</b>
+Poprosić o rozróżnienie osobliwości i sprzeczności: tutaj poprawka
+nie istnieje, choć układ pierwotny ma rozwiązania. Sam komunikat
+o osobliwości nie rozstrzyga, czy poprawek nie ma, czy jest ich wiele.
+<i>Tablica i kod; wyjaśnianie.</i></li>
 </ol>
-</div>
-</div>
-<div id="outline-container-orgd1889f2" class="outline-3">
-<h3 id="orgd1889f2">Kod do demonstracji w Julii</h3>
-<div class="outline-text-3" id="text-orgd1889f2">
-<p>
-Polecenia wykonywać etapami w REPL. Najpierw odtworzyć pierwszy krok
-i porównać go z rachunkiem oraz wektorem w GeoGebrze:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-julia">using LinearAlgebra
-
-function F(X)
-    x, y = X
-    return [x^2 + y^2 - 2, x - y]
-end
-
-function J(X)
-    x, y = X
-    return [2*x 2*y; 1.0 -1.0]
-end
-
-X0 = [1.5, 1.0]
-A = J(X0)
-b = -F(X0)
-det(A)            # -5.0
-H0 = A \ b       # ≈ [-0.45, 0.05]
-X1 = X0 + H0     # ≈ [1.05, 1.05]
-F(X1)            # ≈ [0.205, 0.0]
-</pre>
-</div>
 
 <p>
-Następnie zmienić start. Przed ostatnim poleceniem obejrzeć macierz
-i prawą stronę, przewidzieć wynik i uzasadnić przewidywanie:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-julia">P = [1.0, -1.0]
-A = J(P)         # [2.0 -2.0; 1.0 -1.0]
-b = -F(P)        # [0.0, -2.0]
-det(A)           # 0.0
-H = A \ b       # błąd: SingularException
-</pre>
-</div>
-
-<p>
-Wyznacznik obliczamy tu w celu zastosowania twierdzenia do prostego
-przykładu. Porównanie wyznacznika obliczonego w arytmetyce zmiennoprzecinkowej
-z zerem nie jest ogólnym testem numerycznej odwracalności macierzy.
-</p>
-
-<p>
-Dokumentacja operatora i wyjątku:
-<a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">Julia — Linear Algebra, operator \ oraz SingularException</a>.
-</p>
-</div>
-</div>
-<div id="outline-container-orgf166586" class="outline-3">
-<h3 id="orgf166586">Sprawdzenie rozumienia i przejście do następnego rozdziału</h3>
-<div class="outline-text-3" id="text-orgf166586">
-<p>
-Poprosić studentów o objaśnienie, co przedstawia wektor na rysunku,
-dlaczego \(X_1\) nie jest jeszcze pierwiastkiem oraz czego dowodzi
-zerowy wyznacznik. W przypadku \(P\) wymagać zarówno rozpoznania
-osobliwości, jak i wykazania sprzeczności układu dla poprawki.
-</p>
-
-<p>
-Przejście: wiemy już, skąd w metodzie Newtona bierze się układ liniowy
-i kiedy jego rozwiązanie jest jednoznaczne. W następnym rozdziale
-zbadamy metody jego rozwiązywania.
+Przejście: wiemy, skąd bierze się układ liniowy; teraz zbadamy metody
+jego rozwiązywania.
 </p>
 </div>
 </div>
@@ -958,243 +676,78 @@ zbadamy metody jego rozwiązywania.
 <h2 id="scenariusz-rozklad-lu">Rozdział 5. Układy równań liniowych — rozkład LU</h2>
 <div class="outline-text-2" id="text-scenariusz-rozklad-lu">
 </div>
-<div id="outline-container-org25e58df" class="outline-3">
-<h3 id="org25e58df">Kolejność prowadzenia zajęć</h3>
-<div class="outline-text-3" id="text-org25e58df">
-<ol class="org-ol">
-<li><p>
-<b>Zacząć od układu trzech równań z trzema niewiadomymi.</b>
-Na tablicy zapisać przykład z <a href="index.html#liniowe-problem">rozdziału o układach liniowych</a>:
+<div id="outline-container-org23933fb" class="outline-3">
+<h3 id="org23933fb">Kolejność prowadzenia zajęć</h3>
+<div class="outline-text-3" id="text-org23933fb">
+<p>
+Korzystać z <a href="index.html#uklady-rownan-liniowych">przykładów i rachunków z notatek</a>.
 </p>
 
-\begin{equation*}
-\begin{cases}
-4x_1+2x_2+4x_3=4,\\
-2x_1+5x_2+4x_3=8,\\
-4x_1+4x_2+9x_3=3.
-\end{cases}
-\qquad
-A=\begin{pmatrix}4&2&4\\2&5&4\\4&4&9\end{pmatrix},
-\quad b=\begin{pmatrix}4\\8\\3\end{pmatrix}.
-\end{equation*}
-
-<p>
-Następnie zdefiniować problem modelem \(Ax=b\): dane są \(A,b\),
-szukamy wektora \(x\) spełniającego wszystkie równania.
-<i>Tablica; formułowanie problemu i wskazanie niewiadomych.</i>
-</p></li>
+<ol class="org-ol">
+<li><b>Sformułować problem.</b>
+Zapisać na tablicy układ trzech równań z trzema niewiadomymi.
+Przejść do modelu \(Ax=b\): wskazać dane i szukany wektor.
+<i>Tablica; formułowanie problemu.</i></li>
 
 <li><b>Pokazać układy proste w rozwiązywaniu.</b>
-Zachować kolejność: macierz diagonalna, dolnotrójkątna,
-górnotrójkątna, a następnie układy dolno- i górnotrójkątne po
-przestawieniu równań. Wykorzystać <a href="index.html#liniowe-proste-uklady">przykłady prostych układów</a>;
-dla obu postaci trójkątnych przestawić całe równania wraz z prawymi
-stronami i poprosić o odtworzenie kolejności obliczeń.
-Po uporządkowaniu równań do postaci diagonalnej lub trójkątnej
-przyjąć niezerowe elementy na przekątnej. Dla diagonalnej każde
-równanie daje jedną niewiadomą; dla dolnotrójkątnej podstawiamy
-w przód, dla górnotrójkątnej — w tył. Wskazać, że permutacja równań
-zmienia ich kolejność, zachowując kolejność niewiadomych.
-<i>Tablica; rozpoznawanie struktury i kolejności podstawiania.</i></li>
+Kolejno: diagonalny, dolnotrójkątny, górnotrójkątny oraz trójkątne
+po przestawieniu równań. Pokazać podstawianie w przód i w tył.
+<i>Tablica; rozpoznawanie struktury i kolejności obliczeń.</i></li>
 
-<li><b>Wyodrębnić problem pośredni: znaleźć rozkład macierzy.</b>
-Zapowiedzieć, że drogę do rozwiązania \(Ax=b\) zaczynamy od zadania
-\(A=LU\). Teraz dana jest \(A\), a szukamy macierzy dolnotrójkątnej
-\(L\) i górnotrójkątnej \(U\). Po znalezieniu czynników rozwiązanie
-układu sprowadzi się do dwóch znanych zadań: \(Lz=b\), potem
-\(Ux=z\). Najpierw ustalić, <b>czego szukamy</b>, potem przedstawić,
-<b>jak to obliczymy</b>: metodę LU (Banachiewicza) w wariancie Doolittle'a,
-z \(l_{ii}=1\).
-<i>Tablica; rozróżnianie rozwiązania układu i rozkładu macierzy.</i></li>
+<li><b>Wyodrębnić problem pośredni.</b>
+Zanim rozwiążemy \(Ax=b\), szukamy \(A=LU\): czynników dolno-
+i górnotrójkątnego. Najpierw ustalić, czego szukamy, potem zapowiedzieć
+metodę LU (Banachiewicza), wariant Doolittle'a z \(l_{ii}=1\).
+<i>Formułowanie celu, rozróżnianie problemu i metody.</i></li>
 
-<li><p>
-<b>Wyprowadzić wszystkie współczynniki przez wymnożenie czynników.</b>
-Dla macierzy z początku zajęć zapisać
-</p>
+<li><b>Skonstruować metodę na przykładzie.</b>
+Wymnażać \(L\) i \(U\), porównywać elementy z \(A\) i kolejno
+wyznaczać wszystkie współczynniki. Zaznaczać dzielniki.
+<i>Tablica; konstruowanie algorytmu.</i></li>
 
-\begin{equation*}
-A=\begin{pmatrix}1&0&0\\l_{21}&1&0\\l_{31}&l_{32}&1\end{pmatrix}
-\begin{pmatrix}u_{11}&u_{12}&u_{13}\\0&u_{22}&u_{23}\\0&0&u_{33}\end{pmatrix}.
-\end{equation*}
+<li><b>Wprowadzić wiodące minory główne.</b>
+Pokazać lewe górne bloki macierzy i obliczyć ich wyznaczniki.
+Zapowiedzieć cel: rozpoznać, kiedy rachunek jest wykonalny.
+<i>Tablica; definiowanie pojęcia i badanie warunków metody.</i></li>
 
-<p>
-Mnożyć kolejne wiersze przez kolumny i porównywać z elementami
-\(A\). Nie podawać od razu gotowych czynników. Otrzymać kolejno:
-</p>
+<li><b>Pokazać ograniczenie metody.</b>
+Zmienić przykład najpierw tak, by pierwszy minor był zerowy,
+potem drugi. W obu rachunkach wskazać miejsce dzielenia przez zero.
+<i>Tablica; sprawdzanie i wyjaśnianie niepowodzenia.</i></li>
 
-\begin{equation*}
-\begin{aligned}
-u_{11}&=4,&u_{12}&=2,&u_{13}&=4,\\
-l_{21}&=2/4=\tfrac12,&l_{31}&=4/4=1,\\
-u_{22}&=5-\tfrac12\cdot2=4,&u_{23}&=4-\tfrac12\cdot4=2,\\
-l_{32}&=(4-1\cdot2)/4=\tfrac12,\\
-u_{33}&=9-1\cdot4-\tfrac12\cdot2=4.
-\end{aligned}
-\end{equation*}
+<li><b>Powiązać przekątną U z minorami.</b>
+Przy niezerowym mianowniku element przekątnej jest ilorazem kolejnego
+minora przez poprzedni; dla pierwszego elementu przyjąć \(\Delta_0=1\).
+<i>Tablica; wyprowadzanie zależności, uogólnianie.</i></li>
 
-<p>
-Zaznaczać używane dzielniki \(u_{11}\) i \(u_{22}\). Na końcu
-wymnożyć otrzymane \(L,U\) i sprawdzić \(LU=A\).
-<i>Tablica; konstruowanie algorytmu i sprawdzanie rachunku.</i>
-</p></li>
+<li><b>Sformułować twierdzenie o LU.</b>
+Niezerowe minory stopni od 1 do \(n-1\) zapewniają jednoznaczny
+rozkład bez zamian wierszy, z \(l_{ii}=1\). Ostatni minor może być zerowy;
+do jednoznacznego rozwiązania układu musi być niezerowy. Omówić uzasadnienie.
+<i>Twierdzenie; określanie zakresu gwarancji.</i></li>
 
-<li><p>
-<b>Wprowadzić wiodące minory główne i obliczyć je w przykładzie.</b>
-Chcemy rozpoznać, kiedy zaznaczone dzielniki są niezerowe.
-Oznaczyć przez \(A_k\) lewy górny blok \(k\times k\), a przez
-\(\Delta_k=\det A_k\) jego wyznacznik; przyjąć \(\Delta_0=1\).
-Pokazać bloki i obliczyć
-</p>
+<li><b>Obliczyć wyznacznik z rozkładu.</b>
+Przejść od iloczynu wyznaczników \(L\) i \(U\) do iloczynu
+elementów przekątnej \(U\), ponieważ \(\det L=1\).
+<i>Tablica; zastosowanie rozkładu.</i></li>
 
-\begin{equation*}
-\begin{aligned}
-\Delta_1&=4,\\
-\Delta_2&=4\cdot5-2\cdot2=16,\\
-\Delta_3&=4(45-16)-2(18-16)+4(8-20)=64.
-\end{aligned}
-\end{equation*}
+<li><b>Przedstawić rozkład Choleskiego.</b>
+Pokazać postać \(A=CC^T\) i pierwiastek we wzorze na przekątną.
+Wyjaśnić potrzebę dodatnich wyrażeń pod pierwiastkami.
+<i>Tablica; konstrukcja metody i warunki wykonalności.</i></li>
 
-<p>
-Odróżnić podmacierz od jej wyznacznika oraz minor główny od wiodącego.
-<i>Tablica; definiowanie pojęcia potrzebnego do badania metody.</i>
-</p></li>
-
-<li><p>
-<b>Wskazać w rachunku problem przy zerowym pierwszym i drugim minorze.</b>
-Najpierw zmienić tylko \(a_{11}\) z \(4\) na \(0\).
-Otrzymujemy \(u_{11}=\Delta_1=0\), a porównanie pierwszej kolumny
-wymaga \(l_{21}\cdot0=2\) i \(l_{31}\cdot0=4\).
-W tym przykładzie rozkład bez zamian wierszy nie istnieje.
-</p>
-
-<p>
-Wrócić do wyjściowej \(A\) i tym razem zmienić tylko \(a_{22}\)
-z \(5\) na \(1\), jak w <a href="index.html#gauss-zerowy-element">wariancie z zerowym drugim minorem</a>.
-Pierwszy krok przebiega poprawnie, lecz \(\Delta_2=4\cdot1-2\cdot2=0\)
-i \(u_{22}=1-\tfrac12\cdot2=0\). Równanie dla elementu \(a_{32}\)
-ma postać \(1\cdot2+l_{32}\cdot0=4\), czyli wymaga
-\(l_{32}\cdot0=2\). Pokazać dokładnie miejsce niewykonalnego kroku.
-<i>Tablica; zmiana danych, rozpoznawanie i wyjaśnianie ograniczenia.</i>
-</p></li>
-
-<li><p>
-<b>Powiązać przekątną U z minorami.</b>
-Dla lewych górnych bloków rozkładu mamy \(A_k=L_kU_k\),
-a \(\det L_k=1\). Stąd wyprowadzić
-</p>
-
-\begin{equation*}
-\Delta_k=u_{11}\cdots u_{kk},\qquad
-u_{kk}=\frac{\Delta_k}{\Delta_{k-1}}
-\quad\text{przy }\Delta_{k-1}\ne0.
-\end{equation*}
-
-<p>
-W szczególności \(u_{11}=\Delta_1\), \(u_{22}=\Delta_2/\Delta_1\)
-i \(u_{33}=\Delta_3/\Delta_2\). W wyjściowym przykładzie daje to
-\(4,4,4\). Powiązać zerowy minor z zerowym dzielnikiem w algorytmie;
-przy zerowym mianowniku nie stosować wzoru na iloraz.
-<i>Tablica; wyprowadzanie zależności i uogólnianie.</i>
-</p></li>
-
-<li><b>Sformułować twierdzenie i wyjaśnić rolę ostatniego minora.</b>
-Jeżeli dla \(A\in\mathbb R^{n\times n}\) wszystkie wiodące minory
-\(\Delta_1,\ldots,\Delta_{n-1}\) są niezerowe, to istnieje
-jednoznaczny rozkład \(A=LU\) bez zamian wierszy, z \(l_{ii}=1\).
-Uzasadnić kolejność: niezerowe \(u_{kk}\) pozwalają wyznaczać
-kolejne kolumny \(L\), a porównanie elementów ustala wszystkie
-współczynniki jednoznacznie. <a href="index.html#liniowe-warunek-lu">Dowód i jego źródło są w rozdziale o LU</a>.
-Podkreślić, że \(\Delta_n=\det A\) może być zerowy: przy samym
-obliczaniu czynników nie dzielimy przez \(u_{nn}\).
-Do jednoznacznego rozwiązania \(Ax=b\) potrzebujemy dodatkowo
-\(\Delta_n\ne0\), aby wykonać podstawianie w tył.
-Warunek twierdzenia jest wystarczający; sam zerowy wcześniejszy minor
-nie wyklucza istnienia rozkładu dla każdej macierzy osobliwej.
-<i>Tablica; sformułowanie twierdzenia, dowodzenie i określanie zakresu wniosku.</i></li>
-
-<li><p>
-<b>Obliczyć wyznacznik z czynników.</b>
-Wrócić do całej macierzy i zapisać
-</p>
-
-\begin{equation*}
-\det A=\det L\det U=1\cdot\prod_{i=1}^n u_{ii}.
-\end{equation*}
-
-<p>
-Wyjaśnić oba uproszczenia przez trójkątność i jednostkową przekątną
-\(L\). W przykładzie \(\det A=4\cdot4\cdot4=64=\Delta_3\).
-<i>Tablica; zastosowanie rozkładu i powrót do minorów.</i>
-</p></li>
-
-<li><p>
-<b>Przedstawić rozkład Choleskiego i warunek pod pierwiastkiem.</b>
-Dla macierzy rzeczywistej symetrycznej szukamy \(A=CC^T\), gdzie
-\(C\) jest dolnotrójkątna z dodatnią przekątną. Odróżnić \(C\)
-od wcześniejszej \(L\) z jedynkami na przekątnej. Pokazać regułę
-</p>
-
-\begin{equation*}
-c_{kk}=\sqrt{a_{kk}-\sum_{s=1}^{k-1}c_{ks}^2},\qquad
-c_{ik}=\frac{a_{ik}-\sum_{s=1}^{k-1}c_{is}c_{ks}}{c_{kk}},
-\quad i=k+1,\ldots,n.
-\end{equation*}
-
-<p>
-Wyrażenia pod pierwiastkami muszą być <b>dodatnie</b>: ujemne nie dają
-rzeczywistego pierwiastka, a zero nie daje dodatniej przekątnej
-i w kolejnych obliczeniach może spowodować dzielenie przez zero.
-Sama symetria nie zapewnia tego warunku. Zapowiedzieć potrzebę
-sprawdzenia dodatniej określoności.
-<i>Tablica; porównywanie rozkładów i badanie wykonalności reguły.</i>
-</p></li>
-
-<li><p>
-<b>Zastosować kryterium Sylvestera do wyboru metody.</b>
-Przypomnieć definicję: macierz rzeczywista \(A\) jest dodatnio
-określona, gdy \(v^TAv>0\) dla każdego \(v\ne0\).
-Sformułować kryterium: rzeczywista macierz <b>symetryczna</b> jest
-dodatnio określona wtedy i tylko wtedy, gdy \(\Delta_k>0\)
-dla wszystkich \(k=1,\ldots,n\). Tutaj uwzględniamy także
-ostatni minor. Powiązać kryterium z twierdzeniem o istnieniu
-jednoznacznego rozkładu Choleskiego z dodatnią przekątną;
-<a href="index.html#liniowe-cholesky">omówić uzasadnienie i wskazać źródła dowodów z notatek</a>.
-W wyjściowym przykładzie wykazać \(A=A^T\) i dodatniość minorów
-\(4,16,64\). Wywnioskować możliwość zastosowania metody, a następnie
-obliczyć i sprawdzić czynnik
-</p>
-
-\begin{equation*}
-\begin{aligned}
-c_{11}&=\sqrt4=2,&c_{21}&=1,&c_{31}&=2,\\
-c_{22}&=\sqrt{5-1^2}=2,&c_{32}&=1,\\
-c_{33}&=\sqrt{9-2^2-1^2}=2.
-\end{aligned}
-\qquad
-C=\begin{pmatrix}2&0&0\\1&2&0\\2&1&2\end{pmatrix}.
-\end{equation*}
-
-<p>
-<i>Tablica; sprawdzanie założeń, wnioskowanie i kontrola rachunku.</i>
-</p></li>
+<li><b>Zastosować kryterium Sylvestera.</b>
+Dla rzeczywistej macierzy symetrycznej dodatnia określoność jest
+równoważna dodatniości wszystkich wiodących minorów do stopnia \(n\).
+Sprawdzić te warunki w przykładzie i uzasadnić wybór Choleskiego.
+<i>Sprawdzanie założeń, wnioskowanie.</i></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org9243355" class="outline-3">
-<h3 id="org9243355">Sprawdzenie rozumienia</h3>
-<div class="outline-text-3" id="text-org9243355">
-<p>
-Poprosić studentów o rozróżnienie problemów \(Ax=b\) i \(A=LU\),
-wskazanie dzielenia uniemożliwionego przez zerowy pierwszy lub drugi
-minor oraz wyjaśnienie, dlaczego ostatni minor może być zerowy przy
-rozkładzie LU, a musi być dodatni w kryterium Sylvestera.
-</p>
 </div>
-</div>
-</div>
-<div id="outline-container-orgd3c2167" class="outline-2">
-<h2 id="orgd3c2167">Domknięcie omawianych rozdziałów</h2>
-<div class="outline-text-2" id="text-orgd3c2167">
+<div id="outline-container-org61fb615" class="outline-2">
+<h2 id="org61fb615">Domknięcie omawianych rozdziałów</h2>
+<div class="outline-text-2" id="text-org61fb615">
 <p>
 Oddzielać trzy ustalenia: <b>co przewiduje twierdzenie, czy spełniono jego
 założenia i co pokazał program</b>. Brak warunku wystarczającego oznacza brak
