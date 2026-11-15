@@ -62,9 +62,9 @@ w hierarchii ustalimy przy opracowywaniu kolejnych części.
 
 - Uzupełnienia układów równań liniowych:
   - metoda eliminacji Gaussa — opracowana na polecenie autora, wpis W-07;
-  - metody iteracyjne;
-  - metoda Jacobiego;
-  - metoda Gaussa–Seidla.
+  - metody iteracyjne — opracowane na polecenie autora, wpis W-19;
+  - metoda Jacobiego — opracowana, wpis W-19;
+  - metoda Gaussa–Seidla — opracowana, wpis W-19.
 - Reprezentacja funkcji:
   - interpolacja wielomianowa;
     - wielomian interpolacyjny w postaci potęgowej;
@@ -892,6 +892,133 @@ zachowanie kolejności, zakresu, przykładów i kluczowych rozróżnień.
 Porównanie z wersją wejściową potwierdziło identyczność części LU,
 domknięcia, diagramu SVG, treści kursu i zastanej konfiguracji.
 Podglądu w przeglądarce nie powtarzano po wcześniejszej blokadzie.
+
+** Opracowanie W-19: metody iteracyjne, 14 listopada 2026 r.
+
+Polecenie autora: rozbudować nowe notatki o tematy 4.2.4–4.2.6
+z [[https://is.umk.pl/~pierzcham/numerical/][oryginalnych notatek wykładowych]], zgodnie ze wspólnym tokiem
+z Rysunku 1 w scenariuszu prowadzącego.
+Status: =opracowane na polecenie autora; bez deklarowania akceptacji tekstu=.
+
+Dodano samodzielny rozdział =metody-iteracyjne= po eliminacji Gaussa,
+przed dodatkiem. Numer wynika z hierarchii, obecnie jest to rozdział 7.
+Zachowano kolejność: problem, konstrukcja, badanie własności, twierdzenia
+z dowodami, wnioskowanie z wykazanych założeń, sprawdzanie w Julii,
+wyjaśnianie i powrót do badania nowych przykładów.
+
+Zakres opracowania:
+
+- Wspólny schemat z nieosobliwą macierzą Q, rozdzielenie wykonalności
+  kroku, jedyności rozwiązania i zbieżności.
+- Przykład A = [5 2 1; 5 7 1; 3 2 6], b = [1,2,3] ze źródła,
+  jawne pierwsze kroki, wzory składowe i macierze iteracji obu metod.
+- Wspólny normowy dowód zbieżności oraz dowody dla ścisłej dominacji
+  diagonalnej w wierszach. Podstawy: Maros, §4.5.1 i §4.5.5,
+  oraz pierwsze twierdzenie i dowód w Lecture 20 Trogdona.
+  Sprawdzono obecność dowodów i opisano adaptacje notacji.
+- Oszacowania błędu przez kontrakcję, ostatni przyrost i residuum.
+  Dwa ostatnie wyprowadzono jawnie jako wnioski. Rozróżniono arytmetykę
+  dokładną i obliczanie residuum w Float64.
+- Przejrzyste funkcje kroku i wspólna pętla Julii z kontrolą residuum,
+  limitu iteracji, stagnacji i wyników nieskończonych. Zachowuje dane wejściowe.
+- Dwa pomocnicze układy 2 × 2 pokazujące zbieżność bez dominacji oraz
+  rozbieżność mimo nieosobliwości i niezerowej przekątnej.
+- Wykres błędów w arytmetyce dokładnej i ich granic geometrycznych,
+  osadzony jako statyczny SVG w źródle Org.
+
+Korekty materiału pierwotnego uwzględnione w nowym opracowaniu:
+
+- Normę 1 obliczamy z sum kolumn, normę maksimum z sum wierszy.
+  Trzeci wiersz A ma sumę modułów 11. W tym przykładzie obie normy A
+  wynoszą 13. Dla zbieżności badamy normy macierzy iteracji.
+- Element (2,2) macierzy iteracji Gaussa–Seidla to +2/7.
+- Stosujemy ścisłą dominację diagonalną w wierszach. Mały przyrost
+  sam nie wyznacza zadanej dokładności błędu. Pętla zwraca aktualne
+  przybliżenie i jawny status, a wszystkie wektory są zainicjalizowane.
+- Macierze D, L i U są składnikami sumy A = D + L + U, co wyraźnie
+  odróżniono od czynników rozkładu LU omawianego wcześniej.
+
+Weryfikacja matematyczna i obliczeniowa: niezależny przegląd potwierdził
+wzory, założenia i dowody oraz siedem etapów wywodu. Kod uruchomiono
+w Julii 1.11.0-rc3. Przeszły 44 sprawdzenia obejmujące m.in. pierwsze kroki,
+zgodność z macierzami iteracji, przykłady kontrolne, brak modyfikacji
+wejścia, błędne dane, stagnację i przepełnienie. Dla startu zerowego,
+atol = 1e-12 i rtol = 1e-10 otrzymano 74 kroki Jacobiego oraz 18 kroków
+Gaussa–Seidla. Wykres powstał z rachunku na liczbach wymiernych.
+
+Weryfikacja techniczna: odtworzono index.html. Kontrola projektu,
+odsyłaczy i próbnego eksportu oraz testy nawigacji zakończyły się
+bez błędów. Sprawdzono skład nowych wzorów do MathML i zachowanie
+wcześniejszych kotwic. Kontrola różnic nie wskazała błędów odstępów.
+Podgląd lokalnego HTML został zablokowany przez politykę adresów
+przeglądarki dla protokołu file. Wygląd całego rozdziału w przeglądarce
+pozostaje niezweryfikowany. Statyczny wykres obejrzano oddzielnie.
+
+** Korekta W-20: krótszy rozdział o iteracjach, 15 listopada 2026 r.
+
+Na polecenie autora skrócono wywód i przeniesiono poboczne rachunki,
+dowody i wykres przebiegu błędu pod rozwinięcia. Przejście od konstrukcji
+metod do wnioskowania prowadzi przez wykonalność kroku, skurczenie
+wektora błędu i ścisłą dominację diagonalną. Zbędny rozkład na L i U
+zastąpiono bezpośrednim opisem dwóch macierzy Q.
+
+Dla odwracalnej A z zerem na przekątnej pokazano osobliwy wybór Q,
+który przy starcie zerowym daje sprzeczne równanie kroku. Rozróżniono
+brak określonej iteracji od rozbieżności istniejącego ciągu. Twierdzenie
+normowe obejmuje oba kierunki przy dowolnym starcie i ustalonej prawej
+stronie. Dowód konieczności konstruuje normę z potęg H, a przykład
+trójkątny odróżnia istnienie odpowiedniej normy od wyboru konkretnej.
+Opis residuum wyprowadza równości z równań i wskazuje wpływ zaokrągleń.
+
+Dodano rysunek kwadratów normy maksimum przed krokiem i po nim.
+Gotowy kod zastąpiono pseudokodem z ustaloną liczbą kroków.
+Dwa kroki obu metod oraz ich błędy i granice zweryfikowano na liczbach
+wymiernych. Zachowano kotwice rozdziału. Kontrola projektu i eksportu
+zakończyła się bez błędów.
+
+** Korekta W-21: wyprowadzenie wzorów błędu i czynnik zmiany normy
+
+Na polecenie autora w 7.3.2 rozpisano odejmowanie stron równań i przejście
+od jednego kroku do potęgi macierzy. W 7.3.3 doprecyzowano różnicę między
+ilorazem norm dla danego wektora a jego maksimum po wszystkich wektorach.
+Pod rozwinięciem dodano przykład autora z czynnikami 3.5 i 4.
+Sprawdzono rachunek, eksport i lokalne odsyłacze.
+
+** Korekta W-22: geometria normy maksimum i oszacowania błędu
+
+Na polecenie autora skrócono wprowadzenie do równania błędu i odróżniono
+kwadrat dany wspólną granicą normy maksimum od obrazu, który może być
+prostokątem. Dawne 7.5.1 przeniesiono w całości pod rozwinięcie w 7.5
+z zachowaniem odsyłacza. Sprawdzono eksport i lokalne odsyłacze.
+
+** Korekta W-23: pomiar błędu na wspólnym przykładzie
+
+Na polecenie autora w 7.3.3 obliczono normę błędu przed pierwszym krokiem
+Jacobiego i po nim dla układu z 7.1. Rozwiązanie kontrolne podano przy
+pierwszym użyciu, a w 7.5 odwołano się do obliczonego błędu początkowego.
+Sprawdzono rachunek na ułamkach, eksport i odsyłacze.
+
+** Korekta W-24: działanie macierzy Jacobiego na błąd
+
+Po uwadze autora przeniesiono macierz Jacobiego do 7.3.3. Rachunek
+pokazuje, jak wiersze macierzy łączą współrzędne błędu i skąd bierze się
+wspólna granica 6/7. Przykład prostokąta oznaczono jako odrębny.
+Sprawdzono iloczyn, sumy wierszy, eksport i odsyłacze.
+
+** Korekta W-25: krótsze wyjaśnienie normy maksimum
+
+Na polecenie autora pozostawiono w głównym wywodzie 7.3.3 pomiar błędu,
+granicę czynnika zmiany i rozróżnienie obrazu od sześcianu, który go
+zawiera. Rachunek macierzy i ilustrację dwuwymiarową przeniesiono pod
+rozwinięcia, a dodatkowy przykład z inną macierzą usunięto. Sprawdzono
+możliwość osiągnięcia granicy 6/7, eksport i odsyłacze.
+
+** Korekta W-26: rachunek pierwszego błędu w głównym tekście
+
+Na polecenie autora w 7.3.3 pokazano, skąd biorą się normy przed
+pierwszym krokiem Jacobiego i po nim oraz ich iloraz. Rozwinięcie
+pozostawiono dla obliczenia wspólnej granicy 6/7. Rachunek sprawdzono
+na ułamkach, a wynikowy HTML skontrolowano po eksporcie.
 
 * Wzorce do zatwierdzenia
 
