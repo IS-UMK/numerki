@@ -1020,6 +1020,41 @@ pierwszym krokiem Jacobiego i po nim oraz ich iloraz. Rozwinięcie
 pozostawiono dla obliczenia wspólnej granicy 6/7. Rachunek sprawdzono
 na ułamkach, a wynikowy HTML skontrolowano po eksporcie.
 
+** Korekta W-27: tok zajęć o metodach iteracyjnych, 16 listopada 2026 r.
+
+Polecenie autora: zapisać przeprowadzony tok zajęć w scenariuszu,
+a materiały dla studentów uporządkować według niego i skrócić.
+Status: =opracowane na polecenie autora; bez deklarowania akceptacji redakcji=.
+
+Dodano 11 skrótowych kroków w [[file:scenariusz-prowadzacego.org::#scenariusz-metody-iteracyjne][scenariuszu metod iteracyjnych]].
+W [[file:index.org::#metody-iteracyjne][rozdziale kursu]] kolejność prowadzi od układu równań i macierzy Q
+przez jawny krok, pierwszy rachunek Jacobiego i regułę Gaussa–Seidla
+do ścisłej dominacji, twierdzenia i sprawdzenia jego założeń.
+Po przykładzie osobliwej Q wprowadzono H, warunek normowy,
+rekurencję błędu i rachunek norm przed pierwszym krokiem oraz po nim.
+
+Doprecyzowania dyktowanego opisu: Q Gaussa–Seidla zawiera przekątną;
+osobliwa Q nie wyznacza jednoznacznego kroku; porównujemy normy błędów,
+nie iloraz wektorów. Kontrakcja dotyczy normy podporządkowanej
+wybranej normie wektorowej. Nie oznacza jednakowego skalowania współrzędnych.
+
+Połączono oba twierdzenia dominacji, zachowując dowody pod rozwinięciami.
+Usunięto dodatkową teorię residuum, kryteria zatrzymania, wykres wielu
+iteracji, tabelę dwóch kroków i powtórzenia. Zachowano podstawowy pseudokod,
+ilustrację normy i krótkie kontrprzykłady w rozwinięciach. Dotychczasowe
+kotwice nagłówków zachowano również przy przenoszeniu do rozwinięć.
+
+Niezależny przegląd potwierdził rachunek wymierny i poprawność twierdzeń;
+ponownie sprawdzono wskazane w rozdziale źródła Marosa, Trogdona
+i Heinkenschlossa. Pozostałe rozdziały kursu i wcześniejsze scenariusze
+pozostały bez zmian.
+
+Sprawdzenie: odtworzono oba HTML. Kontrola projektu i próbny eksport
+przeszły bez błędów (4 istniejące HTML, 79 odwołań; 9 próbnych HTML,
+191 odwołań). W przeglądarce sprawdzono konstrukcję, rachunek normy,
+rozwinięcia, ilustrację i nowy scenariusz. Zachowane kotwice rozdziału
+mają cele w wynikowym HTML.
+
 * Wzorce do zatwierdzenia
 
 W sekcji o bisekcji zatwierdzono trzy opisane wyżej dopracowania.

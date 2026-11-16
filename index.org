@@ -5256,73 +5256,90 @@ Metody numeryczne · Model matematyczny → metoda obliczeniowa → program
 * Układy równań liniowych: metody iteracyjne
 :PROPERTIES:
 :CUSTOM_ID: metody-iteracyjne
-:CHAPTER_DESCRIPTION: Konstrukcja, zbieżność i kontrola błędu metod Jacobiego i Gaussa–Seidla.
+:CHAPTER_DESCRIPTION: Od konstrukcji metod Jacobiego i Gaussa–Seidla do zbieżności i analizy błędu.
 :HTML_CONTAINER: section
 :HTML_CONTAINER_CLASS: book-chapter chapter-liniowe chapter-iteracyjne
 :END:
 
 #+attr_html: :class lead
-Jak z prostego kroku obliczeniowego zbudować ciąg zbliżający się do rozwiązania układu?
+Jak kolejne przybliżenia prowadzą do rozwiązania układu równań?
 
 #+attr_html: :id iteracyjne-wprowadzenie
 #+begin_wprowadzenie
-Konstruujemy krok, badamy jego wykonalność i zbieżność,
-a z twierdzenia wyprowadzamy przewidywanie, które sprawdzimy na przykładzie.
+Zbudujemy obie metody, sprawdzimy warunek zbieżności,
+a następnie wyjaśnimy go przez zmianę błędu.
 #+end_wprowadzenie
 
-** Problem: znaleźć przybliżenie rozwiązania
+** Problem: rozwiązać układ równań
 :PROPERTIES:
 :CUSTOM_ID: iteracyjne-problem
 :HTML_CONTAINER: section
 :END:
 
-Rozwiążemy układ
+Szukamy trzech liczb spełniających układ
+\begin{equation*}
+\begin{cases}
+5x_1+2x_2+x_3=1,\\
+5x_1+7x_2+x_3=2,\\
+3x_1+2x_2+6x_3=3.
+\end{cases}
+\end{equation*}
+Jego model macierzowy to
 \begin{equation*}
 Ax=b,\qquad
 A=\begin{pmatrix}5&2&1\\5&7&1\\3&2&6\end{pmatrix},
 \qquad b=\begin{pmatrix}1\\2\\3\end{pmatrix}.
 \end{equation*}
+Dane są \(A,b\), szukane rozwiązanie oznaczamy przez \(s\).
+Zaczniemy od \(x^{(0)}=(0,0,0)^T\) i będziemy wyznaczać kolejne
+przybliżenia \(x^{(k+1)}\) na podstawie \(x^{(k)}\).
 
-W [[#eliminacja-gaussa][eliminacji Gaussa]] przekształcaliśmy równania, by rozwiązać układ trójkątny.
-Teraz zachowamy \(A,b\) i zaczniemy od \(x^{(0)}=(0,0,0)^T\).
-Szukamy reguły, która z \(x^{(k)}\) wyznaczy następne przybliżenie
-\(x^{(k+1)}\) rozwiązania \(s\).
-
-** Konstrukcja: od jednego układu do ciągu przybliżeń
+** Konstrukcja: wspólna reguła, dwa sposoby aktualizacji
 :PROPERTIES:
 :CUSTOM_ID: iteracyjne-konstrukcja
 :HTML_CONTAINER: section
 :END:
 
-*** Wspólna reguła i wybór macierzy Q
+*** Wybór macierzy Q i jednoznaczność kroku
 :PROPERTIES:
 :CUSTOM_ID: iteracyjne-rozszczepienie
 :END:
 
-Zapiszmy \(Ax=b\) jako \(Qx=(Q-A)x+b\).
-Wstawienie poprzedniego przybliżenia po prawej stronie daje
+Dodajemy \(Qx\) do obu stron \(Ax=b\) i przenosimy \(Ax\) na prawą stronę:
 \begin{equation*}
-Qx^{(k+1)}=(Q-A)x^{(k)}+b .
+Qx=(Q-A)x+b.
+\end{equation*}
+Po prawej wstawiamy poprzedni stan, a po lewej — szukany następny:
+\begin{equation*}
+Qx^{(k+1)}=(Q-A)x^{(k)}+b.
+\end{equation*}
+Wybieramy \(Q\) tak, by układ po lewej był łatwy do rozwiązania.
+W metodzie Jacobiego bierzemy przekątną \(A\), a w metodzie
+Gaussa–Seidla — część dolnotrójkątną wraz z przekątną:
+\begin{equation*}
+Q_J=\begin{pmatrix}5&0&0\\0&7&0\\0&0&6\end{pmatrix},\qquad
+Q_{GS}=\begin{pmatrix}5&0&0\\5&7&0\\3&2&6\end{pmatrix}.
 \end{equation*}
 
-#+attr_html: :data-tytul Konstruowanie · wybór łatwego układu
+#+attr_html: :data-tytul Konstruowanie · jawna zależność między stanami
 #+begin_wyprowadzenie
-Wybieramy \(Q\) tak, aby układ po lewej stronie był łatwy do rozwiązania.
-Gdy \(Q\) jest nieosobliwa, każdy krok wyznacza jeden wektor. Możemy zapisać
+Gdy \(\det Q\ne0\), mnożymy równanie przez \(Q^{-1}\):
 \begin{equation*}
-x^{(k+1)}=Hx^{(k)}+c,\qquad H=I-Q^{-1}A,\qquad c=Q^{-1}b.
+x^{(k+1)}=Q^{-1}(Q-A)x^{(k)}+Q^{-1}b
+=(I-Q^{-1}A)x^{(k)}+Q^{-1}b.
 \end{equation*}
-Macierz \(H\) opisuje wpływ poprzedniego przybliżenia na następne.
+Nieosobliwość \(Q\) zapewnia jednoznaczny krok i jest do tego konieczna.
+Dla obu metod oznacza \(a_{ii}\ne0\) dla każdego \(i\).
+Sama nie zapewnia zbieżności ciągu.
 #+end_wyprowadzenie
 
-*** Metoda Jacobiego: wszystkie współrzędne z poprzedniej iteracji
+*** Metoda Jacobiego: wszystkie wartości z poprzedniego stanu
 :PROPERTIES:
 :CUSTOM_ID: iteracyjne-jacobi-konstrukcja
 :END:
 
-Z pierwszego równania wyznaczamy \(x_1=(1-2x_2-x_3)/5\).
-Tak samo postępujemy z pozostałymi równaniami. Po prawej stronie
-wstawiamy wyłącznie wartości z poprzedniego kroku:
+Z każdego równania wyznaczamy jedną współrzędną. Po prawej stronie
+używamy wyłącznie wartości z kroku \(k\):
 \begin{equation*}
 \begin{aligned}
 x_1^{(k+1)}&=(1-2x_2^{(k)}-x_3^{(k)})/5,\\
@@ -5330,69 +5347,152 @@ x_2^{(k+1)}&=(2-5x_1^{(k)}-x_3^{(k)})/7,\\
 x_3^{(k+1)}&=(3-3x_1^{(k)}-2x_2^{(k)})/6.
 \end{aligned}
 \end{equation*}
-Z zerowego startu otrzymujemy \(x^{(1)}=(1/5,2/7,1/2)^T\).
-
-#+attr_html: :data-tytul Uogólnianie · reguła Jacobiego
-#+begin_uogolnienie
-Macierz \(Q_J\) zawiera tylko przekątną \(A\). Dla \(i=1,\ldots,n\)
-i \(a_{ii}\ne0\) mamy
+Pierwszy krok dla \(x^{(0)}=(0,0,0)^T\) daje
 \begin{equation*}
-x_i^{(k+1)}=\frac{b_i-\sum_{j\ne i}a_{ij}x_j^{(k)}}{a_{ii}} .
+\begin{aligned}
+x_1^{(1)}&=(1-2\cdot0-0)/5=1/5,\\
+x_2^{(1)}&=(2-5\cdot0-0)/7=2/7,\\
+x_3^{(1)}&=(3-3\cdot0-2\cdot0)/6=1/2.
+\end{aligned}
 \end{equation*}
-#+end_uogolnienie
+Zatem \(x^{(1)}=(1/5,2/7,1/2)^T\).
 
-*** Metoda Gaussa–Seidla: wykorzystanie nowych współrzędnych
+*** Metoda Gaussa–Seidla: nowe wartości od razu
 :PROPERTIES:
 :CUSTOM_ID: iteracyjne-seidel-konstrukcja
 :END:
 
-Przejdźmy przez te same równania w kolejności \(1,2,3\).
-W drugim użyjemy już nowego \(x_1\), a w trzecim — nowych \(x_1,x_2\).
-Ze startu zerowego otrzymujemy kolejno \(1/5\), \((2-5/5)/7=1/7\)
-i \((3-3/5-2/7)/6=37/105\).
-
-#+attr_html: :data-tytul Uogólnianie · reguła Gaussa–Seidla
-#+begin_uogolnienie
-Macierz \(Q_{GS}\) zawiera przekątną \(A\) i elementy poniżej niej.
-Rozwiązujemy układ z \(Q_{GS}\) przez [[#liniowe-uklad-dolnotrojkatny-podstawianie-w-przod][podstawianie w przód]].
-Dla \(i=1,\ldots,n\) i \(a_{ii}\ne0\) daje to
+Rozwiązujemy układ z \(Q_{GS}\) przez podstawianie w przód:
 \begin{equation*}
-x_i^{(k+1)}=\frac{b_i-\sum_{j<i}a_{ij}x_j^{(k+1)}
--\sum_{j>i}a_{ij}x_j^{(k)}}{a_{ii}} .
+\begin{aligned}
+x_1^{(k+1)}&=(1-2x_2^{(k)}-x_3^{(k)})/5,\\
+x_2^{(k+1)}&=(2-5x_1^{(k+1)}-x_3^{(k)})/7,\\
+x_3^{(k+1)}&=(3-3x_1^{(k+1)}-2x_2^{(k+1)})/6.
+\end{aligned}
 \end{equation*}
-#+end_uogolnienie
+Pierwsza współrzędna korzysta ze starych wartości. Druga używa już
+nowego \(x_1\) i starego \(x_3\), a trzecia — nowych \(x_1,x_2\).
+To zasadnicza różnica między metodami.
 
-** Badanie własności: co decyduje o zbieżności?
+** Zbieżność: ścisła dominacja diagonalna
 :PROPERTIES:
 :CUSTOM_ID: iteracyjne-wlasnosci
 :HTML_CONTAINER: section
 :END:
 
-*** Wykonalność kroku
+*** Własność macierzy współczynników
+:PROPERTIES:
+:CUSTOM_ID: iteracyjne-dominacja
+:END:
+
+Macierz \(A\) jest *ściśle diagonalnie dominująca w wierszach*, gdy
+w każdym wierszu moduł elementu przekątnej przewyższa sumę modułów
+pozostałych elementów:
+\begin{equation*}
+|a_{ii}|>\sum_{j\ne i}|a_{ij}|\quad\text{dla każdego }i.
+\end{equation*}
+
+*** Twierdzenie i wniosek dla naszego układu
+:PROPERTIES:
+:CUSTOM_ID: iteracyjne-twierdzenia
+:END:
+
+#+attr_html: :data-tytul Twierdzenie · zbieżność obu metod
+#+begin_twierdzenie
+Jeżeli \(A\) jest ściśle diagonalnie dominująca w wierszach,
+to układ \(Ax=b\) ma jedyne rozwiązanie, a metody Jacobiego i Gaussa–Seidla
+zbiegają do niego z każdego wektora początkowego.
+#+end_twierdzenie
+
+#+attr_html: :id iteracyjne-przewidywanie :data-tytul Wnioskowanie · sprawdzenie założeń
+#+begin_wnioskowanie
+W naszym przykładzie \(5>2+1\), \(7>5+1\) i \(6>3+2\).
+Twierdzenie zapewnia więc zbieżność obu metod, także ze startu zerowego.
+#+end_wnioskowanie
+
+#+attr_html: :id iteracyjne-jacobi-twierdzenie
+#+begin_details
+#+HTML: <summary>Dowód dla metody Jacobiego</summary>
+Korzystamy z macierzy iteracji i [[#iteracyjne-twierdzenie-normowe][warunku normowego]],
+które wprowadzimy poniżej. Dominacja daje \(a_{ii}\ne0\).
+Macierz \(H_J\) ma zerową przekątną i współczynniki \(-a_{ij}/a_{ii}\) poza nią,
+więc
+\begin{equation*}
+\|H_J\|_\infty=\max_i\frac{\sum_{j\ne i}|a_{ij}|}{|a_{ii}|}<1.
+\end{equation*}
+Warunek normowy zapewnia jedyność rozwiązania i zbieżność.
+Adaptacja dowodu I. Marosa,
+[[https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=113][/Lecture Notes: 233 Computational Techniques/, §4.5.5, s. 108–109]].
+#+end_details
+
+#+attr_html: :id iteracyjne-seidel-twierdzenie
+#+begin_details
+#+HTML: <summary>Dowód dla metody Gaussa–Seidla</summary>
+Także tu korzystamy z [[#iteracyjne-twierdzenie-normowe][warunku normowego]].
+Dominacja daje \(a_{ii}\ne0\). Dla \(w=H_{GS}v\) wybierzmy
+\(p\) tak, że \(|w_p|=\|w\|_\infty\). Wiersz \(p\)
+równania \(Q_{GS}w=(Q_{GS}-A)v\) daje
+\begin{equation*}
+\left(|a_{pp}|-\sum_{j<p}|a_{pj}|\right)\|w\|_\infty
+\leq\sum_{j>p}|a_{pj}|\,\|v\|_\infty.
+\end{equation*}
+Dzielimy przez dodatni nawias i bierzemy maksimum po wierszach:
+\begin{equation*}
+\|H_{GS}\|_\infty\leq
+\max_i\frac{\sum_{j>i}|a_{ij}|}{|a_{ii}|-\sum_{j<i}|a_{ij}|}<1.
+\end{equation*}
+Stąd jedyność rozwiązania i zbieżność. Adaptacja dowodu T. Trogdona,
+[[https://faculty.washington.edu/trogdon/105A/html/Lecture20.html][/Lecture 20/, pierwsze twierdzenie i dowód po definicji dominacji]].
+#+end_details
+
+*** Ograniczenie: co się dzieje, gdy Q jest osobliwa?
 :PROPERTIES:
 :CUSTOM_ID: iteracyjne-wykonalnosc
 :END:
 
-Niech \(A=\begin{pmatrix}0&1\\1&1\end{pmatrix}\) i \(b=(1,2)^T\).
-Układ ma jedyne rozwiązanie \(s=(1,1)^T\), bo \(\det A=-1\).
-Obie macierze \(Q_J,Q_{GS}\) mają jednak zerowy pierwszy wiersz.
-Dla \(x^{(0)}=0\) pierwszy wiersz kroku wymaga \(0=1\).
+Dla \(A=\begin{pmatrix}0&1\\1&1\end{pmatrix}\) i \(b=(1,2)^T\)
+układ ma jedyne rozwiązanie \(s=(1,1)^T\), bo \(\det A=-1\).
+Jednak w obu metodach \(\det Q=0\). Pierwsza reguła współrzędnej
+wymagałaby dzielenia przez \(a_{11}=0\); ze startu zerowego
+równanie kroku ma postać \(0=1\).
 
-#+attr_html: :data-tytul Rozróżnianie · jedyność rozwiązania a wykonalność kroku
+#+attr_html: :data-tytul Rozróżnianie · rozwiązanie układu i krok metody
 #+begin_rozroznienie
-Nieosobliwość \(A\) zapewnia jedno rozwiązanie układu.
-Nieosobliwość \(Q\) jest konieczna, aby iteracja wyznaczała
-jednoznaczny krok dla każdego startu. Dla obu metod oznacza to
-\(a_{ii}\ne0\) w każdym wierszu. O zbieżności decyduje jeszcze
-zachowanie kolejnych przybliżeń.
+Nieosobliwa \(A\) zapewnia jedyne rozwiązanie układu,
+a nieosobliwa \(Q\) — jednoznaczny krok iteracji.
+Przy osobliwej \(Q\) krok może nie mieć rozwiązania albo mieć ich wiele.
 #+end_rozroznienie
 
-#+begin_details
-#+HTML: <summary>Co się dzieje, gdy Q jest osobliwa?</summary>
-Prawa strona kroku może nie należeć do obrazu \(Q\), jak w przykładzie.
-Jeśli istnieje rozwiązanie kroku, dodanie dowolnego wektora z jądra
-\(Q\) daje kolejne rozwiązanie. Reguła sama nie wyznacza następnego wektora.
-#+end_details
+** Macierz iteracji: dlaczego błąd maleje?
+:PROPERTIES:
+:CUSTOM_ID: iteracyjne-analiza-bledu
+:HTML_CONTAINER: section
+:END:
+
+*** Macierz H i warunek normowy
+:PROPERTIES:
+:CUSTOM_ID: iteracyjne-twierdzenie-normowe
+:END:
+
+W [[#iteracyjne-rozszczepienie][jawnej regule kroku]] oznaczamy
+\begin{equation*}
+H=I-Q^{-1}A,\qquad c=Q^{-1}b,\qquad x^{(k+1)}=Hx^{(k)}+c.
+\end{equation*}
+\(H\) nazywamy *macierzą iteracji*. Jej norma podporządkowana
+mierzy największy możliwy czynnik zmiany normy wektora:
+\(\|Hv\|\leq\|H\|\,\|v\|\). Za chwilę obliczymy ten czynnik w naszym przykładzie.
+
+#+attr_html: :data-tytul Twierdzenie · warunek konieczny i wystarczający
+#+begin_twierdzenie
+Niech \(A,Q\) będą macierzami rzeczywistymi kwadratowymi tego samego
+rozmiaru i niech \(Q\) będzie nieosobliwa.
+Dla ustalonego \(b\) iteracja zbiega z każdego startu do jedynego
+rozwiązania \(Ax=b\) wtedy i tylko wtedy, gdy istnieje norma wektorowa,
+której podporządkowana norma macierzy spełnia \(\|H\|<1\).
+#+end_twierdzenie
+Twierdzenie dotyczy iteracji bez zaokrągleń. Dla konkretnej normy,
+np. maksimum, warunek \(\|H\|_\infty<1\) jest wystarczający;
+jego niespełnienie nie rozstrzyga o rozbieżności.
 
 *** Błąd i jego zmiana
 :PROPERTIES:
@@ -5400,92 +5500,95 @@ Jeśli istnieje rozwiązanie kroku, dodanie dowolnego wektora z jądra
 :END:
 
 Oznaczmy błąd przez \(e^{(k)}=x^{(k)}-s\).
-Od równania kroku \(x^{(k+1)}=Hx^{(k)}+c\) odejmujemy równanie dla rozwiązania
-\(s=Hs+c\), lewą stronę od lewej i prawą od prawej:
+Rozwiązanie \(s\) spełnia tę samą przekształconą postać układu, więc
+\begin{equation*}
+x^{(k+1)}=Hx^{(k)}+c,\qquad s=Hs+c.
+\end{equation*}
+Odejmujemy stronami: lewą od lewej, prawą od prawej.
 \begin{equation*}
 \begin{aligned}
 e^{(k+1)}=x^{(k+1)}-s
   &=(Hx^{(k)}+c)-(Hs+c)\\
-  &=Hx^{(k)}-Hs=H(x^{(k)}-s)=He^{(k)} .
+  &=Hx^{(k)}-Hs=H(x^{(k)}-s)=He^{(k)}.
 \end{aligned}
 \end{equation*}
-Zatem \(e^{(1)}=He^{(0)}\) i \(e^{(2)}=H(He^{(0)})=H^2e^{(0)}\).
-Po \(k\) krokach mamy \(e^{(k)}=H^ke^{(0)}\).
+Ta sama macierz \(H\) przekształca błąd z kroku \(k\) w błąd z kroku \(k+1\):
+\(e^{(1)}=He^{(0)}\), \(e^{(2)}=H^2e^{(0)}\), ogólnie \(e^{(k)}=H^ke^{(0)}\).
 
-#+begin_details
-#+HTML: <summary>Błąd, residuum i zaokrąglenia</summary>
-Norma błędu \(\|e^{(k)}\|\) mierzy odległość od \(s\). Residuum \(r^{(k)}=b-Ax^{(k)}\)
-mierzy niedopasowanie do równań. Z \(b=As\) mamy
-\(r^{(k)}=As-Ax^{(k)}=-Ae^{(k)}\).
-Od obu stron równania kroku odejmujemy \(Qx^{(k)}\):
-\begin{equation*}
-\begin{aligned}
-Q(x^{(k+1)}-x^{(k)})&=(Q-A)x^{(k)}+b-Qx^{(k)}\\
-&=b-Ax^{(k)}=r^{(k)} .
-\end{aligned}
-\end{equation*}
-Mnożymy przez \(Q^{-1}\) i otrzymujemy przyrost \(Q^{-1}r^{(k)}\).
-
-Są to równości algebraiczne. „Bez zaokrągleń” oznacza tu, że obliczamy
-każdy iloczyn, sumę i dzielenie z pełną dokładnością. W programie
-zaokrąglenia mogą zmienić obliczone residuum i przyrost, więc tych
-równości nie sprawdzamy przez dokładną równość wyników maszynowych.
-#+end_details
-
-*** Norma: jak mierzymy zmniejszanie błędu?
+*** Norma: rachunek błędu dla naszego układu
 :PROPERTIES:
 :CUSTOM_ID: iteracyjne-normy
 :END:
 
-Norma maksimum \(\|e\|_\infty=\max_i|e_i|\) mierzy największy moduł
-współrzędnej błędu. Rozwiązanie [[#iteracyjne-problem][naszego układu]]
-\(s=(1/27,1/5,56/135)^T\) można sprawdzić przez podstawienie do \(As=b\).
-Dla zerowego startu \(e^{(0)}=-s\), więc
-\(\|e^{(0)}\|_\infty=\max(1/27,1/5,56/135)=56/135\).
-
-Po [[#iteracyjne-jacobi-konstrukcja][pierwszym kroku Jacobiego]] mamy
-\(x^{(1)}=(1/5,2/7,1/2)^T\). Odejmujemy \(s\) współrzędna po współrzędnej.
+Norma maksimum \(\|e\|_\infty=\max_i|e_i|\) wybiera największy
+moduł współrzędnej błędu. Rozwiązanie
+\(s=(1/27,1/5,56/135)^T\) sprawdzamy przez podstawienie do \(As=b\).
+Dla \(x^{(0)}=(0,0,0)^T\) mamy
+\begin{equation*}
+\begin{aligned}
+e^{(0)}&=x^{(0)}-s=(-1/27,-1/5,-56/135)^T,\\
+\|e^{(0)}\|_\infty&=\max(1/27,1/5,56/135)=56/135.
+\end{aligned}
+\end{equation*}
+Po [[#iteracyjne-jacobi-konstrukcja][pierwszym kroku Jacobiego]] odejmujemy rozwiązanie współrzędna po współrzędnej:
 \begin{equation*}
 \begin{aligned}
 e^{(1)}=x^{(1)}-s
 &=(1/5-1/27,\,2/7-1/5,\,1/2-56/135)^T\\
-&=(22/135,\,3/35,\,23/270)^T .
+&=(22/135,\,3/35,\,23/270)^T.
 \end{aligned}
 \end{equation*}
-Największy moduł ma pierwsza współrzędna, więc \(\|e^{(1)}\|_\infty=22/135\).
-Dzieląc normę po kroku przez normę przed krokiem, dostajemy \((22/135)/(56/135)=11/28\).
-
-Największy możliwy czynnik zmiany normy obliczamy z macierzy iteracji.
+Największy moduł ma teraz pierwsza współrzędna,
+więc \(\|e^{(1)}\|_\infty=22/135\). Czynnik zmiany normy wynosi
 \begin{equation*}
-q=\|H\|_\infty=\max_i\sum_j|h_{ij}|,\qquad
-\|He\|_\infty\leq q\|e\|_\infty .
+\frac{\|e^{(1)}\|_\infty}{\|e^{(0)}\|_\infty}
+=\frac{22/135}{56/135}=\frac{11}{28}.
 \end{equation*}
-W naszym układzie \(H_J\) miesza trzy współrzędne i daje \(q_J=6/7\).
-Jeśli \(r\geq0\) i każda współrzędna błędu leży między \(-r\) a \(r\),
-to po kroku każda leży między \(-6r/7\) a \(6r/7\).
-Dla \(r>0\) te granice wyznaczają dwa sześciany, bo wzdłuż każdej
-z trzech osi obowiązuje ten sam przedział. Obraz większego sześcianu
-mieści się w mniejszym.
+
+Największy możliwy czynnik dla dowolnego niezerowego błędu
+obliczamy z sum modułów wierszy macierzy iteracji:
+\begin{equation*}
+q=\|H\|_\infty=\max_i\sum_j|h_{ij}|.
+\end{equation*}
+Dla Jacobiego odczytujemy współczynniki z reguły kroku:
+\begin{equation*}
+q_J=\max\left(\frac25+\frac15,\frac57+\frac17,\frac12+\frac13\right)=\frac67.
+\end{equation*}
+Zatem \(11/28\leq6/7\), zgodnie z oszacowaniem
+\(\|He\|_\infty\leq(6/7)\|e\|_\infty\).
 
 #+attr_html: :id iteracyjne-rachunek-normy
 #+begin_details
-#+HTML: <summary>Skąd bierze się granica 6/7?</summary>
-Współczynniki przy starych współrzędnych w [[#iteracyjne-jacobi-konstrukcja][regule Jacobiego]]
-tworzą macierz
+#+HTML: <summary>Jak wiersze H dają granicę 6/7?</summary>
+#+attr_html: :id iteracyjne-kod-normy
+Współczynniki przy starych wartościach w regule Jacobiego tworzą macierz
 \begin{equation*}
-H_J=\begin{pmatrix}0&-2/5&-1/5\\-5/7&0&-1/7\\-1/2&-1/3&0\end{pmatrix} .
+H_J=\begin{pmatrix}0&-2/5&-1/5\\-5/7&0&-1/7\\-1/2&-1/3&0\end{pmatrix}.
 \end{equation*}
-Pierwsza nowa współrzędna błędu to \(-2e_2/5-e_3/5\).
-Jej moduł jest ograniczony przez \((2/5+1/5)r=3r/5\).
-Podobnie kolejne wiersze dają \(6r/7\) i \(5r/6\).
-Granica \(6r/7\) jest osiągalna, np. dla \(e=(r,0,r)^T\).
+Jeśli każdy \(|e_i|\leq r\), to pierwsza nowa współrzędna spełnia
+\(|-2e_2/5-e_3/5|\leq(2/5+1/5)r=3r/5\).
+Pozostałe wiersze dają granice \(6r/7\) i \(5r/6\).
+Największa z nich, \(6r/7\), jest osiągalna dla \(e=(r,0,r)^T\).
 #+end_details
+
+#+attr_html: :id iteracyjne-wyjasnienie :data-tytul Wyjaśnianie · działanie H na błąd
+#+begin_wyjasnienie
+Macierz może zmieniać kierunek wektora i jego normę.
+Tutaj \(q_J=6/7<1\): po kroku norma maksimum błędu wynosi
+co najwyżej \(6/7\) jej poprzedniej wartości.
+Nie oznacza to jednakowego skalowania wszystkich współrzędnych.
+Powtarzając oszacowanie, otrzymujemy
+\begin{equation*}
+\|e^{(k)}\|_\infty\leq\left(\frac67\right)^k\frac{56}{135}\longrightarrow0.
+\end{equation*}
+To wyjaśnia, dlaczego przybliżenia zbiegają do \(s\).
+#+end_wyjasnienie
 
 #+begin_details
 #+HTML: <summary>Ilustracja dla dwóch współrzędnych</summary>
-W dwóch wymiarach \(\|e\|_\infty\leq r\) opisuje kwadrat \([-r,r]^2\).
-Jego obraz mieści się w kwadracie \([-qr,qr]^2\). Przy skalowaniu
-współrzędnych różnymi czynnikami obrazem może być prostokąt.
+To osobny przykład w dwóch wymiarach. Duży kwadrat obejmuje wektory,
+których obie współrzędne leżą między \(-1\) a \(1\). Ich obrazy
+leżą w małym kwadracie, między \(-0.5\) a \(0.5\) na obu osiach.
 
 #+HTML: <figure id="iteracyjne-kontrakcja-obraz">
 #+begin_export html
@@ -5524,46 +5627,11 @@ Strzałki pokazują \(e=(1,0.5)^T\) oraz \(He=(-0.25,0.5)^T\).
 #+HTML: </figcaption></figure>
 #+end_details
 
-*** Ścisła dominacja diagonalna
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-dominacja
-:END:
-
-We wzorach obu metod \(a_{ii}\) jest dzielnikiem, a pozostałe
-współczynniki wiersza przenoszą błędy innych współrzędnych.
-Macierz jest *ściśle diagonalnie dominująca w wierszach*, gdy
-\begin{equation*}
-|a_{ii}|>\sum_{j\ne i}|a_{ij}|\quad\text{dla każdego }i .
-\end{equation*}
-
-** Twierdzenia: uzasadnienie zbieżności
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-twierdzenia
-:HTML_CONTAINER: section
-:END:
-
-*** Wspólny warunek normowy
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-twierdzenie-normowe
-:END:
-
-#+attr_html: :data-tytul Twierdzenie · kontrakcja macierzy iteracji
-#+begin_twierdzenie
-Niech \(A,Q\) będą macierzami rzeczywistymi kwadratowymi tego samego
-rozmiaru, \(Q\) będzie nieosobliwa i \(H=I-Q^{-1}A\).
-Dla ustalonego \(b\) iteracja bez zaokrągleń zbiega z każdego startu
-do jedynego rozwiązania \(Ax=b\) wtedy i tylko wtedy,
-gdy istnieje norma wektorowa, której podporządkowana norma macierzy
-spełnia \(q=\|H\|<1\). W tej normie, dla \(k\geq1\),
-\begin{equation*}
-\|e^{(k)}\|\leq q^k\|e^{(0)}\| .
-\end{equation*}
-#+end_twierdzenie
-
 #+attr_html: :id iteracyjne-dowod-normowy
 #+begin_details
 #+HTML: <summary>Dowód obu kierunków</summary>
-*Wystarczalność.* Gdyby \(Av=0\) dla \(v\ne0\), mielibyśmy \(Hv=v\),
+*Wystarczalność.* Niech \(q=\|H\|<1\) w normie z założenia.
+Gdyby \(Av=0\) dla \(v\ne0\), mielibyśmy \(Hv=v\),
 sprzecznie z \(\|Hv\|\leq q\|v\|\) i \(q<1\).
 Zatem \(A\) jest nieosobliwa. Dla jedynego rozwiązania \(s\)
 równanie błędu daje \(\|e^{(k+1)}\|\leq q\|e^{(k)}\|\).
@@ -5587,534 +5655,32 @@ czyli w normie podporządkowanej \(N\) mamy \(\|H\|_N\leq q<1\).
 
 Dowód wystarczalności korzysta z rekurencji błędu u I. Maros, [[https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=106][/Lecture Notes: 233 Computational Techniques/, §4.5.1, tw. 6]].
 Dowód konieczności powyżej konstruuje normę bezpośrednio z potęg \(H\).
-Równoważne kryterium z dowodem przez promień spektralny podaje M. Heinkenschloss, [[https://bpb-us-e1.wpmucdn.com/blogs.rice.edu/dist/8/4754/files/2019/01/CAAM-454-554-1lvazxx.pdf#page=62][/Numerical Analysis II/, §2.5.3, tw. 2.5.9 i wniosek 2.5.10]].
+Związek istnienia takiej normy z promieniem spektralnym uzasadnia M. Heinkenschloss, [[https://bpb-us-e1.wpmucdn.com/blogs.rice.edu/dist/8/4754/files/2019/01/CAAM-454-554-1lvazxx.pdf#page=62][/Numerical Analysis II/, §2.5.3, tw. 2.5.9 i wniosek 2.5.10]].
 #+end_details
 
-W konkretnej normie, np. \(\|\cdot\|_\infty\), nierówność
-\(\|H\|_\infty<1\) wystarcza. [[#iteracyjne-bez-dominacji][Przykład poniżej]] pokazuje,
-że może zawieść mimo zbieżności.
 
-*** Metoda Jacobiego pod warunkiem dominacji
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-jacobi-twierdzenie
-:END:
-
-#+attr_html: :data-tytul Twierdzenie · zbieżność metody Jacobiego
-#+begin_twierdzenie
-Jeżeli \(A\) jest ściśle diagonalnie dominująca w wierszach,
-to metoda Jacobiego zbiega do jedynego rozwiązania z każdego startu.
-Rzeczywiście,
-\begin{equation*}
-\|H_J\|_\infty=\max_i\frac{\sum_{j\ne i}|a_{ij}|}{|a_{ii}|}<1 .
-\end{equation*}
-#+end_twierdzenie
-
+#+attr_html: :id iteracyjne-bez-dominacji
 #+begin_details
-#+HTML: <summary>Dowód</summary>
-Dominacja daje \(a_{ii}\ne0\). Ze wzoru kroku macierz \(H_J\)
-ma zerową przekątną i współczynniki \(-a_{ij}/a_{ii}\) poza nią.
-Sumujemy ich moduły w każdym wierszu i stosujemy warunek normowy.
-Adaptacja dowodu I. Marosa,
-[[https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=113][/Lecture Notes: 233 Computational Techniques/, §4.5.5, s. 108–109]].
+#+HTML: <summary>Dlaczego warunek dotyczy pewnej normy, a nie każdej?</summary>
+Dla \(A_1=\begin{pmatrix}1&2\\0&1\end{pmatrix}\) obie metody mają
+\(H=\begin{pmatrix}0&-2\\0&0\end{pmatrix}\).
+Mimo \(\|H\|_\infty=2\) są zbieżne: \(H^2=0\), więc błąd znika
+po najwyżej dwóch krokach. W normie \(N(v)=\max(|v_1|,4|v_2|)\)
+mamy \(N(Hv)=2|v_2|\leq N(v)/2\), czyli \(\|H\|_N=1/2<1\).
+Przykład pokazuje też, że ścisła dominacja jest wystarczająca, lecz niekonieczna.
 #+end_details
 
-*** Metoda Gaussa–Seidla pod warunkiem dominacji
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-seidel-twierdzenie
-:END:
-
-#+attr_html: :data-tytul Twierdzenie · zbieżność metody Gaussa–Seidla
-#+begin_twierdzenie
-Jeżeli \(A\) jest ściśle diagonalnie dominująca w wierszach, to metoda
-Gaussa–Seidla, przy kolejności \(i=1,\ldots,n\), zbiega do jedynego
-rozwiązania z każdego startu. Istotnie,
-\begin{equation*}
-\|H_{GS}\|_\infty\leq
-\max_i\frac{\sum_{j>i}|a_{ij}|}{|a_{ii}|-\sum_{j<i}|a_{ij}|}<1 .
-\end{equation*}
-#+end_twierdzenie
-
+#+attr_html: :id iteracyjne-rozbieznosc
 #+begin_details
-#+HTML: <summary>Dowód</summary>
-Dominacja daje \(a_{ii}\ne0\). Dla \(w=H_{GS}v\) wybierzmy
-\(p\) tak, że \(|w_p|=\|w\|_\infty\). Wiersz \(p\)
-równania \(Q_{GS}w=(Q_{GS}-A)v\) daje
-\begin{equation*}
-\left(|a_{pp}|-\sum_{j<p}|a_{pj}|\right)\|w\|_\infty
-\leq\sum_{j>p}|a_{pj}|\,\|v\|_\infty .
-\end{equation*}
-Dzielimy przez dodatni nawias i bierzemy maksimum po wierszach.
-Dominacja czyni każdy iloraz mniejszym od jedności,
-więc stosujemy warunek normowy. Adaptacja dowodu T. Trogdona,
-[[https://faculty.washington.edu/trogdon/105A/html/Lecture20.html][/Lecture 20/, pierwsze twierdzenie i dowód po definicji dominacji]].
-#+end_details
+#+HTML: <summary>Czy nieosobliwa Q wystarcza do zbieżności?</summary>
+Dla \(A_2=\begin{pmatrix}1&2\\2&1\end{pmatrix}\), \(b_2=(3,3)^T\)
+i startu zerowego kroki obu metod są wykonalne, lecz iteracje rozbieżne.
+Rozwiązaniem jest \(s=(1,1)^T\).
 
-** Wnioskowanie: przewidzieć przebieg i ocenić błąd
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-przewidywanie
-:HTML_CONTAINER: section
-:END:
-
-#+attr_html: :data-tytul Wnioskowanie · twierdzenie i wykazane założenia
-#+begin_wnioskowanie
-Dla naszej macierzy mamy \(5>3\), \(7>6\) i \(6>5\),
-więc z twierdzeń wynika zbieżność obu metod do jedynego rozwiązania.
-Normy macierzy iteracji dają \(q_J=6/7\) oraz \(q_{GS}=3/5\).
-Od każdego kroku oczekujemy zatem
-\(\|e^{(k+1)}\|_\infty\leq q\|e^{(k)}\|_\infty\).
-Z [[#iteracyjne-normy][obliczonej normy błędu startowego]] \(56/135\) dostajemy
-górną granicę \(q^k\cdot56/135\) po \(k\) krokach.
-#+end_wnioskowanie
-
-#+attr_html: :id iteracyjne-kod-normy
-#+begin_details
-#+HTML: <summary>Macierze iteracji i wykres błędu</summary>
-Macierz \(H_J\) jest w [[#iteracyjne-normy][rachunku z 7.3.3]]. Dla Gaussa–Seidla
-po podstawieniu nowych współrzędnych dostajemy
-\begin{equation*}
-H_{GS}=\begin{pmatrix}0&-2/5&-1/5\\0&2/7&0\\0&11/105&1/10\end{pmatrix}.
-\end{equation*}
-Największa suma modułów wiersza daje \(q_{GS}=3/5\).
-
-#+HTML: <figure id="iteracyjne-zbieznosc">
-#+begin_export html
-<svg id="iteracyjne-wykres-svg" role="img" aria-labelledby="iteracyjne-wykres-tytul iteracyjne-wykres-opis" xmlns:xlink="http://www.w3.org/1999/xlink" width="780" height="480" style="max-width:100%;height:auto" viewBox="0 0 585 360" xmlns="http://www.w3.org/2000/svg" version="1.1">
-<title id="iteracyjne-wykres-tytul">Zbieżność metod Jacobiego i Gaussa–Seidla</title>
-<desc id="iteracyjne-wykres-opis">Norma maksimum błędu dla iteracji od 0 do 20, obliczona w arytmetyce dokładnej dla macierzy o wierszach (5,2,1), (5,7,1), (3,2,6), prawej strony (1,2,3) i startu zerowego. Linie ciągłe pokazują błąd obu metod, a przerywane granice (6/7)^k razy 56/135 oraz (3/5)^k razy 56/135. Oś pionowa ma skalę logarytmiczną. Błąd pozostaje poniżej odpowiedniej granicy, w tym przykładzie maleje szybciej dla metody Gaussa–Seidla.</desc>
-
- <defs>
-  <style type="text/css">#iteracyjne-wykres-svg *{stroke-linejoin: round; stroke-linecap: butt}</style>
- </defs>
- <g id="iteracyjne-wykres-figure_1">
-  <g id="iteracyjne-wykres-patch_1">
-   <path d="M 0 360
-L 585 360
-L 585 0
-L 0 0
-z
-" style="fill: #faf9f5"/>
-  </g>
-  <g id="iteracyjne-wykres-axes_1">
-   <g id="iteracyjne-wykres-patch_2">
-    <path d="M 73.125 262.8
-L 567.45 262.8
-L 567.45 14.4
-L 73.125 14.4
-z
-" style="fill: #faf9f5"/>
-   </g>
-   <g id="iteracyjne-wykres-matplotlib.axis_1">
-    <g id="iteracyjne-wykres-xtick_1">
-     <g id="iteracyjne-wykres-line2d_1">
-      <defs>
-       <path id="iteracyjne-wykres-me583323b3a" d="M 0 0
-L 0 3.5
-" style="stroke: #65716b; stroke-width: 0.8"/>
-      </defs>
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="73.125" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_1">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="73.125" y="277.778359" transform="rotate(-0 73.125 277.778359)">0</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-xtick_2">
-     <g id="iteracyjne-wykres-line2d_2">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="196.70625" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_2">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="196.70625" y="277.778359" transform="rotate(-0 196.70625 277.778359)">5</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-xtick_3">
-     <g id="iteracyjne-wykres-line2d_3">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="320.2875" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_3">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="320.2875" y="277.778359" transform="rotate(-0 320.2875 277.778359)">10</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-xtick_4">
-     <g id="iteracyjne-wykres-line2d_4">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="443.86875" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_4">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="443.86875" y="277.778359" transform="rotate(-0 443.86875 277.778359)">15</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-xtick_5">
-     <g id="iteracyjne-wykres-line2d_5">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="567.45" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_5">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="567.45" y="277.778359" transform="rotate(-0 567.45 277.778359)">20</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-text_6">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #25322e" x="320.2875" y="295.940391" transform="rotate(-0 320.2875 295.940391)">Numer iteracji k</text>
-    </g>
-   </g>
-   <g id="iteracyjne-wykres-matplotlib.axis_2">
-    <g id="iteracyjne-wykres-ytick_1">
-     <g id="iteracyjne-wykres-line2d_6">
-      <path d="M 73.125 14.4
-L 567.45 14.4
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_7">
-      <defs>
-       <path id="iteracyjne-wykres-ma244d20c02" d="M 0 0
-L -3.5 0
-" style="stroke: #65716b; stroke-width: 0.8"/>
-      </defs>
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="14.4" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_7">
-      <!-- $\mathdefault{10^{0}}$ -->
-      <g style="fill: #65716b" transform="translate(47.645 18.38918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_2">
-     <g id="iteracyjne-wykres-line2d_8">
-      <path d="M 73.125 55.8
-L 567.45 55.8
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_9">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="55.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_8">
-      <!-- $\mathdefault{10^{-2}}$ -->
-      <g style="fill: #65716b" transform="translate(41.45 59.78918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">2</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_3">
-     <g id="iteracyjne-wykres-line2d_10">
-      <path d="M 73.125 97.2
-L 567.45 97.2
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_11">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="97.2" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_9">
-      <!-- $\mathdefault{10^{-4}}$ -->
-      <g style="fill: #65716b" transform="translate(41.45 101.18918)">
-       <text>
-        <tspan x="0" y="-0.615625" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.615625" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.640625" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.640625" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">4</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_4">
-     <g id="iteracyjne-wykres-line2d_12">
-      <path d="M 73.125 138.6
-L 567.45 138.6
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_13">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="138.6" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_10">
-      <!-- $\mathdefault{10^{-6}}$ -->
-      <g style="fill: #65716b" transform="translate(41.45 142.58918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">6</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_5">
-     <g id="iteracyjne-wykres-line2d_14">
-      <path d="M 73.125 180
-L 567.45 180
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_15">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="180" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_11">
-      <!-- $\mathdefault{10^{-8}}$ -->
-      <g style="fill: #65716b" transform="translate(41.45 183.98918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">8</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_6">
-     <g id="iteracyjne-wykres-line2d_16">
-      <path d="M 73.125 221.4
-L 567.45 221.4
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_17">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="221.4" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_12">
-      <!-- $\mathdefault{10^{-10}}$ -->
-      <g style="fill: #65716b" transform="translate(36.83 225.38918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="24.296255" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_7">
-     <g id="iteracyjne-wykres-line2d_18">
-      <path d="M 73.125 262.8
-L 567.45 262.8
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_19">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_13">
-      <!-- $\mathdefault{10^{-12}}$ -->
-      <g style="fill: #65716b" transform="translate(36.83 266.78918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="24.296255" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">2</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-text_14">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #25322e" x="24.646328" y="138.6" transform="rotate(-90 24.646328 138.6)">Norma maksimum błędu</text>
-    </g>
-   </g>
-   <g id="iteracyjne-wykres-line2d_20">
-    <path d="M 73.125 22.310417
-L 97.84125 30.70976
-L 122.5575 32.840709
-L 147.27375 37.875297
-L 171.99 39.362052
-L 196.70625 43.780437
-L 221.4225 45.639341
-L 246.13875 49.290851
-L 270.855 51.634829
-L 295.57125 54.841401
-L 320.2875 57.452057
-L 345.00375 60.40806
-L 369.72 63.162907
-L 394.43625 65.983067
-L 419.1525 68.755051
-L 443.86875 71.562581
-L 468.585 74.343889
-L 493.30125 77.144543
-L 518.0175 79.930925
-L 542.73375 82.727837
-L 567.45 85.51698
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #196551; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="iteracyjne-wykres-line2d_21">
-    <path d="M 73.125 22.310417
-L 97.84125 23.696215
-L 122.5575 25.082014
-L 147.27375 26.467812
-L 171.99 27.853611
-L 196.70625 29.23941
-L 221.4225 30.625208
-L 246.13875 32.011007
-L 270.855 33.396805
-L 295.57125 34.782604
-L 320.2875 36.168402
-L 345.00375 37.554201
-L 369.72 38.939999
-L 394.43625 40.325798
-L 419.1525 41.711596
-L 443.86875 43.097395
-L 468.585 44.483194
-L 493.30125 45.868992
-L 518.0175 47.254791
-L 542.73375 48.640589
-L 567.45 50.026388
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke-dasharray: 8,4.8; stroke-dashoffset: 0; stroke: #196551; stroke-width: 1.6"/>
-   </g>
-   <g id="iteracyjne-wykres-line2d_22">
-    <path d="M 73.125 22.310417
-L 97.84125 30.70976
-L 122.5575 44.449887
-L 147.27375 56.770616
-L 171.99 68.434857
-L 196.70625 79.842135
-L 221.4225 91.155676
-L 246.13875 102.43592
-L 270.855 113.70445
-L 295.57125 124.968872
-L 320.2875 136.231855
-L 345.00375 147.494335
-L 369.72 158.756638
-L 394.43625 170.01888
-L 419.1525 181.2811
-L 443.86875 192.543313
-L 468.585 203.805523
-L 493.30125 215.067732
-L 518.0175 226.32994
-L 542.73375 237.592149
-L 567.45 248.854357
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #935d21; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="iteracyjne-wykres-line2d_23">
-    <path d="M 73.125 22.310417
-L 97.84125 26.902686
-L 122.5575 31.494955
-L 147.27375 36.087224
-L 171.99 40.679493
-L 196.70625 45.271762
-L 221.4225 49.864032
-L 246.13875 54.456301
-L 270.855 59.04857
-L 295.57125 63.640839
-L 320.2875 68.233108
-L 345.00375 72.825377
-L 369.72 77.417646
-L 394.43625 82.009915
-L 419.1525 86.602184
-L 443.86875 91.194454
-L 468.585 95.786723
-L 493.30125 100.378992
-L 518.0175 104.971261
-L 542.73375 109.56353
-L 567.45 114.155799
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke-dasharray: 8,4.8; stroke-dashoffset: 0; stroke: #935d21; stroke-width: 1.6"/>
-   </g>
-   <g id="iteracyjne-wykres-patch_3">
-    <path d="M 73.125 262.8
-L 73.125 14.4
-" style="fill: none; stroke: #d8ded5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="iteracyjne-wykres-patch_4">
-    <path d="M 73.125 262.8
-L 567.45 262.8
-" style="fill: none; stroke: #d8ded5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="iteracyjne-wykres-legend_1">
-    <g id="iteracyjne-wykres-line2d_24">
-     <path d="M 142.617656 326.233359
-L 157.317656 326.233359
-L 172.017656 326.233359
-" style="fill: none; stroke: #196551; stroke-width: 2; stroke-linecap: square"/>
-    </g>
-    <g id="iteracyjne-wykres-text_15">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #25322e" x="180.417656" y="329.908359" transform="rotate(-0 180.417656 329.908359)">Jacobi</text>
-    </g>
-    <g id="iteracyjne-wykres-line2d_25">
-     <path d="M 142.617656 341.645391
-L 157.317656 341.645391
-L 172.017656 341.645391
-" style="fill: none; stroke-dasharray: 8,4.8; stroke-dashoffset: 0; stroke: #196551; stroke-width: 1.6"/>
-    </g>
-    <g id="iteracyjne-wykres-text_16">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #25322e" x="180.417656" y="345.320391" transform="rotate(-0 180.417656 345.320391)">Granica dla Jacobiego</text>
-    </g>
-    <g id="iteracyjne-wykres-line2d_26">
-     <path d="M 320.889609 326.233359
-L 335.589609 326.233359
-L 350.289609 326.233359
-" style="fill: none; stroke: #935d21; stroke-width: 2; stroke-linecap: square"/>
-    </g>
-    <g id="iteracyjne-wykres-text_17">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #25322e" x="358.689609" y="329.908359" transform="rotate(-0 358.689609 329.908359)">Gauss–Seidel</text>
-    </g>
-    <g id="iteracyjne-wykres-line2d_27">
-     <path d="M 320.889609 341.645391
-L 335.589609 341.645391
-L 350.289609 341.645391
-" style="fill: none; stroke-dasharray: 8,4.8; stroke-dashoffset: 0; stroke: #935d21; stroke-width: 1.6"/>
-    </g>
-    <g id="iteracyjne-wykres-text_18">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #25322e" x="358.689609" y="345.320391" transform="rotate(-0 358.689609 345.320391)">Granica dla Gaussa–Seidla</text>
-    </g>
-   </g>
-  </g>
- </g>
- <defs>
-  <clipPath id="iteracyjne-wykres-p2c42273fed">
-   <rect x="73.125" y="14.4" width="494.325" height="248.4"/>
-  </clipPath>
- </defs>
-</svg>
-#+end_export
-#+HTML: <figcaption>
-Norma maksimum błędu dla startu \(x^{(0)}=0\) w arytmetyce
-dokładnej. Linie ciągłe przedstawiają błędy obu metod, a przerywane
-ich górne granice \((6/7)^k\cdot56/135\) oraz \((3/5)^k\cdot56/135\).
-Oś pionowa jest logarytmiczna. Odcinki łączą wartości dla całkowitych numerów iteracji.
-#+HTML: </figcaption></figure>
-#+end_details
-
-#+attr_html: :id iteracyjne-kryterium-stopu
-#+begin_details
-#+HTML: <summary>Jak ocenić dokładność bez znajomości rozwiązania?</summary>
-Dla \(q=\|H\|<1\) i \(d^{(k)}=x^{(k)}-x^{(k-1)}\) mamy
-\(d^{(k+j)}=H^jd^{(k)}\). Zsumowanie kolejnych zmian od \(x^{(k)}\)
-do granicy \(s\) daje
-\begin{equation*}
-\|s-x^{(k)}\|\leq\sum_{j=1}^\infty q^j\|d^{(k)}\|
-=\frac{q}{1-q}\|d^{(k)}\|.
-\end{equation*}
-
-Przy ścisłej dominacji \(\delta=\min_i(|a_{ii}|-\sum_{j\ne i}|a_{ij}|)>0\).
-Wybierając \(p\) o \(|e_p|=\|e\|_\infty\), dostajemy
-\(|(Ae)_p|\geq\delta\|e\|_\infty\). Stąd
-\begin{equation*}
-\|x-s\|_\infty\leq\frac{\|b-Ax\|_\infty}{\delta}.
-\end{equation*}
-Dla naszej macierzy \(\delta=1\). W obliczeniach maszynowych samo
-wyznaczenie residuum również podlega zaokrągleniu.
+#+attr_html: :id iteracyjne-kod-warianty
+W Jacobim obie współrzędne błędu mnożą się przez \(-2\).
+W Gaussie–Seidlu \(x_2^{(k+1)}=4x_2^{(k)}-3\), więc
+\(e_2^{(k+1)}=4e_2^{(k)}\). Błąd ze startu zerowego rośnie.
 #+end_details
 
 ** Sprawdzanie: podstawowy pseudokod
@@ -6123,8 +5689,10 @@ wyznaczenie residuum również podlega zaokrągleniu.
 :HTML_CONTAINER: section
 :END:
 
-Wykonajmy ustaloną liczbę \(N\) kroków. W Jacobim zapisujemy nowy
-wektor osobno. W Gaussie–Seidlu aktualizujemy współrzędne od razu.
+#+attr_html: :id iteracyjne-kryterium-stopu
+Wykonajmy ustaloną liczbę \(N\) kroków dla macierzy \(A\)
+o rozmiarze \(n\times n\) i niezerowej przekątnej.
+Wektor \(x\) jest stanem początkowym, a \(y\) — osobnym wektorem na nowe wartości.
 
 #+NAME: iteracyjne-kod-metody
 #+begin_src text
@@ -6142,74 +5710,12 @@ powtórz N razy:
 zwróć x
 #+end_src
 
-Dane \(A\) mają rozmiar \(n\times n\) i niezerową przekątną,
-a \(x\) jest wektorem startowym. W Jacobim \(y\) to osobny wektor,
-który zastępuje \(x\) po przeliczeniu wszystkich wierszy.
-
 #+attr_html: :id iteracyjne-kod-przyklad
 #+begin_sprawdzenie
-*Sprawdzenie dla \(x^{(0)}=0\).* Wykonaj dwa kroki według pseudokodu
-i porównaj \(\|x^{(k)}-s\|_\infty\) z przewidywaną granicą.
-Wartości zaokrąglono do czterech miejsc po kropce.
-
-| Metoda | Krok \(k\) | Norma błędu | Górna granica \(q^k\cdot 56/135\) |
-|--------+------------+-------------+---------------------------------|
-| Jacobi | 1 | 0.1630 | 0.3556 |
-| Jacobi | 2 | 0.1286 | 0.3048 |
-| Gauss–Seidel | 1 | 0.1630 | 0.2489 |
-| Gauss–Seidel | 2 | 0.0353 | 0.1493 |
+Dla naszego układu i \(N=1\) odtwórz krok Jacobiego
+\((1/5,2/7,1/2)^T\). Wskaż, w którym miejscu pseudokod
+Gaussa–Seidla zacznie używać nowych wartości.
 #+end_sprawdzenie
-
-** Wyjaśnianie: powiązać wynik z własnościami metody
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-wyjasnienie
-:END:
-
-#+attr_html: :data-tytul Wyjaśnianie · dwa sposoby aktualizacji
-#+begin_wyjasnienie
-Gauss–Seidel wykorzystuje nowe współrzędne już w tym samym kroku.
-To zmienia \(H\), a zatem sposób przenoszenia błędu.
-Dla naszego startu po dwóch krokach daje mniejszy błąd.
-Za zbieżność z każdego startu odpowiada udowodniony warunek normowy.
-#+end_wyjasnienie
-
-*** Nowy przykład: brak dominacji i zbieżność
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-bez-dominacji
-:END:
-
-Dla \(A_1=\begin{pmatrix}1&2\\0&1\end{pmatrix}\) i \(b_1=(3,1)^T\)
-obie metody mają \(H=\begin{pmatrix}0&-2\\0&0\end{pmatrix}\).
-Nie zachodzi ani ścisła dominacja, ani \(\|H\|_\infty<1\).
-Jednak \(H^2=0\), więc po najwyżej dwóch krokach błąd znika.
-
-#+begin_details
-#+HTML: <summary>W jakiej normie ta iteracja kurczy błąd?</summary>
-Weźmy \(N(v)=\max(|v_1|,4|v_2|)\). Wtedy
-\(N(Hv)=2|v_2|\leq N(v)/2\), a dla \(v=(0,1)^T\) mamy równość.
-W tej normie \(\|H\|_N=1/2\).
-#+end_details
-
-*** Nowy przykład: wykonalne kroki i rozbieżność
-:PROPERTIES:
-:CUSTOM_ID: iteracyjne-rozbieznosc
-:END:
-
-Dla \(A_2=\begin{pmatrix}1&2\\2&1\end{pmatrix}\) oraz \(b_2=(3,3)^T\)
-macierz \(A_2\) jest nieosobliwa i oba kroki są określone.
-Ze startu zerowego błąd Jacobiego w obu współrzędnych mnoży się
-w każdym kroku przez \(-2\). W Gaussie–Seidlu błąd drugiej
-współrzędnej mnoży się przez \(4\). Obie iteracje są rozbieżne
-z tego startu, mimo że układ ma jedyne rozwiązanie.
-
-#+attr_html: :id iteracyjne-kod-warianty
-#+begin_details
-#+HTML: <summary>Sprawdź rozbieżność ze wzoru kroku</summary>
-Rozwiązanie to \(s=(1,1)^T\). W Jacobim obie współrzędne pozostają
-równe i spełniają \(t_{k+1}=3-2t_k\). W Gaussie–Seidlu wstawienie
-nowego \(x_1=3-2x_2^{(k)}\) do drugiego równania daje
-\(x_2^{(k+1)}=4x_2^{(k)}-3\). Odejmij \(1\) od obu rekurencji.
-#+end_details
 
 #+attr_html: :id iteracyjne-zrodla
 #+begin_details

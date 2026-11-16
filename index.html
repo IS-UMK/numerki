@@ -71,7 +71,7 @@ Od modelu matematycznego do metody obliczeniowej i programu.
 <span class="chapter-card-arrow" aria-hidden="true">→</span></a></li>
 <li class="chapter-card"><a class="chapter-card-link" href="#metody-iteracyjne"><span class="chapter-card-number">07</span>
 <span class="chapter-card-title">Układy równań liniowych: metody iteracyjne</span>
-<span class="chapter-card-description">Konstrukcja, zbieżność i kontrola błędu metod Jacobiego i Gaussa–Seidla.</span>
+<span class="chapter-card-description">Od konstrukcji metod Jacobiego i Gaussa–Seidla do zbieżności i analizy błędu.</span>
 <span class="chapter-card-arrow" aria-hidden="true">→</span></a></li>
 <li class="chapter-card chapter-card-unnumbered"><a class="chapter-card-link" href="#dodatek-arytmetyka"><span class="chapter-card-title">Dodatek: arytmetyka komputerowa — pogłębienie</span>
 <span class="chapter-card-arrow" aria-hidden="true">→</span></a></li>
@@ -6086,68 +6086,85 @@ Metody numeryczne · Model matematyczny → metoda obliczeniowa → program
 <h2 id="metody-iteracyjne"><span class="section-number-2">7.</span> Układy równań liniowych: metody iteracyjne</h2>
 <div class="outline-text-2" id="text-metody-iteracyjne">
 <p class="lead">
-Jak z prostego kroku obliczeniowego zbudować ciąg zbliżający się do rozwiązania układu?
+Jak kolejne przybliżenia prowadzą do rozwiązania układu równań?
 </p>
 
 <div id="iteracyjne-wprowadzenie" class="wprowadzenie">
 <p>
-Konstruujemy krok, badamy jego wykonalność i zbieżność,
-a z twierdzenia wyprowadzamy przewidywanie, które sprawdzimy na przykładzie.
+Zbudujemy obie metody, sprawdzimy warunek zbieżności,
+a następnie wyjaśnimy go przez zmianę błędu.
 </p>
 
 </div>
 </div>
 <section id="outline-container-iteracyjne-problem" class="outline-3">
-<h3 id="iteracyjne-problem"><span class="section-number-3">7.1.</span> Problem: znaleźć przybliżenie rozwiązania</h3>
+<h3 id="iteracyjne-problem"><span class="section-number-3">7.1.</span> Problem: rozwiązać układ równań</h3>
 <div class="outline-text-3" id="text-iteracyjne-problem">
 <p>
-Rozwiążemy układ
+Szukamy trzech liczb spełniających układ
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mn>5</mn><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><mn>2</mn><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><mn>1</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mn>5</mn><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><mn>7</mn><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><mn>2</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mn>3</mn><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><mn>2</mn><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><mn>6</mn><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><mn>3</mn><mi>.</mi></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex">\begin{cases}
+5x_1+2x_2+x_3=1,\\
+5x_1+7x_2+x_3=2,\\
+3x_1+2x_2+6x_3=3.
+\end{cases}</annotation></semantics></math>
+<p>
+Jego model macierzowy to
 </p>
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>A</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>7</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>3</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>6</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><mi>b</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>3</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">Ax=b,\qquad
 A=\begin{pmatrix}5&amp;2&amp;1\\5&amp;7&amp;1\\3&amp;2&amp;6\end{pmatrix},
 \qquad b=\begin{pmatrix}1\\2\\3\end{pmatrix}.</annotation></semantics></math>
-
 <p>
-W <a href="#eliminacja-gaussa">eliminacji Gaussa</a> przekształcaliśmy równania, by rozwiązać układ trójkątny.
-Teraz zachowamy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">A,b</annotation></semantics></math> i zaczniemy od <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">x^{(0)}=(0,0,0)^T</annotation></semantics></math>.
-Szukamy reguły, która z <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><annotation encoding="application/x-tex">x^{(k)}</annotation></semantics></math> wyznaczy następne przybliżenie
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><annotation encoding="application/x-tex">x^{(k+1)}</annotation></semantics></math> rozwiązania <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>.
+Dane są <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">A,b</annotation></semantics></math>, szukane rozwiązanie oznaczamy przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>.
+Zaczniemy od <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">x^{(0)}=(0,0,0)^T</annotation></semantics></math> i będziemy wyznaczać kolejne
+przybliżenia <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><annotation encoding="application/x-tex">x^{(k+1)}</annotation></semantics></math> na podstawie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><annotation encoding="application/x-tex">x^{(k)}</annotation></semantics></math>.
 </p>
 </div>
 </section>
 <section id="outline-container-iteracyjne-konstrukcja" class="outline-3">
-<h3 id="iteracyjne-konstrukcja"><span class="section-number-3">7.2.</span> Konstrukcja: od jednego układu do ciągu przybliżeń</h3>
+<h3 id="iteracyjne-konstrukcja"><span class="section-number-3">7.2.</span> Konstrukcja: wspólna reguła, dwa sposoby aktualizacji</h3>
 <div class="outline-text-3" id="text-iteracyjne-konstrukcja">
 </div>
 <div id="outline-container-iteracyjne-rozszczepienie" class="outline-4">
-<h4 id="iteracyjne-rozszczepienie"><span class="section-number-4">7.2.1.</span> Wspólna reguła i wybór macierzy Q</h4>
+<h4 id="iteracyjne-rozszczepienie"><span class="section-number-4">7.2.1.</span> Wybór macierzy Q i jednoznaczność kroku</h4>
 <div class="outline-text-4" id="text-iteracyjne-rozszczepienie">
 <p>
-Zapiszmy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math> jako <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mi>x</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Q</mi><mo>−</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>x</mi><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Qx=(Q-A)x+b</annotation></semantics></math>.
-Wstawienie poprzedniego przybliżenia po prawej stronie daje
+Dodajemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">Qx</annotation></semantics></math> do obu stron <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math> i przenosimy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">Ax</annotation></semantics></math> na prawą stronę:
 </p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Q</mi><mo>−</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>b</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">Qx^{(k+1)}=(Q-A)x^{(k)}+b .</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mi>x</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Q</mi><mo>−</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>x</mi><mo>+</mo><mi>b</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">Qx=(Q-A)x+b.</annotation></semantics></math>
+<p>
+Po prawej wstawiamy poprzedni stan, a po lewej — szukany następny:
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Q</mi><mo>−</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>b</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">Qx^{(k+1)}=(Q-A)x^{(k)}+b.</annotation></semantics></math>
+<p>
+Wybieramy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> tak, by układ po lewej był łatwy do rozwiązania.
+W metodzie Jacobiego bierzemy przekątną <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>, a w metodzie
+Gaussa–Seidla — część dolnotrójkątną wraz z przekątną:
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mi>J</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>7</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>6</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>7</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>3</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>6</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">Q_J=\begin{pmatrix}5&amp;0&amp;0\\0&amp;7&amp;0\\0&amp;0&amp;6\end{pmatrix},\qquad
+Q_{GS}=\begin{pmatrix}5&amp;0&amp;0\\5&amp;7&amp;0\\3&amp;2&amp;6\end{pmatrix}.</annotation></semantics></math>
 
-<div data-tytul="Konstruowanie · wybór łatwego układu" class="wyprowadzenie">
+<div data-tytul="Konstruowanie · jawna zależność między stanami" class="wyprowadzenie">
 <p>
-Wybieramy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> tak, aby układ po lewej stronie był łatwy do rozwiązania.
-Gdy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> jest nieosobliwa, każdy krok wyznacza jeden wektor. Możemy zapisać
+Gdy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>det</mo><mi>Q</mi><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\det Q\ne0</annotation></semantics></math>, mnożymy równanie przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">Q^{-1}</annotation></semantics></math>:
 </p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>H</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>c</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>H</mi><mo>=</mo><mi>I</mi><mo>−</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>A</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>c</mi><mo>=</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>b</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">x^{(k+1)}=Hx^{(k)}+c,\qquad H=I-Q^{-1}A,\qquad c=Q^{-1}b.</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>Q</mi><mo>−</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>b</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>I</mi><mo>−</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>b</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">x^{(k+1)}=Q^{-1}(Q-A)x^{(k)}+Q^{-1}b
+=(I-Q^{-1}A)x^{(k)}+Q^{-1}b.</annotation></semantics></math>
 <p>
-Macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math> opisuje wpływ poprzedniego przybliżenia na następne.
+Nieosobliwość <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> zapewnia jednoznaczny krok i jest do tego konieczna.
+Dla obu metod oznacza <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{ii}\ne0</annotation></semantics></math> dla każdego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>.
+Sama nie zapewnia zbieżności ciągu.
 </p>
 
 </div>
 </div>
 </div>
 <div id="outline-container-iteracyjne-jacobi-konstrukcja" class="outline-4">
-<h4 id="iteracyjne-jacobi-konstrukcja"><span class="section-number-4">7.2.2.</span> Metoda Jacobiego: wszystkie współrzędne z poprzedniej iteracji</h4>
+<h4 id="iteracyjne-jacobi-konstrukcja"><span class="section-number-4">7.2.2.</span> Metoda Jacobiego: wszystkie wartości z poprzedniego stanu</h4>
 <div class="outline-text-4" id="text-iteracyjne-jacobi-konstrukcja">
 <p>
-Z pierwszego równania wyznaczamy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>2</mn><msub><mi>x</mi><mn>2</mn></msub><mo>−</mo><msub><mi>x</mi><mn>3</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">x_1=(1-2x_2-x_3)/5</annotation></semantics></math>.
-Tak samo postępujemy z pozostałymi równaniami. Po prawej stronie
-wstawiamy wyłącznie wartości z poprzedniego kroku:
+Z każdego równania wyznaczamy jedną współrzędną. Po prawej stronie
+używamy wyłącznie wartości z kroku <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>:
 </p>
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>1</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>2</mn><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><msubsup><mi>x</mi><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>5</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>5</mn><msubsup><mi>x</mi><mn>1</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><msubsup><mi>x</mi><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>7</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>3</mn><msubsup><mi>x</mi><mn>1</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><mn>2</mn><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>6</mn><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
 x_1^{(k+1)}&amp;=(1-2x_2^{(k)}-x_3^{(k)})/5,\\
@@ -6155,180 +6172,265 @@ x_2^{(k+1)}&amp;=(2-5x_1^{(k)}-x_3^{(k)})/7,\\
 x_3^{(k+1)}&amp;=(3-3x_1^{(k)}-2x_2^{(k)})/6.
 \end{aligned}</annotation></semantics></math>
 <p>
-Z zerowego startu otrzymujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">x^{(1)}=(1/5,2/7,1/2)^T</annotation></semantics></math>.
+Pierwszy krok dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">x^{(0)}=(0,0,0)^T</annotation></semantics></math> daje
 </p>
-
-<div data-tytul="Uogólnianie · reguła Jacobiego" class="uogolnienie">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>1</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>2</mn><mo>⋅</mo><mn>0</mn><mo>−</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>5</mn><mo>=</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>5</mn><mo>⋅</mo><mn>0</mn><mo>−</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>7</mn><mo>=</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>3</mn><mo>⋅</mo><mn>0</mn><mo>−</mo><mn>2</mn><mo>⋅</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>6</mn><mo>=</mo><mn>1</mn><mi>/</mi><mn>2</mn><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+x_1^{(1)}&amp;=(1-2\cdot0-0)/5=1/5,\\
+x_2^{(1)}&amp;=(2-5\cdot0-0)/7=2/7,\\
+x_3^{(1)}&amp;=(3-3\cdot0-2\cdot0)/6=1/2.
+\end{aligned}</annotation></semantics></math>
 <p>
-Macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mi>J</mi></msub><annotation encoding="application/x-tex">Q_J</annotation></semantics></math> zawiera tylko przekątną <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>. Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">i=1,\ldots,n</annotation></semantics></math>
-i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{ii}\ne0</annotation></semantics></math> mamy
+Zatem <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">x^{(1)}=(1/5,2/7,1/2)^T</annotation></semantics></math>.
 </p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>x</mi><mi>i</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>=</mo><mfrac><mrow><msub><mi>b</mi><mi>i</mi></msub><mo>−</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow></munder><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msubsup><mi>x</mi><mi>j</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">x_i^{(k+1)}=\frac{b_i-\sum_{j\ne i}a_{ij}x_j^{(k)}}{a_{ii}} .</annotation></semantics></math>
-
-</div>
 </div>
 </div>
 <div id="outline-container-iteracyjne-seidel-konstrukcja" class="outline-4">
-<h4 id="iteracyjne-seidel-konstrukcja"><span class="section-number-4">7.2.3.</span> Metoda Gaussa–Seidla: wykorzystanie nowych współrzędnych</h4>
+<h4 id="iteracyjne-seidel-konstrukcja"><span class="section-number-4">7.2.3.</span> Metoda Gaussa–Seidla: nowe wartości od razu</h4>
 <div class="outline-text-4" id="text-iteracyjne-seidel-konstrukcja">
 <p>
-Przejdźmy przez te same równania w kolejności <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">1,2,3</annotation></semantics></math>.
-W drugim użyjemy już nowego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math>, a w trzecim — nowych <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_1,x_2</annotation></semantics></math>.
-Ze startu zerowego otrzymujemy kolejno <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">1/5</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>5</mn><mi>/</mi><mn>5</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>7</mn><mo>=</mo><mn>1</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">(2-5/5)/7=1/7</annotation></semantics></math>
-i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>3</mn><mi>/</mi><mn>5</mn><mo>−</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>6</mn><mo>=</mo><mn>37</mn><mi>/</mi><mn>105</mn></mrow><annotation encoding="application/x-tex">(3-3/5-2/7)/6=37/105</annotation></semantics></math>.
+Rozwiązujemy układ z <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><annotation encoding="application/x-tex">Q_{GS}</annotation></semantics></math> przez podstawianie w przód:
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>1</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>2</mn><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><msubsup><mi>x</mi><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>5</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>5</mn><msubsup><mi>x</mi><mn>1</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><msubsup><mi>x</mi><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>7</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>x</mi><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>3</mn><msubsup><mi>x</mi><mn>1</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><mn>2</mn><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>6</mn><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+x_1^{(k+1)}&amp;=(1-2x_2^{(k)}-x_3^{(k)})/5,\\
+x_2^{(k+1)}&amp;=(2-5x_1^{(k+1)}-x_3^{(k)})/7,\\
+x_3^{(k+1)}&amp;=(3-3x_1^{(k+1)}-2x_2^{(k+1)})/6.
+\end{aligned}</annotation></semantics></math>
+<p>
+Pierwsza współrzędna korzysta ze starych wartości. Druga używa już
+nowego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math> i starego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>3</mn></msub><annotation encoding="application/x-tex">x_3</annotation></semantics></math>, a trzecia — nowych <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_1,x_2</annotation></semantics></math>.
+To zasadnicza różnica między metodami.
+</p>
+</div>
+</div>
+</section>
+<section id="outline-container-iteracyjne-wlasnosci" class="outline-3">
+<h3 id="iteracyjne-wlasnosci"><span class="section-number-3">7.3.</span> Zbieżność: ścisła dominacja diagonalna</h3>
+<div class="outline-text-3" id="text-iteracyjne-wlasnosci">
+</div>
+<div id="outline-container-iteracyjne-dominacja" class="outline-4">
+<h4 id="iteracyjne-dominacja"><span class="section-number-4">7.3.1.</span> Własność macierzy współczynników</h4>
+<div class="outline-text-4" id="text-iteracyjne-dominacja">
+<p>
+Macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> jest <strong>ściśle diagonalnie dominująca w wierszach</strong>, gdy
+w każdym wierszu moduł elementu przekątnej przewyższa sumę modułów
+pozostałych elementów:
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>&gt;</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">dla każdego </mtext><mspace width="0.333em"></mspace></mrow><mi>i</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">|a_{ii}|&gt;\sum_{j\ne i}|a_{ij}|\quad\text{dla każdego }i.</annotation></semantics></math>
+</div>
+</div>
+<div id="outline-container-iteracyjne-twierdzenia" class="outline-4">
+<h4 id="iteracyjne-twierdzenia"><span class="section-number-4">7.3.2.</span> Twierdzenie i wniosek dla naszego układu</h4>
+<div class="outline-text-4" id="text-iteracyjne-twierdzenia">
+<div data-tytul="Twierdzenie · zbieżność obu metod" class="twierdzenie">
+<p>
+Jeżeli <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> jest ściśle diagonalnie dominująca w wierszach,
+to układ <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math> ma jedyne rozwiązanie, a metody Jacobiego i Gaussa–Seidla
+zbiegają do niego z każdego wektora początkowego.
 </p>
 
-<div data-tytul="Uogólnianie · reguła Gaussa–Seidla" class="uogolnienie">
+</div>
+
+<div id="iteracyjne-przewidywanie" data-tytul="Wnioskowanie · sprawdzenie założeń" class="wnioskowanie">
 <p>
-Macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><annotation encoding="application/x-tex">Q_{GS}</annotation></semantics></math> zawiera przekątną <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> i elementy poniżej niej.
-Rozwiązujemy układ z <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><annotation encoding="application/x-tex">Q_{GS}</annotation></semantics></math> przez <a href="#liniowe-uklad-dolnotrojkatny-podstawianie-w-przod">podstawianie w przód</a>.
-Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">i=1,\ldots,n</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{ii}\ne0</annotation></semantics></math> daje to
+W naszym przykładzie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>&gt;</mo><mn>2</mn><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">5&gt;2+1</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>&gt;</mo><mn>5</mn><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">7&gt;5+1</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>&gt;</mo><mn>3</mn><mo>+</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">6&gt;3+2</annotation></semantics></math>.
+Twierdzenie zapewnia więc zbieżność obu metod, także ze startu zerowego.
 </p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>x</mi><mi>i</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>=</mo><mfrac><mrow><msub><mi>b</mi><mi>i</mi></msub><mo>−</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>&lt;</mo><mi>i</mi></mrow></munder><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msubsup><mi>x</mi><mi>j</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>&gt;</mo><mi>i</mi></mrow></munder><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msubsup><mi>x</mi><mi>j</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">x_i^{(k+1)}=\frac{b_i-\sum_{j&lt;i}a_{ij}x_j^{(k+1)}
--\sum_{j&gt;i}a_{ij}x_j^{(k)}}{a_{ii}} .</annotation></semantics></math>
+
+</div>
+
+<details id="iteracyjne-jacobi-twierdzenie">
+<summary>Dowód dla metody Jacobiego</summary>
+<p>
+Korzystamy z macierzy iteracji i <a href="#iteracyjne-twierdzenie-normowe">warunku normowego</a>,
+które wprowadzimy poniżej. Dominacja daje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{ii}\ne0</annotation></semantics></math>.
+Macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>J</mi></msub><annotation encoding="application/x-tex">H_J</annotation></semantics></math> ma zerową przekątną i współczynniki <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mi>/</mi><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">-a_{ij}/a_{ii}</annotation></semantics></math> poza nią,
+więc
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msub><mi>H</mi><mi>J</mi></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><munder><mo>max</mo><mi>i</mi></munder><mfrac><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mfrac><mo>&lt;</mo><mn>1</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\|H_J\|_\infty=\max_i\frac{\sum_{j\ne i}|a_{ij}|}{|a_{ii}|}&lt;1.</annotation></semantics></math>
+<p>
+Warunek normowy zapewnia jedyność rozwiązania i zbieżność.
+Adaptacja dowodu I. Marosa,
+<a href="https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=113"><i>Lecture Notes: 233 Computational Techniques</i>, §4.5.5, s. 108–109</a>.
+</p>
+</details>
+
+<details id="iteracyjne-seidel-twierdzenie">
+<summary>Dowód dla metody Gaussa–Seidla</summary>
+<p>
+Także tu korzystamy z <a href="#iteracyjne-twierdzenie-normowe">warunku normowego</a>.
+Dominacja daje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{ii}\ne0</annotation></semantics></math>. Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><msub><mi>H</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mi>v</mi></mrow><annotation encoding="application/x-tex">w=H_{GS}v</annotation></semantics></math> wybierzmy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> tak, że <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>w</mi><mi>p</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>=</mo><mo stretchy="false" form="postfix">∥</mo><mi>w</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><annotation encoding="application/x-tex">|w_p|=\|w\|_\infty</annotation></semantics></math>. Wiersz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+równania <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mi>w</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mo>−</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">Q_{GS}w=(Q_{GS}-A)v</annotation></semantics></math> daje
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>p</mi><mi>p</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>−</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>&lt;</mo><mi>p</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>p</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">∥</mo><mi>w</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>&gt;</mo><mi>p</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>p</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mspace width="0.167em"></mspace><mo stretchy="false" form="postfix">∥</mo><mi>v</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\left(|a_{pp}|-\sum_{j&lt;p}|a_{pj}|\right)\|w\|_\infty
+\leq\sum_{j&gt;p}|a_{pj}|\,\|v\|_\infty.</annotation></semantics></math>
+<p>
+Dzielimy przez dodatni nawias i bierzemy maksimum po wierszach:
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msub><mi>H</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><munder><mo>max</mo><mi>i</mi></munder><mfrac><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>&gt;</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>−</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>&lt;</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow></mfrac><mo>&lt;</mo><mn>1</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\|H_{GS}\|_\infty\leq
+\max_i\frac{\sum_{j&gt;i}|a_{ij}|}{|a_{ii}|-\sum_{j&lt;i}|a_{ij}|}&lt;1.</annotation></semantics></math>
+<p>
+Stąd jedyność rozwiązania i zbieżność. Adaptacja dowodu T. Trogdona,
+<a href="https://faculty.washington.edu/trogdon/105A/html/Lecture20.html"><i>Lecture 20</i>, pierwsze twierdzenie i dowód po definicji dominacji</a>.
+</p>
+</details>
+</div>
+</div>
+<div id="outline-container-iteracyjne-wykonalnosc" class="outline-4">
+<h4 id="iteracyjne-wykonalnosc"><span class="section-number-4">7.3.3.</span> Ograniczenie: co się dzieje, gdy Q jest osobliwa?</h4>
+<div class="outline-text-4" id="text-iteracyjne-wykonalnosc">
+<p>
+Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">A=\begin{pmatrix}0&amp;1\\1&amp;1\end{pmatrix}</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">b=(1,2)^T</annotation></semantics></math>
+układ ma jedyne rozwiązanie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">s=(1,1)^T</annotation></semantics></math>, bo <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>det</mo><mi>A</mi><mo>=</mo><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\det A=-1</annotation></semantics></math>.
+Jednak w obu metodach <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>det</mo><mi>Q</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\det Q=0</annotation></semantics></math>. Pierwsza reguła współrzędnej
+wymagałaby dzielenia przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>11</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{11}=0</annotation></semantics></math>; ze startu zerowego
+równanie kroku ma postać <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0=1</annotation></semantics></math>.
+</p>
+
+<div data-tytul="Rozróżnianie · rozwiązanie układu i krok metody" class="rozroznienie">
+<p>
+Nieosobliwa <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> zapewnia jedyne rozwiązanie układu,
+a nieosobliwa <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> — jednoznaczny krok iteracji.
+Przy osobliwej <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> krok może nie mieć rozwiązania albo mieć ich wiele.
+</p>
 
 </div>
 </div>
 </div>
 </section>
-<section id="outline-container-iteracyjne-wlasnosci" class="outline-3">
-<h3 id="iteracyjne-wlasnosci"><span class="section-number-3">7.3.</span> Badanie własności: co decyduje o zbieżności?</h3>
-<div class="outline-text-3" id="text-iteracyjne-wlasnosci">
+<section id="outline-container-iteracyjne-analiza-bledu" class="outline-3">
+<h3 id="iteracyjne-analiza-bledu"><span class="section-number-3">7.4.</span> Macierz iteracji: dlaczego błąd maleje?</h3>
+<div class="outline-text-3" id="text-iteracyjne-analiza-bledu">
 </div>
-<div id="outline-container-iteracyjne-wykonalnosc" class="outline-4">
-<h4 id="iteracyjne-wykonalnosc"><span class="section-number-4">7.3.1.</span> Wykonalność kroku</h4>
-<div class="outline-text-4" id="text-iteracyjne-wykonalnosc">
+<div id="outline-container-iteracyjne-twierdzenie-normowe" class="outline-4">
+<h4 id="iteracyjne-twierdzenie-normowe"><span class="section-number-4">7.4.1.</span> Macierz H i warunek normowy</h4>
+<div class="outline-text-4" id="text-iteracyjne-twierdzenie-normowe">
 <p>
-Niech <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">A=\begin{pmatrix}0&amp;1\\1&amp;1\end{pmatrix}</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">b=(1,2)^T</annotation></semantics></math>.
-Układ ma jedyne rozwiązanie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">s=(1,1)^T</annotation></semantics></math>, bo <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>det</mo><mi>A</mi><mo>=</mo><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\det A=-1</annotation></semantics></math>.
-Obie macierze <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mi>J</mi></msub><mo>,</mo><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Q_J,Q_{GS}</annotation></semantics></math> mają jednak zerowy pierwszy wiersz.
-Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x^{(0)}=0</annotation></semantics></math> pierwszy wiersz kroku wymaga <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0=1</annotation></semantics></math>.
+W <a href="#iteracyjne-rozszczepienie">jawnej regule kroku</a> oznaczamy
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mi>I</mi><mo>−</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>A</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>c</mi><mo>=</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>b</mi><mo>,</mo><mspace width="2.0em"></mspace><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>H</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>c</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">H=I-Q^{-1}A,\qquad c=Q^{-1}b,\qquad x^{(k+1)}=Hx^{(k)}+c.</annotation></semantics></math>
+<p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math> nazywamy <strong>macierzą iteracji</strong>. Jej norma podporządkowana
+mierzy największy możliwy czynnik zmiany normy wektora:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mi>v</mi><mo stretchy="false" form="postfix">∥</mo><mo>≤</mo><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mo stretchy="false" form="postfix">∥</mo><mspace width="0.167em"></mspace><mo stretchy="false" form="postfix">∥</mo><mi>v</mi><mo stretchy="false" form="postfix">∥</mo></mrow><annotation encoding="application/x-tex">\|Hv\|\leq\|H\|\,\|v\|</annotation></semantics></math>. Za chwilę obliczymy ten czynnik w naszym przykładzie.
 </p>
 
-<div data-tytul="Rozróżnianie · jedyność rozwiązania a wykonalność kroku" class="rozroznienie">
+<div data-tytul="Twierdzenie · warunek konieczny i wystarczający" class="twierdzenie">
 <p>
-Nieosobliwość <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> zapewnia jedno rozwiązanie układu.
-Nieosobliwość <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> jest konieczna, aby iteracja wyznaczała
-jednoznaczny krok dla każdego startu. Dla obu metod oznacza to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{ii}\ne0</annotation></semantics></math> w każdym wierszu. O zbieżności decyduje jeszcze
-zachowanie kolejnych przybliżeń.
+Niech <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>Q</mi></mrow><annotation encoding="application/x-tex">A,Q</annotation></semantics></math> będą macierzami rzeczywistymi kwadratowymi tego samego
+rozmiaru i niech <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> będzie nieosobliwa.
+Dla ustalonego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math> iteracja zbiega z każdego startu do jedynego
+rozwiązania <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math> wtedy i tylko wtedy, gdy istnieje norma wektorowa,
+której podporządkowana norma macierzy spełnia <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mo stretchy="false" form="postfix">∥</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\|H\|&lt;1</annotation></semantics></math>.
 </p>
 
 </div>
-
-<details>
-<summary>Co się dzieje, gdy Q jest osobliwa?</summary>
 <p>
-Prawa strona kroku może nie należeć do obrazu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>, jak w przykładzie.
-Jeśli istnieje rozwiązanie kroku, dodanie dowolnego wektora z jądra
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> daje kolejne rozwiązanie. Reguła sama nie wyznacza następnego wektora.
+Twierdzenie dotyczy iteracji bez zaokrągleń. Dla konkretnej normy,
+np. maksimum, warunek <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\|H\|_\infty&lt;1</annotation></semantics></math> jest wystarczający;
+jego niespełnienie nie rozstrzyga o rozbieżności.
 </p>
-</details>
 </div>
 </div>
 <div id="outline-container-iteracyjne-blad-residuum" class="outline-4">
-<h4 id="iteracyjne-blad-residuum"><span class="section-number-4">7.3.2.</span> Błąd i jego zmiana</h4>
+<h4 id="iteracyjne-blad-residuum"><span class="section-number-4">7.4.2.</span> Błąd i jego zmiana</h4>
 <div class="outline-text-4" id="text-iteracyjne-blad-residuum">
 <p>
 Oznaczmy błąd przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">e^{(k)}=x^{(k)}-s</annotation></semantics></math>.
-Od równania kroku <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>H</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">x^{(k+1)}=Hx^{(k)}+c</annotation></semantics></math> odejmujemy równanie dla rozwiązania
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><mi>H</mi><mi>s</mi><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">s=Hs+c</annotation></semantics></math>, lewą stronę od lewej i prawą od prawej:
+Rozwiązanie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math> spełnia tę samą przekształconą postać układu, więc
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>H</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>c</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>s</mi><mo>=</mo><mi>H</mi><mi>s</mi><mo>+</mo><mi>c</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">x^{(k+1)}=Hx^{(k)}+c,\qquad s=Hs+c.</annotation></semantics></math>
+<p>
+Odejmujemy stronami: lewą od lewej, prawą od prawej.
 </p>
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><mi>s</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>c</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mi>s</mi><mo>+</mo><mi>c</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>H</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><mi>H</mi><mi>s</mi><mo>=</mo><mi>H</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>H</mi><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
 e^{(k+1)}=x^{(k+1)}-s
   &amp;=(Hx^{(k)}+c)-(Hs+c)\\
-  &amp;=Hx^{(k)}-Hs=H(x^{(k)}-s)=He^{(k)} .
+  &amp;=Hx^{(k)}-Hs=H(x^{(k)}-s)=He^{(k)}.
 \end{aligned}</annotation></semantics></math>
 <p>
-Zatem <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>H</mi><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">e^{(1)}=He^{(0)}</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>H</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>H</mi><mn>2</mn></msup><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">e^{(2)}=H(He^{(0)})=H^2e^{(0)}</annotation></semantics></math>.
-Po <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> krokach mamy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>H</mi><mi>k</mi></msup><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">e^{(k)}=H^ke^{(0)}</annotation></semantics></math>.
+Ta sama macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math> przekształca błąd z kroku <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> w błąd z kroku <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k+1</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>H</mi><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">e^{(1)}=He^{(0)}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>H</mi><mn>2</mn></msup><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">e^{(2)}=H^2e^{(0)}</annotation></semantics></math>, ogólnie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>H</mi><mi>k</mi></msup><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">e^{(k)}=H^ke^{(0)}</annotation></semantics></math>.
 </p>
-
-<details>
-<summary>Błąd, residuum i zaokrąglenia</summary>
-<p>
-Norma błędu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">∥</mo></mrow><annotation encoding="application/x-tex">\|e^{(k)}\|</annotation></semantics></math> mierzy odległość od <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>. Residuum <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>b</mi><mo>−</mo><mi>A</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">r^{(k)}=b-Ax^{(k)}</annotation></semantics></math>
-mierzy niedopasowanie do równań. Z <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mi>A</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">b=As</annotation></semantics></math> mamy
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>A</mi><mi>s</mi><mo>−</mo><mi>A</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>−</mi><mi>A</mi><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">r^{(k)}=As-Ax^{(k)}=-Ae^{(k)}</annotation></semantics></math>.
-Od obu stron równania kroku odejmujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">Qx^{(k)}</annotation></semantics></math>:
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Q</mi><mo>−</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>+</mo><mi>b</mi><mo>−</mo><mi>Q</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>b</mi><mo>−</mo><mi>A</mi><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
-Q(x^{(k+1)}-x^{(k)})&amp;=(Q-A)x^{(k)}+b-Qx^{(k)}\\
-&amp;=b-Ax^{(k)}=r^{(k)} .
-\end{aligned}</annotation></semantics></math>
-<p>
-Mnożymy przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">Q^{-1}</annotation></semantics></math> i otrzymujemy przyrost <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><msup><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">Q^{-1}r^{(k)}</annotation></semantics></math>.
-</p>
-
-<p>
-Są to równości algebraiczne. „Bez zaokrągleń” oznacza tu, że obliczamy
-każdy iloczyn, sumę i dzielenie z pełną dokładnością. W programie
-zaokrąglenia mogą zmienić obliczone residuum i przyrost, więc tych
-równości nie sprawdzamy przez dokładną równość wyników maszynowych.
-</p>
-</details>
 </div>
 </div>
 <div id="outline-container-iteracyjne-normy" class="outline-4">
-<h4 id="iteracyjne-normy"><span class="section-number-4">7.3.3.</span> Norma: jak mierzymy zmniejszanie błędu?</h4>
+<h4 id="iteracyjne-normy"><span class="section-number-4">7.4.3.</span> Norma: rachunek błędu dla naszego układu</h4>
 <div class="outline-text-4" id="text-iteracyjne-normy">
 <p>
-Norma maksimum <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><msub><mo>max</mo><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>e</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">\|e\|_\infty=\max_i|e_i|</annotation></semantics></math> mierzy największy moduł
-współrzędnej błędu. Rozwiązanie <a href="#iteracyjne-problem">naszego układu</a>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>27</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>56</mn><mi>/</mi><mn>135</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">s=(1/27,1/5,56/135)^T</annotation></semantics></math> można sprawdzić przez podstawienie do <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>s</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">As=b</annotation></semantics></math>.
-Dla zerowego startu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>−</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">e^{(0)}=-s</annotation></semantics></math>, więc
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>27</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>56</mn><mi>/</mi><mn>135</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>56</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">\|e^{(0)}\|_\infty=\max(1/27,1/5,56/135)=56/135</annotation></semantics></math>.
+Norma maksimum <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><msub><mo>max</mo><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>e</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">\|e\|_\infty=\max_i|e_i|</annotation></semantics></math> wybiera największy
+moduł współrzędnej błędu. Rozwiązanie
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>27</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>56</mn><mi>/</mi><mn>135</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">s=(1/27,1/5,56/135)^T</annotation></semantics></math> sprawdzamy przez podstawienie do <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>s</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">As=b</annotation></semantics></math>.
+Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">x^{(0)}=(0,0,0)^T</annotation></semantics></math> mamy
 </p>
-
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><mi>s</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mn>1</mn><mi>/</mi><mn>27</mn><mo>,</mo><mi>−</mi><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mi>−</mi><mn>56</mn><mi>/</mi><mn>135</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>27</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>56</mn><mi>/</mi><mn>135</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>56</mn><mi>/</mi><mn>135</mn><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+e^{(0)}&amp;=x^{(0)}-s=(-1/27,-1/5,-56/135)^T,\\
+\|e^{(0)}\|_\infty&amp;=\max(1/27,1/5,56/135)=56/135.
+\end{aligned}</annotation></semantics></math>
 <p>
-Po <a href="#iteracyjne-jacobi-konstrukcja">pierwszym kroku Jacobiego</a> mamy
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">x^{(1)}=(1/5,2/7,1/2)^T</annotation></semantics></math>. Odejmujemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math> współrzędna po współrzędnej.
+Po <a href="#iteracyjne-jacobi-konstrukcja">pierwszym kroku Jacobiego</a> odejmujemy rozwiązanie współrzędna po współrzędnej:
 </p>
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><mi>s</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>−</mo><mn>1</mn><mi>/</mi><mn>27</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>2</mn><mi>/</mi><mn>7</mn><mo>−</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>1</mn><mi>/</mi><mn>2</mn><mo>−</mo><mn>56</mn><mi>/</mi><mn>135</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>22</mn><mi>/</mi><mn>135</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>3</mn><mi>/</mi><mn>35</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>23</mn><mi>/</mi><mn>270</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
 e^{(1)}=x^{(1)}-s
 &amp;=(1/5-1/27,\,2/7-1/5,\,1/2-56/135)^T\\
-&amp;=(22/135,\,3/35,\,23/270)^T .
+&amp;=(22/135,\,3/35,\,23/270)^T.
 \end{aligned}</annotation></semantics></math>
 <p>
-Największy moduł ma pierwsza współrzędna, więc <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><mn>22</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">\|e^{(1)}\|_\infty=22/135</annotation></semantics></math>.
-Dzieląc normę po kroku przez normę przed krokiem, dostajemy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>22</mn><mi>/</mi><mn>135</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>56</mn><mi>/</mi><mn>135</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>11</mn><mi>/</mi><mn>28</mn></mrow><annotation encoding="application/x-tex">(22/135)/(56/135)=11/28</annotation></semantics></math>.
+Największy moduł ma teraz pierwsza współrzędna,
+więc <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><mn>22</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">\|e^{(1)}\|_\infty=22/135</annotation></semantics></math>. Czynnik zmiany normy wynosi
 </p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>22</mn><mi>/</mi><mn>135</mn></mrow><mrow><mn>56</mn><mi>/</mi><mn>135</mn></mrow></mfrac><mo>=</mo><mfrac><mn>11</mn><mn>28</mn></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\frac{\|e^{(1)}\|_\infty}{\|e^{(0)}\|_\infty}
+=\frac{22/135}{56/135}=\frac{11}{28}.</annotation></semantics></math>
 
 <p>
-Największy możliwy czynnik zmiany normy obliczamy z macierzy iteracji.
+Największy możliwy czynnik dla dowolnego niezerowego błędu
+obliczamy z sum modułów wierszy macierzy iteracji:
 </p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><munder><mo>max</mo><mi>i</mi></munder><munder><mo>∑</mo><mi>j</mi></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>h</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><mi>q</mi><mo stretchy="false" form="postfix">∥</mo><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">q=\|H\|_\infty=\max_i\sum_j|h_{ij}|,\qquad
-\|He\|_\infty\leq q\|e\|_\infty .</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><munder><mo>max</mo><mi>i</mi></munder><munder><mo>∑</mo><mi>j</mi></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>h</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">q=\|H\|_\infty=\max_i\sum_j|h_{ij}|.</annotation></semantics></math>
 <p>
-W naszym układzie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>J</mi></msub><annotation encoding="application/x-tex">H_J</annotation></semantics></math> miesza trzy współrzędne i daje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>J</mi></msub><mo>=</mo><mn>6</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">q_J=6/7</annotation></semantics></math>.
-Jeśli <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">r\geq0</annotation></semantics></math> i każda współrzędna błędu leży między <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">-r</annotation></semantics></math> a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>,
-to po kroku każda leży między <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>6</mn><mi>r</mi><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">-6r/7</annotation></semantics></math> a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>r</mi><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">6r/7</annotation></semantics></math>.
-Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">r&gt;0</annotation></semantics></math> te granice wyznaczają dwa sześciany, bo wzdłuż każdej
-z trzech osi obowiązuje ten sam przedział. Obraz większego sześcianu
-mieści się w mniejszym.
+Dla Jacobiego odczytujemy współczynniki z reguły kroku:
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>J</mi></msub><mo>=</mo><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>2</mn><mn>5</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>5</mn></mfrac><mo>,</mo><mfrac><mn>5</mn><mn>7</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>7</mn></mfrac><mo>,</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>6</mn><mn>7</mn></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">q_J=\max\left(\frac25+\frac15,\frac57+\frac17,\frac12+\frac13\right)=\frac67.</annotation></semantics></math>
+<p>
+Zatem <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>28</mn><mo>≤</mo><mn>6</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">11/28\leq6/7</annotation></semantics></math>, zgodnie z oszacowaniem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>6</mn><mi>/</mi><mn>7</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">∥</mo><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><annotation encoding="application/x-tex">\|He\|_\infty\leq(6/7)\|e\|_\infty</annotation></semantics></math>.
 </p>
 
 <details id="iteracyjne-rachunek-normy">
-<summary>Skąd bierze się granica 6/7?</summary>
-<p>
-Współczynniki przy starych współrzędnych w <a href="#iteracyjne-jacobi-konstrukcja">regule Jacobiego</a>
-tworzą macierz
+<summary>Jak wiersze H dają granicę 6/7?</summary>
+<p id="iteracyjne-kod-normy">
+Współczynniki przy starych wartościach w regule Jacobiego tworzą macierz
 </p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mi>J</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>2</mn><mi>/</mi><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>5</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>5</mn><mi>/</mi><mn>7</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>7</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>3</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">H_J=\begin{pmatrix}0&amp;-2/5&amp;-1/5\\-5/7&amp;0&amp;-1/7\\-1/2&amp;-1/3&amp;0\end{pmatrix} .</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mi>J</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>2</mn><mi>/</mi><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>5</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>5</mn><mi>/</mi><mn>7</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>7</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>3</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">H_J=\begin{pmatrix}0&amp;-2/5&amp;-1/5\\-5/7&amp;0&amp;-1/7\\-1/2&amp;-1/3&amp;0\end{pmatrix}.</annotation></semantics></math>
 <p>
-Pierwsza nowa współrzędna błędu to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>2</mn><msub><mi>e</mi><mn>2</mn></msub><mi>/</mi><mn>5</mn><mo>−</mo><msub><mi>e</mi><mn>3</mn></msub><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">-2e_2/5-e_3/5</annotation></semantics></math>.
-Jej moduł jest ograniczony przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>/</mi><mn>5</mn><mo>+</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>r</mi><mo>=</mo><mn>3</mn><mi>r</mi><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">(2/5+1/5)r=3r/5</annotation></semantics></math>.
-Podobnie kolejne wiersze dają <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>r</mi><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">6r/7</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>r</mi><mi>/</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">5r/6</annotation></semantics></math>.
-Granica <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>r</mi><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">6r/7</annotation></semantics></math> jest osiągalna, np. dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>r</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">e=(r,0,r)^T</annotation></semantics></math>.
+Jeśli każdy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>e</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">|e_i|\leq r</annotation></semantics></math>, to pierwsza nowa współrzędna spełnia
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>−</mi><mn>2</mn><msub><mi>e</mi><mn>2</mn></msub><mi>/</mi><mn>5</mn><mo>−</mo><msub><mi>e</mi><mn>3</mn></msub><mi>/</mi><mn>5</mn><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>/</mi><mn>5</mn><mo>+</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>r</mi><mo>=</mo><mn>3</mn><mi>r</mi><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">|-2e_2/5-e_3/5|\leq(2/5+1/5)r=3r/5</annotation></semantics></math>.
+Pozostałe wiersze dają granice <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>r</mi><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">6r/7</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>r</mi><mi>/</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">5r/6</annotation></semantics></math>.
+Największa z nich, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>r</mi><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">6r/7</annotation></semantics></math>, jest osiągalna dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>r</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">e=(r,0,r)^T</annotation></semantics></math>.
 </p>
 </details>
+
+<div id="iteracyjne-wyjasnienie" data-tytul="Wyjaśnianie · działanie H na błąd" class="wyjasnienie">
+<p>
+Macierz może zmieniać kierunek wektora i jego normę.
+Tutaj <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>J</mi></msub><mo>=</mo><mn>6</mn><mi>/</mi><mn>7</mn><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">q_J=6/7&lt;1</annotation></semantics></math>: po kroku norma maksimum błędu wynosi
+co najwyżej <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">6/7</annotation></semantics></math> jej poprzedniej wartości.
+Nie oznacza to jednakowego skalowania wszystkich współrzędnych.
+Powtarzając oszacowanie, otrzymujemy
+</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>6</mn><mn>7</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msup><mfrac><mn>56</mn><mn>135</mn></mfrac><mo>→</mo><mn>0</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\|e^{(k)}\|_\infty\leq\left(\frac67\right)^k\frac{56}{135}\longrightarrow0.</annotation></semantics></math>
+<p>
+To wyjaśnia, dlaczego przybliżenia zbiegają do <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>.
+</p>
+
+</div>
 
 <details>
 <summary>Ilustracja dla dwóch współrzędnych</summary>
 <p>
-W dwóch wymiarach <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\|e\|_\infty\leq r</annotation></semantics></math> opisuje kwadrat <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mi>r</mi><mo>,</mo><mi>r</mi><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup><annotation encoding="application/x-tex">[-r,r]^2</annotation></semantics></math>.
-Jego obraz mieści się w kwadracie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mi>q</mi><mi>r</mi><mo>,</mo><mi>q</mi><mi>r</mi><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup><annotation encoding="application/x-tex">[-qr,qr]^2</annotation></semantics></math>. Przy skalowaniu
-współrzędnych różnymi czynnikami obrazem może być prostokąt.
+To osobny przykład w dwóch wymiarach. Duży kwadrat obejmuje wektory,
+których obie współrzędne leżą między <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math> a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>. Ich obrazy
+leżą w małym kwadracie, między <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>0.5</mn></mrow><annotation encoding="application/x-tex">-0.5</annotation></semantics></math> a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.5</mn><annotation encoding="application/x-tex">0.5</annotation></semantics></math> na obu osiach.
 </p>
 
 <figure id="iteracyjne-kontrakcja-obraz">
@@ -6367,44 +6469,12 @@ Strzałki pokazują <math display="inline" xmlns="http://www.w3.org/1998/Math/Ma
 </p>
 </figcaption></figure>
 </details>
-</div>
-</div>
-<div id="outline-container-iteracyjne-dominacja" class="outline-4">
-<h4 id="iteracyjne-dominacja"><span class="section-number-4">7.3.4.</span> Ścisła dominacja diagonalna</h4>
-<div class="outline-text-4" id="text-iteracyjne-dominacja">
-<p>
-We wzorach obu metod <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><annotation encoding="application/x-tex">a_{ii}</annotation></semantics></math> jest dzielnikiem, a pozostałe
-współczynniki wiersza przenoszą błędy innych współrzędnych.
-Macierz jest <strong>ściśle diagonalnie dominująca w wierszach</strong>, gdy
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>&gt;</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">dla każdego </mtext><mspace width="0.333em"></mspace></mrow><mi>i</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">|a_{ii}|&gt;\sum_{j\ne i}|a_{ij}|\quad\text{dla każdego }i .</annotation></semantics></math>
-</div>
-</div>
-</section>
-<section id="outline-container-iteracyjne-twierdzenia" class="outline-3">
-<h3 id="iteracyjne-twierdzenia"><span class="section-number-3">7.4.</span> Twierdzenia: uzasadnienie zbieżności</h3>
-<div class="outline-text-3" id="text-iteracyjne-twierdzenia">
-</div>
-<div id="outline-container-iteracyjne-twierdzenie-normowe" class="outline-4">
-<h4 id="iteracyjne-twierdzenie-normowe"><span class="section-number-4">7.4.1.</span> Wspólny warunek normowy</h4>
-<div class="outline-text-4" id="text-iteracyjne-twierdzenie-normowe">
-<div data-tytul="Twierdzenie · kontrakcja macierzy iteracji" class="twierdzenie">
-<p>
-Niech <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>Q</mi></mrow><annotation encoding="application/x-tex">A,Q</annotation></semantics></math> będą macierzami rzeczywistymi kwadratowymi tego samego
-rozmiaru, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> będzie nieosobliwa i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mi>I</mi><mo>−</mo><msup><mi>Q</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>A</mi></mrow><annotation encoding="application/x-tex">H=I-Q^{-1}A</annotation></semantics></math>.
-Dla ustalonego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math> iteracja bez zaokrągleń zbiega z każdego startu
-do jedynego rozwiązania <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>x</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">Ax=b</annotation></semantics></math> wtedy i tylko wtedy,
-gdy istnieje norma wektorowa, której podporządkowana norma macierzy
-spełnia <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mo stretchy="false" form="postfix">∥</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">q=\|H\|&lt;1</annotation></semantics></math>. W tej normie, dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k\geq1</annotation></semantics></math>,
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">∥</mo><mo>≤</mo><msup><mi>q</mi><mi>k</mi></msup><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">∥</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\|e^{(k)}\|\leq q^k\|e^{(0)}\| .</annotation></semantics></math>
-
-</div>
 
 <details id="iteracyjne-dowod-normowy">
 <summary>Dowód obu kierunków</summary>
 <p>
-<strong>Wystarczalność.</strong> Gdyby <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>v</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">Av=0</annotation></semantics></math> dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">v\ne0</annotation></semantics></math>, mielibyśmy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>v</mi><mo>=</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">Hv=v</annotation></semantics></math>,
+<strong>Wystarczalność.</strong> Niech <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mo stretchy="false" form="postfix">∥</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">q=\|H\|&lt;1</annotation></semantics></math> w normie z założenia.
+Gdyby <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>v</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">Av=0</annotation></semantics></math> dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">v\ne0</annotation></semantics></math>, mielibyśmy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>v</mi><mo>=</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">Hv=v</annotation></semantics></math>,
 sprzecznie z <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mi>v</mi><mo stretchy="false" form="postfix">∥</mo><mo>≤</mo><mi>q</mi><mo stretchy="false" form="postfix">∥</mo><mi>v</mi><mo stretchy="false" form="postfix">∥</mo></mrow><annotation encoding="application/x-tex">\|Hv\|\leq q\|v\|</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">q&lt;1</annotation></semantics></math>.
 Zatem <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> jest nieosobliwa. Dla jedynego rozwiązania <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
 równanie błędu daje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">∥</mo><mo>≤</mo><mi>q</mi><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">∥</mo></mrow><annotation encoding="application/x-tex">\|e^{(k+1)}\|\leq q\|e^{(k)}\|</annotation></semantics></math>.
@@ -6432,551 +6502,47 @@ czyli w normie podporządkowanej <math display="inline" xmlns="http://www.w3.org
 <p>
 Dowód wystarczalności korzysta z rekurencji błędu u I. Maros, <a href="https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=106"><i>Lecture Notes: 233 Computational Techniques</i>, §4.5.1, tw. 6</a>.
 Dowód konieczności powyżej konstruuje normę bezpośrednio z potęg <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>.
-Równoważne kryterium z dowodem przez promień spektralny podaje M. Heinkenschloss, <a href="https://bpb-us-e1.wpmucdn.com/blogs.rice.edu/dist/8/4754/files/2019/01/CAAM-454-554-1lvazxx.pdf#page=62"><i>Numerical Analysis II</i>, §2.5.3, tw. 2.5.9 i wniosek 2.5.10</a>.
+Związek istnienia takiej normy z promieniem spektralnym uzasadnia M. Heinkenschloss, <a href="https://bpb-us-e1.wpmucdn.com/blogs.rice.edu/dist/8/4754/files/2019/01/CAAM-454-554-1lvazxx.pdf#page=62"><i>Numerical Analysis II</i>, §2.5.3, tw. 2.5.9 i wniosek 2.5.10</a>.
 </p>
 </details>
 
-<p>
-W konkretnej normie, np. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mo>⋅</mo><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><annotation encoding="application/x-tex">\|\cdot\|_\infty</annotation></semantics></math>, nierówność
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\|H\|_\infty&lt;1</annotation></semantics></math> wystarcza. <a href="#iteracyjne-bez-dominacji">Przykład poniżej</a> pokazuje,
-że może zawieść mimo zbieżności.
-</p>
-</div>
-</div>
-<div id="outline-container-iteracyjne-jacobi-twierdzenie" class="outline-4">
-<h4 id="iteracyjne-jacobi-twierdzenie"><span class="section-number-4">7.4.2.</span> Metoda Jacobiego pod warunkiem dominacji</h4>
-<div class="outline-text-4" id="text-iteracyjne-jacobi-twierdzenie">
-<div data-tytul="Twierdzenie · zbieżność metody Jacobiego" class="twierdzenie">
-<p>
-Jeżeli <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> jest ściśle diagonalnie dominująca w wierszach,
-to metoda Jacobiego zbiega do jedynego rozwiązania z każdego startu.
-Rzeczywiście,
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msub><mi>H</mi><mi>J</mi></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><munder><mo>max</mo><mi>i</mi></munder><mfrac><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mfrac><mo>&lt;</mo><mn>1</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\|H_J\|_\infty=\max_i\frac{\sum_{j\ne i}|a_{ij}|}{|a_{ii}|}&lt;1 .</annotation></semantics></math>
 
-</div>
-
-<details>
-<summary>Dowód</summary>
+<details id="iteracyjne-bez-dominacji">
+<summary>Dlaczego warunek dotyczy pewnej normy, a nie każdej?</summary>
 <p>
-Dominacja daje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{ii}\ne0</annotation></semantics></math>. Ze wzoru kroku macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>J</mi></msub><annotation encoding="application/x-tex">H_J</annotation></semantics></math>
-ma zerową przekątną i współczynniki <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mi>/</mi><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">-a_{ij}/a_{ii}</annotation></semantics></math> poza nią.
-Sumujemy ich moduły w każdym wierszu i stosujemy warunek normowy.
-Adaptacja dowodu I. Marosa,
-<a href="https://www.doc.ic.ac.uk/~ae/papers/ct05.pdf#page=113"><i>Lecture Notes: 233 Computational Techniques</i>, §4.5.5, s. 108–109</a>.
+Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">A_1=\begin{pmatrix}1&amp;2\\0&amp;1\end{pmatrix}</annotation></semantics></math> obie metody mają
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>2</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">H=\begin{pmatrix}0&amp;-2\\0&amp;0\end{pmatrix}</annotation></semantics></math>.
+Mimo <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\|H\|_\infty=2</annotation></semantics></math> są zbieżne: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>H</mi><mn>2</mn></msup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">H^2=0</annotation></semantics></math>, więc błąd znika
+po najwyżej dwóch krokach. W normie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>v</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>v</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>,</mo><mn>4</mn><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>v</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N(v)=\max(|v_1|,4|v_2|)</annotation></semantics></math>
+mamy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mi>v</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>2</mn><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>v</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>v</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">N(Hv)=2|v_2|\leq N(v)/2</annotation></semantics></math>, czyli <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>N</mi></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>2</mn><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\|H\|_N=1/2&lt;1</annotation></semantics></math>.
+Przykład pokazuje też, że ścisła dominacja jest wystarczająca, lecz niekonieczna.
+</p>
+</details>
+
+<details id="iteracyjne-rozbieznosc">
+<summary>Czy nieosobliwa Q wystarcza do zbieżności?</summary>
+<p>
+Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">A_2=\begin{pmatrix}1&amp;2\\2&amp;1\end{pmatrix}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>2</mn></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo>,</mo><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">b_2=(3,3)^T</annotation></semantics></math>
+i startu zerowego kroki obu metod są wykonalne, lecz iteracje rozbieżne.
+Rozwiązaniem jest <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">s=(1,1)^T</annotation></semantics></math>.
+</p>
+
+<p id="iteracyjne-kod-warianty">
+W Jacobim obie współrzędne błędu mnożą się przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">-2</annotation></semantics></math>.
+W Gaussie–Seidlu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>=</mo><mn>4</mn><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">x_2^{(k+1)}=4x_2^{(k)}-3</annotation></semantics></math>, więc
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>e</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>=</mo><mn>4</mn><msubsup><mi>e</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">e_2^{(k+1)}=4e_2^{(k)}</annotation></semantics></math>. Błąd ze startu zerowego rośnie.
 </p>
 </details>
 </div>
-</div>
-<div id="outline-container-iteracyjne-seidel-twierdzenie" class="outline-4">
-<h4 id="iteracyjne-seidel-twierdzenie"><span class="section-number-4">7.4.3.</span> Metoda Gaussa–Seidla pod warunkiem dominacji</h4>
-<div class="outline-text-4" id="text-iteracyjne-seidel-twierdzenie">
-<div data-tytul="Twierdzenie · zbieżność metody Gaussa–Seidla" class="twierdzenie">
-<p>
-Jeżeli <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> jest ściśle diagonalnie dominująca w wierszach, to metoda
-Gaussa–Seidla, przy kolejności <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">i=1,\ldots,n</annotation></semantics></math>, zbiega do jedynego
-rozwiązania z każdego startu. Istotnie,
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msub><mi>H</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><munder><mo>max</mo><mi>i</mi></munder><mfrac><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>&gt;</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>−</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>&lt;</mo><mi>i</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow></mfrac><mo>&lt;</mo><mn>1</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\|H_{GS}\|_\infty\leq
-\max_i\frac{\sum_{j&gt;i}|a_{ij}|}{|a_{ii}|-\sum_{j&lt;i}|a_{ij}|}&lt;1 .</annotation></semantics></math>
-
-</div>
-
-<details>
-<summary>Dowód</summary>
-<p>
-Dominacja daje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_{ii}\ne0</annotation></semantics></math>. Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><msub><mi>H</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mi>v</mi></mrow><annotation encoding="application/x-tex">w=H_{GS}v</annotation></semantics></math> wybierzmy
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> tak, że <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>w</mi><mi>p</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>=</mo><mo stretchy="false" form="postfix">∥</mo><mi>w</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><annotation encoding="application/x-tex">|w_p|=\|w\|_\infty</annotation></semantics></math>. Wiersz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
-równania <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mi>w</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mo>−</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">Q_{GS}w=(Q_{GS}-A)v</annotation></semantics></math> daje
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>p</mi><mi>p</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>−</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>&lt;</mo><mi>p</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>p</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">∥</mo><mi>w</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>&gt;</mo><mi>p</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>p</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mspace width="0.167em"></mspace><mo stretchy="false" form="postfix">∥</mo><mi>v</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\left(|a_{pp}|-\sum_{j&lt;p}|a_{pj}|\right)\|w\|_\infty
-\leq\sum_{j&gt;p}|a_{pj}|\,\|v\|_\infty .</annotation></semantics></math>
-<p>
-Dzielimy przez dodatni nawias i bierzemy maksimum po wierszach.
-Dominacja czyni każdy iloraz mniejszym od jedności,
-więc stosujemy warunek normowy. Adaptacja dowodu T. Trogdona,
-<a href="https://faculty.washington.edu/trogdon/105A/html/Lecture20.html"><i>Lecture 20</i>, pierwsze twierdzenie i dowód po definicji dominacji</a>.
-</p>
-</details>
-</div>
-</div>
-</section>
-<section id="outline-container-iteracyjne-przewidywanie" class="outline-3">
-<h3 id="iteracyjne-przewidywanie"><span class="section-number-3">7.5.</span> Wnioskowanie: przewidzieć przebieg i ocenić błąd</h3>
-<div class="outline-text-3" id="text-iteracyjne-przewidywanie">
-<div data-tytul="Wnioskowanie · twierdzenie i wykazane założenia" class="wnioskowanie">
-<p>
-Dla naszej macierzy mamy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>&gt;</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">5&gt;3</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>&gt;</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">7&gt;6</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>&gt;</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">6&gt;5</annotation></semantics></math>,
-więc z twierdzeń wynika zbieżność obu metod do jedynego rozwiązania.
-Normy macierzy iteracji dają <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>J</mi></msub><mo>=</mo><mn>6</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">q_J=6/7</annotation></semantics></math> oraz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mo>=</mo><mn>3</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">q_{GS}=3/5</annotation></semantics></math>.
-Od każdego kroku oczekujemy zatem
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><mi>q</mi><mo stretchy="false" form="postfix">∥</mo><msup><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><annotation encoding="application/x-tex">\|e^{(k+1)}\|_\infty\leq q\|e^{(k)}\|_\infty</annotation></semantics></math>.
-Z <a href="#iteracyjne-normy">obliczonej normy błędu startowego</a> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>56</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">56/135</annotation></semantics></math> dostajemy
-górną granicę <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>q</mi><mi>k</mi></msup><mo>⋅</mo><mn>56</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">q^k\cdot56/135</annotation></semantics></math> po <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> krokach.
-</p>
-
-</div>
-
-<details id="iteracyjne-kod-normy">
-<summary>Macierze iteracji i wykres błędu</summary>
-<p>
-Macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>J</mi></msub><annotation encoding="application/x-tex">H_J</annotation></semantics></math> jest w <a href="#iteracyjne-normy">rachunku z 7.3.3</a>. Dla Gaussa–Seidla
-po podstawieniu nowych współrzędnych dostajemy
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>2</mn><mi>/</mi><mn>5</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn><mi>/</mi><mn>5</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn><mi>/</mi><mn>7</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>11</mn><mi>/</mi><mn>105</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn><mi>/</mi><mn>10</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">H_{GS}=\begin{pmatrix}0&amp;-2/5&amp;-1/5\\0&amp;2/7&amp;0\\0&amp;11/105&amp;1/10\end{pmatrix}.</annotation></semantics></math>
-<p>
-Największa suma modułów wiersza daje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mo>=</mo><mn>3</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">q_{GS}=3/5</annotation></semantics></math>.
-</p>
-
-<figure id="iteracyjne-zbieznosc">
-<svg id="iteracyjne-wykres-svg" role="img" aria-labelledby="iteracyjne-wykres-tytul iteracyjne-wykres-opis" xmlns:xlink="http://www.w3.org/1999/xlink" width="780" height="480" style="max-width:100%;height:auto" viewBox="0 0 585 360" xmlns="http://www.w3.org/2000/svg" version="1.1">
-<title id="iteracyjne-wykres-tytul">Zbieżność metod Jacobiego i Gaussa–Seidla</title>
-<desc id="iteracyjne-wykres-opis">Norma maksimum błędu dla iteracji od 0 do 20, obliczona w arytmetyce dokładnej dla macierzy o wierszach (5,2,1), (5,7,1), (3,2,6), prawej strony (1,2,3) i startu zerowego. Linie ciągłe pokazują błąd obu metod, a przerywane granice (6/7)^k razy 56/135 oraz (3/5)^k razy 56/135. Oś pionowa ma skalę logarytmiczną. Błąd pozostaje poniżej odpowiedniej granicy, w tym przykładzie maleje szybciej dla metody Gaussa–Seidla.</desc>
-
- <defs>
-  <style type="text/css">#iteracyjne-wykres-svg *{stroke-linejoin: round; stroke-linecap: butt}</style>
- </defs>
- <g id="iteracyjne-wykres-figure_1">
-  <g id="iteracyjne-wykres-patch_1">
-   <path d="M 0 360
-L 585 360
-L 585 0
-L 0 0
-z
-" style="fill: #faf9f5"/>
-  </g>
-  <g id="iteracyjne-wykres-axes_1">
-   <g id="iteracyjne-wykres-patch_2">
-    <path d="M 73.125 262.8
-L 567.45 262.8
-L 567.45 14.4
-L 73.125 14.4
-z
-" style="fill: #faf9f5"/>
-   </g>
-   <g id="iteracyjne-wykres-matplotlib.axis_1">
-    <g id="iteracyjne-wykres-xtick_1">
-     <g id="iteracyjne-wykres-line2d_1">
-      <defs>
-       <path id="iteracyjne-wykres-me583323b3a" d="M 0 0
-L 0 3.5
-" style="stroke: #65716b; stroke-width: 0.8"/>
-      </defs>
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="73.125" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_1">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="73.125" y="277.778359" transform="rotate(-0 73.125 277.778359)">0</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-xtick_2">
-     <g id="iteracyjne-wykres-line2d_2">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="196.70625" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_2">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="196.70625" y="277.778359" transform="rotate(-0 196.70625 277.778359)">5</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-xtick_3">
-     <g id="iteracyjne-wykres-line2d_3">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="320.2875" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_3">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="320.2875" y="277.778359" transform="rotate(-0 320.2875 277.778359)">10</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-xtick_4">
-     <g id="iteracyjne-wykres-line2d_4">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="443.86875" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_4">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="443.86875" y="277.778359" transform="rotate(-0 443.86875 277.778359)">15</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-xtick_5">
-     <g id="iteracyjne-wykres-line2d_5">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-me583323b3a" x="567.45" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_5">
-      <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #65716b" x="567.45" y="277.778359" transform="rotate(-0 567.45 277.778359)">20</text>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-text_6">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #25322e" x="320.2875" y="295.940391" transform="rotate(-0 320.2875 295.940391)">Numer iteracji k</text>
-    </g>
-   </g>
-   <g id="iteracyjne-wykres-matplotlib.axis_2">
-    <g id="iteracyjne-wykres-ytick_1">
-     <g id="iteracyjne-wykres-line2d_6">
-      <path d="M 73.125 14.4
-L 567.45 14.4
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_7">
-      <defs>
-       <path id="iteracyjne-wykres-ma244d20c02" d="M 0 0
-L -3.5 0
-" style="stroke: #65716b; stroke-width: 0.8"/>
-      </defs>
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="14.4" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_7">
-      <!-- $\mathdefault{10^{0}}$ -->
-      <g style="fill: #65716b" transform="translate(47.645 18.38918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_2">
-     <g id="iteracyjne-wykres-line2d_8">
-      <path d="M 73.125 55.8
-L 567.45 55.8
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_9">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="55.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_8">
-      <!-- $\mathdefault{10^{-2}}$ -->
-      <g style="fill: #65716b" transform="translate(41.45 59.78918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">2</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_3">
-     <g id="iteracyjne-wykres-line2d_10">
-      <path d="M 73.125 97.2
-L 567.45 97.2
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_11">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="97.2" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_9">
-      <!-- $\mathdefault{10^{-4}}$ -->
-      <g style="fill: #65716b" transform="translate(41.45 101.18918)">
-       <text>
-        <tspan x="0" y="-0.615625" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.615625" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.640625" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.640625" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">4</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_4">
-     <g id="iteracyjne-wykres-line2d_12">
-      <path d="M 73.125 138.6
-L 567.45 138.6
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_13">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="138.6" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_10">
-      <!-- $\mathdefault{10^{-6}}$ -->
-      <g style="fill: #65716b" transform="translate(41.45 142.58918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">6</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_5">
-     <g id="iteracyjne-wykres-line2d_14">
-      <path d="M 73.125 180
-L 567.45 180
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_15">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="180" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_11">
-      <!-- $\mathdefault{10^{-8}}$ -->
-      <g style="fill: #65716b" transform="translate(41.45 183.98918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">8</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_6">
-     <g id="iteracyjne-wykres-line2d_16">
-      <path d="M 73.125 221.4
-L 567.45 221.4
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_17">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="221.4" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_12">
-      <!-- $\mathdefault{10^{-10}}$ -->
-      <g style="fill: #65716b" transform="translate(36.83 225.38918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="24.296255" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-ytick_7">
-     <g id="iteracyjne-wykres-line2d_18">
-      <path d="M 73.125 262.8
-L 567.45 262.8
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #d8ded5; stroke-width: 0.6; stroke-linecap: square"/>
-     </g>
-     <g id="iteracyjne-wykres-line2d_19">
-      <g>
-       <use xlink:href="#iteracyjne-wykres-ma244d20c02" x="73.125" y="262.8" style="fill: #65716b; stroke: #65716b; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="iteracyjne-wykres-text_13">
-      <!-- $\mathdefault{10^{-12}}$ -->
-      <g style="fill: #65716b" transform="translate(36.83 266.78918)">
-       <text>
-        <tspan x="0" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="6.68042" y="-0.517188" style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #65716b">0</tspan>
-        <tspan x="13.461465" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">−</tspan>
-        <tspan x="19.619961" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">1</tspan>
-        <tspan x="24.296255" y="-4.542188" style="font-size: 7.35px; font-family: 'DejaVu Sans'; fill: #65716b">2</tspan>
-       </text>
-      </g>
-     </g>
-    </g>
-    <g id="iteracyjne-wykres-text_14">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #25322e" x="24.646328" y="138.6" transform="rotate(-90 24.646328 138.6)">Norma maksimum błędu</text>
-    </g>
-   </g>
-   <g id="iteracyjne-wykres-line2d_20">
-    <path d="M 73.125 22.310417
-L 97.84125 30.70976
-L 122.5575 32.840709
-L 147.27375 37.875297
-L 171.99 39.362052
-L 196.70625 43.780437
-L 221.4225 45.639341
-L 246.13875 49.290851
-L 270.855 51.634829
-L 295.57125 54.841401
-L 320.2875 57.452057
-L 345.00375 60.40806
-L 369.72 63.162907
-L 394.43625 65.983067
-L 419.1525 68.755051
-L 443.86875 71.562581
-L 468.585 74.343889
-L 493.30125 77.144543
-L 518.0175 79.930925
-L 542.73375 82.727837
-L 567.45 85.51698
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #196551; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="iteracyjne-wykres-line2d_21">
-    <path d="M 73.125 22.310417
-L 97.84125 23.696215
-L 122.5575 25.082014
-L 147.27375 26.467812
-L 171.99 27.853611
-L 196.70625 29.23941
-L 221.4225 30.625208
-L 246.13875 32.011007
-L 270.855 33.396805
-L 295.57125 34.782604
-L 320.2875 36.168402
-L 345.00375 37.554201
-L 369.72 38.939999
-L 394.43625 40.325798
-L 419.1525 41.711596
-L 443.86875 43.097395
-L 468.585 44.483194
-L 493.30125 45.868992
-L 518.0175 47.254791
-L 542.73375 48.640589
-L 567.45 50.026388
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke-dasharray: 8,4.8; stroke-dashoffset: 0; stroke: #196551; stroke-width: 1.6"/>
-   </g>
-   <g id="iteracyjne-wykres-line2d_22">
-    <path d="M 73.125 22.310417
-L 97.84125 30.70976
-L 122.5575 44.449887
-L 147.27375 56.770616
-L 171.99 68.434857
-L 196.70625 79.842135
-L 221.4225 91.155676
-L 246.13875 102.43592
-L 270.855 113.70445
-L 295.57125 124.968872
-L 320.2875 136.231855
-L 345.00375 147.494335
-L 369.72 158.756638
-L 394.43625 170.01888
-L 419.1525 181.2811
-L 443.86875 192.543313
-L 468.585 203.805523
-L 493.30125 215.067732
-L 518.0175 226.32994
-L 542.73375 237.592149
-L 567.45 248.854357
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke: #935d21; stroke-width: 2; stroke-linecap: square"/>
-   </g>
-   <g id="iteracyjne-wykres-line2d_23">
-    <path d="M 73.125 22.310417
-L 97.84125 26.902686
-L 122.5575 31.494955
-L 147.27375 36.087224
-L 171.99 40.679493
-L 196.70625 45.271762
-L 221.4225 49.864032
-L 246.13875 54.456301
-L 270.855 59.04857
-L 295.57125 63.640839
-L 320.2875 68.233108
-L 345.00375 72.825377
-L 369.72 77.417646
-L 394.43625 82.009915
-L 419.1525 86.602184
-L 443.86875 91.194454
-L 468.585 95.786723
-L 493.30125 100.378992
-L 518.0175 104.971261
-L 542.73375 109.56353
-L 567.45 114.155799
-" clip-path="url(#iteracyjne-wykres-p2c42273fed)" style="fill: none; stroke-dasharray: 8,4.8; stroke-dashoffset: 0; stroke: #935d21; stroke-width: 1.6"/>
-   </g>
-   <g id="iteracyjne-wykres-patch_3">
-    <path d="M 73.125 262.8
-L 73.125 14.4
-" style="fill: none; stroke: #d8ded5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="iteracyjne-wykres-patch_4">
-    <path d="M 73.125 262.8
-L 567.45 262.8
-" style="fill: none; stroke: #d8ded5; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="iteracyjne-wykres-legend_1">
-    <g id="iteracyjne-wykres-line2d_24">
-     <path d="M 142.617656 326.233359
-L 157.317656 326.233359
-L 172.017656 326.233359
-" style="fill: none; stroke: #196551; stroke-width: 2; stroke-linecap: square"/>
-    </g>
-    <g id="iteracyjne-wykres-text_15">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #25322e" x="180.417656" y="329.908359" transform="rotate(-0 180.417656 329.908359)">Jacobi</text>
-    </g>
-    <g id="iteracyjne-wykres-line2d_25">
-     <path d="M 142.617656 341.645391
-L 157.317656 341.645391
-L 172.017656 341.645391
-" style="fill: none; stroke-dasharray: 8,4.8; stroke-dashoffset: 0; stroke: #196551; stroke-width: 1.6"/>
-    </g>
-    <g id="iteracyjne-wykres-text_16">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #25322e" x="180.417656" y="345.320391" transform="rotate(-0 180.417656 345.320391)">Granica dla Jacobiego</text>
-    </g>
-    <g id="iteracyjne-wykres-line2d_26">
-     <path d="M 320.889609 326.233359
-L 335.589609 326.233359
-L 350.289609 326.233359
-" style="fill: none; stroke: #935d21; stroke-width: 2; stroke-linecap: square"/>
-    </g>
-    <g id="iteracyjne-wykres-text_17">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #25322e" x="358.689609" y="329.908359" transform="rotate(-0 358.689609 329.908359)">Gauss–Seidel</text>
-    </g>
-    <g id="iteracyjne-wykres-line2d_27">
-     <path d="M 320.889609 341.645391
-L 335.589609 341.645391
-L 350.289609 341.645391
-" style="fill: none; stroke-dasharray: 8,4.8; stroke-dashoffset: 0; stroke: #935d21; stroke-width: 1.6"/>
-    </g>
-    <g id="iteracyjne-wykres-text_18">
-     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #25322e" x="358.689609" y="345.320391" transform="rotate(-0 358.689609 345.320391)">Granica dla Gaussa–Seidla</text>
-    </g>
-   </g>
-  </g>
- </g>
- <defs>
-  <clipPath id="iteracyjne-wykres-p2c42273fed">
-   <rect x="73.125" y="14.4" width="494.325" height="248.4"/>
-  </clipPath>
- </defs>
-</svg>
-<figcaption>
-<p>
-Norma maksimum błędu dla startu <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x^{(0)}=0</annotation></semantics></math> w arytmetyce
-dokładnej. Linie ciągłe przedstawiają błędy obu metod, a przerywane
-ich górne granice <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>6</mn><mi>/</mi><mn>7</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msup><mo>⋅</mo><mn>56</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">(6/7)^k\cdot56/135</annotation></semantics></math> oraz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>5</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msup><mo>⋅</mo><mn>56</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">(3/5)^k\cdot56/135</annotation></semantics></math>.
-Oś pionowa jest logarytmiczna. Odcinki łączą wartości dla całkowitych numerów iteracji.
-</p>
-</figcaption></figure>
-</details>
-
-<details id="iteracyjne-kryterium-stopu">
-<summary>Jak ocenić dokładność bez znajomości rozwiązania?</summary>
-<p>
-Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><mo stretchy="false" form="postfix">∥</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">q=\|H\|&lt;1</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>d</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">d^{(k)}=x^{(k)}-x^{(k-1)}</annotation></semantics></math> mamy
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>d</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><msup><mi>H</mi><mi>j</mi></msup><msup><mi>d</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">d^{(k+j)}=H^jd^{(k)}</annotation></semantics></math>. Zsumowanie kolejnych zmian od <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><annotation encoding="application/x-tex">x^{(k)}</annotation></semantics></math>
-do granicy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math> daje
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>s</mi><mo>−</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">∥</mo><mo>≤</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mo accent="false">∞</mo></munderover><msup><mi>q</mi><mi>j</mi></msup><mo stretchy="false" form="postfix">∥</mo><msup><mi>d</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">∥</mo><mo>=</mo><mfrac><mi>q</mi><mrow><mn>1</mn><mo>−</mo><mi>q</mi></mrow></mfrac><mo stretchy="false" form="postfix">∥</mo><msup><mi>d</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="postfix">∥</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\|s-x^{(k)}\|\leq\sum_{j=1}^\infty q^j\|d^{(k)}\|
-=\frac{q}{1-q}\|d^{(k)}\|.</annotation></semantics></math>
-
-<p>
-Przy ścisłej dominacji <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>=</mo><msub><mo>min</mo><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>−</mo><msub><mo>∑</mo><mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\delta=\min_i(|a_{ii}|-\sum_{j\ne i}|a_{ij}|)&gt;0</annotation></semantics></math>.
-Wybierając <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> o <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>e</mi><mi>p</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>=</mo><mo stretchy="false" form="postfix">∥</mo><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><annotation encoding="application/x-tex">|e_p|=\|e\|_\infty</annotation></semantics></math>, dostajemy
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>≥</mo><mi>δ</mi><mo stretchy="false" form="postfix">∥</mo><mi>e</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><annotation encoding="application/x-tex">|(Ae)_p|\geq\delta\|e\|_\infty</annotation></semantics></math>. Stąd
-</p>
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>x</mi><mo>−</mo><mi>s</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><mfrac><mrow><mo stretchy="false" form="postfix">∥</mo><mi>b</mi><mo>−</mo><mi>A</mi><mi>x</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><mi>δ</mi></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\|x-s\|_\infty\leq\frac{\|b-Ax\|_\infty}{\delta}.</annotation></semantics></math>
-<p>
-Dla naszej macierzy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\delta=1</annotation></semantics></math>. W obliczeniach maszynowych samo
-wyznaczenie residuum również podlega zaokrągleniu.
-</p>
-</details>
 </div>
 </section>
 <section id="outline-container-iteracyjne-program" class="outline-3">
-<h3 id="iteracyjne-program"><span class="section-number-3">7.6.</span> Sprawdzanie: podstawowy pseudokod</h3>
+<h3 id="iteracyjne-program"><span class="section-number-3">7.5.</span> Sprawdzanie: podstawowy pseudokod</h3>
 <div class="outline-text-3" id="text-iteracyjne-program">
-<p>
-Wykonajmy ustaloną liczbę <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> kroków. W Jacobim zapisujemy nowy
-wektor osobno. W Gaussie–Seidlu aktualizujemy współrzędne od razu.
+<p id="iteracyjne-kryterium-stopu">
+Wykonajmy ustaloną liczbę <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> kroków dla macierzy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+o rozmiarze <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n\times n</annotation></semantics></math> i niezerowej przekątnej.
+Wektor <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> jest stanem początkowym, a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math> — osobnym wektorem na nowe wartości.
 </p>
 
 <div class="org-src-container">
@@ -6995,127 +6561,14 @@ zwróć x
 </pre>
 </div>
 
-<p>
-Dane <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> mają rozmiar <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n\times n</annotation></semantics></math> i niezerową przekątną,
-a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> jest wektorem startowym. W Jacobim <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math> to osobny wektor,
-który zastępuje <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> po przeliczeniu wszystkich wierszy.
-</p>
-
 <div id="iteracyjne-kod-przyklad" class="sprawdzenie">
 <p>
-<strong>Sprawdzenie dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x^{(0)}=0</annotation></semantics></math>.</strong> Wykonaj dwa kroki według pseudokodu
-i porównaj <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><msup><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo>−</mo><mi>s</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub></mrow><annotation encoding="application/x-tex">\|x^{(k)}-s\|_\infty</annotation></semantics></math> z przewidywaną granicą.
-Wartości zaokrąglono do czterech miejsc po kropce.
-</p>
-
-<table>
-
-
-<colgroup>
-<col  class="org-left">
-
-<col  class="org-right">
-
-<col  class="org-right">
-
-<col  class="org-right">
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Metoda</th>
-<th scope="col" class="org-right">Krok <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math></th>
-<th scope="col" class="org-right">Norma błędu</th>
-<th scope="col" class="org-right">Górna granica <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>q</mi><mi>k</mi></msup><mo>⋅</mo><mn>56</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">q^k\cdot 56/135</annotation></semantics></math></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Jacobi</td>
-<td class="org-right">1</td>
-<td class="org-right">0.1630</td>
-<td class="org-right">0.3556</td>
-</tr>
-
-<tr>
-<td class="org-left">Jacobi</td>
-<td class="org-right">2</td>
-<td class="org-right">0.1286</td>
-<td class="org-right">0.3048</td>
-</tr>
-
-<tr>
-<td class="org-left">Gauss–Seidel</td>
-<td class="org-right">1</td>
-<td class="org-right">0.1630</td>
-<td class="org-right">0.2489</td>
-</tr>
-
-<tr>
-<td class="org-left">Gauss–Seidel</td>
-<td class="org-right">2</td>
-<td class="org-right">0.0353</td>
-<td class="org-right">0.1493</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</section>
-<div id="outline-container-iteracyjne-wyjasnienie" class="outline-3">
-<h3 id="iteracyjne-wyjasnienie"><span class="section-number-3">7.7.</span> Wyjaśnianie: powiązać wynik z własnościami metody</h3>
-<div class="outline-text-3" id="text-iteracyjne-wyjasnienie">
-<div data-tytul="Wyjaśnianie · dwa sposoby aktualizacji" class="wyjasnienie">
-<p>
-Gauss–Seidel wykorzystuje nowe współrzędne już w tym samym kroku.
-To zmienia <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>, a zatem sposób przenoszenia błędu.
-Dla naszego startu po dwóch krokach daje mniejszy błąd.
-Za zbieżność z każdego startu odpowiada udowodniony warunek normowy.
+Dla naszego układu i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N=1</annotation></semantics></math> odtwórz krok Jacobiego
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo>,</mo><mn>1</mn><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup><annotation encoding="application/x-tex">(1/5,2/7,1/2)^T</annotation></semantics></math>. Wskaż, w którym miejscu pseudokod
+Gaussa–Seidla zacznie używać nowych wartości.
 </p>
 
 </div>
-</div>
-<div id="outline-container-iteracyjne-bez-dominacji" class="outline-4">
-<h4 id="iteracyjne-bez-dominacji"><span class="section-number-4">7.7.1.</span> Nowy przykład: brak dominacji i zbieżność</h4>
-<div class="outline-text-4" id="text-iteracyjne-bez-dominacji">
-<p>
-Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">A_1=\begin{pmatrix}1&amp;2\\0&amp;1\end{pmatrix}</annotation></semantics></math> i <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>1</mn></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">b_1=(3,1)^T</annotation></semantics></math>
-obie metody mają <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>2</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">H=\begin{pmatrix}0&amp;-2\\0&amp;0\end{pmatrix}</annotation></semantics></math>.
-Nie zachodzi ani ścisła dominacja, ani <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\|H\|_\infty&lt;1</annotation></semantics></math>.
-Jednak <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>H</mi><mn>2</mn></msup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">H^2=0</annotation></semantics></math>, więc po najwyżej dwóch krokach błąd znika.
-</p>
-
-<details>
-<summary>W jakiej normie ta iteracja kurczy błąd?</summary>
-<p>
-Weźmy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>v</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>v</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>,</mo><mn>4</mn><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>v</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N(v)=\max(|v_1|,4|v_2|)</annotation></semantics></math>. Wtedy
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mi>v</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>2</mn><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>v</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>v</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">N(Hv)=2|v_2|\leq N(v)/2</annotation></semantics></math>, a dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">v=(0,1)^T</annotation></semantics></math> mamy równość.
-W tej normie <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>H</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>N</mi></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\|H\|_N=1/2</annotation></semantics></math>.
-</p>
-</details>
-</div>
-</div>
-<div id="outline-container-iteracyjne-rozbieznosc" class="outline-4">
-<h4 id="iteracyjne-rozbieznosc"><span class="section-number-4">7.7.2.</span> Nowy przykład: wykonalne kroki i rozbieżność</h4>
-<div class="outline-text-4" id="text-iteracyjne-rozbieznosc">
-<p>
-Dla <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>2</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">A_2=\begin{pmatrix}1&amp;2\\2&amp;1\end{pmatrix}</annotation></semantics></math> oraz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>2</mn></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo>,</mo><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">b_2=(3,3)^T</annotation></semantics></math>
-macierz <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>A</mi><mn>2</mn></msub><annotation encoding="application/x-tex">A_2</annotation></semantics></math> jest nieosobliwa i oba kroki są określone.
-Ze startu zerowego błąd Jacobiego w obu współrzędnych mnoży się
-w każdym kroku przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">-2</annotation></semantics></math>. W Gaussie–Seidlu błąd drugiej
-współrzędnej mnoży się przez <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math>. Obie iteracje są rozbieżne
-z tego startu, mimo że układ ma jedyne rozwiązanie.
-</p>
-
-<details id="iteracyjne-kod-warianty">
-<summary>Sprawdź rozbieżność ze wzoru kroku</summary>
-<p>
-Rozwiązanie to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">s=(1,1)^T</annotation></semantics></math>. W Jacobim obie współrzędne pozostają
-równe i spełniają <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>3</mn><mo>−</mo><mn>2</mn><msub><mi>t</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">t_{k+1}=3-2t_k</annotation></semantics></math>. W Gaussie–Seidlu wstawienie
-nowego <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mn>3</mn><mo>−</mo><mn>2</mn><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">x_1=3-2x_2^{(k)}</annotation></semantics></math> do drugiego równania daje
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>=</mo><mn>4</mn><msubsup><mi>x</mi><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">x_2^{(k+1)}=4x_2^{(k)}-3</annotation></semantics></math>. Odejmij <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math> od obu rekurencji.
-</p>
-</details>
 
 <details id="iteracyjne-zrodla">
 <summary>Źródła</summary>
@@ -7133,8 +6586,7 @@ Metody numeryczne · Model matematyczny → metoda obliczeniowa → program
 
 </div>
 </div>
-</div>
-</div>
+</section>
 </section>
 <section id="outline-container-dodatek-arytmetyka" class="outline-2 book-chapter chapter-dodatek">
 <h2 id="dodatek-arytmetyka">Dodatek: arytmetyka komputerowa — pogłębienie</h2>

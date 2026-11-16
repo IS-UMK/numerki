@@ -6,7 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Metody numeryczne — wytyczne dla prowadzącego</title>
-<meta name="author" content="Michał Pierzchalski" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
   #content { max-width: 60em; margin: auto; }
@@ -235,18 +234,19 @@
 <h2>Spis tre&#x015b;ci</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org42c9674">Zasada prowadzenia wywodu</a></li>
-<li><a href="#orgc30f6a8">Rozdział 2. Arytmetyka komputerowa</a></li>
-<li><a href="#org9e71e2e">Rozdział 3. Znajdowanie pierwiastków równań</a></li>
-<li><a href="#org049881e">Rozdział 4. Układy równań nieliniowych</a></li>
+<li><a href="#orgc266149">Zasada prowadzenia wywodu</a></li>
+<li><a href="#org45ea05a">Rozdział 2. Arytmetyka komputerowa</a></li>
+<li><a href="#org7a3a088">Rozdział 3. Znajdowanie pierwiastków równań</a></li>
+<li><a href="#orge3125a2">Rozdział 4. Układy równań nieliniowych</a></li>
 <li><a href="#scenariusz-rozklad-lu">Rozdział 5. Układy równań liniowych — rozkład LU</a></li>
-<li><a href="#org61fb615">Domknięcie omawianych rozdziałów</a></li>
+<li><a href="#scenariusz-metody-iteracyjne">Rozdział 7. Układy równań liniowych — metody iteracyjne</a></li>
+<li><a href="#org0ef78b4">Domknięcie omawianych rozdziałów</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org42c9674" class="outline-2">
-<h2 id="org42c9674">Zasada prowadzenia wywodu</h2>
-<div class="outline-text-2" id="text-org42c9674">
+<div id="outline-container-orgc266149" class="outline-2">
+<h2 id="orgc266149">Zasada prowadzenia wywodu</h2>
+<div class="outline-text-2" id="text-orgc266149">
 <p>
 Przez omawiane rozdziały utrzymywać cel: <b>rozwiązać problem określony modelem
 matematycznym za pomocą metody obliczeniowej zaimplementowanej w programie</b>.
@@ -265,9 +265,9 @@ W trybie Badanie nazywać właśnie wykonane działanie myślowe.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc30f6a8" class="outline-2">
-<h2 id="orgc30f6a8">Rozdział 2. Arytmetyka komputerowa</h2>
-<div class="outline-text-2" id="text-orgc30f6a8">
+<div id="outline-container-org45ea05a" class="outline-2">
+<h2 id="org45ea05a">Rozdział 2. Arytmetyka komputerowa</h2>
+<div class="outline-text-2" id="text-org45ea05a">
 <p>
 Korzystać z <a href="index.html#arytmetyka-komputerowa">przykładów i objaśnień z notatek</a>.
 </p>
@@ -314,13 +314,13 @@ Przejście: znamy ograniczenia arytmetyki; teraz szukamy reguł rozwiązywania r
 </p>
 </div>
 </div>
-<div id="outline-container-org9e71e2e" class="outline-2">
-<h2 id="org9e71e2e">Rozdział 3. Znajdowanie pierwiastków równań</h2>
-<div class="outline-text-2" id="text-org9e71e2e">
+<div id="outline-container-org7a3a088" class="outline-2">
+<h2 id="org7a3a088">Rozdział 3. Znajdowanie pierwiastków równań</h2>
+<div class="outline-text-2" id="text-org7a3a088">
 </div>
-<div id="outline-container-orgf70acb1" class="outline-3">
-<h3 id="orgf70acb1">Wspólna kolejność dla każdej metody</h3>
-<div class="outline-text-3" id="text-orgf70acb1">
+<div id="outline-container-org48085e6" class="outline-3">
+<h3 id="org48085e6">Wspólna kolejność dla każdej metody</h3>
+<div class="outline-text-3" id="text-org48085e6">
 <p>
 Stosować ten tok do bisekcji, Newtona, siecznych i iteracji funkcyjnych.
 </p>
@@ -415,9 +415,9 @@ Oddzielić ograniczenia metody, błędy programu i zaokrąglenia.
 </ol>
 </div>
 </div>
-<div id="outline-container-org5fa4d28" class="outline-3">
-<h3 id="org5fa4d28">Metoda równego podziału</h3>
-<div class="outline-text-3" id="text-org5fa4d28">
+<div id="outline-container-org4099dbc" class="outline-3">
+<h3 id="org4099dbc">Metoda równego podziału</h3>
+<div class="outline-text-3" id="text-org4099dbc">
 <p>
 Korzystać z <a href="index.html#pierwiastki-bisekcja">przykładów i uzasadnień z notatek</a>.
 </p>
@@ -458,9 +458,9 @@ Wyjaśnić rolę ciągłości i odróżnić brak gwarancji od braku pierwiastka.
 </ol>
 </div>
 </div>
-<div id="outline-container-org1e88f7d" class="outline-3">
-<h3 id="org1e88f7d">Metoda Newtona</h3>
-<div class="outline-text-3" id="text-org1e88f7d">
+<div id="outline-container-org65bbac3" class="outline-3">
+<h3 id="org65bbac3">Metoda Newtona</h3>
+<div class="outline-text-3" id="text-org65bbac3">
 <p>
 Korzystać z <a href="index.html#pierwiastki-newton">przykładów i uzasadnień z notatek</a>.
 </p>
@@ -507,9 +507,9 @@ Wyjaśnić wynik ze wzoru, nie samym brakiem warunku wystarczającego.
 </ol>
 </div>
 </div>
-<div id="outline-container-org1f823e1" class="outline-3">
-<h3 id="org1f823e1">Metoda siecznych</h3>
-<div class="outline-text-3" id="text-org1f823e1">
+<div id="outline-container-org44caa8b" class="outline-3">
+<h3 id="org44caa8b">Metoda siecznych</h3>
+<div class="outline-text-3" id="text-org44caa8b">
 <p>
 Korzystać z <a href="index.html#pierwiastki-sieczne">przykładów i uzasadnień z notatek</a>.
 </p>
@@ -551,9 +551,9 @@ Wyjaśnić zerowy mianownik; porównać wpływ startu z metodą Newtona.
 </ol>
 </div>
 </div>
-<div id="outline-container-orgd9ca834" class="outline-3">
-<h3 id="orgd9ca834">Metoda iteracji funkcyjnych</h3>
-<div class="outline-text-3" id="text-orgd9ca834">
+<div id="outline-container-orgf407ab4" class="outline-3">
+<h3 id="orgf407ab4">Metoda iteracji funkcyjnych</h3>
+<div class="outline-text-3" id="text-orgf407ab4">
 <p>
 Korzystać z <a href="index.html#pierwiastki-iteracje-funkcyjne">przykładów i uzasadnień z notatek</a>.
 </p>
@@ -595,13 +595,13 @@ dla \(g(x)=2/x\) ze startu \(1\). Wyjaśnić wynik z reguły iteracji.
 </div>
 </div>
 </div>
-<div id="outline-container-org049881e" class="outline-2">
-<h2 id="org049881e">Rozdział 4. Układy równań nieliniowych</h2>
-<div class="outline-text-2" id="text-org049881e">
+<div id="outline-container-orge3125a2" class="outline-2">
+<h2 id="orge3125a2">Rozdział 4. Układy równań nieliniowych</h2>
+<div class="outline-text-2" id="text-orge3125a2">
 </div>
-<div id="outline-container-org8438d2e" class="outline-3">
-<h3 id="org8438d2e">Kolejność prowadzenia zajęć</h3>
-<div class="outline-text-3" id="text-org8438d2e">
+<div id="outline-container-org0dddbf0" class="outline-3">
+<h3 id="org0dddbf0">Kolejność prowadzenia zajęć</h3>
+<div class="outline-text-3" id="text-org0dddbf0">
 <p>
 Korzystać z <a href="index.html#uklady-rownan-nieliniowych">przykładów i rachunków z notatek</a>.
 </p>
@@ -676,9 +676,9 @@ jego rozwiązywania.
 <h2 id="scenariusz-rozklad-lu">Rozdział 5. Układy równań liniowych — rozkład LU</h2>
 <div class="outline-text-2" id="text-scenariusz-rozklad-lu">
 </div>
-<div id="outline-container-org23933fb" class="outline-3">
-<h3 id="org23933fb">Kolejność prowadzenia zajęć</h3>
-<div class="outline-text-3" id="text-org23933fb">
+<div id="outline-container-orgc93a6bf" class="outline-3">
+<h3 id="orgc93a6bf">Kolejność prowadzenia zajęć</h3>
+<div class="outline-text-3" id="text-orgc93a6bf">
 <p>
 Korzystać z <a href="index.html#uklady-rownan-liniowych">przykładów i rachunków z notatek</a>.
 </p>
@@ -745,9 +745,92 @@ Sprawdzić te warunki w przykładzie i uzasadnić wybór Choleskiego.
 </div>
 </div>
 </div>
-<div id="outline-container-org61fb615" class="outline-2">
-<h2 id="org61fb615">Domknięcie omawianych rozdziałów</h2>
-<div class="outline-text-2" id="text-org61fb615">
+<div id="outline-container-scenariusz-metody-iteracyjne" class="outline-2">
+<h2 id="scenariusz-metody-iteracyjne">Rozdział 7. Układy równań liniowych — metody iteracyjne</h2>
+<div class="outline-text-2" id="text-scenariusz-metody-iteracyjne">
+</div>
+<div id="outline-container-org77edced" class="outline-3">
+<h3 id="org77edced">Kolejność prowadzenia zajęć</h3>
+<div class="outline-text-3" id="text-org77edced">
+<p>
+Korzystać z <a href="index.html#metody-iteracyjne">przykładu i rachunków z notatek</a>.
+</p>
+
+<ol class="org-ol">
+<li><b>Sformułować problem.</b>
+Zapisać układ trzech równań, następnie jego postać macierzową
+\(Ax=b\). Wskazać dane i szukany wektor rozwiązania.
+<i>Tablica; formułowanie problemu.</i></li>
+
+<li><b>Wyprowadzić wspólną regułę i wybrać Q.</b>
+Przejść od \(Ax=b\) przez \(Qx=(Q-A)x+b\) do
+\(Qx^{(k+1)}=(Q-A)x^{(k)}+b\). Dla Jacobiego wziąć przekątną
+\(A\), dla Gaussa–Seidla — część dolnotrójkątną wraz z przekątną.
+<i>Tablica; konstruowanie metody, porównywanie wariantów.</i></li>
+
+<li><b>Wyrazić następny stan przez poprzedni.</b>
+Pomnożyć równanie kroku przez \(Q^{-1}\). Nieosobliwość \(Q\)
+jest warunkiem koniecznym i wystarczającym jednoznacznego rozwiązania
+kroku dla każdej prawej strony; sama nie zapewnia zbieżności.
+<i>Tablica; przekształcanie reguły, rozróżnianie warunków.</i></li>
+
+<li><b>Obliczyć pierwszy krok Jacobiego.</b>
+Przyjąć \(x^{(0)}=(0,0,0)^T\), rozpisać trzy współrzędne
+i otrzymać \(x^{(1)}=(1/5,2/7,1/2)^T\). Podkreślić, że każda
+korzysta wyłącznie z wartości poprzedniego stanu.
+<i>Tablica; stosowanie reguły do przykładu.</i></li>
+
+<li><b>Pokazać różnicę w metodzie Gaussa–Seidla.</b>
+Pierwszą współrzędną obliczyć ze starych wartości. Przy drugiej użyć
+już nowego \(x_1\) i starego \(x_3\), a przy trzeciej — nowych
+\(x_1,x_2\). Powiązać tę kolejność z dolnotrójkątną \(Q\).
+<i>Tablica; porównywanie zależności między stanami.</i></li>
+
+<li><b>Wprowadzić warunek gwarantujący zbieżność.</b>
+Zdefiniować ścisłą dominację diagonalną w wierszach. Sformułować
+twierdzenie: zapewnia ona jedyne rozwiązanie i zbieżność obu metod
+z każdego startu. Sprawdzić nierówności dla naszego układu i wyciągnąć wniosek.
+<i>Badanie własności; twierdzenie, sprawdzanie założeń, wnioskowanie.</i></li>
+
+<li><b>Zbadać ograniczenie związane z osobliwą Q.</b>
+W przykładzie z zerem na przekątnej wskazać \(\det Q=0\)
+i dzielenie przez zero we wzorze współrzędnej. Ze startu zerowego
+równanie kroku daje \(0=1\), choć układ pierwotny ma jedyne rozwiązanie.
+<i>Tablica; sprawdzanie i wyjaśnianie niewykonalności kroku.</i></li>
+
+<li><b>Wyodrębnić macierz iteracji i podać warunek normowy.</b>
+W jawnej regule oznaczyć \(H=I-Q^{-1}A\) oraz \(c=Q^{-1}b\).
+Przy nieosobliwej \(Q\) zbieżność do jedynego rozwiązania z każdego
+startu zachodzi wtedy i tylko wtedy, gdy dla pewnej podporządkowanej
+normy macierzowej \(\|H\|<1\). Zapowiedzieć wyjaśnienie przez błąd.
+<i>Twierdzenie; określanie zakresu gwarancji.</i></li>
+
+<li><b>Wyprowadzić zmianę błędu.</b>
+Zdefiniować \(e^{(k)}=x^{(k)}-s\). Zapisać obok siebie
+\(x^{(k+1)}=Hx^{(k)}+c\) i \(s=Hs+c\), po czym odjąć je
+stronami: \(e^{(k+1)}=He^{(k)}\).
+<i>Tablica; wyprowadzanie zależności, uzasadnianie.</i></li>
+
+<li><b>Zmierzyć błąd w konkretnym przykładzie.</b>
+Dla startu zerowego i znanego \(s\) obliczyć \(e^{(0)}\) oraz
+\(e^{(1)}\). W normie maksimum wybrać największe moduły współrzędnych:
+\(56/135\) i \(22/135\). Iloraz norm wynosi \(11/28\)
+i nie przekracza \(\|H_J\|_\infty=6/7\), wyliczonej z sum modułów w wierszach.
+<i>Tablica; rachunek, porównywanie wyniku z oszacowaniem.</i></li>
+
+<li><b>Wyjaśnić rolę normy macierzy.</b>
+Interpretować \(H\) jako przekształcenie wektora błędu. Norma
+podporządkowana jest największym możliwym czynnikiem zmiany normy
+niezerowego wektora; gdy \(\|H\|<1\), każdy niezerowy błąd maleje w tej normie.
+Powtarzanie kroku wyjaśnia zbieżność.
+<i>Rysunek i tablica; interpretowanie, wyjaśnianie.</i></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org0ef78b4" class="outline-2">
+<h2 id="org0ef78b4">Domknięcie omawianych rozdziałów</h2>
+<div class="outline-text-2" id="text-org0ef78b4">
 <p>
 Oddzielać trzy ustalenia: <b>co przewiduje twierdzenie, czy spełniono jego
 założenia i co pokazał program</b>. Brak warunku wystarczającego oznacza brak
@@ -767,7 +850,6 @@ zakończenia i oceny błędu.
 </div>
 <div id="postamble" class="status">
 <p class="date">Data: 2026-10-30</p>
-<p class="author">Autor: Michał Pierzchalski</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

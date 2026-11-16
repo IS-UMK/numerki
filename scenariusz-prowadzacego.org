@@ -445,6 +445,84 @@ Korzystać z [[file:index.org::#uklady-rownan-liniowych][przykładów i rachunk�
     /Sprawdzanie założeń, wnioskowanie./
 
 
+* Rozdział 7. Układy równań liniowych — metody iteracyjne
+:PROPERTIES:
+:CUSTOM_ID: scenariusz-metody-iteracyjne
+:END:
+
+** Kolejność prowadzenia zajęć
+
+Korzystać z [[file:index.org::#metody-iteracyjne][przykładu i rachunków z notatek]].
+
+1. *Sformułować problem.*
+   Zapisać układ trzech równań, następnie jego postać macierzową
+   \(Ax=b\). Wskazać dane i szukany wektor rozwiązania.
+   /Tablica; formułowanie problemu./
+
+2. *Wyprowadzić wspólną regułę i wybrać Q.*
+   Przejść od \(Ax=b\) przez \(Qx=(Q-A)x+b\) do
+   \(Qx^{(k+1)}=(Q-A)x^{(k)}+b\). Dla Jacobiego wziąć przekątną
+   \(A\), dla Gaussa–Seidla — część dolnotrójkątną wraz z przekątną.
+   /Tablica; konstruowanie metody, porównywanie wariantów./
+
+3. *Wyrazić następny stan przez poprzedni.*
+   Pomnożyć równanie kroku przez \(Q^{-1}\). Nieosobliwość \(Q\)
+   jest warunkiem koniecznym i wystarczającym jednoznacznego rozwiązania
+   kroku dla każdej prawej strony; sama nie zapewnia zbieżności.
+   /Tablica; przekształcanie reguły, rozróżnianie warunków./
+
+4. *Obliczyć pierwszy krok Jacobiego.*
+   Przyjąć \(x^{(0)}=(0,0,0)^T\), rozpisać trzy współrzędne
+   i otrzymać \(x^{(1)}=(1/5,2/7,1/2)^T\). Podkreślić, że każda
+   korzysta wyłącznie z wartości poprzedniego stanu.
+   /Tablica; stosowanie reguły do przykładu./
+
+5. *Pokazać różnicę w metodzie Gaussa–Seidla.*
+   Pierwszą współrzędną obliczyć ze starych wartości. Przy drugiej użyć
+   już nowego \(x_1\) i starego \(x_3\), a przy trzeciej — nowych
+   \(x_1,x_2\). Powiązać tę kolejność z dolnotrójkątną \(Q\).
+   /Tablica; porównywanie zależności między stanami./
+
+6. *Wprowadzić warunek gwarantujący zbieżność.*
+   Zdefiniować ścisłą dominację diagonalną w wierszach. Sformułować
+   twierdzenie: zapewnia ona jedyne rozwiązanie i zbieżność obu metod
+   z każdego startu. Sprawdzić nierówności dla naszego układu i wyciągnąć wniosek.
+   /Badanie własności; twierdzenie, sprawdzanie założeń, wnioskowanie./
+
+7. *Zbadać ograniczenie związane z osobliwą Q.*
+   W przykładzie z zerem na przekątnej wskazać \(\det Q=0\)
+   i dzielenie przez zero we wzorze współrzędnej. Ze startu zerowego
+   równanie kroku daje \(0=1\), choć układ pierwotny ma jedyne rozwiązanie.
+   /Tablica; sprawdzanie i wyjaśnianie niewykonalności kroku./
+
+8. *Wyodrębnić macierz iteracji i podać warunek normowy.*
+   W jawnej regule oznaczyć \(H=I-Q^{-1}A\) oraz \(c=Q^{-1}b\).
+   Przy nieosobliwej \(Q\) zbieżność do jedynego rozwiązania z każdego
+   startu zachodzi wtedy i tylko wtedy, gdy dla pewnej podporządkowanej
+   normy macierzowej \(\|H\|<1\). Zapowiedzieć wyjaśnienie przez błąd.
+   /Twierdzenie; określanie zakresu gwarancji./
+
+9. *Wyprowadzić zmianę błędu.*
+   Zdefiniować \(e^{(k)}=x^{(k)}-s\). Zapisać obok siebie
+   \(x^{(k+1)}=Hx^{(k)}+c\) i \(s=Hs+c\), po czym odjąć je
+   stronami: \(e^{(k+1)}=He^{(k)}\).
+   /Tablica; wyprowadzanie zależności, uzasadnianie./
+
+10. *Zmierzyć błąd w konkretnym przykładzie.*
+    Dla startu zerowego i znanego \(s\) obliczyć \(e^{(0)}\) oraz
+    \(e^{(1)}\). W normie maksimum wybrać największe moduły współrzędnych:
+    \(56/135\) i \(22/135\). Iloraz norm wynosi \(11/28\)
+    i nie przekracza \(\|H_J\|_\infty=6/7\), wyliczonej z sum modułów w wierszach.
+    /Tablica; rachunek, porównywanie wyniku z oszacowaniem./
+
+11. *Wyjaśnić rolę normy macierzy.*
+    Interpretować \(H\) jako przekształcenie wektora błędu. Norma
+    podporządkowana jest największym możliwym czynnikiem zmiany normy
+    niezerowego wektora; gdy \(\|H\|<1\), każdy niezerowy błąd maleje w tej normie.
+    Powtarzanie kroku wyjaśnia zbieżność.
+    /Rysunek i tablica; interpretowanie, wyjaśnianie./
+
+
 * Domknięcie omawianych rozdziałów
 
 Oddzielać trzy ustalenia: *co przewiduje twierdzenie, czy spełniono jego
